@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String   @unique
+  cpf       String   @unique
+  senha     String
+  ativado   Boolean  @default(true) @db.TinyInt()
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tipoUserId Int?
+  tipoUser   TipoUser? @relation(fields: [tipoUserId], references: [id])
+
+  propriedade Propriedade?
+
+  @@map("admins")
+}
+
+model TipoUser {
+  id        Int      @id @default(autoincrement())
+  tipo      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ativado   Boolean  @default(true) @db.TinyInt()
+
+  admins Admin[]
+
+  @@map("tipo_users")
+}
+
+model Propriedade {
+  id               Int      @id @default(autoincrement())
+  nomeProprietario String
+  nomePropriedade  String
+  latitude         Float
+  longitude        Float
+  altitude         Float
+  simuacao         String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  adminId Int?   @unique
+  admin   Admin? @relation(fields: [adminId], references: [id])
+
+  estimativas Estimativas[]
+
+  @@map("propriedades")
+}
+
+model Historico {
+  id           Int           @id @default(autoincrement())
+  descricao    String?
+  precipitacao Precipitacao?
+  solo         Solo?
+  createdAt    DateTime      @default(now())
+
+  @@map("historicos")
+}
+
+model Precipitacao {
+  id     Int   @id @default(autoincrement())
+  mmAno  Float
+  chuvas Float
+  mmDia  Float
+  cvDia  Float
+  mmMes  Float
+  cvMes  Float
+
+  historico   Historico @relation(fields: [historicoId], references: [id])
+  historicoId Int       @unique
+
+  @@map("precipitacaos")
+}
+
+model Solo {
+  id                       Int   @id @default(autoincrement())
+  profundidade             Float
+  fatorRocha               Float
+  condutHidraulicaSaturada Float
+  densidadeAparente        Float
+  agua0Bar                 Float
+  agua13ar                 Float
+  agua15Bar                Float
+
+  historico   Historico @relation(fields: [historicoId], references: [id])
+  historicoId Int       @unique
+
+  @@map("solos")
+}
+
+model Estimativas {
+  id         Int      @id @default(autoincrement())
+  valorTotal Float
+  createdAt  DateTime @default(now())
+
+  propriedadeId Int
+  propriedade   Propriedade? @relation(fields: [propriedadeId], references: [id])
+
+  @@map("estimativas")
+}
