@@ -50,6 +50,7 @@ export class AdminServices {
             if (!senhaValida) {
                 throw new Error("Senha inválida");
             }
+            
             return admin;
         } catch (error) {
             console.log(error);
