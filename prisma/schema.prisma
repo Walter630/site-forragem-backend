@@ -27,12 +27,14 @@ model Admin {
   tipoUserId Int?
   tipoUser   TipoUser? @relation(fields: [tipoUserId], references: [id])
 
+  propriedade Propriedade?
+
   @@map("admins")
 }
 
 model TipoUser {
   id        Int      @id @default(autoincrement())
-  nome      String
+  tipo      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   ativado   Boolean  @default(true) @db.TinyInt()
@@ -42,29 +44,33 @@ model TipoUser {
   @@map("tipo_users")
 }
 
-model propriedade {
-  id                Int      @id @default(autoincrement())
-  nomeProprietario  String
-  dadosPropriedades String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+model Propriedade {
+  id               Int      @id @default(autoincrement())
+  nomeProprietario String
+  nomePropriedade  String
+  latitude         Float
+  longitude        Float
+  altitude         Float
+  simuacao         String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  adminId Int?   @unique
+  admin   Admin? @relation(fields: [adminId], references: [id])
+
+  estimativas Estimativas[]
 
   @@map("propriedades")
 }
 
-model Simulacao {
-  id        Int      @id @default(autoincrement())
-  nome      String
-  latitude  Float
-  longitude Float
-  altitude  Float
-  simuacao  String
-  createdAt DateTime @default(now())
-
+model Historico {
+  id           Int           @id @default(autoincrement())
+  descricao    String?
   precipitacao Precipitacao?
   solo         Solo?
+  createdAt    DateTime      @default(now())
 
-  @@map("simulacaos")
+  @@map("historicos")
 }
 
 model Precipitacao {
@@ -76,8 +82,8 @@ model Precipitacao {
   mmMes  Float
   cvMes  Float
 
-  simulacao   Simulacao @relation(fields: [simulacaoId], references: [id])
-  simulacaoId Int       @unique
+  historico   Historico @relation(fields: [historicoId], references: [id])
+  historicoId Int       @unique
 
   @@map("precipitacaos")
 }
@@ -92,8 +98,19 @@ model Solo {
   agua13ar                 Float
   agua15Bar                Float
 
-  simulacao   Simulacao @relation(fields: [simulacaoId], references: [id])
-  simulacaoId Int       @unique
+  historico   Historico @relation(fields: [historicoId], references: [id])
+  historicoId Int       @unique
 
   @@map("solos")
+}
+
+model Estimativas {
+  id         Int      @id @default(autoincrement())
+  valorTotal Float
+  createdAt  DateTime @default(now())
+
+  propriedadeId Int
+  propriedade   Propriedade? @relation(fields: [propriedadeId], references: [id])
+
+  @@map("estimativas")
 }
