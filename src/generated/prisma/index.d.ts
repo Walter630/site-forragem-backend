@@ -2496,6 +2496,7 @@ export namespace Prisma {
   export type TipoUserMinAggregateOutputType = {
     id: number | null
     tipo: string | null
+    descricao: string | null
     createdAt: Date | null
     updatedAt: Date | null
     ativado: boolean | null
@@ -2504,6 +2505,7 @@ export namespace Prisma {
   export type TipoUserMaxAggregateOutputType = {
     id: number | null
     tipo: string | null
+    descricao: string | null
     createdAt: Date | null
     updatedAt: Date | null
     ativado: boolean | null
@@ -2512,6 +2514,7 @@ export namespace Prisma {
   export type TipoUserCountAggregateOutputType = {
     id: number
     tipo: number
+    descricao: number
     createdAt: number
     updatedAt: number
     ativado: number
@@ -2530,6 +2533,7 @@ export namespace Prisma {
   export type TipoUserMinAggregateInputType = {
     id?: true
     tipo?: true
+    descricao?: true
     createdAt?: true
     updatedAt?: true
     ativado?: true
@@ -2538,6 +2542,7 @@ export namespace Prisma {
   export type TipoUserMaxAggregateInputType = {
     id?: true
     tipo?: true
+    descricao?: true
     createdAt?: true
     updatedAt?: true
     ativado?: true
@@ -2546,6 +2551,7 @@ export namespace Prisma {
   export type TipoUserCountAggregateInputType = {
     id?: true
     tipo?: true
+    descricao?: true
     createdAt?: true
     updatedAt?: true
     ativado?: true
@@ -2641,6 +2647,7 @@ export namespace Prisma {
   export type TipoUserGroupByOutputType = {
     id: number
     tipo: string
+    descricao: string | null
     createdAt: Date
     updatedAt: Date
     ativado: boolean
@@ -2668,6 +2675,7 @@ export namespace Prisma {
   export type TipoUserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tipo?: boolean
+    descricao?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     ativado?: boolean
@@ -2680,12 +2688,13 @@ export namespace Prisma {
   export type TipoUserSelectScalar = {
     id?: boolean
     tipo?: boolean
+    descricao?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     ativado?: boolean
   }
 
-  export type TipoUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tipo" | "createdAt" | "updatedAt" | "ativado", ExtArgs["result"]["tipoUser"]>
+  export type TipoUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tipo" | "descricao" | "createdAt" | "updatedAt" | "ativado", ExtArgs["result"]["tipoUser"]>
   export type TipoUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     admins?: boolean | TipoUser$adminsArgs<ExtArgs>
     _count?: boolean | TipoUserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2699,6 +2708,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       tipo: string
+      descricao: string | null
       createdAt: Date
       updatedAt: Date
       ativado: boolean
@@ -3074,6 +3084,7 @@ export namespace Prisma {
   interface TipoUserFieldRefs {
     readonly id: FieldRef<"TipoUser", 'Int'>
     readonly tipo: FieldRef<"TipoUser", 'String'>
+    readonly descricao: FieldRef<"TipoUser", 'String'>
     readonly createdAt: FieldRef<"TipoUser", 'DateTime'>
     readonly updatedAt: FieldRef<"TipoUser", 'DateTime'>
     readonly ativado: FieldRef<"TipoUser", 'Boolean'>
@@ -8602,6 +8613,7 @@ export namespace Prisma {
   export const TipoUserScalarFieldEnum: {
     id: 'id',
     tipo: 'tipo',
+    descricao: 'descricao',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     ativado: 'ativado'
@@ -8701,7 +8713,8 @@ export namespace Prisma {
 
 
   export const TipoUserOrderByRelevanceFieldEnum: {
-    tipo: 'tipo'
+    tipo: 'tipo',
+    descricao: 'descricao'
   };
 
   export type TipoUserOrderByRelevanceFieldEnum = (typeof TipoUserOrderByRelevanceFieldEnum)[keyof typeof TipoUserOrderByRelevanceFieldEnum]
@@ -8853,6 +8866,7 @@ export namespace Prisma {
     NOT?: TipoUserWhereInput | TipoUserWhereInput[]
     id?: IntFilter<"TipoUser"> | number
     tipo?: StringFilter<"TipoUser"> | string
+    descricao?: StringNullableFilter<"TipoUser"> | string | null
     createdAt?: DateTimeFilter<"TipoUser"> | Date | string
     updatedAt?: DateTimeFilter<"TipoUser"> | Date | string
     ativado?: BoolFilter<"TipoUser"> | boolean
@@ -8862,6 +8876,7 @@ export namespace Prisma {
   export type TipoUserOrderByWithRelationInput = {
     id?: SortOrder
     tipo?: SortOrder
+    descricao?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ativado?: SortOrder
@@ -8875,6 +8890,7 @@ export namespace Prisma {
     OR?: TipoUserWhereInput[]
     NOT?: TipoUserWhereInput | TipoUserWhereInput[]
     tipo?: StringFilter<"TipoUser"> | string
+    descricao?: StringNullableFilter<"TipoUser"> | string | null
     createdAt?: DateTimeFilter<"TipoUser"> | Date | string
     updatedAt?: DateTimeFilter<"TipoUser"> | Date | string
     ativado?: BoolFilter<"TipoUser"> | boolean
@@ -8884,6 +8900,7 @@ export namespace Prisma {
   export type TipoUserOrderByWithAggregationInput = {
     id?: SortOrder
     tipo?: SortOrder
+    descricao?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ativado?: SortOrder
@@ -8900,6 +8917,7 @@ export namespace Prisma {
     NOT?: TipoUserScalarWhereWithAggregatesInput | TipoUserScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"TipoUser"> | number
     tipo?: StringWithAggregatesFilter<"TipoUser"> | string
+    descricao?: StringNullableWithAggregatesFilter<"TipoUser"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"TipoUser"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TipoUser"> | Date | string
     ativado?: BoolWithAggregatesFilter<"TipoUser"> | boolean
@@ -9329,6 +9347,7 @@ export namespace Prisma {
 
   export type TipoUserCreateInput = {
     tipo: string
+    descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ativado?: boolean
@@ -9338,6 +9357,7 @@ export namespace Prisma {
   export type TipoUserUncheckedCreateInput = {
     id?: number
     tipo: string
+    descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ativado?: boolean
@@ -9346,6 +9366,7 @@ export namespace Prisma {
 
   export type TipoUserUpdateInput = {
     tipo?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ativado?: BoolFieldUpdateOperationsInput | boolean
@@ -9355,6 +9376,7 @@ export namespace Prisma {
   export type TipoUserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     tipo?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ativado?: BoolFieldUpdateOperationsInput | boolean
@@ -9364,6 +9386,7 @@ export namespace Prisma {
   export type TipoUserCreateManyInput = {
     id?: number
     tipo: string
+    descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ativado?: boolean
@@ -9371,6 +9394,7 @@ export namespace Prisma {
 
   export type TipoUserUpdateManyMutationInput = {
     tipo?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ativado?: BoolFieldUpdateOperationsInput | boolean
@@ -9379,6 +9403,7 @@ export namespace Prisma {
   export type TipoUserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     tipo?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ativado?: BoolFieldUpdateOperationsInput | boolean
@@ -9912,6 +9937,21 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type AdminListRelationFilter = {
     every?: AdminWhereInput
     some?: AdminWhereInput
@@ -9931,6 +9971,7 @@ export namespace Prisma {
   export type TipoUserCountOrderByAggregateInput = {
     id?: SortOrder
     tipo?: SortOrder
+    descricao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ativado?: SortOrder
@@ -9943,6 +9984,7 @@ export namespace Prisma {
   export type TipoUserMaxOrderByAggregateInput = {
     id?: SortOrder
     tipo?: SortOrder
+    descricao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ativado?: SortOrder
@@ -9951,6 +9993,7 @@ export namespace Prisma {
   export type TipoUserMinOrderByAggregateInput = {
     id?: SortOrder
     tipo?: SortOrder
+    descricao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ativado?: SortOrder
@@ -9958,6 +10001,24 @@ export namespace Prisma {
 
   export type TipoUserSumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -10063,21 +10124,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type PrecipitacaoNullableScalarRelationFilter = {
     is?: PrecipitacaoWhereInput | null
     isNot?: PrecipitacaoWhereInput | null
@@ -10118,24 +10164,6 @@ export namespace Prisma {
 
   export type HistoricoSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type HistoricoScalarRelationFilter = {
@@ -10381,6 +10409,10 @@ export namespace Prisma {
     connect?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type AdminUpdateManyWithoutTipoUserNestedInput = {
     create?: XOR<AdminCreateWithoutTipoUserInput, AdminUncheckedCreateWithoutTipoUserInput> | AdminCreateWithoutTipoUserInput[] | AdminUncheckedCreateWithoutTipoUserInput[]
     connectOrCreate?: AdminCreateOrConnectWithoutTipoUserInput | AdminCreateOrConnectWithoutTipoUserInput[]
@@ -10497,10 +10529,6 @@ export namespace Prisma {
     create?: XOR<SoloCreateWithoutHistoricoInput, SoloUncheckedCreateWithoutHistoricoInput>
     connectOrCreate?: SoloCreateOrConnectWithoutHistoricoInput
     connect?: SoloWhereUniqueInput
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type PrecipitacaoUpdateOneWithoutHistoricoNestedInput = {
@@ -10734,22 +10762,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
-  }
-
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | null
@@ -10783,8 +10795,25 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type TipoUserCreateWithoutAdminsInput = {
     tipo: string
+    descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ativado?: boolean
@@ -10793,6 +10822,7 @@ export namespace Prisma {
   export type TipoUserUncheckedCreateWithoutAdminsInput = {
     id?: number
     tipo: string
+    descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ativado?: boolean
@@ -10846,6 +10876,7 @@ export namespace Prisma {
 
   export type TipoUserUpdateWithoutAdminsInput = {
     tipo?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ativado?: BoolFieldUpdateOperationsInput | boolean
@@ -10854,6 +10885,7 @@ export namespace Prisma {
   export type TipoUserUncheckedUpdateWithoutAdminsInput = {
     id?: IntFieldUpdateOperationsInput | number
     tipo?: StringFieldUpdateOperationsInput | string
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ativado?: BoolFieldUpdateOperationsInput | boolean

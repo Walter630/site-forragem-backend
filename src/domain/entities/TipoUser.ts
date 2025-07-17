@@ -1,6 +1,8 @@
 type TipoUserProps = {
-    id?: number;
+    id: number;
     tipo: string;
+    descricao?: string;
+    ativo?: boolean;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -12,8 +14,8 @@ export class TipoUser {
         this.props = props;
     }
 
-    public static create(props: TipoUserProps): TipoUser {
-        return new TipoUser(props);
+    public static create(props: Omit<TipoUserProps, 'id'>): TipoUser {
+        return new TipoUser({ ...props, id: 0 });
     }
 
     static with(props: Partial<TipoUserProps>): TipoUser {
@@ -28,6 +30,14 @@ export class TipoUser {
         return this.props.tipo;
     }
 
+    get descricao(): string | undefined {
+        return this.props.descricao;
+    }
+
+    get ativo(): boolean | undefined {
+        return this.props.ativo;
+    }
+
     get createdAt(): Date | undefined {
         return this.props.createdAt;
     }
@@ -40,6 +50,8 @@ export class TipoUser {
         return {
             id: this.id,
             tipo: this.tipo,
+            descricao: this.descricao,
+            ativo: this.ativo,
             createdAt: this.props.createdAt,
             updatedAt: this.props.updatedAt,
         }

@@ -135,6 +135,7 @@ exports.Prisma.AdminScalarFieldEnum = {
 exports.Prisma.TipoUserScalarFieldEnum = {
   id: 'id',
   tipo: 'tipo',
+  descricao: 'descricao',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   ativado: 'ativado'
@@ -207,7 +208,8 @@ exports.Prisma.AdminOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.TipoUserOrderByRelevanceFieldEnum = {
-  tipo: 'tipo'
+  tipo: 'tipo',
+  descricao: 'descricao'
 };
 
 exports.Prisma.PropriedadeOrderByRelevanceFieldEnum = {
