@@ -1,8 +1,8 @@
 import { TipoUser } from "../../domain/entities/TipoUser";
-import { ITipoUserRepositories } from "../../domain/repositories/ITipoUserRepositories";
+import TipoUsuarioRepositories from "../../infra/repositories/TipoUsuarioRepositories";
 
 export class TipoUsuarioServices {
-    constructor(private readonly tipoUsuarioRepository: ITipoUserRepositories) {}
+    constructor(private readonly tipoUsuarioRepository: TipoUsuarioRepositories) {}
 
     async findAll(): Promise<TipoUser[]> {
         const tiposUsuarios = await this.tipoUsuarioRepository.findAll();

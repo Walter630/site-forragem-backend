@@ -2,8 +2,8 @@ import { Precipitacao } from "./Precipitacao";
 import { Solo } from "./Solo";
 
 type HistoricoProps = {
-    id?: number;
-    descricao: string;
+    id: number;
+    descricao?: string;
     soloId?: number;
     solo?: Solo;
     precipitacaoId?: number;
@@ -19,23 +19,24 @@ export class Historico {
         this.props = props;
     }
 
-    public static create(props: HistoricoProps): Historico {
+    public static create(props: Omit<Historico, 'id'>): Historico {
         return new Historico({
             ...props,
+            id: 0, // Default id to 0, will be set by the database
             createdAt: props.createdAt || new Date(),
             updatedAt: props.updatedAt || new Date(),
         });
     }
 
-    static with(props: Partial<HistoricoProps>): Historico {
-        return new Historico(props as HistoricoProps);
+    static with(props: HistoricoProps): Historico {
+        return new Historico(props);
     }   
 
     get id(): number | undefined {
         return this.props.id;
     }
 
-    get descricao(): string {
+    get descricao(): string | undefined {
         return this.props.descricao;
     }
 

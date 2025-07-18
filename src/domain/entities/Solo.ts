@@ -9,6 +9,7 @@ type SoloProps = {
     agua_15_bar: number; //-15 bar
     createdAt?: Date;
     updatedAt?: Date;
+    deletedAt?: Date | null;
 }
 
 export class Solo {
@@ -18,9 +19,10 @@ export class Solo {
         this.props = props;
     }
 
-    public static create(props: SoloProps): Solo {
+    public static create(props: Omit<SoloProps, 'id'>): Solo {
         return new Solo({
             ...props,
+            id: 0, // Default id to 0, will be set by the database
             createdAt: props.createdAt || new Date(),
             updatedAt: props.updatedAt || new Date(),
         });
@@ -68,6 +70,9 @@ export class Solo {
 
     get updatedAt(): Date | undefined {
         return this.props.updatedAt;
+    }
+    get deletedAt(): Date | null | undefined {
+        return this.props.deletedAt;
     }
 
     toJSON() {

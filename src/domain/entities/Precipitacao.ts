@@ -1,3 +1,5 @@
+import { Historico } from "./Historico";
+
 type PrecipitacaoProps = {
     id?: number;
     mm_ano: number;
@@ -8,6 +10,8 @@ type PrecipitacaoProps = {
     chuvas_mes: number;
     createdAt?: Date;
     updatedAt?: Date;
+    historico?: Historico;
+    deletedAt?: Date | null;
 }
 
 export class Precipitacao {
@@ -64,6 +68,13 @@ export class Precipitacao {
     get updatedAt(): Date | undefined {
         return this.props.updatedAt;
     }
+    get historico(): Historico | undefined {
+        return this.props.historico;
+    }
+    
+    get deletedAt(): Date | null | undefined {
+        return this.props.deletedAt;
+    }
 
     toJSON() {
         return {
@@ -76,6 +87,7 @@ export class Precipitacao {
             chuvas_mes: this.chuvas_mes,
             createdAt: this.props.createdAt,
             updatedAt: this.props.updatedAt,
+            deletedAt: this.props.deletedAt,
         }
     }
 }

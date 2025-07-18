@@ -15,14 +15,15 @@ datasource db {
 }
 
 model Admin {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   nome      String
-  email     String   @unique
-  cpf       String   @unique
+  email     String    @unique
+  cpf       String    @unique
   senha     String
-  ativado   Boolean  @default(true) @db.TinyInt()
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  ativado   Boolean   @default(true) @db.TinyInt()
+  createdAt DateTime  @default(now()) @map("created_at") // ✅ Corrigido
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt DateTime? @map("deleted_at") @db.DateTime()
 
   tipoUserId Int?
   tipoUser   TipoUser? @relation(fields: [tipoUserId], references: [id])
@@ -33,12 +34,13 @@ model Admin {
 }
 
 model TipoUser {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   tipo      String
-  descricao String?  @default("Tipo de usuário") @db.Text()
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ativado   Boolean  @default(true) @db.TinyInt()
+  descricao String?   @default("Tipo de usuário") @db.Text()
+  createdAt DateTime  @default(now()) @map("created_at") // ✅ Corrigido
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt DateTime? @map("deleted_at") @db.DateTime()
+  ativado   Boolean   @default(true) @db.TinyInt()
 
   admins Admin[]
 
@@ -46,15 +48,16 @@ model TipoUser {
 }
 
 model Propriedade {
-  id               Int      @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   nomeProprietario String
   nomePropriedade  String
   latitude         Float
   longitude        Float
   altitude         Float
-  simuacao         String
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  simulacao        String
+  createdAt        DateTime  @default(now()) @map("created_at") // ✅ Corrigido
+  updatedAt        DateTime? @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt        DateTime? @map("deleted_at") @db.DateTime()
 
   adminId Int?   @unique
   admin   Admin? @relation(fields: [adminId], references: [id])
@@ -69,19 +72,24 @@ model Historico {
   descricao    String?
   precipitacao Precipitacao?
   solo         Solo?
-  createdAt    DateTime      @default(now())
+  createdAt    DateTime      @default(now()) @map("created_at") // ✅ Corrigido
+  updatedAt    DateTime?     @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt    DateTime?     @map("deleted_at") @db.DateTime()
 
   @@map("historicos")
 }
 
 model Precipitacao {
-  id     Int   @id @default(autoincrement())
-  mmAno  Float
-  chuvas Float
-  mmDia  Float
-  cvDia  Float
-  mmMes  Float
-  cvMes  Float
+  id        Int       @id @default(autoincrement())
+  mmAno     Float
+  chuvas    Float
+  mmDia     Float
+  cvDia     Float
+  mmMes     Float
+  cvMes     Float
+  createdAt DateTime  @default(now()) @map("created_at") // ✅ Corrigido
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt DateTime? @map("deleted_at") @db.DateTime()
 
   historico   Historico @relation(fields: [historicoId], references: [id])
   historicoId Int       @unique
@@ -90,14 +98,17 @@ model Precipitacao {
 }
 
 model Solo {
-  id                       Int   @id @default(autoincrement())
+  id                       Int       @id @default(autoincrement())
   profundidade             Float
   fatorRocha               Float
   condutHidraulicaSaturada Float
   densidadeAparente        Float
   agua0Bar                 Float
-  agua13ar                 Float
+  agua13Bar                Float
   agua15Bar                Float
+  createdAt                DateTime  @default(now()) @map("created_at") // ✅ Corrigido
+  updatedAt                DateTime? @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt                DateTime? @map("deleted_at") @db.DateTime()
 
   historico   Historico @relation(fields: [historicoId], references: [id])
   historicoId Int       @unique
@@ -106,10 +117,11 @@ model Solo {
 }
 
 model Estimativas {
-  id         Int      @id @default(autoincrement())
-  valorTotal Float
-  createdAt  DateTime @default(now())
-
+  id            Int          @id @default(autoincrement())
+  valorTotal    Float
+  createdAt     DateTime     @default(now()) @map("created_at") // ✅ Corrigido
+  updatedAt     DateTime?    @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt     DateTime?    @map("deleted_at") @db.DateTime()
   propriedadeId Int
   propriedade   Propriedade? @relation(fields: [propriedadeId], references: [id])
 

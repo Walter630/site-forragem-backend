@@ -1,7 +1,7 @@
 import { Admin } from "../../domain/entities/Admin";
 import { Propriedade } from "../../domain/entities/Propriedade";
 import { TipoUser } from "../../domain/entities/TipoUser";
-import { IAdminRepositories } from "../../domain/repositories/IAdminRepositories";
+import { IAdminRepositories } from "../../domain/gateway/IAdminRepositories";
 import { PrismaClient } from "../../generated/prisma";
 
 export class AdminRepositories implements IAdminRepositories {
@@ -27,7 +27,18 @@ export class AdminRepositories implements IAdminRepositories {
             return Admin.with({
                 ...adminCreated,
                 tipoUser: admin.tipoUser ? TipoUser.with(admin.tipoUser) : undefined,
-                propriedade: admin.propriedade ? Propriedade.with(admin.propriedade) : undefined,
+                propriedade: admin.propriedade && typeof admin.propriedade.id === "number"
+                    ? Propriedade.with({
+                        id: admin.propriedade.id,
+                        nomePropriedade: admin.propriedade.nomePropriedade,
+                        nomeProprietario: admin.propriedade.nomeProprietario,
+                        latitude: admin.propriedade.latitude,
+                        longitude: admin.propriedade.longitude,
+                        altitude: admin.propriedade.altitude,
+                        simulacao: admin.propriedade.simulacao || "",
+                        estimativas: admin.propriedade.estimativas,
+                    })
+                    : undefined,
                 updatedAt: adminCreated.updatedAt || new Date(),
             });
         } catch (error) {
@@ -110,6 +121,7 @@ export class AdminRepositories implements IAdminRepositories {
             await this.prisma.admin.delete({
                 where: { id },
             });
+            
         } catch (error) {
             console.log(error);
             throw new Error("Erro ao deletar admin");
@@ -127,4 +139,41 @@ export class AdminRepositories implements IAdminRepositories {
             throw new Error("Erro ao buscar admin");
         }
     }
+     public async loginEmail(email: string): Promise<Admin> {
+        const result = await this.prisma.admin.findFirst({
+            where: {
+                email
+            },
+        });
+        if(result)
+            return Admin.with({
+                id: result.id,
+                email: result.email,
+                nome: result.nome,
+                cpf: result.cpf,
+                senha: result.senha,
+                ativo: result.ativado,
+            });
+        else
+            throw new Error("Admin not found");
     }
+
+    public async loginCpf(cpf: string): Promise<Admin> {
+        const result = await this.prisma.admin.findFirst({
+            where: {
+                cpf: cpf
+            },
+        });
+        if(result)
+            return Admin.with({
+                id: result.id,
+                nome: result.nome,
+                email: result.email,
+                cpf: result.cpf,
+                senha: result.senha,
+                ativo: result.ativado,
+            });
+        else
+            throw new Error("Admin not found");
+    }
+}

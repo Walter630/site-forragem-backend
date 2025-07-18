@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Token } from "../../../shared/utils/jwt/Token";
+import { Token } from "../../../configs/utils/jwt/Token";
 
 const token = new Token();
 

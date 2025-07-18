@@ -1,10 +1,7 @@
 import { Admin } from "../../domain/entities/Admin";
 import { AdminRepositories } from "../../infra/repositories/AdminRepositories";
 import bcrypt from "bcrypt";
-import { Token } from "../../shared/utils/jwt/Token";
-import { prisma } from "../../infra/prisma/PrismaClient";
-
-
+import { Token } from "../../configs/utils/jwt/Token";
 
 const SALT_ROUNDS = 10;
 export class AdminServices {

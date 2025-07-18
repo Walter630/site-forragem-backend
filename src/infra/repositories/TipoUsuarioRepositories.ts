@@ -1,6 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 import { TipoUser } from "../../domain/entities/TipoUser";
-import { ITipoUserRepositories } from "../../domain/repositories/ITipoUserRepositories";
+import { ITipoUserRepositories } from "../../domain/gateway/ITipoUserRepositories";
 
 export default class TipoUsuarioRepositoryPrisma implements ITipoUserRepositories { 
     private constructor(private readonly prismaClient: PrismaClient) {}

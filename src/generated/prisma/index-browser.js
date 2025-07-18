@@ -129,6 +129,7 @@ exports.Prisma.AdminScalarFieldEnum = {
   ativado: 'ativado',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   tipoUserId: 'tipoUserId'
 };
 
@@ -138,6 +139,7 @@ exports.Prisma.TipoUserScalarFieldEnum = {
   descricao: 'descricao',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   ativado: 'ativado'
 };
 
@@ -148,16 +150,19 @@ exports.Prisma.PropriedadeScalarFieldEnum = {
   latitude: 'latitude',
   longitude: 'longitude',
   altitude: 'altitude',
-  simuacao: 'simuacao',
+  simulacao: 'simulacao',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   adminId: 'adminId'
 };
 
 exports.Prisma.HistoricoScalarFieldEnum = {
   id: 'id',
   descricao: 'descricao',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.PrecipitacaoScalarFieldEnum = {
@@ -168,6 +173,9 @@ exports.Prisma.PrecipitacaoScalarFieldEnum = {
   cvDia: 'cvDia',
   mmMes: 'mmMes',
   cvMes: 'cvMes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   historicoId: 'historicoId'
 };
 
@@ -178,8 +186,11 @@ exports.Prisma.SoloScalarFieldEnum = {
   condutHidraulicaSaturada: 'condutHidraulicaSaturada',
   densidadeAparente: 'densidadeAparente',
   agua0Bar: 'agua0Bar',
-  agua13ar: 'agua13ar',
+  agua13Bar: 'agua13Bar',
   agua15Bar: 'agua15Bar',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   historicoId: 'historicoId'
 };
 
@@ -187,6 +198,8 @@ exports.Prisma.EstimativasScalarFieldEnum = {
   id: 'id',
   valorTotal: 'valorTotal',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   propriedadeId: 'propriedadeId'
 };
 
@@ -215,7 +228,7 @@ exports.Prisma.TipoUserOrderByRelevanceFieldEnum = {
 exports.Prisma.PropriedadeOrderByRelevanceFieldEnum = {
   nomeProprietario: 'nomeProprietario',
   nomePropriedade: 'nomePropriedade',
-  simuacao: 'simuacao'
+  simulacao: 'simulacao'
 };
 
 exports.Prisma.HistoricoOrderByRelevanceFieldEnum = {

@@ -2,6 +2,7 @@ import { Propriedade } from "./Propriedade";
 
 type EstimativasProps = {
     id?: number;
+    descricao?: string;
     valorTotal: number;
     propriedadeId: number;
     propriedade: Propriedade;
@@ -50,6 +51,12 @@ export class Estimativas {
 
     get updatedAt(): Date | undefined {
         return this.props.updatedAt;
+    }
+    set updatedAt(value: Date) {
+        this.props.updatedAt = value;
+    }
+    set descricao(value: string | undefined) {
+        this.props.descricao = value;
     }
 
     toJSON() {
