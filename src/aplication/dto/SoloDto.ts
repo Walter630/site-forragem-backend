@@ -1,12 +1,40 @@
-import { Propriedade } from "../../domain/entities/Propriedade";
-
-export interface CreateEstimativaDTO {
-    valorTotal: number;
-    propriedade: Propriedade;
-    descricao?: string;
+import { Solo } from "../../domain/entities/Solo";
+export interface CreateSoloDTO {
+    id?: number;
+    profundidade: number;
+    condut_hidraulica_saturada: number;
+    densidade_aparente: number;
+    agua_0_bar: number;
+    agua_13_bar: number;
+    agua_15_bar: number;
+    fator_rocha: number;
+    
+    createdAt?: Date;
+    updatedAt?: Date;
 }
-export interface UpdateEstimativaDTO {
-    valorTotal?: number;
-    propriedade?: Propriedade;
-    descricao?: string;
+
+export interface UpdateSoloDTO {
+    profundidade?: number;
+    condut_hidraulica_saturada?: number;
+    densidade_aparente?: number;
+    agua_0_bar?: number;
+    agua_13_bar?: number;
+    agua_15_bar?: number;
+    fator_rocha?: number;
+    
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+export interface SoloDTO {
+    id?: number;
+    profundidade: number;
+    condut_hidraulica_saturada: number;
+    densidade_aparente: number;
+    agua_0_bar: number;
+    agua_13_bar: number;
+    agua_15_bar: number;
+    fator_rocha: number;
+    
+    createdAt?: Date;
+    updatedAt?: Date;
 }
