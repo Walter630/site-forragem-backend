@@ -18,8 +18,8 @@ export class TipoUser {
         return new TipoUser({ ...props, id: 0 });
     }
 
-    static with(props: Partial<TipoUserProps>): TipoUser {
-        return new TipoUser(props as TipoUserProps);
+    static with(props: TipoUserProps): TipoUser {
+        return new TipoUser(props);
     }
 
     get id(): number | undefined {

@@ -26,7 +26,14 @@ export class AdminRepositories implements IAdminRepositories {
             
             return Admin.with({
                 ...adminCreated,
-                tipoUser: admin.tipoUser ? TipoUser.with(admin.tipoUser) : undefined,
+                tipoUser: admin.tipoUser && typeof admin.tipoUser.id === "number" ? TipoUser.with({
+                    id: admin.tipoUser.id,
+                    tipo: admin.tipoUser.tipo,
+                    descricao: admin.tipoUser.descricao,
+                    ativo: admin.tipoUser.ativo,
+                    createdAt: admin.tipoUser.createdAt,
+                    updatedAt: admin.tipoUser.updatedAt,
+                }) : undefined,
                 propriedade: admin.propriedade && typeof admin.propriedade.id === "number"
                     ? Propriedade.with({
                         id: admin.propriedade.id,

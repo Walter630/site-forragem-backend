@@ -3,7 +3,6 @@ import { TipoUsuarioController } from "../controllers/TipoUsuarioController";
 import TipoUsuarioRepositoryPrisma from "../../../infra/repositories/TipoUsuarioRepositories";
 import { prisma } from "../../../infra/prisma/PrismaClient";
 import { Api } from "./Api";
-import { verifyAccessToken } from "../middlewares/VerifyToken";
 import { validar } from "../validators/validar";
 import { authenticateTipoUsuarioSchema } from "../validators/AuthenticateTipoUsuario";
 
