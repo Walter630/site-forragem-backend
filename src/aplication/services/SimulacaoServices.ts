@@ -10,7 +10,7 @@ export class SimulacaoServices {
   async calcularProducao(dados: SimulacaoForragemDTO): Promise<number> {
     const { solo, precipitacao } = dados;
 
-    const aguaDisponivel = solo.agua0bar - solo.agua15bar;
+    const aguaDisponivel = solo.agua0Bar - solo.agua15Bar;
     const fatorPrecipitacao = precipitacao.mmAno * (1 - solo.fatorRocha);
     const resultado = aguaDisponivel * solo.profundidade * fatorPrecipitacao;
 

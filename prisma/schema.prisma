@@ -57,20 +57,22 @@ model Propriedade {
   admin            Admin? @relation(fields: [adminId], references: [id])
 
   estimativas      Estimativas[]
-  simulacoes       Simulacao[] // ✅ relação com Simulacao
+  simulacoes       Simulacao[]
+  historicos       Historico[]
 
   @@map("propriedades")
 }
 
 model Historico {
-  id           Int           @id @default(autoincrement())
-  descricao    String?
-  precipitacao Precipitacao?
-  solo         Solo?
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime? @updatedAt @map("updated_at") @db.DateTime()
-  deletedAt    DateTime? @map("deleted_at") @db.DateTime()
-
+  id            Int      @id @default(autoincrement())
+  descricao     String?  
+  valorSimulacao Float
+  propriedadeId Int
+  propriedade   Propriedade @relation(fields: [propriedadeId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  deletedAt     DateTime?
+  
   @@map("historicos")
 }
 
@@ -86,9 +88,6 @@ model Precipitacao {
   updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt DateTime? @map("deleted_at") @db.DateTime()
 
-  historico   Historico @relation(fields: [historicoId], references: [id])
-  historicoId Int       @unique
-
   @@map("precipitacaos")
 }
 
@@ -99,14 +98,11 @@ model Solo {
   condutHidraulicaSaturada Float
   densidadeAparente        Float
   agua0Bar                 Float
-  agua13Bar             Float  // ✅ nome corrigido
+  agua13Bar                Float
   agua15Bar                Float
   createdAt                DateTime @default(now()) @map("created_at")
   updatedAt                DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt                DateTime? @map("deleted_at") @db.DateTime()
-
-  historico   Historico @relation(fields: [historicoId], references: [id])
-  historicoId Int       @unique
 
   @@map("solos")
 }
@@ -114,6 +110,7 @@ model Solo {
 model Estimativas {
   id            Int      @id @default(autoincrement())
   valorTotal    Float
+  descricao     String?   // agora opcional
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt     DateTime? @map("deleted_at") @db.DateTime()

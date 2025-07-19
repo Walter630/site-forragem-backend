@@ -1,4 +1,4 @@
-import { Solo } from "../../domain/entities/Solo";
+
 export interface CreateSoloDTO {
     id?: number;
     profundidade: number;

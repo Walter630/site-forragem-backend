@@ -61,4 +61,14 @@ export class PropriedadeServices {
     async findAll(): Promise<Propriedade[]> {
         return this.propriedadeRepository.findAll();
     }
+    async findByAdminId(adminId: number): Promise<Propriedade[]> {
+        return this.propriedadeRepository.findByAdminId(adminId);
+    }
+    async findByNomePropriedade(nome: string): Promise<Propriedade[]> {
+        return this.propriedadeRepository.findByNomePropriedade(nome);
+    }
+    async findByNomeProprietario(nome: string): Promise<Propriedade[]> {
+        return this.propriedadeRepository.findByNomeProprietario(nome);
+    }
+    
 }

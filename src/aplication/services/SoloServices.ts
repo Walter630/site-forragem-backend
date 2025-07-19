@@ -4,23 +4,11 @@ import { SoloRepositories } from './../../infra/repositories/SoloRepositories';
 export class SoloServices {
     constructor(private readonly soloRepository: SoloRepositories) {}
 
-    async create(data: CreateSoloDTO): Promise<Solo> {
-        if (data.profundidade <= 0 || data.fator_rocha <= 0) {
-            throw new Error('Profundidade e fator de rocha devem ser maiores que zero');
-        }
-        if (data.condut_hidraulica_saturada < 0 || data.densidade_aparente < 0 || data.agua_0_bar < 0 || data.agua_13_bar < 0 || data.agua_15_bar < 0) {
-            throw new Error('Valores de condutividade hidráulica, densidade aparente e água devem ser não negativos');
-        }
-        if (data.createdAt && !(data.createdAt instanceof Date)) {
-            throw new Error('createdAt deve ser uma instância de Date');
-        }
-        return this.soloRepository.create({
-            ...data,
-            createdAt: data.createdAt || new Date(),
-            updatedAt: data.updatedAt || new Date(),
-            } as Solo
-        );
-    }
+     async create(data: CreateSoloDTO): Promise<Solo> {
+        const novoSolo = await this.soloRepository.create({...data} as Solo);
+        console.log("Novo solo criado:", novoSolo);
+        return novoSolo;
+  }
 
     async findAll(): Promise<Solo[]> {
         return this.soloRepository.findAll();

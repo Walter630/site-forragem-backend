@@ -1,232 +1,219 @@
-
 import { PrismaClient } from "../../generated/prisma";
 import { IPropriedadeRepositories } from "../../domain/gateway/IPropriedadeRepositories";
 import { Propriedade } from "../../domain/entities/Propriedade";
+import { any } from "zod";
+
 export class PropriedadeRepositories implements IPropriedadeRepositories {
-    constructor(private readonly prisma: PrismaClient) {
-        // Initialize Prisma Client
-        this.prisma = new PrismaClient();
-    }
+  constructor(private readonly prisma: PrismaClient) {}
 
-    async getPropriedadeRepository() {
+  async findAll(): Promise<Propriedade[]> {
+    try {
+      const props = await this.prisma.propriedade.findMany({
+        include: { admin: true, estimativas: true },
+        orderBy: { id: "asc" },
+      });
+      return props.map(p =>
+        Propriedade.with({
+          id: p.id,
+          nomePropriedade: p.nomePropriedade,
+          nomeProprietario: p.nomeProprietario,
+          latitude: p.latitude,
+          longitude: p.longitude,
+          altitude: p.altitude,
+          simulacao: p.simulacao || "",
+          estimativas: p.estimativas,
+          adminId: p.admin ? p.admin.id : undefined,
+        })
+      );
+    } catch {
+      throw new Error("Error fetching propriedades");
+    }
+  }
+
+  async findById(id: number): Promise<Propriedade | null> {
+    try {
+      const p = await this.prisma.propriedade.findUnique({
+        where: { id },
+        include: { admin: true, estimativas: true },
+      });
+      if (!p) return null;
+      return Propriedade.with({
+        id: p.id,
+        nomePropriedade: p.nomePropriedade,
+        nomeProprietario: p.nomeProprietario,
+        latitude: p.latitude,
+        longitude: p.longitude,
+        altitude: p.altitude,
+        simulacao: p.simulacao || "",
+        estimativas: p.estimativas,
+        adminId: p.admin ? p.admin.id : undefined,
+      });
+    } catch {
+      throw new Error("Error fetching propriedade by id");
+    }
+  }
+
+  async createPropriedades(propriedade: Propriedade): Promise<Propriedade> {
+    try {
+      const data: any = {
+        nomePropriedade: propriedade.nomePropriedade,
+        nomeProprietario: propriedade.nomeProprietario,
+        latitude: propriedade.latitude,
+        longitude: propriedade.longitude,
+        altitude: propriedade.altitude,
+        simulacao: propriedade.simulacao || "",
+        adminId: propriedade.admin?.id || propriedade.adminId,
+      };
+
+      const created = await this.prisma.propriedade.create({
+        data,
+        include: { admin: true, estimativas: true },
+      });
+
+      return Propriedade.with({
+        id: created.id,
+        nomePropriedade: created.nomePropriedade,
+        nomeProprietario: created.nomeProprietario,
+        latitude: created.latitude,
+        longitude: created.longitude,
+        altitude: created.altitude,
+        simulacao: created.simulacao || "",
+        estimativas: created.estimativas,
+        adminId: created.admin ? created.admin.id : undefined
+      });
+    } catch {
+      throw new Error("Error creating propriedade");
+    }
+  }
+
+  async update(propriedade: Propriedade): Promise<Propriedade> {
+    try {
+      const updated = await this.prisma.propriedade.update({
+        where: { id: propriedade.id },
+        data: {
+          nomePropriedade: propriedade.nomePropriedade,
+          nomeProprietario: propriedade.nomeProprietario,
+          latitude: propriedade.latitude,
+          longitude: propriedade.longitude,
+          altitude: propriedade.altitude,
+          simulacao: propriedade.simulacao || "",
+          updatedAt: new Date(),
+        },
+        include: { admin: true, estimativas: true },
+      });
+
+      return Propriedade.with({
+        id: updated.id,
+        nomePropriedade: updated.nomePropriedade,
+        nomeProprietario: updated.nomeProprietario,
+        latitude: updated.latitude,
+        longitude: updated.longitude,
+        altitude: updated.altitude,
+        simulacao: updated.simulacao || "",
+        estimativas: updated.estimativas,
+        adminId: updated.admin ? updated.admin.id : undefined,
+      });
+    } catch {
+      throw new Error("Error updating propriedade");
+    }
+  }
+
+  async delete(id: number): Promise<void> {
+    try {
+      await this.prisma.propriedade.delete({ where: { id } });
+    } catch {
+      throw new Error("Error deleting propriedade");
+    }
+  }
+    async findByAdminId(adminId: number): Promise<Propriedade[]> {
         try {
-            return await this.prisma.propriedade.findMany({
-                orderBy: { id: "asc" }, 
-            });
-        } catch (error) {
-            throw new Error("Error fetching propriedade repository");
+        const propriedades = await this.prisma.propriedade.findMany({
+            where: { adminId },
+            include: { admin: true, estimativas: true },
+        });
+        return propriedades.map(p =>
+            Propriedade.with({
+            id: p.id,
+            nomePropriedade: p.nomePropriedade,
+            nomeProprietario: p.nomeProprietario,
+            latitude: p.latitude,
+            longitude: p.longitude,
+            altitude: p.altitude,
+            simulacao: p.simulacao || "",
+            estimativas: p.estimativas,
+            adminId: p.admin ? p.admin.id : undefined,
+            })
+        );
+        } catch {
+        throw new Error("Error fetching propriedades by admin id");
         }
     }
-
-    async createPropriedades(propriedade: Propriedade): Promise<Propriedade> {
-        try {
-            const data: any = {
-                id: propriedade.id,
-                nomePropriedade: propriedade.nomePropriedade,
-                nomeProprietario: propriedade.nomeProprietario,
-                latitude: propriedade.latitude,
-                longitude: propriedade.longitude,
-                altitude: propriedade.altitude,
-                simulacao: propriedade.simulacao,
-                createdAt: propriedade.createdAt || new Date(),
-                updatedAt: propriedade.updatedAt || new Date(),
-                adminId: propriedade.adminId,
-                admin: propriedade.admin ? { connect: { id: propriedade.admin.id } } : undefined
-            };
-            if (propriedade.id !== undefined) {
-                data.id = propriedade.id;
-            }
-            const propriedadeCreated = await this.prisma.propriedade.create({
-                data,
-                include: {
-                    admin: true,
-                    estimativas: true
-                }
-            });
-            if (propriedade.estimativas) {
-                await this.prisma.estimativas.createMany({
-                    data: propriedade.estimativas.map(estimativa => ({
-                        ...estimativa,
-                        propriedadeId: propriedadeCreated.id
-                    }))
-                });
-            }       
-            
-            return Propriedade.with({
-                id: propriedadeCreated.id,
-                nomePropriedade: propriedadeCreated.nomePropriedade,
-                nomeProprietario: propriedadeCreated.nomeProprietario,
-                latitude: propriedadeCreated.latitude,
-                longitude: propriedadeCreated.longitude,
-                altitude: propriedadeCreated.altitude,
-                simulacao: propriedadeCreated.simulacao || "",
-                
-                estimativas: propriedadeCreated.estimativas,
-            });
-        } catch (error) {
-            console.error("Error creating propriedade:", error);
-            throw new Error("Error creating propriedade");
-        }
-    }
-    async findAll(): Promise<Propriedade[]> {
+    async findByNomePropriedade(nome: string): Promise<Propriedade[]> {
         try {
             const propriedades = await this.prisma.propriedade.findMany({
-                include: {
-                    admin: true,
-                    estimativas: true
-                }
+                where: { nomePropriedade: nome },
+                include: { admin: true, estimativas: true },
             });
-            return propriedades.map((propriedade) => Propriedade.with({
-                id: propriedade.id,
-                nomePropriedade: propriedade.nomePropriedade,
-                nomeProprietario: propriedade.nomeProprietario,
-                latitude: propriedade.latitude,
-                longitude: propriedade.longitude,
-                altitude: propriedade.altitude,
-                simulacao: propriedade.simulacao || "",
-                estimativas: propriedade.estimativas,
-            }));
-        } catch (error) {
-            console.error("Error fetching propriedades:", error);
-            throw new Error("Error fetching propriedades");
+            if (!propriedades) throw new Error("Propriedade not found");
+            return propriedades.map((pp: any) => Propriedade.with({
+                id: pp.id,
+                nomePropriedade: pp.nomePropriedade,
+                nomeProprietario: pp.nomeProprietario,
+                latitude: pp.latitude,
+                longitude: pp.longitude,
+                altitude: pp.altitude,
+                simulacao: pp.simulacao || "",
+                estimativas: pp.estimativas,
+                adminId: pp.admin ? pp.admin.id : undefined,
+            }))
+        } catch {
+            throw new Error("Error fetching propriedade by nome");
+        }
+    }
+    async findByNomeProprietario(nome: string): Promise<Propriedade[]> {
+        try {
+            const propriedades = await this.prisma.propriedade.findMany({
+                where: { nomeProprietario: nome },
+                include: { admin: true, estimativas: true },
+            });
+            return propriedades.map(p =>
+                Propriedade.with({
+                    id: p.id,
+                    nomePropriedade: p.nomePropriedade,
+                    nomeProprietario: p.nomeProprietario,
+                    latitude: p.latitude,
+                    longitude: p.longitude,
+                    altitude: p.altitude,
+                    simulacao: p.simulacao || "",
+                    estimativas: p.estimativas,
+                    adminId: p.admin ? p.admin.id : undefined,
+                })
+            );
+        } catch {
+            throw new Error("Error fetching propriedades by nome proprietario");
         }
     }
     async findBySimulacao(simulacao: string): Promise<Propriedade[]> {
         try {
             const propriedades = await this.prisma.propriedade.findMany({
-                where: { simulacao: simulacao },
-                include: {
-                    admin: true,
-                    estimativas: true
-                }
+                where: { simulacao },
+                include: { admin: true, estimativas: true },
             });
-            return propriedades.map((propriedade) => Propriedade.with({
-                id: propriedade.id,
-                nomePropriedade: propriedade.nomePropriedade,
-                nomeProprietario: propriedade.nomeProprietario,
-                latitude: propriedade.latitude,
-                longitude: propriedade.longitude,
-                altitude: propriedade.altitude,
-                simulacao: propriedade.simulacao || "",
-                estimativas: propriedade.estimativas,
-            }));
-        } catch (error) {
-            console.error("Error fetching propriedades by simulacao:", error);
+            return propriedades.map(p =>
+                Propriedade.with({
+                    id: p.id,
+                    nomePropriedade: p.nomePropriedade,
+                    nomeProprietario: p.nomeProprietario,
+                    latitude: p.latitude,
+                    longitude: p.longitude,
+                    altitude: p.altitude,
+                    simulacao: p.simulacao || "",
+                    estimativas: p.estimativas,
+                    adminId: p.admin ? p.admin.id : undefined,
+                })
+            );
+        } catch {
             throw new Error("Error fetching propriedades by simulacao");
-        }
-    }
-
-        async findByNomePropriedade(nomePropriedade: string): Promise<Propriedade[]> {
-            try {
-                const propriedades = await this.prisma.propriedade.findMany({
-                    where: { nomePropriedade: { contains: nomePropriedade} },
-                    include: {
-                        admin: true,
-                        estimativas: true
-                    }
-                });
-                return propriedades.map((propriedade) => Propriedade.with({
-                    id: propriedade.id,
-                    nomePropriedade: propriedade.nomePropriedade,
-                    nomeProprietario: propriedade.nomeProprietario,
-                    latitude: propriedade.latitude,
-                    longitude: propriedade.longitude,
-                    altitude: propriedade.altitude,
-                    simulacao: propriedade.simulacao || "",
-                    estimativas: propriedade.estimativas,
-                }));
-            } catch (error) {
-                console.error("Error fetching propriedades by nomePropriedade:", error);
-                throw new Error("Error fetching propriedades by nomePropriedade");
-            }
-    }
-    async findByNomeProprietario(nomeProprietario: string): Promise<Propriedade[]> {
-        try {
-            const propriedades = await this.prisma.propriedade.findMany({
-                where: { nomeProprietario: { contains: nomeProprietario } },
-                include: {
-                    admin: true,
-                    estimativas: true
-                }
-            });
-            return propriedades.map((propriedade) => Propriedade.with({
-                id: propriedade.id,
-                nomePropriedade: propriedade.nomePropriedade,
-                nomeProprietario: propriedade.nomeProprietario,
-                latitude: propriedade.latitude,
-                longitude: propriedade.longitude,
-                altitude: propriedade.altitude,
-                simulacao: propriedade.simulacao || "",
-                estimativas: propriedade.estimativas,
-            }));
-        } catch (error) {
-            console.error("Error fetching propriedades by nomeProprietario:", error);
-            throw new Error("Error fetching propriedades by nomeProprietario");
-        }
-    }
-
-    async findById(id: number): Promise<Propriedade | null> {
-        try {
-            const propriedade = await this.prisma.propriedade.findUnique({
-                where: { id },
-                include: {
-                    admin: true,
-                    estimativas: true
-                }
-            });
-            return propriedade ? Propriedade.with({
-                id: propriedade.id,
-                nomePropriedade: propriedade.nomePropriedade,
-                nomeProprietario: propriedade.nomeProprietario,
-                latitude: propriedade.latitude,
-                longitude: propriedade.longitude,
-                altitude: propriedade.altitude,
-                simulacao: propriedade.simulacao || "",
-                estimativas: propriedade.estimativas,
-            }) : null;
-        } catch (error) {
-            console.error("Error fetching propriedade by id:", error);
-            throw new Error("Error fetching propriedade by id");
-        }
-    }
-
-    async update(propriedade: Propriedade): Promise<Propriedade> {
-        try {
-            const propriedadeUpdated = await this.prisma.propriedade.update({
-                where: { id: propriedade.id },
-                data: {
-                    nomePropriedade: propriedade.nomePropriedade,
-                    nomeProprietario: propriedade.nomeProprietario,
-                    latitude: propriedade.latitude,
-                    longitude: propriedade.longitude,
-                    altitude: propriedade.altitude,
-                    simulacao: propriedade.simulacao || "",
-                    updatedAt: new Date(),
-                },
-            });
-            return Propriedade.with({
-                id: propriedadeUpdated.id,
-                nomePropriedade: propriedadeUpdated.nomePropriedade,
-                nomeProprietario: propriedadeUpdated.nomeProprietario,
-                latitude: propriedadeUpdated.latitude,
-                longitude: propriedadeUpdated.longitude,
-                altitude: propriedadeUpdated.altitude,
-                simulacao: propriedadeUpdated.simulacao || "",
-            });
-        } catch (error) {
-            console.error("Error updating propriedade:", error);
-            throw new Error("Error updating propriedade");
-        }
-    }
-
-    async delete(id: number): Promise<void> {
-        try {
-            await this.prisma.propriedade.delete({
-                where: { id },
-            });
-        } catch (error) {
-            console.error("Error deleting propriedade:", error);
-            throw new Error("Error deleting propriedade");
         }
     }
 }

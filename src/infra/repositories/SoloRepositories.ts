@@ -2,20 +2,18 @@ import { ISoloRepositories } from "../../domain/gateway/ISoloRepositories";
 import { PrismaClient } from "../../generated/prisma";
 import { Solo } from "../../domain/entities/Solo";
 
-const prisma = new PrismaClient();
-
 export class SoloRepositories implements ISoloRepositories {
     constructor(private readonly prisma: PrismaClient) {
-        // Initialize Prisma Client
-        this.prisma = new PrismaClient();
+        // Não criar nova instância aqui, usa a que foi passada
     }
 
     async getSoloRepository() {
         try {
-            return await prisma.solo.findMany({
-                orderBy: {  id: "asc" },
+            return await this.prisma.solo.findMany({
+                orderBy: { id: "asc" },
             });
         } catch (error) {
+            console.error("Error fetching solo repository:", error);
             throw new Error("Error fetching solo repository");
         }
     }
@@ -55,6 +53,7 @@ export class SoloRepositories implements ISoloRepositories {
             throw new Error("Error creating solo");
         }
     }
+
     async update(solo: Solo): Promise<Solo> {
         try {
             const soloUpdated = await this.prisma.solo.update({
@@ -66,7 +65,8 @@ export class SoloRepositories implements ISoloRepositories {
                     densidadeAparente: solo.densidade_aparente,
                     agua0Bar: solo.agua_0_bar,
                     agua13Bar: solo.agua_13_bar,
-                    agua15Bar: solo.agua_15_bar
+                    agua15Bar: solo.agua_15_bar,
+                    updatedAt: new Date(),
                 },
             });
             return Solo.with({
@@ -85,6 +85,7 @@ export class SoloRepositories implements ISoloRepositories {
             throw new Error("Error updating solo");
         }
     }
+
     async delete(id: number): Promise<void> {
         try {
             await this.prisma.solo.delete({
@@ -111,7 +112,7 @@ export class SoloRepositories implements ISoloRepositories {
                 agua_13_bar: solo.agua13Bar,
                 agua_15_bar: solo.agua15Bar,
                 createdAt: solo.createdAt,
-}            ));
+            }));
         } catch (error) {
             console.error("Error fetching all solos:", error);
             throw new Error("Error fetching all solos");

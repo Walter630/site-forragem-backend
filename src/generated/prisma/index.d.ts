@@ -1475,11 +1475,13 @@ export namespace Prisma {
   export type PropriedadeCountOutputType = {
     estimativas: number
     simulacoes: number
+    historicos: number
   }
 
   export type PropriedadeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     estimativas?: boolean | PropriedadeCountOutputTypeCountEstimativasArgs
     simulacoes?: boolean | PropriedadeCountOutputTypeCountSimulacoesArgs
+    historicos?: boolean | PropriedadeCountOutputTypeCountHistoricosArgs
   }
 
   // Custom InputTypes
@@ -1505,6 +1507,13 @@ export namespace Prisma {
    */
   export type PropriedadeCountOutputTypeCountSimulacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SimulacaoWhereInput
+  }
+
+  /**
+   * PropriedadeCountOutputType without action
+   */
+  export type PropriedadeCountOutputTypeCountHistoricosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HistoricoWhereInput
   }
 
 
@@ -3852,6 +3861,7 @@ export namespace Prisma {
     admin?: boolean | Propriedade$adminArgs<ExtArgs>
     estimativas?: boolean | Propriedade$estimativasArgs<ExtArgs>
     simulacoes?: boolean | Propriedade$simulacoesArgs<ExtArgs>
+    historicos?: boolean | Propriedade$historicosArgs<ExtArgs>
     _count?: boolean | PropriedadeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["propriedade"]>
 
@@ -3876,6 +3886,7 @@ export namespace Prisma {
     admin?: boolean | Propriedade$adminArgs<ExtArgs>
     estimativas?: boolean | Propriedade$estimativasArgs<ExtArgs>
     simulacoes?: boolean | Propriedade$simulacoesArgs<ExtArgs>
+    historicos?: boolean | Propriedade$historicosArgs<ExtArgs>
     _count?: boolean | PropriedadeCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3885,6 +3896,7 @@ export namespace Prisma {
       admin: Prisma.$AdminPayload<ExtArgs> | null
       estimativas: Prisma.$EstimativasPayload<ExtArgs>[]
       simulacoes: Prisma.$SimulacaoPayload<ExtArgs>[]
+      historicos: Prisma.$HistoricoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4241,6 +4253,7 @@ export namespace Prisma {
     admin<T extends Propriedade$adminArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$adminArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     estimativas<T extends Propriedade$estimativasArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$estimativasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstimativasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     simulacoes<T extends Propriedade$simulacoesArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$simulacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    historicos<T extends Propriedade$historicosArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$historicosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4691,6 +4704,30 @@ export namespace Prisma {
   }
 
   /**
+   * Propriedade.historicos
+   */
+  export type Propriedade$historicosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Historico
+     */
+    select?: HistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Historico
+     */
+    omit?: HistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricoInclude<ExtArgs> | null
+    where?: HistoricoWhereInput
+    orderBy?: HistoricoOrderByWithRelationInput | HistoricoOrderByWithRelationInput[]
+    cursor?: HistoricoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HistoricoScalarFieldEnum | HistoricoScalarFieldEnum[]
+  }
+
+  /**
    * Propriedade without action
    */
   export type PropriedadeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4723,15 +4760,21 @@ export namespace Prisma {
 
   export type HistoricoAvgAggregateOutputType = {
     id: number | null
+    valorSimulacao: number | null
+    propriedadeId: number | null
   }
 
   export type HistoricoSumAggregateOutputType = {
     id: number | null
+    valorSimulacao: number | null
+    propriedadeId: number | null
   }
 
   export type HistoricoMinAggregateOutputType = {
     id: number | null
     descricao: string | null
+    valorSimulacao: number | null
+    propriedadeId: number | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -4740,6 +4783,8 @@ export namespace Prisma {
   export type HistoricoMaxAggregateOutputType = {
     id: number | null
     descricao: string | null
+    valorSimulacao: number | null
+    propriedadeId: number | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -4748,6 +4793,8 @@ export namespace Prisma {
   export type HistoricoCountAggregateOutputType = {
     id: number
     descricao: number
+    valorSimulacao: number
+    propriedadeId: number
     createdAt: number
     updatedAt: number
     deletedAt: number
@@ -4757,15 +4804,21 @@ export namespace Prisma {
 
   export type HistoricoAvgAggregateInputType = {
     id?: true
+    valorSimulacao?: true
+    propriedadeId?: true
   }
 
   export type HistoricoSumAggregateInputType = {
     id?: true
+    valorSimulacao?: true
+    propriedadeId?: true
   }
 
   export type HistoricoMinAggregateInputType = {
     id?: true
     descricao?: true
+    valorSimulacao?: true
+    propriedadeId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -4774,6 +4827,8 @@ export namespace Prisma {
   export type HistoricoMaxAggregateInputType = {
     id?: true
     descricao?: true
+    valorSimulacao?: true
+    propriedadeId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -4782,6 +4837,8 @@ export namespace Prisma {
   export type HistoricoCountAggregateInputType = {
     id?: true
     descricao?: true
+    valorSimulacao?: true
+    propriedadeId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -4877,8 +4934,10 @@ export namespace Prisma {
   export type HistoricoGroupByOutputType = {
     id: number
     descricao: string | null
+    valorSimulacao: number
+    propriedadeId: number
     createdAt: Date
-    updatedAt: Date | null
+    updatedAt: Date
     deletedAt: Date | null
     _count: HistoricoCountAggregateOutputType | null
     _avg: HistoricoAvgAggregateOutputType | null
@@ -4904,11 +4963,12 @@ export namespace Prisma {
   export type HistoricoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     descricao?: boolean
+    valorSimulacao?: boolean
+    propriedadeId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    precipitacao?: boolean | Historico$precipitacaoArgs<ExtArgs>
-    solo?: boolean | Historico$soloArgs<ExtArgs>
+    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["historico"]>
 
 
@@ -4916,28 +4976,30 @@ export namespace Prisma {
   export type HistoricoSelectScalar = {
     id?: boolean
     descricao?: boolean
+    valorSimulacao?: boolean
+    propriedadeId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
   }
 
-  export type HistoricoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "descricao" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["historico"]>
+  export type HistoricoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "descricao" | "valorSimulacao" | "propriedadeId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["historico"]>
   export type HistoricoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    precipitacao?: boolean | Historico$precipitacaoArgs<ExtArgs>
-    solo?: boolean | Historico$soloArgs<ExtArgs>
+    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
   }
 
   export type $HistoricoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Historico"
     objects: {
-      precipitacao: Prisma.$PrecipitacaoPayload<ExtArgs> | null
-      solo: Prisma.$SoloPayload<ExtArgs> | null
+      propriedade: Prisma.$PropriedadePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       descricao: string | null
+      valorSimulacao: number
+      propriedadeId: number
       createdAt: Date
-      updatedAt: Date | null
+      updatedAt: Date
       deletedAt: Date | null
     }, ExtArgs["result"]["historico"]>
     composites: {}
@@ -5279,8 +5341,7 @@ export namespace Prisma {
    */
   export interface Prisma__HistoricoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    precipitacao<T extends Historico$precipitacaoArgs<ExtArgs> = {}>(args?: Subset<T, Historico$precipitacaoArgs<ExtArgs>>): Prisma__PrecipitacaoClient<$Result.GetResult<Prisma.$PrecipitacaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    solo<T extends Historico$soloArgs<ExtArgs> = {}>(args?: Subset<T, Historico$soloArgs<ExtArgs>>): Prisma__SoloClient<$Result.GetResult<Prisma.$SoloPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    propriedade<T extends PropriedadeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PropriedadeDefaultArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5312,6 +5373,8 @@ export namespace Prisma {
   interface HistoricoFieldRefs {
     readonly id: FieldRef<"Historico", 'Int'>
     readonly descricao: FieldRef<"Historico", 'String'>
+    readonly valorSimulacao: FieldRef<"Historico", 'Float'>
+    readonly propriedadeId: FieldRef<"Historico", 'Int'>
     readonly createdAt: FieldRef<"Historico", 'DateTime'>
     readonly updatedAt: FieldRef<"Historico", 'DateTime'>
     readonly deletedAt: FieldRef<"Historico", 'DateTime'>
@@ -5533,7 +5596,7 @@ export namespace Prisma {
     /**
      * The data needed to create a Historico.
      */
-    data?: XOR<HistoricoCreateInput, HistoricoUncheckedCreateInput>
+    data: XOR<HistoricoCreateInput, HistoricoUncheckedCreateInput>
   }
 
   /**
@@ -5658,44 +5721,6 @@ export namespace Prisma {
   }
 
   /**
-   * Historico.precipitacao
-   */
-  export type Historico$precipitacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Precipitacao
-     */
-    select?: PrecipitacaoSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Precipitacao
-     */
-    omit?: PrecipitacaoOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrecipitacaoInclude<ExtArgs> | null
-    where?: PrecipitacaoWhereInput
-  }
-
-  /**
-   * Historico.solo
-   */
-  export type Historico$soloArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Solo
-     */
-    select?: SoloSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Solo
-     */
-    omit?: SoloOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SoloInclude<ExtArgs> | null
-    where?: SoloWhereInput
-  }
-
-  /**
    * Historico without action
    */
   export type HistoricoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5734,7 +5759,6 @@ export namespace Prisma {
     cvDia: number | null
     mmMes: number | null
     cvMes: number | null
-    historicoId: number | null
   }
 
   export type PrecipitacaoSumAggregateOutputType = {
@@ -5745,7 +5769,6 @@ export namespace Prisma {
     cvDia: number | null
     mmMes: number | null
     cvMes: number | null
-    historicoId: number | null
   }
 
   export type PrecipitacaoMinAggregateOutputType = {
@@ -5759,7 +5782,6 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    historicoId: number | null
   }
 
   export type PrecipitacaoMaxAggregateOutputType = {
@@ -5773,7 +5795,6 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    historicoId: number | null
   }
 
   export type PrecipitacaoCountAggregateOutputType = {
@@ -5787,7 +5808,6 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     deletedAt: number
-    historicoId: number
     _all: number
   }
 
@@ -5800,7 +5820,6 @@ export namespace Prisma {
     cvDia?: true
     mmMes?: true
     cvMes?: true
-    historicoId?: true
   }
 
   export type PrecipitacaoSumAggregateInputType = {
@@ -5811,7 +5830,6 @@ export namespace Prisma {
     cvDia?: true
     mmMes?: true
     cvMes?: true
-    historicoId?: true
   }
 
   export type PrecipitacaoMinAggregateInputType = {
@@ -5825,7 +5843,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    historicoId?: true
   }
 
   export type PrecipitacaoMaxAggregateInputType = {
@@ -5839,7 +5856,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    historicoId?: true
   }
 
   export type PrecipitacaoCountAggregateInputType = {
@@ -5853,7 +5869,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    historicoId?: true
     _all?: true
   }
 
@@ -5954,7 +5969,6 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date | null
     deletedAt: Date | null
-    historicoId: number
     _count: PrecipitacaoCountAggregateOutputType | null
     _avg: PrecipitacaoAvgAggregateOutputType | null
     _sum: PrecipitacaoSumAggregateOutputType | null
@@ -5987,8 +6001,6 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    historicoId?: boolean
-    historico?: boolean | HistoricoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["precipitacao"]>
 
 
@@ -6004,19 +6016,13 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    historicoId?: boolean
   }
 
-  export type PrecipitacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mmAno" | "chuvas" | "mmDia" | "cvDia" | "mmMes" | "cvMes" | "createdAt" | "updatedAt" | "deletedAt" | "historicoId", ExtArgs["result"]["precipitacao"]>
-  export type PrecipitacaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    historico?: boolean | HistoricoDefaultArgs<ExtArgs>
-  }
+  export type PrecipitacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mmAno" | "chuvas" | "mmDia" | "cvDia" | "mmMes" | "cvMes" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["precipitacao"]>
 
   export type $PrecipitacaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Precipitacao"
-    objects: {
-      historico: Prisma.$HistoricoPayload<ExtArgs>
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
       mmAno: number
@@ -6028,7 +6034,6 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date | null
       deletedAt: Date | null
-      historicoId: number
     }, ExtArgs["result"]["precipitacao"]>
     composites: {}
   }
@@ -6369,7 +6374,6 @@ export namespace Prisma {
    */
   export interface Prisma__PrecipitacaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    historico<T extends HistoricoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, HistoricoDefaultArgs<ExtArgs>>): Prisma__HistoricoClient<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6409,7 +6413,6 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Precipitacao", 'DateTime'>
     readonly updatedAt: FieldRef<"Precipitacao", 'DateTime'>
     readonly deletedAt: FieldRef<"Precipitacao", 'DateTime'>
-    readonly historicoId: FieldRef<"Precipitacao", 'Int'>
   }
     
 
@@ -6426,10 +6429,6 @@ export namespace Prisma {
      * Omit specific fields from the Precipitacao
      */
     omit?: PrecipitacaoOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrecipitacaoInclude<ExtArgs> | null
     /**
      * Filter, which Precipitacao to fetch.
      */
@@ -6449,10 +6448,6 @@ export namespace Prisma {
      */
     omit?: PrecipitacaoOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrecipitacaoInclude<ExtArgs> | null
-    /**
      * Filter, which Precipitacao to fetch.
      */
     where: PrecipitacaoWhereUniqueInput
@@ -6470,10 +6465,6 @@ export namespace Prisma {
      * Omit specific fields from the Precipitacao
      */
     omit?: PrecipitacaoOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrecipitacaoInclude<ExtArgs> | null
     /**
      * Filter, which Precipitacao to fetch.
      */
@@ -6523,10 +6514,6 @@ export namespace Prisma {
      */
     omit?: PrecipitacaoOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrecipitacaoInclude<ExtArgs> | null
-    /**
      * Filter, which Precipitacao to fetch.
      */
     where?: PrecipitacaoWhereInput
@@ -6575,10 +6562,6 @@ export namespace Prisma {
      */
     omit?: PrecipitacaoOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrecipitacaoInclude<ExtArgs> | null
-    /**
      * Filter, which Precipitacaos to fetch.
      */
     where?: PrecipitacaoWhereInput
@@ -6622,10 +6605,6 @@ export namespace Prisma {
      */
     omit?: PrecipitacaoOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrecipitacaoInclude<ExtArgs> | null
-    /**
      * The data needed to create a Precipitacao.
      */
     data: XOR<PrecipitacaoCreateInput, PrecipitacaoUncheckedCreateInput>
@@ -6654,10 +6633,6 @@ export namespace Prisma {
      * Omit specific fields from the Precipitacao
      */
     omit?: PrecipitacaoOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrecipitacaoInclude<ExtArgs> | null
     /**
      * The data needed to update a Precipitacao.
      */
@@ -6699,10 +6674,6 @@ export namespace Prisma {
      */
     omit?: PrecipitacaoOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrecipitacaoInclude<ExtArgs> | null
-    /**
      * The filter to search for the Precipitacao to update in case it exists.
      */
     where: PrecipitacaoWhereUniqueInput
@@ -6728,10 +6699,6 @@ export namespace Prisma {
      * Omit specific fields from the Precipitacao
      */
     omit?: PrecipitacaoOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrecipitacaoInclude<ExtArgs> | null
     /**
      * Filter which Precipitacao to delete.
      */
@@ -6764,10 +6731,6 @@ export namespace Prisma {
      * Omit specific fields from the Precipitacao
      */
     omit?: PrecipitacaoOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PrecipitacaoInclude<ExtArgs> | null
   }
 
 
@@ -6792,7 +6755,6 @@ export namespace Prisma {
     agua0Bar: number | null
     agua13Bar: number | null
     agua15Bar: number | null
-    historicoId: number | null
   }
 
   export type SoloSumAggregateOutputType = {
@@ -6804,7 +6766,6 @@ export namespace Prisma {
     agua0Bar: number | null
     agua13Bar: number | null
     agua15Bar: number | null
-    historicoId: number | null
   }
 
   export type SoloMinAggregateOutputType = {
@@ -6819,7 +6780,6 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    historicoId: number | null
   }
 
   export type SoloMaxAggregateOutputType = {
@@ -6834,7 +6794,6 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    historicoId: number | null
   }
 
   export type SoloCountAggregateOutputType = {
@@ -6849,7 +6808,6 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     deletedAt: number
-    historicoId: number
     _all: number
   }
 
@@ -6863,7 +6821,6 @@ export namespace Prisma {
     agua0Bar?: true
     agua13Bar?: true
     agua15Bar?: true
-    historicoId?: true
   }
 
   export type SoloSumAggregateInputType = {
@@ -6875,7 +6832,6 @@ export namespace Prisma {
     agua0Bar?: true
     agua13Bar?: true
     agua15Bar?: true
-    historicoId?: true
   }
 
   export type SoloMinAggregateInputType = {
@@ -6890,7 +6846,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    historicoId?: true
   }
 
   export type SoloMaxAggregateInputType = {
@@ -6905,7 +6860,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    historicoId?: true
   }
 
   export type SoloCountAggregateInputType = {
@@ -6920,7 +6874,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    historicoId?: true
     _all?: true
   }
 
@@ -7022,7 +6975,6 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date | null
     deletedAt: Date | null
-    historicoId: number
     _count: SoloCountAggregateOutputType | null
     _avg: SoloAvgAggregateOutputType | null
     _sum: SoloSumAggregateOutputType | null
@@ -7056,8 +7008,6 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    historicoId?: boolean
-    historico?: boolean | HistoricoDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solo"]>
 
 
@@ -7074,19 +7024,13 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    historicoId?: boolean
   }
 
-  export type SoloOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profundidade" | "fatorRocha" | "condutHidraulicaSaturada" | "densidadeAparente" | "agua0Bar" | "agua13Bar" | "agua15Bar" | "createdAt" | "updatedAt" | "deletedAt" | "historicoId", ExtArgs["result"]["solo"]>
-  export type SoloInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    historico?: boolean | HistoricoDefaultArgs<ExtArgs>
-  }
+  export type SoloOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profundidade" | "fatorRocha" | "condutHidraulicaSaturada" | "densidadeAparente" | "agua0Bar" | "agua13Bar" | "agua15Bar" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["solo"]>
 
   export type $SoloPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Solo"
-    objects: {
-      historico: Prisma.$HistoricoPayload<ExtArgs>
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
       profundidade: number
@@ -7099,7 +7043,6 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date | null
       deletedAt: Date | null
-      historicoId: number
     }, ExtArgs["result"]["solo"]>
     composites: {}
   }
@@ -7440,7 +7383,6 @@ export namespace Prisma {
    */
   export interface Prisma__SoloClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    historico<T extends HistoricoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, HistoricoDefaultArgs<ExtArgs>>): Prisma__HistoricoClient<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7481,7 +7423,6 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Solo", 'DateTime'>
     readonly updatedAt: FieldRef<"Solo", 'DateTime'>
     readonly deletedAt: FieldRef<"Solo", 'DateTime'>
-    readonly historicoId: FieldRef<"Solo", 'Int'>
   }
     
 
@@ -7498,10 +7439,6 @@ export namespace Prisma {
      * Omit specific fields from the Solo
      */
     omit?: SoloOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SoloInclude<ExtArgs> | null
     /**
      * Filter, which Solo to fetch.
      */
@@ -7521,10 +7458,6 @@ export namespace Prisma {
      */
     omit?: SoloOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SoloInclude<ExtArgs> | null
-    /**
      * Filter, which Solo to fetch.
      */
     where: SoloWhereUniqueInput
@@ -7542,10 +7475,6 @@ export namespace Prisma {
      * Omit specific fields from the Solo
      */
     omit?: SoloOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SoloInclude<ExtArgs> | null
     /**
      * Filter, which Solo to fetch.
      */
@@ -7595,10 +7524,6 @@ export namespace Prisma {
      */
     omit?: SoloOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SoloInclude<ExtArgs> | null
-    /**
      * Filter, which Solo to fetch.
      */
     where?: SoloWhereInput
@@ -7647,10 +7572,6 @@ export namespace Prisma {
      */
     omit?: SoloOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SoloInclude<ExtArgs> | null
-    /**
      * Filter, which Solos to fetch.
      */
     where?: SoloWhereInput
@@ -7694,10 +7615,6 @@ export namespace Prisma {
      */
     omit?: SoloOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SoloInclude<ExtArgs> | null
-    /**
      * The data needed to create a Solo.
      */
     data: XOR<SoloCreateInput, SoloUncheckedCreateInput>
@@ -7726,10 +7643,6 @@ export namespace Prisma {
      * Omit specific fields from the Solo
      */
     omit?: SoloOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SoloInclude<ExtArgs> | null
     /**
      * The data needed to update a Solo.
      */
@@ -7771,10 +7684,6 @@ export namespace Prisma {
      */
     omit?: SoloOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SoloInclude<ExtArgs> | null
-    /**
      * The filter to search for the Solo to update in case it exists.
      */
     where: SoloWhereUniqueInput
@@ -7800,10 +7709,6 @@ export namespace Prisma {
      * Omit specific fields from the Solo
      */
     omit?: SoloOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SoloInclude<ExtArgs> | null
     /**
      * Filter which Solo to delete.
      */
@@ -7836,10 +7741,6 @@ export namespace Prisma {
      * Omit specific fields from the Solo
      */
     omit?: SoloOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SoloInclude<ExtArgs> | null
   }
 
 
@@ -7870,6 +7771,7 @@ export namespace Prisma {
   export type EstimativasMinAggregateOutputType = {
     id: number | null
     valorTotal: number | null
+    descricao: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -7879,6 +7781,7 @@ export namespace Prisma {
   export type EstimativasMaxAggregateOutputType = {
     id: number | null
     valorTotal: number | null
+    descricao: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -7888,6 +7791,7 @@ export namespace Prisma {
   export type EstimativasCountAggregateOutputType = {
     id: number
     valorTotal: number
+    descricao: number
     createdAt: number
     updatedAt: number
     deletedAt: number
@@ -7911,6 +7815,7 @@ export namespace Prisma {
   export type EstimativasMinAggregateInputType = {
     id?: true
     valorTotal?: true
+    descricao?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -7920,6 +7825,7 @@ export namespace Prisma {
   export type EstimativasMaxAggregateInputType = {
     id?: true
     valorTotal?: true
+    descricao?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -7929,6 +7835,7 @@ export namespace Prisma {
   export type EstimativasCountAggregateInputType = {
     id?: true
     valorTotal?: true
+    descricao?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -8025,6 +7932,7 @@ export namespace Prisma {
   export type EstimativasGroupByOutputType = {
     id: number
     valorTotal: number
+    descricao: string | null
     createdAt: Date
     updatedAt: Date | null
     deletedAt: Date | null
@@ -8053,6 +7961,7 @@ export namespace Prisma {
   export type EstimativasSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     valorTotal?: boolean
+    descricao?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
@@ -8065,13 +7974,14 @@ export namespace Prisma {
   export type EstimativasSelectScalar = {
     id?: boolean
     valorTotal?: boolean
+    descricao?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     propriedadeId?: boolean
   }
 
-  export type EstimativasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "valorTotal" | "createdAt" | "updatedAt" | "deletedAt" | "propriedadeId", ExtArgs["result"]["estimativas"]>
+  export type EstimativasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "valorTotal" | "descricao" | "createdAt" | "updatedAt" | "deletedAt" | "propriedadeId", ExtArgs["result"]["estimativas"]>
   export type EstimativasInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     propriedade?: boolean | Estimativas$propriedadeArgs<ExtArgs>
   }
@@ -8084,6 +7994,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       valorTotal: number
+      descricao: string | null
       createdAt: Date
       updatedAt: Date | null
       deletedAt: Date | null
@@ -8460,6 +8371,7 @@ export namespace Prisma {
   interface EstimativasFieldRefs {
     readonly id: FieldRef<"Estimativas", 'Int'>
     readonly valorTotal: FieldRef<"Estimativas", 'Float'>
+    readonly descricao: FieldRef<"Estimativas", 'String'>
     readonly createdAt: FieldRef<"Estimativas", 'DateTime'>
     readonly updatedAt: FieldRef<"Estimativas", 'DateTime'>
     readonly deletedAt: FieldRef<"Estimativas", 'DateTime'>
@@ -9907,6 +9819,8 @@ export namespace Prisma {
   export const HistoricoScalarFieldEnum: {
     id: 'id',
     descricao: 'descricao',
+    valorSimulacao: 'valorSimulacao',
+    propriedadeId: 'propriedadeId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt'
@@ -9925,8 +9839,7 @@ export namespace Prisma {
     cvMes: 'cvMes',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt',
-    historicoId: 'historicoId'
+    deletedAt: 'deletedAt'
   };
 
   export type PrecipitacaoScalarFieldEnum = (typeof PrecipitacaoScalarFieldEnum)[keyof typeof PrecipitacaoScalarFieldEnum]
@@ -9943,8 +9856,7 @@ export namespace Prisma {
     agua15Bar: 'agua15Bar',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt',
-    historicoId: 'historicoId'
+    deletedAt: 'deletedAt'
   };
 
   export type SoloScalarFieldEnum = (typeof SoloScalarFieldEnum)[keyof typeof SoloScalarFieldEnum]
@@ -9953,6 +9865,7 @@ export namespace Prisma {
   export const EstimativasScalarFieldEnum: {
     id: 'id',
     valorTotal: 'valorTotal',
+    descricao: 'descricao',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
@@ -10031,6 +9944,13 @@ export namespace Prisma {
   };
 
   export type HistoricoOrderByRelevanceFieldEnum = (typeof HistoricoOrderByRelevanceFieldEnum)[keyof typeof HistoricoOrderByRelevanceFieldEnum]
+
+
+  export const EstimativasOrderByRelevanceFieldEnum: {
+    descricao: 'descricao'
+  };
+
+  export type EstimativasOrderByRelevanceFieldEnum = (typeof EstimativasOrderByRelevanceFieldEnum)[keyof typeof EstimativasOrderByRelevanceFieldEnum]
 
 
   export const JsonNullValueFilter: {
@@ -10279,6 +10199,7 @@ export namespace Prisma {
     admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     estimativas?: EstimativasListRelationFilter
     simulacoes?: SimulacaoListRelationFilter
+    historicos?: HistoricoListRelationFilter
   }
 
   export type PropriedadeOrderByWithRelationInput = {
@@ -10296,6 +10217,7 @@ export namespace Prisma {
     admin?: AdminOrderByWithRelationInput
     estimativas?: EstimativasOrderByRelationAggregateInput
     simulacoes?: SimulacaoOrderByRelationAggregateInput
+    historicos?: HistoricoOrderByRelationAggregateInput
     _relevance?: PropriedadeOrderByRelevanceInput
   }
 
@@ -10317,6 +10239,7 @@ export namespace Prisma {
     admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     estimativas?: EstimativasListRelationFilter
     simulacoes?: SimulacaoListRelationFilter
+    historicos?: HistoricoListRelationFilter
   }, "id" | "adminId">
 
   export type PropriedadeOrderByWithAggregationInput = {
@@ -10361,21 +10284,23 @@ export namespace Prisma {
     NOT?: HistoricoWhereInput | HistoricoWhereInput[]
     id?: IntFilter<"Historico"> | number
     descricao?: StringNullableFilter<"Historico"> | string | null
+    valorSimulacao?: FloatFilter<"Historico"> | number
+    propriedadeId?: IntFilter<"Historico"> | number
     createdAt?: DateTimeFilter<"Historico"> | Date | string
-    updatedAt?: DateTimeNullableFilter<"Historico"> | Date | string | null
+    updatedAt?: DateTimeFilter<"Historico"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Historico"> | Date | string | null
-    precipitacao?: XOR<PrecipitacaoNullableScalarRelationFilter, PrecipitacaoWhereInput> | null
-    solo?: XOR<SoloNullableScalarRelationFilter, SoloWhereInput> | null
+    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
   }
 
   export type HistoricoOrderByWithRelationInput = {
     id?: SortOrder
     descricao?: SortOrderInput | SortOrder
+    valorSimulacao?: SortOrder
+    propriedadeId?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    precipitacao?: PrecipitacaoOrderByWithRelationInput
-    solo?: SoloOrderByWithRelationInput
+    propriedade?: PropriedadeOrderByWithRelationInput
     _relevance?: HistoricoOrderByRelevanceInput
   }
 
@@ -10385,18 +10310,21 @@ export namespace Prisma {
     OR?: HistoricoWhereInput[]
     NOT?: HistoricoWhereInput | HistoricoWhereInput[]
     descricao?: StringNullableFilter<"Historico"> | string | null
+    valorSimulacao?: FloatFilter<"Historico"> | number
+    propriedadeId?: IntFilter<"Historico"> | number
     createdAt?: DateTimeFilter<"Historico"> | Date | string
-    updatedAt?: DateTimeNullableFilter<"Historico"> | Date | string | null
+    updatedAt?: DateTimeFilter<"Historico"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Historico"> | Date | string | null
-    precipitacao?: XOR<PrecipitacaoNullableScalarRelationFilter, PrecipitacaoWhereInput> | null
-    solo?: XOR<SoloNullableScalarRelationFilter, SoloWhereInput> | null
+    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
   }, "id">
 
   export type HistoricoOrderByWithAggregationInput = {
     id?: SortOrder
     descricao?: SortOrderInput | SortOrder
+    valorSimulacao?: SortOrder
+    propriedadeId?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     _count?: HistoricoCountOrderByAggregateInput
     _avg?: HistoricoAvgOrderByAggregateInput
@@ -10411,8 +10339,10 @@ export namespace Prisma {
     NOT?: HistoricoScalarWhereWithAggregatesInput | HistoricoScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Historico"> | number
     descricao?: StringNullableWithAggregatesFilter<"Historico"> | string | null
+    valorSimulacao?: FloatWithAggregatesFilter<"Historico"> | number
+    propriedadeId?: IntWithAggregatesFilter<"Historico"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Historico"> | Date | string
-    updatedAt?: DateTimeNullableWithAggregatesFilter<"Historico"> | Date | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"Historico"> | Date | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Historico"> | Date | string | null
   }
 
@@ -10430,8 +10360,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Precipitacao"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
-    historicoId?: IntFilter<"Precipitacao"> | number
-    historico?: XOR<HistoricoScalarRelationFilter, HistoricoWhereInput>
   }
 
   export type PrecipitacaoOrderByWithRelationInput = {
@@ -10445,13 +10373,10 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    historicoId?: SortOrder
-    historico?: HistoricoOrderByWithRelationInput
   }
 
   export type PrecipitacaoWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    historicoId?: number
     AND?: PrecipitacaoWhereInput | PrecipitacaoWhereInput[]
     OR?: PrecipitacaoWhereInput[]
     NOT?: PrecipitacaoWhereInput | PrecipitacaoWhereInput[]
@@ -10464,8 +10389,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Precipitacao"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
-    historico?: XOR<HistoricoScalarRelationFilter, HistoricoWhereInput>
-  }, "id" | "historicoId">
+  }, "id">
 
   export type PrecipitacaoOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10478,7 +10402,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    historicoId?: SortOrder
     _count?: PrecipitacaoCountOrderByAggregateInput
     _avg?: PrecipitacaoAvgOrderByAggregateInput
     _max?: PrecipitacaoMaxOrderByAggregateInput
@@ -10500,7 +10423,6 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Precipitacao"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Precipitacao"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Precipitacao"> | Date | string | null
-    historicoId?: IntWithAggregatesFilter<"Precipitacao"> | number
   }
 
   export type SoloWhereInput = {
@@ -10518,8 +10440,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Solo"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
-    historicoId?: IntFilter<"Solo"> | number
-    historico?: XOR<HistoricoScalarRelationFilter, HistoricoWhereInput>
   }
 
   export type SoloOrderByWithRelationInput = {
@@ -10534,13 +10454,10 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    historicoId?: SortOrder
-    historico?: HistoricoOrderByWithRelationInput
   }
 
   export type SoloWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    historicoId?: number
     AND?: SoloWhereInput | SoloWhereInput[]
     OR?: SoloWhereInput[]
     NOT?: SoloWhereInput | SoloWhereInput[]
@@ -10554,8 +10471,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Solo"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
-    historico?: XOR<HistoricoScalarRelationFilter, HistoricoWhereInput>
-  }, "id" | "historicoId">
+  }, "id">
 
   export type SoloOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10569,7 +10485,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    historicoId?: SortOrder
     _count?: SoloCountOrderByAggregateInput
     _avg?: SoloAvgOrderByAggregateInput
     _max?: SoloMaxOrderByAggregateInput
@@ -10592,7 +10507,6 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Solo"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Solo"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Solo"> | Date | string | null
-    historicoId?: IntWithAggregatesFilter<"Solo"> | number
   }
 
   export type EstimativasWhereInput = {
@@ -10601,6 +10515,7 @@ export namespace Prisma {
     NOT?: EstimativasWhereInput | EstimativasWhereInput[]
     id?: IntFilter<"Estimativas"> | number
     valorTotal?: FloatFilter<"Estimativas"> | number
+    descricao?: StringNullableFilter<"Estimativas"> | string | null
     createdAt?: DateTimeFilter<"Estimativas"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
@@ -10611,11 +10526,13 @@ export namespace Prisma {
   export type EstimativasOrderByWithRelationInput = {
     id?: SortOrder
     valorTotal?: SortOrder
+    descricao?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     propriedadeId?: SortOrder
     propriedade?: PropriedadeOrderByWithRelationInput
+    _relevance?: EstimativasOrderByRelevanceInput
   }
 
   export type EstimativasWhereUniqueInput = Prisma.AtLeast<{
@@ -10624,6 +10541,7 @@ export namespace Prisma {
     OR?: EstimativasWhereInput[]
     NOT?: EstimativasWhereInput | EstimativasWhereInput[]
     valorTotal?: FloatFilter<"Estimativas"> | number
+    descricao?: StringNullableFilter<"Estimativas"> | string | null
     createdAt?: DateTimeFilter<"Estimativas"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
@@ -10634,6 +10552,7 @@ export namespace Prisma {
   export type EstimativasOrderByWithAggregationInput = {
     id?: SortOrder
     valorTotal?: SortOrder
+    descricao?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -10651,6 +10570,7 @@ export namespace Prisma {
     NOT?: EstimativasScalarWhereWithAggregatesInput | EstimativasScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Estimativas"> | number
     valorTotal?: FloatWithAggregatesFilter<"Estimativas"> | number
+    descricao?: StringNullableWithAggregatesFilter<"Estimativas"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Estimativas"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Estimativas"> | Date | string | null
@@ -10904,6 +10824,7 @@ export namespace Prisma {
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
     estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateInput = {
@@ -10920,6 +10841,7 @@ export namespace Prisma {
     adminId?: number | null
     estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUpdateInput = {
@@ -10935,6 +10857,7 @@ export namespace Prisma {
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
     estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateInput = {
@@ -10951,6 +10874,7 @@ export namespace Prisma {
     adminId?: NullableIntFieldUpdateOperationsInput | number | null
     estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeCreateManyInput = {
@@ -10995,62 +10919,67 @@ export namespace Prisma {
 
   export type HistoricoCreateInput = {
     descricao?: string | null
+    valorSimulacao: number
     createdAt?: Date | string
-    updatedAt?: Date | string | null
+    updatedAt?: Date | string
     deletedAt?: Date | string | null
-    precipitacao?: PrecipitacaoCreateNestedOneWithoutHistoricoInput
-    solo?: SoloCreateNestedOneWithoutHistoricoInput
+    propriedade: PropriedadeCreateNestedOneWithoutHistoricosInput
   }
 
   export type HistoricoUncheckedCreateInput = {
     id?: number
     descricao?: string | null
+    valorSimulacao: number
+    propriedadeId: number
     createdAt?: Date | string
-    updatedAt?: Date | string | null
+    updatedAt?: Date | string
     deletedAt?: Date | string | null
-    precipitacao?: PrecipitacaoUncheckedCreateNestedOneWithoutHistoricoInput
-    solo?: SoloUncheckedCreateNestedOneWithoutHistoricoInput
   }
 
   export type HistoricoUpdateInput = {
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    valorSimulacao?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    precipitacao?: PrecipitacaoUpdateOneWithoutHistoricoNestedInput
-    solo?: SoloUpdateOneWithoutHistoricoNestedInput
+    propriedade?: PropriedadeUpdateOneRequiredWithoutHistoricosNestedInput
   }
 
   export type HistoricoUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    valorSimulacao?: FloatFieldUpdateOperationsInput | number
+    propriedadeId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    precipitacao?: PrecipitacaoUncheckedUpdateOneWithoutHistoricoNestedInput
-    solo?: SoloUncheckedUpdateOneWithoutHistoricoNestedInput
   }
 
   export type HistoricoCreateManyInput = {
     id?: number
     descricao?: string | null
+    valorSimulacao: number
+    propriedadeId: number
     createdAt?: Date | string
-    updatedAt?: Date | string | null
+    updatedAt?: Date | string
     deletedAt?: Date | string | null
   }
 
   export type HistoricoUpdateManyMutationInput = {
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    valorSimulacao?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type HistoricoUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    valorSimulacao?: FloatFieldUpdateOperationsInput | number
+    propriedadeId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -11064,7 +10993,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    historico: HistoricoCreateNestedOneWithoutPrecipitacaoInput
   }
 
   export type PrecipitacaoUncheckedCreateInput = {
@@ -11078,7 +11006,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    historicoId: number
   }
 
   export type PrecipitacaoUpdateInput = {
@@ -11091,7 +11018,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    historico?: HistoricoUpdateOneRequiredWithoutPrecipitacaoNestedInput
   }
 
   export type PrecipitacaoUncheckedUpdateInput = {
@@ -11105,7 +11031,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    historicoId?: IntFieldUpdateOperationsInput | number
   }
 
   export type PrecipitacaoCreateManyInput = {
@@ -11119,7 +11044,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    historicoId: number
   }
 
   export type PrecipitacaoUpdateManyMutationInput = {
@@ -11145,7 +11069,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    historicoId?: IntFieldUpdateOperationsInput | number
   }
 
   export type SoloCreateInput = {
@@ -11159,7 +11082,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    historico: HistoricoCreateNestedOneWithoutSoloInput
   }
 
   export type SoloUncheckedCreateInput = {
@@ -11174,7 +11096,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    historicoId: number
   }
 
   export type SoloUpdateInput = {
@@ -11188,7 +11109,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    historico?: HistoricoUpdateOneRequiredWithoutSoloNestedInput
   }
 
   export type SoloUncheckedUpdateInput = {
@@ -11203,7 +11123,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    historicoId?: IntFieldUpdateOperationsInput | number
   }
 
   export type SoloCreateManyInput = {
@@ -11218,7 +11137,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    historicoId: number
   }
 
   export type SoloUpdateManyMutationInput = {
@@ -11246,11 +11164,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    historicoId?: IntFieldUpdateOperationsInput | number
   }
 
   export type EstimativasCreateInput = {
     valorTotal: number
+    descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -11260,6 +11178,7 @@ export namespace Prisma {
   export type EstimativasUncheckedCreateInput = {
     id?: number
     valorTotal: number
+    descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -11268,6 +11187,7 @@ export namespace Prisma {
 
   export type EstimativasUpdateInput = {
     valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11277,6 +11197,7 @@ export namespace Prisma {
   export type EstimativasUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11286,6 +11207,7 @@ export namespace Prisma {
   export type EstimativasCreateManyInput = {
     id?: number
     valorTotal: number
+    descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -11294,6 +11216,7 @@ export namespace Prisma {
 
   export type EstimativasUpdateManyMutationInput = {
     valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11302,6 +11225,7 @@ export namespace Prisma {
   export type EstimativasUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11716,11 +11640,21 @@ export namespace Prisma {
     none?: SimulacaoWhereInput
   }
 
+  export type HistoricoListRelationFilter = {
+    every?: HistoricoWhereInput
+    some?: HistoricoWhereInput
+    none?: HistoricoWhereInput
+  }
+
   export type EstimativasOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type SimulacaoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type HistoricoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11804,14 +11738,9 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type PrecipitacaoNullableScalarRelationFilter = {
-    is?: PrecipitacaoWhereInput | null
-    isNot?: PrecipitacaoWhereInput | null
-  }
-
-  export type SoloNullableScalarRelationFilter = {
-    is?: SoloWhereInput | null
-    isNot?: SoloWhereInput | null
+  export type PropriedadeScalarRelationFilter = {
+    is?: PropriedadeWhereInput
+    isNot?: PropriedadeWhereInput
   }
 
   export type HistoricoOrderByRelevanceInput = {
@@ -11823,6 +11752,8 @@ export namespace Prisma {
   export type HistoricoCountOrderByAggregateInput = {
     id?: SortOrder
     descricao?: SortOrder
+    valorSimulacao?: SortOrder
+    propriedadeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -11830,11 +11761,15 @@ export namespace Prisma {
 
   export type HistoricoAvgOrderByAggregateInput = {
     id?: SortOrder
+    valorSimulacao?: SortOrder
+    propriedadeId?: SortOrder
   }
 
   export type HistoricoMaxOrderByAggregateInput = {
     id?: SortOrder
     descricao?: SortOrder
+    valorSimulacao?: SortOrder
+    propriedadeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -11843,6 +11778,8 @@ export namespace Prisma {
   export type HistoricoMinOrderByAggregateInput = {
     id?: SortOrder
     descricao?: SortOrder
+    valorSimulacao?: SortOrder
+    propriedadeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -11850,11 +11787,8 @@ export namespace Prisma {
 
   export type HistoricoSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-
-  export type HistoricoScalarRelationFilter = {
-    is?: HistoricoWhereInput
-    isNot?: HistoricoWhereInput
+    valorSimulacao?: SortOrder
+    propriedadeId?: SortOrder
   }
 
   export type PrecipitacaoCountOrderByAggregateInput = {
@@ -11868,7 +11802,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    historicoId?: SortOrder
   }
 
   export type PrecipitacaoAvgOrderByAggregateInput = {
@@ -11879,7 +11812,6 @@ export namespace Prisma {
     cvDia?: SortOrder
     mmMes?: SortOrder
     cvMes?: SortOrder
-    historicoId?: SortOrder
   }
 
   export type PrecipitacaoMaxOrderByAggregateInput = {
@@ -11893,7 +11825,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    historicoId?: SortOrder
   }
 
   export type PrecipitacaoMinOrderByAggregateInput = {
@@ -11907,7 +11838,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    historicoId?: SortOrder
   }
 
   export type PrecipitacaoSumOrderByAggregateInput = {
@@ -11918,7 +11848,6 @@ export namespace Prisma {
     cvDia?: SortOrder
     mmMes?: SortOrder
     cvMes?: SortOrder
-    historicoId?: SortOrder
   }
 
   export type SoloCountOrderByAggregateInput = {
@@ -11933,7 +11862,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    historicoId?: SortOrder
   }
 
   export type SoloAvgOrderByAggregateInput = {
@@ -11945,7 +11873,6 @@ export namespace Prisma {
     agua0Bar?: SortOrder
     agua13Bar?: SortOrder
     agua15Bar?: SortOrder
-    historicoId?: SortOrder
   }
 
   export type SoloMaxOrderByAggregateInput = {
@@ -11960,7 +11887,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    historicoId?: SortOrder
   }
 
   export type SoloMinOrderByAggregateInput = {
@@ -11975,7 +11901,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    historicoId?: SortOrder
   }
 
   export type SoloSumOrderByAggregateInput = {
@@ -11987,12 +11912,18 @@ export namespace Prisma {
     agua0Bar?: SortOrder
     agua13Bar?: SortOrder
     agua15Bar?: SortOrder
-    historicoId?: SortOrder
+  }
+
+  export type EstimativasOrderByRelevanceInput = {
+    fields: EstimativasOrderByRelevanceFieldEnum | EstimativasOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
   }
 
   export type EstimativasCountOrderByAggregateInput = {
     id?: SortOrder
     valorTotal?: SortOrder
+    descricao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -12008,6 +11939,7 @@ export namespace Prisma {
   export type EstimativasMaxOrderByAggregateInput = {
     id?: SortOrder
     valorTotal?: SortOrder
+    descricao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -12017,6 +11949,7 @@ export namespace Prisma {
   export type EstimativasMinOrderByAggregateInput = {
     id?: SortOrder
     valorTotal?: SortOrder
+    descricao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -12050,11 +11983,6 @@ export namespace Prisma {
     gt?: InputJsonValue
     gte?: InputJsonValue
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type PropriedadeScalarRelationFilter = {
-    is?: PropriedadeWhereInput
-    isNot?: PropriedadeWhereInput
   }
 
   export type SimulacaoCountOrderByAggregateInput = {
@@ -12272,6 +12200,13 @@ export namespace Prisma {
     connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
   }
 
+  export type HistoricoCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<HistoricoCreateWithoutPropriedadeInput, HistoricoUncheckedCreateWithoutPropriedadeInput> | HistoricoCreateWithoutPropriedadeInput[] | HistoricoUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: HistoricoCreateOrConnectWithoutPropriedadeInput | HistoricoCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: HistoricoCreateManyPropriedadeInputEnvelope
+    connect?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
+  }
+
   export type EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput = {
     create?: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput> | EstimativasCreateWithoutPropriedadeInput[] | EstimativasUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: EstimativasCreateOrConnectWithoutPropriedadeInput | EstimativasCreateOrConnectWithoutPropriedadeInput[]
@@ -12284,6 +12219,13 @@ export namespace Prisma {
     connectOrCreate?: SimulacaoCreateOrConnectWithoutPropriedadeInput | SimulacaoCreateOrConnectWithoutPropriedadeInput[]
     createMany?: SimulacaoCreateManyPropriedadeInputEnvelope
     connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+  }
+
+  export type HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<HistoricoCreateWithoutPropriedadeInput, HistoricoUncheckedCreateWithoutPropriedadeInput> | HistoricoCreateWithoutPropriedadeInput[] | HistoricoUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: HistoricoCreateOrConnectWithoutPropriedadeInput | HistoricoCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: HistoricoCreateManyPropriedadeInputEnvelope
+    connect?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -12332,6 +12274,20 @@ export namespace Prisma {
     deleteMany?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
   }
 
+  export type HistoricoUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<HistoricoCreateWithoutPropriedadeInput, HistoricoUncheckedCreateWithoutPropriedadeInput> | HistoricoCreateWithoutPropriedadeInput[] | HistoricoUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: HistoricoCreateOrConnectWithoutPropriedadeInput | HistoricoCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: HistoricoUpsertWithWhereUniqueWithoutPropriedadeInput | HistoricoUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: HistoricoCreateManyPropriedadeInputEnvelope
+    set?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
+    disconnect?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
+    delete?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
+    connect?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
+    update?: HistoricoUpdateWithWhereUniqueWithoutPropriedadeInput | HistoricoUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: HistoricoUpdateManyWithWhereWithoutPropriedadeInput | HistoricoUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
+  }
+
   export type EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput = {
     create?: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput> | EstimativasCreateWithoutPropriedadeInput[] | EstimativasUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: EstimativasCreateOrConnectWithoutPropriedadeInput | EstimativasCreateOrConnectWithoutPropriedadeInput[]
@@ -12360,96 +12316,32 @@ export namespace Prisma {
     deleteMany?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
   }
 
-  export type PrecipitacaoCreateNestedOneWithoutHistoricoInput = {
-    create?: XOR<PrecipitacaoCreateWithoutHistoricoInput, PrecipitacaoUncheckedCreateWithoutHistoricoInput>
-    connectOrCreate?: PrecipitacaoCreateOrConnectWithoutHistoricoInput
-    connect?: PrecipitacaoWhereUniqueInput
+  export type HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<HistoricoCreateWithoutPropriedadeInput, HistoricoUncheckedCreateWithoutPropriedadeInput> | HistoricoCreateWithoutPropriedadeInput[] | HistoricoUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: HistoricoCreateOrConnectWithoutPropriedadeInput | HistoricoCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: HistoricoUpsertWithWhereUniqueWithoutPropriedadeInput | HistoricoUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: HistoricoCreateManyPropriedadeInputEnvelope
+    set?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
+    disconnect?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
+    delete?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
+    connect?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
+    update?: HistoricoUpdateWithWhereUniqueWithoutPropriedadeInput | HistoricoUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: HistoricoUpdateManyWithWhereWithoutPropriedadeInput | HistoricoUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
   }
 
-  export type SoloCreateNestedOneWithoutHistoricoInput = {
-    create?: XOR<SoloCreateWithoutHistoricoInput, SoloUncheckedCreateWithoutHistoricoInput>
-    connectOrCreate?: SoloCreateOrConnectWithoutHistoricoInput
-    connect?: SoloWhereUniqueInput
+  export type PropriedadeCreateNestedOneWithoutHistoricosInput = {
+    create?: XOR<PropriedadeCreateWithoutHistoricosInput, PropriedadeUncheckedCreateWithoutHistoricosInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutHistoricosInput
+    connect?: PropriedadeWhereUniqueInput
   }
 
-  export type PrecipitacaoUncheckedCreateNestedOneWithoutHistoricoInput = {
-    create?: XOR<PrecipitacaoCreateWithoutHistoricoInput, PrecipitacaoUncheckedCreateWithoutHistoricoInput>
-    connectOrCreate?: PrecipitacaoCreateOrConnectWithoutHistoricoInput
-    connect?: PrecipitacaoWhereUniqueInput
-  }
-
-  export type SoloUncheckedCreateNestedOneWithoutHistoricoInput = {
-    create?: XOR<SoloCreateWithoutHistoricoInput, SoloUncheckedCreateWithoutHistoricoInput>
-    connectOrCreate?: SoloCreateOrConnectWithoutHistoricoInput
-    connect?: SoloWhereUniqueInput
-  }
-
-  export type PrecipitacaoUpdateOneWithoutHistoricoNestedInput = {
-    create?: XOR<PrecipitacaoCreateWithoutHistoricoInput, PrecipitacaoUncheckedCreateWithoutHistoricoInput>
-    connectOrCreate?: PrecipitacaoCreateOrConnectWithoutHistoricoInput
-    upsert?: PrecipitacaoUpsertWithoutHistoricoInput
-    disconnect?: PrecipitacaoWhereInput | boolean
-    delete?: PrecipitacaoWhereInput | boolean
-    connect?: PrecipitacaoWhereUniqueInput
-    update?: XOR<XOR<PrecipitacaoUpdateToOneWithWhereWithoutHistoricoInput, PrecipitacaoUpdateWithoutHistoricoInput>, PrecipitacaoUncheckedUpdateWithoutHistoricoInput>
-  }
-
-  export type SoloUpdateOneWithoutHistoricoNestedInput = {
-    create?: XOR<SoloCreateWithoutHistoricoInput, SoloUncheckedCreateWithoutHistoricoInput>
-    connectOrCreate?: SoloCreateOrConnectWithoutHistoricoInput
-    upsert?: SoloUpsertWithoutHistoricoInput
-    disconnect?: SoloWhereInput | boolean
-    delete?: SoloWhereInput | boolean
-    connect?: SoloWhereUniqueInput
-    update?: XOR<XOR<SoloUpdateToOneWithWhereWithoutHistoricoInput, SoloUpdateWithoutHistoricoInput>, SoloUncheckedUpdateWithoutHistoricoInput>
-  }
-
-  export type PrecipitacaoUncheckedUpdateOneWithoutHistoricoNestedInput = {
-    create?: XOR<PrecipitacaoCreateWithoutHistoricoInput, PrecipitacaoUncheckedCreateWithoutHistoricoInput>
-    connectOrCreate?: PrecipitacaoCreateOrConnectWithoutHistoricoInput
-    upsert?: PrecipitacaoUpsertWithoutHistoricoInput
-    disconnect?: PrecipitacaoWhereInput | boolean
-    delete?: PrecipitacaoWhereInput | boolean
-    connect?: PrecipitacaoWhereUniqueInput
-    update?: XOR<XOR<PrecipitacaoUpdateToOneWithWhereWithoutHistoricoInput, PrecipitacaoUpdateWithoutHistoricoInput>, PrecipitacaoUncheckedUpdateWithoutHistoricoInput>
-  }
-
-  export type SoloUncheckedUpdateOneWithoutHistoricoNestedInput = {
-    create?: XOR<SoloCreateWithoutHistoricoInput, SoloUncheckedCreateWithoutHistoricoInput>
-    connectOrCreate?: SoloCreateOrConnectWithoutHistoricoInput
-    upsert?: SoloUpsertWithoutHistoricoInput
-    disconnect?: SoloWhereInput | boolean
-    delete?: SoloWhereInput | boolean
-    connect?: SoloWhereUniqueInput
-    update?: XOR<XOR<SoloUpdateToOneWithWhereWithoutHistoricoInput, SoloUpdateWithoutHistoricoInput>, SoloUncheckedUpdateWithoutHistoricoInput>
-  }
-
-  export type HistoricoCreateNestedOneWithoutPrecipitacaoInput = {
-    create?: XOR<HistoricoCreateWithoutPrecipitacaoInput, HistoricoUncheckedCreateWithoutPrecipitacaoInput>
-    connectOrCreate?: HistoricoCreateOrConnectWithoutPrecipitacaoInput
-    connect?: HistoricoWhereUniqueInput
-  }
-
-  export type HistoricoUpdateOneRequiredWithoutPrecipitacaoNestedInput = {
-    create?: XOR<HistoricoCreateWithoutPrecipitacaoInput, HistoricoUncheckedCreateWithoutPrecipitacaoInput>
-    connectOrCreate?: HistoricoCreateOrConnectWithoutPrecipitacaoInput
-    upsert?: HistoricoUpsertWithoutPrecipitacaoInput
-    connect?: HistoricoWhereUniqueInput
-    update?: XOR<XOR<HistoricoUpdateToOneWithWhereWithoutPrecipitacaoInput, HistoricoUpdateWithoutPrecipitacaoInput>, HistoricoUncheckedUpdateWithoutPrecipitacaoInput>
-  }
-
-  export type HistoricoCreateNestedOneWithoutSoloInput = {
-    create?: XOR<HistoricoCreateWithoutSoloInput, HistoricoUncheckedCreateWithoutSoloInput>
-    connectOrCreate?: HistoricoCreateOrConnectWithoutSoloInput
-    connect?: HistoricoWhereUniqueInput
-  }
-
-  export type HistoricoUpdateOneRequiredWithoutSoloNestedInput = {
-    create?: XOR<HistoricoCreateWithoutSoloInput, HistoricoUncheckedCreateWithoutSoloInput>
-    connectOrCreate?: HistoricoCreateOrConnectWithoutSoloInput
-    upsert?: HistoricoUpsertWithoutSoloInput
-    connect?: HistoricoWhereUniqueInput
-    update?: XOR<XOR<HistoricoUpdateToOneWithWhereWithoutSoloInput, HistoricoUpdateWithoutSoloInput>, HistoricoUncheckedUpdateWithoutSoloInput>
+  export type PropriedadeUpdateOneRequiredWithoutHistoricosNestedInput = {
+    create?: XOR<PropriedadeCreateWithoutHistoricosInput, PropriedadeUncheckedCreateWithoutHistoricosInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutHistoricosInput
+    upsert?: PropriedadeUpsertWithoutHistoricosInput
+    connect?: PropriedadeWhereUniqueInput
+    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutHistoricosInput, PropriedadeUpdateWithoutHistoricosInput>, PropriedadeUncheckedUpdateWithoutHistoricosInput>
   }
 
   export type PropriedadeCreateNestedOneWithoutEstimativasInput = {
@@ -12762,6 +12654,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutAdminInput = {
@@ -12777,6 +12670,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutAdminInput = {
@@ -12837,6 +12731,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutAdminInput = {
@@ -12852,6 +12747,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type AdminCreateWithoutTipoUserInput = {
@@ -12953,6 +12849,7 @@ export namespace Prisma {
 
   export type EstimativasCreateWithoutPropriedadeInput = {
     valorTotal: number
+    descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -12961,6 +12858,7 @@ export namespace Prisma {
   export type EstimativasUncheckedCreateWithoutPropriedadeInput = {
     id?: number
     valorTotal: number
+    descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -13002,6 +12900,33 @@ export namespace Prisma {
 
   export type SimulacaoCreateManyPropriedadeInputEnvelope = {
     data: SimulacaoCreateManyPropriedadeInput | SimulacaoCreateManyPropriedadeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type HistoricoCreateWithoutPropriedadeInput = {
+    descricao?: string | null
+    valorSimulacao: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type HistoricoUncheckedCreateWithoutPropriedadeInput = {
+    id?: number
+    descricao?: string | null
+    valorSimulacao: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type HistoricoCreateOrConnectWithoutPropriedadeInput = {
+    where: HistoricoWhereUniqueInput
+    create: XOR<HistoricoCreateWithoutPropriedadeInput, HistoricoUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type HistoricoCreateManyPropriedadeInputEnvelope = {
+    data: HistoricoCreateManyPropriedadeInput | HistoricoCreateManyPropriedadeInput[]
     skipDuplicates?: boolean
   }
 
@@ -13063,6 +12988,7 @@ export namespace Prisma {
     NOT?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
     id?: IntFilter<"Estimativas"> | number
     valorTotal?: FloatFilter<"Estimativas"> | number
+    descricao?: StringNullableFilter<"Estimativas"> | string | null
     createdAt?: DateTimeFilter<"Estimativas"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
@@ -13099,240 +13025,111 @@ export namespace Prisma {
     propriedadeId?: IntFilter<"Simulacao"> | number
   }
 
-  export type PrecipitacaoCreateWithoutHistoricoInput = {
-    mmAno: number
-    chuvas: number
-    mmDia: number
-    cvDia: number
-    mmMes: number
-    cvMes: number
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-  }
-
-  export type PrecipitacaoUncheckedCreateWithoutHistoricoInput = {
-    id?: number
-    mmAno: number
-    chuvas: number
-    mmDia: number
-    cvDia: number
-    mmMes: number
-    cvMes: number
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-  }
-
-  export type PrecipitacaoCreateOrConnectWithoutHistoricoInput = {
-    where: PrecipitacaoWhereUniqueInput
-    create: XOR<PrecipitacaoCreateWithoutHistoricoInput, PrecipitacaoUncheckedCreateWithoutHistoricoInput>
-  }
-
-  export type SoloCreateWithoutHistoricoInput = {
-    profundidade: number
-    fatorRocha: number
-    condutHidraulicaSaturada: number
-    densidadeAparente: number
-    agua0Bar: number
-    agua13Bar: number
-    agua15Bar: number
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-  }
-
-  export type SoloUncheckedCreateWithoutHistoricoInput = {
-    id?: number
-    profundidade: number
-    fatorRocha: number
-    condutHidraulicaSaturada: number
-    densidadeAparente: number
-    agua0Bar: number
-    agua13Bar: number
-    agua15Bar: number
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-  }
-
-  export type SoloCreateOrConnectWithoutHistoricoInput = {
-    where: SoloWhereUniqueInput
-    create: XOR<SoloCreateWithoutHistoricoInput, SoloUncheckedCreateWithoutHistoricoInput>
-  }
-
-  export type PrecipitacaoUpsertWithoutHistoricoInput = {
-    update: XOR<PrecipitacaoUpdateWithoutHistoricoInput, PrecipitacaoUncheckedUpdateWithoutHistoricoInput>
-    create: XOR<PrecipitacaoCreateWithoutHistoricoInput, PrecipitacaoUncheckedCreateWithoutHistoricoInput>
-    where?: PrecipitacaoWhereInput
-  }
-
-  export type PrecipitacaoUpdateToOneWithWhereWithoutHistoricoInput = {
-    where?: PrecipitacaoWhereInput
-    data: XOR<PrecipitacaoUpdateWithoutHistoricoInput, PrecipitacaoUncheckedUpdateWithoutHistoricoInput>
-  }
-
-  export type PrecipitacaoUpdateWithoutHistoricoInput = {
-    mmAno?: FloatFieldUpdateOperationsInput | number
-    chuvas?: FloatFieldUpdateOperationsInput | number
-    mmDia?: FloatFieldUpdateOperationsInput | number
-    cvDia?: FloatFieldUpdateOperationsInput | number
-    mmMes?: FloatFieldUpdateOperationsInput | number
-    cvMes?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type PrecipitacaoUncheckedUpdateWithoutHistoricoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    mmAno?: FloatFieldUpdateOperationsInput | number
-    chuvas?: FloatFieldUpdateOperationsInput | number
-    mmDia?: FloatFieldUpdateOperationsInput | number
-    cvDia?: FloatFieldUpdateOperationsInput | number
-    mmMes?: FloatFieldUpdateOperationsInput | number
-    cvMes?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type SoloUpsertWithoutHistoricoInput = {
-    update: XOR<SoloUpdateWithoutHistoricoInput, SoloUncheckedUpdateWithoutHistoricoInput>
-    create: XOR<SoloCreateWithoutHistoricoInput, SoloUncheckedCreateWithoutHistoricoInput>
-    where?: SoloWhereInput
-  }
-
-  export type SoloUpdateToOneWithWhereWithoutHistoricoInput = {
-    where?: SoloWhereInput
-    data: XOR<SoloUpdateWithoutHistoricoInput, SoloUncheckedUpdateWithoutHistoricoInput>
-  }
-
-  export type SoloUpdateWithoutHistoricoInput = {
-    profundidade?: FloatFieldUpdateOperationsInput | number
-    fatorRocha?: FloatFieldUpdateOperationsInput | number
-    condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
-    densidadeAparente?: FloatFieldUpdateOperationsInput | number
-    agua0Bar?: FloatFieldUpdateOperationsInput | number
-    agua13Bar?: FloatFieldUpdateOperationsInput | number
-    agua15Bar?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type SoloUncheckedUpdateWithoutHistoricoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    profundidade?: FloatFieldUpdateOperationsInput | number
-    fatorRocha?: FloatFieldUpdateOperationsInput | number
-    condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
-    densidadeAparente?: FloatFieldUpdateOperationsInput | number
-    agua0Bar?: FloatFieldUpdateOperationsInput | number
-    agua13Bar?: FloatFieldUpdateOperationsInput | number
-    agua15Bar?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type HistoricoCreateWithoutPrecipitacaoInput = {
-    descricao?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    solo?: SoloCreateNestedOneWithoutHistoricoInput
-  }
-
-  export type HistoricoUncheckedCreateWithoutPrecipitacaoInput = {
-    id?: number
-    descricao?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    solo?: SoloUncheckedCreateNestedOneWithoutHistoricoInput
-  }
-
-  export type HistoricoCreateOrConnectWithoutPrecipitacaoInput = {
+  export type HistoricoUpsertWithWhereUniqueWithoutPropriedadeInput = {
     where: HistoricoWhereUniqueInput
-    create: XOR<HistoricoCreateWithoutPrecipitacaoInput, HistoricoUncheckedCreateWithoutPrecipitacaoInput>
+    update: XOR<HistoricoUpdateWithoutPropriedadeInput, HistoricoUncheckedUpdateWithoutPropriedadeInput>
+    create: XOR<HistoricoCreateWithoutPropriedadeInput, HistoricoUncheckedCreateWithoutPropriedadeInput>
   }
 
-  export type HistoricoUpsertWithoutPrecipitacaoInput = {
-    update: XOR<HistoricoUpdateWithoutPrecipitacaoInput, HistoricoUncheckedUpdateWithoutPrecipitacaoInput>
-    create: XOR<HistoricoCreateWithoutPrecipitacaoInput, HistoricoUncheckedCreateWithoutPrecipitacaoInput>
-    where?: HistoricoWhereInput
-  }
-
-  export type HistoricoUpdateToOneWithWhereWithoutPrecipitacaoInput = {
-    where?: HistoricoWhereInput
-    data: XOR<HistoricoUpdateWithoutPrecipitacaoInput, HistoricoUncheckedUpdateWithoutPrecipitacaoInput>
-  }
-
-  export type HistoricoUpdateWithoutPrecipitacaoInput = {
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    solo?: SoloUpdateOneWithoutHistoricoNestedInput
-  }
-
-  export type HistoricoUncheckedUpdateWithoutPrecipitacaoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    solo?: SoloUncheckedUpdateOneWithoutHistoricoNestedInput
-  }
-
-  export type HistoricoCreateWithoutSoloInput = {
-    descricao?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    precipitacao?: PrecipitacaoCreateNestedOneWithoutHistoricoInput
-  }
-
-  export type HistoricoUncheckedCreateWithoutSoloInput = {
-    id?: number
-    descricao?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    precipitacao?: PrecipitacaoUncheckedCreateNestedOneWithoutHistoricoInput
-  }
-
-  export type HistoricoCreateOrConnectWithoutSoloInput = {
+  export type HistoricoUpdateWithWhereUniqueWithoutPropriedadeInput = {
     where: HistoricoWhereUniqueInput
-    create: XOR<HistoricoCreateWithoutSoloInput, HistoricoUncheckedCreateWithoutSoloInput>
+    data: XOR<HistoricoUpdateWithoutPropriedadeInput, HistoricoUncheckedUpdateWithoutPropriedadeInput>
   }
 
-  export type HistoricoUpsertWithoutSoloInput = {
-    update: XOR<HistoricoUpdateWithoutSoloInput, HistoricoUncheckedUpdateWithoutSoloInput>
-    create: XOR<HistoricoCreateWithoutSoloInput, HistoricoUncheckedCreateWithoutSoloInput>
-    where?: HistoricoWhereInput
+  export type HistoricoUpdateManyWithWhereWithoutPropriedadeInput = {
+    where: HistoricoScalarWhereInput
+    data: XOR<HistoricoUpdateManyMutationInput, HistoricoUncheckedUpdateManyWithoutPropriedadeInput>
   }
 
-  export type HistoricoUpdateToOneWithWhereWithoutSoloInput = {
-    where?: HistoricoWhereInput
-    data: XOR<HistoricoUpdateWithoutSoloInput, HistoricoUncheckedUpdateWithoutSoloInput>
+  export type HistoricoScalarWhereInput = {
+    AND?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
+    OR?: HistoricoScalarWhereInput[]
+    NOT?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
+    id?: IntFilter<"Historico"> | number
+    descricao?: StringNullableFilter<"Historico"> | string | null
+    valorSimulacao?: FloatFilter<"Historico"> | number
+    propriedadeId?: IntFilter<"Historico"> | number
+    createdAt?: DateTimeFilter<"Historico"> | Date | string
+    updatedAt?: DateTimeFilter<"Historico"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Historico"> | Date | string | null
   }
 
-  export type HistoricoUpdateWithoutSoloInput = {
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+  export type PropriedadeCreateWithoutHistoricosInput = {
+    nomeProprietario: string
+    nomePropriedade: string
+    latitude: number
+    longitude: number
+    altitude: number
+    simulacao: string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    admin?: AdminCreateNestedOneWithoutPropriedadeInput
+    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeUncheckedCreateWithoutHistoricosInput = {
+    id?: number
+    nomeProprietario: string
+    nomePropriedade: string
+    latitude: number
+    longitude: number
+    altitude: number
+    simulacao: string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    adminId?: number | null
+    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeCreateOrConnectWithoutHistoricosInput = {
+    where: PropriedadeWhereUniqueInput
+    create: XOR<PropriedadeCreateWithoutHistoricosInput, PropriedadeUncheckedCreateWithoutHistoricosInput>
+  }
+
+  export type PropriedadeUpsertWithoutHistoricosInput = {
+    update: XOR<PropriedadeUpdateWithoutHistoricosInput, PropriedadeUncheckedUpdateWithoutHistoricosInput>
+    create: XOR<PropriedadeCreateWithoutHistoricosInput, PropriedadeUncheckedCreateWithoutHistoricosInput>
+    where?: PropriedadeWhereInput
+  }
+
+  export type PropriedadeUpdateToOneWithWhereWithoutHistoricosInput = {
+    where?: PropriedadeWhereInput
+    data: XOR<PropriedadeUpdateWithoutHistoricosInput, PropriedadeUncheckedUpdateWithoutHistoricosInput>
+  }
+
+  export type PropriedadeUpdateWithoutHistoricosInput = {
+    nomeProprietario?: StringFieldUpdateOperationsInput | string
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    altitude?: FloatFieldUpdateOperationsInput | number
+    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    precipitacao?: PrecipitacaoUpdateOneWithoutHistoricoNestedInput
+    admin?: AdminUpdateOneWithoutPropriedadeNestedInput
+    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
   }
 
-  export type HistoricoUncheckedUpdateWithoutSoloInput = {
+  export type PropriedadeUncheckedUpdateWithoutHistoricosInput = {
     id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    nomeProprietario?: StringFieldUpdateOperationsInput | string
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    altitude?: FloatFieldUpdateOperationsInput | number
+    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    precipitacao?: PrecipitacaoUncheckedUpdateOneWithoutHistoricoNestedInput
+    adminId?: NullableIntFieldUpdateOperationsInput | number | null
+    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeCreateWithoutEstimativasInput = {
@@ -13347,6 +13144,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutEstimativasInput = {
@@ -13362,6 +13160,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     adminId?: number | null
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutEstimativasInput = {
@@ -13392,6 +13191,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutEstimativasInput = {
@@ -13407,6 +13207,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     adminId?: NullableIntFieldUpdateOperationsInput | number | null
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeCreateWithoutSimulacoesInput = {
@@ -13421,6 +13222,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
     estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutSimulacoesInput = {
@@ -13436,6 +13238,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     adminId?: number | null
     estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutSimulacoesInput = {
@@ -13466,6 +13269,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
     estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutSimulacoesInput = {
@@ -13481,6 +13285,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     adminId?: NullableIntFieldUpdateOperationsInput | number | null
     estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type AdminCreateManyTipoUserInput = {
@@ -13535,6 +13340,7 @@ export namespace Prisma {
   export type EstimativasCreateManyPropriedadeInput = {
     id?: number
     valorTotal: number
+    descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -13550,8 +13356,18 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
+  export type HistoricoCreateManyPropriedadeInput = {
+    id?: number
+    descricao?: string | null
+    valorSimulacao: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
   export type EstimativasUpdateWithoutPropriedadeInput = {
     valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13560,6 +13376,7 @@ export namespace Prisma {
   export type EstimativasUncheckedUpdateWithoutPropriedadeInput = {
     id?: IntFieldUpdateOperationsInput | number
     valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13568,6 +13385,7 @@ export namespace Prisma {
   export type EstimativasUncheckedUpdateManyWithoutPropriedadeInput = {
     id?: IntFieldUpdateOperationsInput | number
     valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13599,6 +13417,32 @@ export namespace Prisma {
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type HistoricoUpdateWithoutPropriedadeInput = {
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    valorSimulacao?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type HistoricoUncheckedUpdateWithoutPropriedadeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    valorSimulacao?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type HistoricoUncheckedUpdateManyWithoutPropriedadeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    valorSimulacao?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 

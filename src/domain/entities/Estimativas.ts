@@ -4,7 +4,7 @@ import { Propriedade } from "./Propriedade";
 type EstimativasProps = {
   id?: number;
   valorTotal: number;
-  descricao?: string;
+  descricao: string;
   propriedadeId: number;
   propriedade?: Propriedade;
   createdAt?: Date;
@@ -27,8 +27,8 @@ export class Estimativas {
     });
   }
 
-  static with(props: Partial<EstimativasProps>): Estimativas {
-    return new Estimativas(props as EstimativasProps);
+  static with(props: EstimativasProps): Estimativas {
+    return new Estimativas(props);
   }
 
   get id(): number | undefined {
@@ -37,7 +37,7 @@ export class Estimativas {
   get valorTotal(): number {
     return this.props.valorTotal;
   }
-    get descricao(): string | undefined {
+    get descricao(): string {
         return this.props.descricao;
     }
   get propriedadeId(): number {

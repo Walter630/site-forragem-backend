@@ -4,167 +4,144 @@ import { Estimativas } from "../../domain/entities/Estimativas";
 import { Propriedade } from "../../domain/entities/Propriedade";
 
 export class EstimativasRepositories implements IEstimativasRepositories {
-    constructor(private readonly prisma: PrismaClient = new PrismaClient()) {}
+  constructor(private readonly prisma: PrismaClient = new PrismaClient()) {}
 
-    async findAll(): Promise<Estimativas[]> {
-        const estimativas = await this.prisma.estimativas.findMany({
-            include: {
-                propriedade: {
-                    include: {
-                        admin: true // Se você quiser dados do admin associados
-                    }
-                }
-            }
-        });
+  // Mapper privado para conversão do Prisma para entidade de domínio
+  private mapToDomain(data: any): Estimativas {
+    return Estimativas.with({
+      ...data,
+      propriedade: data.propriedade
+        ? Propriedade.with({
+            ...data.propriedade,
+            adminId: data.propriedade.adminId ?? undefined,
+            admin: data.propriedade.admin ?? undefined,
+            updatedAt: data.propriedade.updatedAt ?? undefined,
+            deletedAt: data.propriedade.deletedAt ?? undefined,
+          })
+        : undefined,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt ?? new Date(),
+      deletedAt: data.deletedAt ?? null,
+    });
+  }
 
-        return estimativas.map(e =>
-            Estimativas.with({
-                ...e,
-                propriedade: e.propriedade
-                    ? Propriedade.with({
-                        ...e.propriedade,
-                        adminId: e.propriedade.adminId ?? undefined,
-                        admin: e.propriedade.admin ?? undefined,
-                        updatedAt: e.propriedade.updatedAt ?? undefined,
-                    })
-                    : undefined,
-                createdAt: e.createdAt,
-                updatedAt: e.updatedAt ?? new Date(),
-            })
-        );
+  async findAll(): Promise<Estimativas[]> {
+    try {
+      const estimativas = await this.prisma.estimativas.findMany({
+        include: {
+          propriedade: {
+            include: { admin: true },
+          },
+        },
+      });
+
+      return estimativas.map(this.mapToDomain.bind(this));
+    } catch (error) {
+      console.error("Erro ao buscar estimativas:", error);
+      throw new Error("Erro ao buscar estimativas");
     }
+  }
 
-    async create(estimativa: Estimativas): Promise<Estimativas> {
-        const created = await this.prisma.estimativas.create({
-            data: {
-                valorTotal: estimativa.valorTotal,
-                createdAt: estimativa.createdAt,
-                updatedAt: estimativa.updatedAt,
-                propriedade: {
-                    create: {
-                        nomeProprietario: estimativa.propriedade.nomeProprietario,
-                        nomePropriedade: estimativa.propriedade.nomePropriedade,
-                        latitude: estimativa.propriedade.latitude,
-                        longitude: estimativa.propriedade.longitude,
-                        altitude: estimativa.propriedade.altitude,
-                        simulacao: estimativa.propriedade.simulacao || "",
-                        // Se você quiser associar o admin diretamente
-                        // adminId: estimativa.propriedade.adminId,
-                        admin: {
-                            connect: { id: estimativa.propriedade.adminId }
-                        }
-                    }
-                }
-            },
-            include: {
-                propriedade: {
-                    include: {
-                        admin: true
-                    }
-                }
-            }
-        });
+  async create(estimativa: Estimativas): Promise<Estimativas> {
+    try {
+      const created = await this.prisma.estimativas.create({
+        data: {
+          valorTotal: estimativa.valorTotal,
+          descricao: estimativa.descricao ,
+          propriedadeId: estimativa.propriedadeId,
+          createdAt: estimativa.createdAt,
+          updatedAt: estimativa.updatedAt,
+        },
+        include: {
+          propriedade: {
+            include: { admin: true },
+          },
+        },
+      });
 
-        return Estimativas.with({
-            ...created,
-            propriedade: created.propriedade
-                ? Propriedade.with({
-                    id: created.propriedade.id,
-                    nomePropriedade: created.propriedade.nomePropriedade,
-                    nomeProprietario: created.propriedade.nomeProprietario,
-                    latitude: created.propriedade.latitude,
-                    longitude: created.propriedade.longitude,
-                    altitude: created.propriedade.altitude,
-                    simulacao: created.propriedade.simulacao || "",
-                    adminId: created.propriedade.adminId ?? undefined,
-                    admin: created.propriedade.admin ?? undefined,
-                    updatedAt: created.propriedade.updatedAt ?? undefined,
-                    deletedAt: created.propriedade.deletedAt ?? undefined,
-                })
-                : undefined,
-            createdAt: created.createdAt,
-            updatedAt: created.updatedAt ?? new Date(),
-        });
+      return this.mapToDomain(created);
+    } catch (error) {
+      console.error("Erro ao criar estimativa:", error);
+      throw new Error("Erro ao criar estimativa");
     }
+  }
 
-    async findByPropriedade(propriedade: Propriedade): Promise<Estimativas[]> {
-        const estimativas = await this.prisma.estimativas.findMany({
-            where: {
-                propriedadeId: propriedade.id
-            }
-        });
+  async findByPropriedade(propriedade: Propriedade): Promise<Estimativas[]> {
+    try {
+      const estimativas = await this.prisma.estimativas.findMany({
+        where: { propriedadeId: propriedade.id! },
+        include: {
+          propriedade: {
+            include: { admin: true },
+          },
+        },
+      });
 
-        return estimativas.map(e =>
-            Estimativas.with({
-                ...e,
-                propriedade, // já que a propriedade foi passada como argumento
-                updatedAt: e.updatedAt ?? new Date(),
-            })
-        );
+      // Podemos substituir propriedade pelo objeto já passado para evitar query desnecessária
+      return estimativas.map(e =>
+        Estimativas.with({
+          ...e,
+            propriedade: propriedade,
+        }as Estimativas)
+      );
+    } catch (error) {
+      console.error("Erro ao buscar estimativas por propriedade:", error);
+      throw new Error("Erro ao buscar estimativas");
     }
+  }
 
-    async findById(id: number): Promise<Estimativas | null> {
-        const estimativa = await this.prisma.estimativas.findUnique({
-            where: { id },
-            include: {
-                propriedade: {
-                    include: {
-                        admin: true
-                    }
-                }
-            }
-        });
+  async findById(id: number): Promise<Estimativas | null> {
+    try {
+      const estimativa = await this.prisma.estimativas.findUnique({
+        where: { id },
+        include: {
+          propriedade: {
+            include: { admin: true },
+          },
+        },
+      });
 
-        if (!estimativa) return null;
+      if (!estimativa) return null;
 
-        return Estimativas.with({
-            ...estimativa,
-            propriedade: estimativa.propriedade
-                ? Propriedade.with({
-                    ...estimativa.propriedade,
-                    adminId: estimativa.propriedade.adminId ?? undefined,
-                    admin: estimativa.propriedade.admin ?? undefined,
-                    updatedAt: estimativa.propriedade.updatedAt === null ? undefined : estimativa.propriedade.updatedAt
-                })
-                : undefined,
-            createdAt: estimativa.createdAt,
-            updatedAt: estimativa.updatedAt ?? new Date(),
-        });
+      return this.mapToDomain(estimativa);
+    } catch (error) {
+      console.error("Erro ao buscar estimativa por ID:", error);
+      throw new Error("Erro ao buscar estimativa");
     }
+  }
 
-    async update(estimativa: Estimativas): Promise<Estimativas> {
-        const updated = await this.prisma.estimativas.update({
-            where: { id: estimativa.id },
-            data: {
-                ...estimativa
-            },
-            include: {
-                propriedade: {
-                    include: {
-                        admin: true
-                    }
-                }
-            }
-        });
+  async update(estimativa: Estimativas): Promise<Estimativas> {
+    try {
+      const updated = await this.prisma.estimativas.update({
+        where: { id: estimativa.id! },
+        data: {
+          valorTotal: estimativa.valorTotal,
+          descricao: estimativa.descricao || undefined,
+          propriedadeId: estimativa.propriedadeId,
+          updatedAt: estimativa.updatedAt ?? new Date(),
+        },
+        include: {
+          propriedade: {
+            include: { admin: true },
+          },
+        },
+      });
 
-        return Estimativas.with({
-            ...updated,
-            propriedade: updated.propriedade
-                ? Propriedade.with({
-                    ...updated.propriedade,
-                    adminId: updated.propriedade.adminId ?? undefined,
-                    admin: updated.propriedade.admin ?? undefined,
-                    updatedAt: updated.propriedade.updatedAt === null ? undefined : updated.propriedade.updatedAt
-                })
-                : undefined,
-            createdAt: updated.createdAt,
-            updatedAt: updated.updatedAt ?? new Date(),
-        });
+      return this.mapToDomain(updated);
+    } catch (error) {
+      console.error("Erro ao atualizar estimativa:", error);
+      throw new Error("Erro ao atualizar estimativa");
     }
+  }
 
-    async delete(id: number): Promise<void> {
-        await this.prisma.estimativas.delete({
-            where: { id }
-        });
+  async delete(id: number): Promise<void> {
+    try {
+      await this.prisma.estimativas.delete({
+        where: { id },
+      });
+    } catch (error) {
+      console.error("Erro ao deletar estimativa:", error);
+      throw new Error("Erro ao deletar estimativa");
     }
+  }
 }

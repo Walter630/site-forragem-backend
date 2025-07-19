@@ -1,5 +1,5 @@
-// src/application/dto/SimulacaoForragemDTO.ts
 export interface SimulacaoForragemDTO {
+    propriedadeId: number;
   nome: string;
   coordenadas: {
     lat: number;
@@ -20,8 +20,8 @@ export interface SimulacaoForragemDTO {
     fatorRocha: number;
     condutividade: number;
     densidade: number;
-    agua0bar: number;
-    agua1por3bar: number;
-    agua15bar: number;
+    agua0Bar: number;
+    agua13Bar: number;  // ajustado para manter padrão
+    agua15Bar: number;
   };
 }

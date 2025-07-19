@@ -21,7 +21,7 @@ export class EstimativaServices {
 
     const estimativa = Estimativas.create({
         valorTotal: data.valorTotal,
-        descricao: data.descricao || undefined,
+        descricao: data.descricao,
         propriedadeId: data.propriedade.id,
         createdAt: data.createdAt
     });

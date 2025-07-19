@@ -1,12 +1,8 @@
-// HISTORICO
-import { Precipitacao } from "./Precipitacao";
-import { Solo } from "./Solo";
-
 type HistoricoProps = {
   id?: number;
-  descricao?: string;
-  solo?: Solo;
-  precipitacao?: Precipitacao;
+  descricao?: string;          // se quiser, pode guardar uma descrição opcional
+  valorSimulacao: number;      // resultado da simulação
+  propriedadeId: number;       // FK para Propriedade
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date | null;
@@ -31,27 +27,13 @@ export class Historico {
     return new Historico(props);
   }
 
-  get id(): number | undefined {
-    return this.props.id;
-  }
-  get descricao(): string | undefined {
-    return this.props.descricao;
-  }
-  get solo(): Solo | undefined {
-    return this.props.solo;
-  }
-  get precipitacao(): Precipitacao | undefined {
-    return this.props.precipitacao;
-  }
-  get createdAt(): Date | undefined {
-    return this.props.createdAt;
-  }
-  get updatedAt(): Date | undefined {
-    return this.props.updatedAt;
-  }
-  get deletedAt(): Date | null | undefined {
-    return this.props.deletedAt;
-  }
+  get id(): number | undefined { return this.props.id; }
+  get descricao(): string | undefined { return this.props.descricao; }
+  get valorSimulacao(): number { return this.props.valorSimulacao; }
+  get propriedadeId(): number { return this.props.propriedadeId; }
+  get createdAt(): Date | undefined { return this.props.createdAt; }
+  get updatedAt(): Date | undefined { return this.props.updatedAt; }
+  get deletedAt(): Date | null | undefined { return this.props.deletedAt; }
 
   toJSON() {
     return { ...this.props };
