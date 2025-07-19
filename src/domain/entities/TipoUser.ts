@@ -1,11 +1,12 @@
+// Ajustado: TipoUser
 type TipoUserProps = {
-    id: number;
+    id?: number;
     tipo: string;
     descricao?: string;
     ativo?: boolean;
     createdAt?: Date;
     updatedAt?: Date;
-}
+};
 
 export class TipoUser {
     private props: TipoUserProps;
@@ -14,7 +15,7 @@ export class TipoUser {
         this.props = props;
     }
 
-    public static create(props: Omit<TipoUserProps, 'id'>): TipoUser {
+    public static create(props: Omit<TipoUserProps, "id">): TipoUser {
         return new TipoUser({ ...props, id: 0 });
     }
 
@@ -54,6 +55,6 @@ export class TipoUser {
             ativo: this.ativo,
             createdAt: this.props.createdAt,
             updatedAt: this.props.updatedAt,
-        }
+        };
     }
 }

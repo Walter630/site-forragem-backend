@@ -203,9 +203,24 @@ exports.Prisma.EstimativasScalarFieldEnum = {
   propriedadeId: 'propriedadeId'
 };
 
+exports.Prisma.SimulacaoScalarFieldEnum = {
+  id: 'id',
+  dadosJson: 'dadosJson',
+  resultado: 'resultado',
+  dataSimulacao: 'dataSimulacao',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  propriedadeId: 'propriedadeId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.NullsOrder = {
@@ -235,6 +250,17 @@ exports.Prisma.HistoricoOrderByRelevanceFieldEnum = {
   descricao: 'descricao'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 
 exports.Prisma.ModelName = {
   Admin: 'Admin',
@@ -243,7 +269,8 @@ exports.Prisma.ModelName = {
   Historico: 'Historico',
   Precipitacao: 'Precipitacao',
   Solo: 'Solo',
-  Estimativas: 'Estimativas'
+  Estimativas: 'Estimativas',
+  Simulacao: 'Simulacao'
 };
 
 /**

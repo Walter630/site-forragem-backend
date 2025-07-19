@@ -18,7 +18,7 @@ export class AdminRepositories implements IAdminRepositories {
                 nome: admin.nome,
                 email: admin.email,
                 cpf: admin.cpf,
-                ativado: admin.ativo,
+                ativado: admin.ativado,
                 senha: admin.senha,
                 tipoUserId: admin.tipoUser?.id || null,
             },
@@ -107,7 +107,7 @@ export class AdminRepositories implements IAdminRepositories {
                     nome: admin.nome,
                     email: admin.email,
                     cpf: admin.cpf,
-                    ativado: admin.ativo,
+                    ativado: admin.ativado,
                     senha: admin.senha,
                     
                 },
@@ -159,7 +159,7 @@ export class AdminRepositories implements IAdminRepositories {
                 nome: result.nome,
                 cpf: result.cpf,
                 senha: result.senha,
-                ativo: result.ativado,
+                ativado: result.ativado,
             });
         else
             throw new Error("Admin not found");
@@ -178,7 +178,7 @@ export class AdminRepositories implements IAdminRepositories {
                 email: result.email,
                 cpf: result.cpf,
                 senha: result.senha,
-                ativo: result.ativado,
+                ativado: result.ativado,
             });
         else
             throw new Error("Admin not found");

@@ -1,93 +1,74 @@
+// PRECIPITACAO
 import { Historico } from "./Historico";
 
 type PrecipitacaoProps = {
-    id?: number;
-    mm_ano: number;
-    chuvas: number;
-    mm_dia: number;
-    chuvas_dia: number;
-    mm_mes: number;
-    chuvas_mes: number;
-    createdAt?: Date;
-    updatedAt?: Date;
-    historico?: Historico;
-    deletedAt?: Date | null;
-}
+  id?: number;
+  mmAno: number;
+  chuvas: number;
+  mmDia: number;
+  cvDia: number;
+  mmMes: number;
+  cvMes: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date | null;
+  historico?: Historico;
+};
 
 export class Precipitacao {
-    private props: PrecipitacaoProps;
+  private props: PrecipitacaoProps;
 
-    constructor(props: PrecipitacaoProps) {
-        this.props = props;
-    }
+  constructor(props: PrecipitacaoProps) {
+    this.props = props;
+  }
 
-    public static create(props: PrecipitacaoProps): Precipitacao {
-        return new Precipitacao({
-            ...props,
-            createdAt: props.createdAt || new Date(),
-            updatedAt: props.updatedAt || new Date(),
-        });
-    }
+  public static create(props: PrecipitacaoProps): Precipitacao {
+    return new Precipitacao({
+      ...props,
+      createdAt: props.createdAt || new Date(),
+      updatedAt: props.updatedAt || new Date(),
+    });
+  }
 
-    static with(props: Partial<PrecipitacaoProps>): Precipitacao {
-        return new Precipitacao(props as PrecipitacaoProps);
-    }
+  static with(props: Partial<PrecipitacaoProps>): Precipitacao {
+    return new Precipitacao(props as PrecipitacaoProps);
+  }
 
-    get id(): number | undefined {
-        return this.props.id;
-    }
+  get id(): number | undefined {
+    return this.props.id;
+  }
+  get mmAno(): number {
+    return this.props.mmAno;
+  }
+  get chuvas(): number {
+    return this.props.chuvas;
+  }
+  get mmDia(): number {
+    return this.props.mmDia;
+  }
+  get cvDia(): number {
+    return this.props.cvDia;
+  }
+  get mmMes(): number {
+    return this.props.mmMes;
+  }
+  get cvMes(): number {
+    return this.props.cvMes;
+  }
+  get createdAt(): Date | undefined {
+    return this.props.createdAt;
+  }
+  get updatedAt(): Date | undefined {
+    return this.props.updatedAt;
+  }
+  get deletedAt(): Date | null | undefined {
+    return this.props.deletedAt;
+  }
+  get historico(): Historico | undefined {
+    return this.props.historico;
+  }
 
-    get mm_ano(): number {
-        return this.props.mm_ano;
-    }
-
-    get chuvas(): number {
-        return this.props.chuvas;
-    }
-
-    get mm_dia(): number {
-        return this.props.mm_dia;
-    }
-
-    get chuvas_dia(): number {
-        return this.props.chuvas_dia;
-    }
-
-    get mm_mes(): number {
-        return this.props.mm_mes;
-    }
-
-    get chuvas_mes(): number {
-        return this.props.chuvas_mes;
-    }
-
-    get createdAt(): Date | undefined {
-        return this.props.createdAt;
-    }
-
-    get updatedAt(): Date | undefined {
-        return this.props.updatedAt;
-    }
-    get historico(): Historico | undefined {
-        return this.props.historico;
-    }
-    
-    get deletedAt(): Date | null | undefined {
-        return this.props.deletedAt;
-    }
-
-    toJSON() {
-        return {
-            id: this.id,
-            mm_ano: this.mm_ano,
-            chuvas: this.chuvas,
-            mm_dia: this.mm_dia,
-            chuvas_dia: this.chuvas_dia,
-            mm_mes: this.mm_mes,
-            chuvas_mes: this.chuvas_mes,
-            createdAt: this.props.createdAt,
-            updatedAt: this.props.updatedAt,
-            deletedAt: this.props.deletedAt,
-        }
-    }
+  toJSON() {
+    return { ...this.props };
+  }
 }

@@ -1,16 +1,17 @@
+// Ajustado: Solo
 type SoloProps = {
     id?: number;
     profundidade: number;
     fator_rocha: number;
     condut_hidraulica_saturada: number;
     densidade_aparente: number;
-    agua_0_bar: number; //0 bar
-    agua_13_bar: number; //-1/3 bar
-    agua_15_bar: number; //-15 bar
+    agua_0_bar: number;
+    agua_13_bar: number;
+    agua_15_bar: number;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-}
+};
 
 export class Solo {
     private props: SoloProps;
@@ -19,10 +20,10 @@ export class Solo {
         this.props = props;
     }
 
-    public static create(props: Omit<SoloProps, 'id'>): Solo {
+    public static create(props: Omit<SoloProps, "id">): Solo {
         return new Solo({
             ...props,
-            id: 0, // Default id to 0, will be set by the database
+            id: 0,
             createdAt: props.createdAt || new Date(),
             updatedAt: props.updatedAt || new Date(),
         });
@@ -71,6 +72,7 @@ export class Solo {
     get updatedAt(): Date | undefined {
         return this.props.updatedAt;
     }
+
     get deletedAt(): Date | null | undefined {
         return this.props.deletedAt;
     }
@@ -79,7 +81,7 @@ export class Solo {
         return {
             id: this.id,
             profundidade: this.profundidade,
-            fator_rocha: this.fator_rocha,  
+            fator_rocha: this.fator_rocha,
             condut_hidraulica_saturada: this.condut_hidraulica_saturada,
             densidade_aparente: this.densidade_aparente,
             agua_0_bar: this.agua_0_bar,
@@ -87,6 +89,7 @@ export class Solo {
             agua_15_bar: this.agua_15_bar,
             createdAt: this.props.createdAt,
             updatedAt: this.props.updatedAt,
-        }
-    }   
+            deletedAt: this.props.deletedAt,
+        };
+    }
 }

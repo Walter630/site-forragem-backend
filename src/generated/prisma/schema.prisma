@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -21,7 +15,7 @@ model Admin {
   cpf       String    @unique
   senha     String
   ativado   Boolean   @default(true) @db.TinyInt()
-  createdAt DateTime  @default(now()) @map("created_at") // ✅ Corrigido
+  createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt DateTime? @map("deleted_at") @db.DateTime()
 
@@ -37,7 +31,7 @@ model TipoUser {
   id        Int       @id @default(autoincrement())
   tipo      String
   descricao String?   @default("Tipo de usuário") @db.Text()
-  createdAt DateTime  @default(now()) @map("created_at") // ✅ Corrigido
+  createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt DateTime? @map("deleted_at") @db.DateTime()
   ativado   Boolean   @default(true) @db.TinyInt()
@@ -55,7 +49,7 @@ model Propriedade {
   longitude        Float
   altitude         Float
   simulacao        String
-  createdAt        DateTime  @default(now()) @map("created_at") // ✅ Corrigido
+  createdAt        DateTime  @default(now()) @map("created_at")
   updatedAt        DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt        DateTime? @map("deleted_at") @db.DateTime()
 
@@ -63,6 +57,7 @@ model Propriedade {
   admin   Admin? @relation(fields: [adminId], references: [id])
 
   estimativas Estimativas[]
+  simulacoes  Simulacao[] // ✅ relação com Simulacao
 
   @@map("propriedades")
 }
@@ -72,7 +67,7 @@ model Historico {
   descricao    String?
   precipitacao Precipitacao?
   solo         Solo?
-  createdAt    DateTime      @default(now()) @map("created_at") // ✅ Corrigido
+  createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime?     @updatedAt @map("updated_at") @db.DateTime()
   deletedAt    DateTime?     @map("deleted_at") @db.DateTime()
 
@@ -87,7 +82,7 @@ model Precipitacao {
   cvDia     Float
   mmMes     Float
   cvMes     Float
-  createdAt DateTime  @default(now()) @map("created_at") // ✅ Corrigido
+  createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt DateTime? @map("deleted_at") @db.DateTime()
 
@@ -104,9 +99,9 @@ model Solo {
   condutHidraulicaSaturada Float
   densidadeAparente        Float
   agua0Bar                 Float
-  agua13Bar                Float
+  agua13Bar                Float // ✅ nome corrigido
   agua15Bar                Float
-  createdAt                DateTime  @default(now()) @map("created_at") // ✅ Corrigido
+  createdAt                DateTime  @default(now()) @map("created_at")
   updatedAt                DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt                DateTime? @map("deleted_at") @db.DateTime()
 
@@ -119,11 +114,26 @@ model Solo {
 model Estimativas {
   id            Int          @id @default(autoincrement())
   valorTotal    Float
-  createdAt     DateTime     @default(now()) @map("created_at") // ✅ Corrigido
+  createdAt     DateTime     @default(now()) @map("created_at")
   updatedAt     DateTime?    @updatedAt @map("updated_at") @db.DateTime()
   deletedAt     DateTime?    @map("deleted_at") @db.DateTime()
   propriedadeId Int
   propriedade   Propriedade? @relation(fields: [propriedadeId], references: [id])
 
   @@map("estimativas")
+}
+
+model Simulacao {
+  id            Int       @id @default(autoincrement())
+  dadosJson     Json
+  resultado     Float
+  dataSimulacao DateTime
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt     DateTime? @map("deleted_at") @db.DateTime()
+
+  propriedadeId Int
+  propriedade   Propriedade @relation(fields: [propriedadeId], references: [id])
+
+  @@map("simulacoes")
 }

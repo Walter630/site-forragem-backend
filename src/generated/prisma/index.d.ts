@@ -48,6 +48,11 @@ export type Solo = $Result.DefaultSelection<Prisma.$SoloPayload>
  * 
  */
 export type Estimativas = $Result.DefaultSelection<Prisma.$EstimativasPayload>
+/**
+ * Model Simulacao
+ * 
+ */
+export type Simulacao = $Result.DefaultSelection<Prisma.$SimulacaoPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -243,6 +248,16 @@ export class PrismaClient<
     * ```
     */
   get estimativas(): Prisma.EstimativasDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.simulacao`: Exposes CRUD operations for the **Simulacao** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Simulacaos
+    * const simulacaos = await prisma.simulacao.findMany()
+    * ```
+    */
+  get simulacao(): Prisma.SimulacaoDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -689,7 +704,8 @@ export namespace Prisma {
     Historico: 'Historico',
     Precipitacao: 'Precipitacao',
     Solo: 'Solo',
-    Estimativas: 'Estimativas'
+    Estimativas: 'Estimativas',
+    Simulacao: 'Simulacao'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -708,7 +724,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "admin" | "tipoUser" | "propriedade" | "historico" | "precipitacao" | "solo" | "estimativas"
+      modelProps: "admin" | "tipoUser" | "propriedade" | "historico" | "precipitacao" | "solo" | "estimativas" | "simulacao"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1174,6 +1190,72 @@ export namespace Prisma {
           }
         }
       }
+      Simulacao: {
+        payload: Prisma.$SimulacaoPayload<ExtArgs>
+        fields: Prisma.SimulacaoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SimulacaoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SimulacaoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SimulacaoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SimulacaoPayload>
+          }
+          findFirst: {
+            args: Prisma.SimulacaoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SimulacaoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SimulacaoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SimulacaoPayload>
+          }
+          findMany: {
+            args: Prisma.SimulacaoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SimulacaoPayload>[]
+          }
+          create: {
+            args: Prisma.SimulacaoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SimulacaoPayload>
+          }
+          createMany: {
+            args: Prisma.SimulacaoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.SimulacaoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SimulacaoPayload>
+          }
+          update: {
+            args: Prisma.SimulacaoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SimulacaoPayload>
+          }
+          deleteMany: {
+            args: Prisma.SimulacaoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SimulacaoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SimulacaoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SimulacaoPayload>
+          }
+          aggregate: {
+            args: Prisma.SimulacaoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSimulacao>
+          }
+          groupBy: {
+            args: Prisma.SimulacaoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SimulacaoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SimulacaoCountArgs<ExtArgs>
+            result: $Utils.Optional<SimulacaoCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1265,6 +1347,7 @@ export namespace Prisma {
     precipitacao?: PrecipitacaoOmit
     solo?: SoloOmit
     estimativas?: EstimativasOmit
+    simulacao?: SimulacaoOmit
   }
 
   /* Types for Logging */
@@ -1391,10 +1474,12 @@ export namespace Prisma {
 
   export type PropriedadeCountOutputType = {
     estimativas: number
+    simulacoes: number
   }
 
   export type PropriedadeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     estimativas?: boolean | PropriedadeCountOutputTypeCountEstimativasArgs
+    simulacoes?: boolean | PropriedadeCountOutputTypeCountSimulacoesArgs
   }
 
   // Custom InputTypes
@@ -1413,6 +1498,13 @@ export namespace Prisma {
    */
   export type PropriedadeCountOutputTypeCountEstimativasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EstimativasWhereInput
+  }
+
+  /**
+   * PropriedadeCountOutputType without action
+   */
+  export type PropriedadeCountOutputTypeCountSimulacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SimulacaoWhereInput
   }
 
 
@@ -3759,6 +3851,7 @@ export namespace Prisma {
     adminId?: boolean
     admin?: boolean | Propriedade$adminArgs<ExtArgs>
     estimativas?: boolean | Propriedade$estimativasArgs<ExtArgs>
+    simulacoes?: boolean | Propriedade$simulacoesArgs<ExtArgs>
     _count?: boolean | PropriedadeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["propriedade"]>
 
@@ -3782,6 +3875,7 @@ export namespace Prisma {
   export type PropriedadeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     admin?: boolean | Propriedade$adminArgs<ExtArgs>
     estimativas?: boolean | Propriedade$estimativasArgs<ExtArgs>
+    simulacoes?: boolean | Propriedade$simulacoesArgs<ExtArgs>
     _count?: boolean | PropriedadeCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3790,6 +3884,7 @@ export namespace Prisma {
     objects: {
       admin: Prisma.$AdminPayload<ExtArgs> | null
       estimativas: Prisma.$EstimativasPayload<ExtArgs>[]
+      simulacoes: Prisma.$SimulacaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4145,6 +4240,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     admin<T extends Propriedade$adminArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$adminArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     estimativas<T extends Propriedade$estimativasArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$estimativasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstimativasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    simulacoes<T extends Propriedade$simulacoesArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$simulacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4568,6 +4664,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EstimativasScalarFieldEnum | EstimativasScalarFieldEnum[]
+  }
+
+  /**
+   * Propriedade.simulacoes
+   */
+  export type Propriedade$simulacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    where?: SimulacaoWhereInput
+    orderBy?: SimulacaoOrderByWithRelationInput | SimulacaoOrderByWithRelationInput[]
+    cursor?: SimulacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SimulacaoScalarFieldEnum | SimulacaoScalarFieldEnum[]
   }
 
   /**
@@ -8725,6 +8845,1006 @@ export namespace Prisma {
 
 
   /**
+   * Model Simulacao
+   */
+
+  export type AggregateSimulacao = {
+    _count: SimulacaoCountAggregateOutputType | null
+    _avg: SimulacaoAvgAggregateOutputType | null
+    _sum: SimulacaoSumAggregateOutputType | null
+    _min: SimulacaoMinAggregateOutputType | null
+    _max: SimulacaoMaxAggregateOutputType | null
+  }
+
+  export type SimulacaoAvgAggregateOutputType = {
+    id: number | null
+    resultado: number | null
+    propriedadeId: number | null
+  }
+
+  export type SimulacaoSumAggregateOutputType = {
+    id: number | null
+    resultado: number | null
+    propriedadeId: number | null
+  }
+
+  export type SimulacaoMinAggregateOutputType = {
+    id: number | null
+    resultado: number | null
+    dataSimulacao: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+    propriedadeId: number | null
+  }
+
+  export type SimulacaoMaxAggregateOutputType = {
+    id: number | null
+    resultado: number | null
+    dataSimulacao: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+    propriedadeId: number | null
+  }
+
+  export type SimulacaoCountAggregateOutputType = {
+    id: number
+    dadosJson: number
+    resultado: number
+    dataSimulacao: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    propriedadeId: number
+    _all: number
+  }
+
+
+  export type SimulacaoAvgAggregateInputType = {
+    id?: true
+    resultado?: true
+    propriedadeId?: true
+  }
+
+  export type SimulacaoSumAggregateInputType = {
+    id?: true
+    resultado?: true
+    propriedadeId?: true
+  }
+
+  export type SimulacaoMinAggregateInputType = {
+    id?: true
+    resultado?: true
+    dataSimulacao?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    propriedadeId?: true
+  }
+
+  export type SimulacaoMaxAggregateInputType = {
+    id?: true
+    resultado?: true
+    dataSimulacao?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    propriedadeId?: true
+  }
+
+  export type SimulacaoCountAggregateInputType = {
+    id?: true
+    dadosJson?: true
+    resultado?: true
+    dataSimulacao?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    propriedadeId?: true
+    _all?: true
+  }
+
+  export type SimulacaoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Simulacao to aggregate.
+     */
+    where?: SimulacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Simulacaos to fetch.
+     */
+    orderBy?: SimulacaoOrderByWithRelationInput | SimulacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SimulacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Simulacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Simulacaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Simulacaos
+    **/
+    _count?: true | SimulacaoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SimulacaoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SimulacaoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SimulacaoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SimulacaoMaxAggregateInputType
+  }
+
+  export type GetSimulacaoAggregateType<T extends SimulacaoAggregateArgs> = {
+        [P in keyof T & keyof AggregateSimulacao]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSimulacao[P]>
+      : GetScalarType<T[P], AggregateSimulacao[P]>
+  }
+
+
+
+
+  export type SimulacaoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SimulacaoWhereInput
+    orderBy?: SimulacaoOrderByWithAggregationInput | SimulacaoOrderByWithAggregationInput[]
+    by: SimulacaoScalarFieldEnum[] | SimulacaoScalarFieldEnum
+    having?: SimulacaoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SimulacaoCountAggregateInputType | true
+    _avg?: SimulacaoAvgAggregateInputType
+    _sum?: SimulacaoSumAggregateInputType
+    _min?: SimulacaoMinAggregateInputType
+    _max?: SimulacaoMaxAggregateInputType
+  }
+
+  export type SimulacaoGroupByOutputType = {
+    id: number
+    dadosJson: JsonValue
+    resultado: number
+    dataSimulacao: Date
+    createdAt: Date
+    updatedAt: Date | null
+    deletedAt: Date | null
+    propriedadeId: number
+    _count: SimulacaoCountAggregateOutputType | null
+    _avg: SimulacaoAvgAggregateOutputType | null
+    _sum: SimulacaoSumAggregateOutputType | null
+    _min: SimulacaoMinAggregateOutputType | null
+    _max: SimulacaoMaxAggregateOutputType | null
+  }
+
+  type GetSimulacaoGroupByPayload<T extends SimulacaoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SimulacaoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SimulacaoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SimulacaoGroupByOutputType[P]>
+            : GetScalarType<T[P], SimulacaoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SimulacaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dadosJson?: boolean
+    resultado?: boolean
+    dataSimulacao?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    propriedadeId?: boolean
+    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["simulacao"]>
+
+
+
+  export type SimulacaoSelectScalar = {
+    id?: boolean
+    dadosJson?: boolean
+    resultado?: boolean
+    dataSimulacao?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    propriedadeId?: boolean
+  }
+
+  export type SimulacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dadosJson" | "resultado" | "dataSimulacao" | "createdAt" | "updatedAt" | "deletedAt" | "propriedadeId", ExtArgs["result"]["simulacao"]>
+  export type SimulacaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
+  }
+
+  export type $SimulacaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Simulacao"
+    objects: {
+      propriedade: Prisma.$PropriedadePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      dadosJson: Prisma.JsonValue
+      resultado: number
+      dataSimulacao: Date
+      createdAt: Date
+      updatedAt: Date | null
+      deletedAt: Date | null
+      propriedadeId: number
+    }, ExtArgs["result"]["simulacao"]>
+    composites: {}
+  }
+
+  type SimulacaoGetPayload<S extends boolean | null | undefined | SimulacaoDefaultArgs> = $Result.GetResult<Prisma.$SimulacaoPayload, S>
+
+  type SimulacaoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SimulacaoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SimulacaoCountAggregateInputType | true
+    }
+
+  export interface SimulacaoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Simulacao'], meta: { name: 'Simulacao' } }
+    /**
+     * Find zero or one Simulacao that matches the filter.
+     * @param {SimulacaoFindUniqueArgs} args - Arguments to find a Simulacao
+     * @example
+     * // Get one Simulacao
+     * const simulacao = await prisma.simulacao.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SimulacaoFindUniqueArgs>(args: SelectSubset<T, SimulacaoFindUniqueArgs<ExtArgs>>): Prisma__SimulacaoClient<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Simulacao that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SimulacaoFindUniqueOrThrowArgs} args - Arguments to find a Simulacao
+     * @example
+     * // Get one Simulacao
+     * const simulacao = await prisma.simulacao.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SimulacaoFindUniqueOrThrowArgs>(args: SelectSubset<T, SimulacaoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SimulacaoClient<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Simulacao that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SimulacaoFindFirstArgs} args - Arguments to find a Simulacao
+     * @example
+     * // Get one Simulacao
+     * const simulacao = await prisma.simulacao.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SimulacaoFindFirstArgs>(args?: SelectSubset<T, SimulacaoFindFirstArgs<ExtArgs>>): Prisma__SimulacaoClient<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Simulacao that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SimulacaoFindFirstOrThrowArgs} args - Arguments to find a Simulacao
+     * @example
+     * // Get one Simulacao
+     * const simulacao = await prisma.simulacao.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SimulacaoFindFirstOrThrowArgs>(args?: SelectSubset<T, SimulacaoFindFirstOrThrowArgs<ExtArgs>>): Prisma__SimulacaoClient<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Simulacaos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SimulacaoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Simulacaos
+     * const simulacaos = await prisma.simulacao.findMany()
+     * 
+     * // Get first 10 Simulacaos
+     * const simulacaos = await prisma.simulacao.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const simulacaoWithIdOnly = await prisma.simulacao.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SimulacaoFindManyArgs>(args?: SelectSubset<T, SimulacaoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Simulacao.
+     * @param {SimulacaoCreateArgs} args - Arguments to create a Simulacao.
+     * @example
+     * // Create one Simulacao
+     * const Simulacao = await prisma.simulacao.create({
+     *   data: {
+     *     // ... data to create a Simulacao
+     *   }
+     * })
+     * 
+     */
+    create<T extends SimulacaoCreateArgs>(args: SelectSubset<T, SimulacaoCreateArgs<ExtArgs>>): Prisma__SimulacaoClient<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Simulacaos.
+     * @param {SimulacaoCreateManyArgs} args - Arguments to create many Simulacaos.
+     * @example
+     * // Create many Simulacaos
+     * const simulacao = await prisma.simulacao.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SimulacaoCreateManyArgs>(args?: SelectSubset<T, SimulacaoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Simulacao.
+     * @param {SimulacaoDeleteArgs} args - Arguments to delete one Simulacao.
+     * @example
+     * // Delete one Simulacao
+     * const Simulacao = await prisma.simulacao.delete({
+     *   where: {
+     *     // ... filter to delete one Simulacao
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SimulacaoDeleteArgs>(args: SelectSubset<T, SimulacaoDeleteArgs<ExtArgs>>): Prisma__SimulacaoClient<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Simulacao.
+     * @param {SimulacaoUpdateArgs} args - Arguments to update one Simulacao.
+     * @example
+     * // Update one Simulacao
+     * const simulacao = await prisma.simulacao.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SimulacaoUpdateArgs>(args: SelectSubset<T, SimulacaoUpdateArgs<ExtArgs>>): Prisma__SimulacaoClient<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Simulacaos.
+     * @param {SimulacaoDeleteManyArgs} args - Arguments to filter Simulacaos to delete.
+     * @example
+     * // Delete a few Simulacaos
+     * const { count } = await prisma.simulacao.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SimulacaoDeleteManyArgs>(args?: SelectSubset<T, SimulacaoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Simulacaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SimulacaoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Simulacaos
+     * const simulacao = await prisma.simulacao.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SimulacaoUpdateManyArgs>(args: SelectSubset<T, SimulacaoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Simulacao.
+     * @param {SimulacaoUpsertArgs} args - Arguments to update or create a Simulacao.
+     * @example
+     * // Update or create a Simulacao
+     * const simulacao = await prisma.simulacao.upsert({
+     *   create: {
+     *     // ... data to create a Simulacao
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Simulacao we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SimulacaoUpsertArgs>(args: SelectSubset<T, SimulacaoUpsertArgs<ExtArgs>>): Prisma__SimulacaoClient<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Simulacaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SimulacaoCountArgs} args - Arguments to filter Simulacaos to count.
+     * @example
+     * // Count the number of Simulacaos
+     * const count = await prisma.simulacao.count({
+     *   where: {
+     *     // ... the filter for the Simulacaos we want to count
+     *   }
+     * })
+    **/
+    count<T extends SimulacaoCountArgs>(
+      args?: Subset<T, SimulacaoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SimulacaoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Simulacao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SimulacaoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SimulacaoAggregateArgs>(args: Subset<T, SimulacaoAggregateArgs>): Prisma.PrismaPromise<GetSimulacaoAggregateType<T>>
+
+    /**
+     * Group by Simulacao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SimulacaoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SimulacaoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SimulacaoGroupByArgs['orderBy'] }
+        : { orderBy?: SimulacaoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SimulacaoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSimulacaoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Simulacao model
+   */
+  readonly fields: SimulacaoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Simulacao.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SimulacaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    propriedade<T extends PropriedadeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PropriedadeDefaultArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Simulacao model
+   */
+  interface SimulacaoFieldRefs {
+    readonly id: FieldRef<"Simulacao", 'Int'>
+    readonly dadosJson: FieldRef<"Simulacao", 'Json'>
+    readonly resultado: FieldRef<"Simulacao", 'Float'>
+    readonly dataSimulacao: FieldRef<"Simulacao", 'DateTime'>
+    readonly createdAt: FieldRef<"Simulacao", 'DateTime'>
+    readonly updatedAt: FieldRef<"Simulacao", 'DateTime'>
+    readonly deletedAt: FieldRef<"Simulacao", 'DateTime'>
+    readonly propriedadeId: FieldRef<"Simulacao", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Simulacao findUnique
+   */
+  export type SimulacaoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Simulacao to fetch.
+     */
+    where: SimulacaoWhereUniqueInput
+  }
+
+  /**
+   * Simulacao findUniqueOrThrow
+   */
+  export type SimulacaoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Simulacao to fetch.
+     */
+    where: SimulacaoWhereUniqueInput
+  }
+
+  /**
+   * Simulacao findFirst
+   */
+  export type SimulacaoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Simulacao to fetch.
+     */
+    where?: SimulacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Simulacaos to fetch.
+     */
+    orderBy?: SimulacaoOrderByWithRelationInput | SimulacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Simulacaos.
+     */
+    cursor?: SimulacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Simulacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Simulacaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Simulacaos.
+     */
+    distinct?: SimulacaoScalarFieldEnum | SimulacaoScalarFieldEnum[]
+  }
+
+  /**
+   * Simulacao findFirstOrThrow
+   */
+  export type SimulacaoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Simulacao to fetch.
+     */
+    where?: SimulacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Simulacaos to fetch.
+     */
+    orderBy?: SimulacaoOrderByWithRelationInput | SimulacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Simulacaos.
+     */
+    cursor?: SimulacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Simulacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Simulacaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Simulacaos.
+     */
+    distinct?: SimulacaoScalarFieldEnum | SimulacaoScalarFieldEnum[]
+  }
+
+  /**
+   * Simulacao findMany
+   */
+  export type SimulacaoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which Simulacaos to fetch.
+     */
+    where?: SimulacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Simulacaos to fetch.
+     */
+    orderBy?: SimulacaoOrderByWithRelationInput | SimulacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Simulacaos.
+     */
+    cursor?: SimulacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Simulacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Simulacaos.
+     */
+    skip?: number
+    distinct?: SimulacaoScalarFieldEnum | SimulacaoScalarFieldEnum[]
+  }
+
+  /**
+   * Simulacao create
+   */
+  export type SimulacaoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Simulacao.
+     */
+    data: XOR<SimulacaoCreateInput, SimulacaoUncheckedCreateInput>
+  }
+
+  /**
+   * Simulacao createMany
+   */
+  export type SimulacaoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Simulacaos.
+     */
+    data: SimulacaoCreateManyInput | SimulacaoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Simulacao update
+   */
+  export type SimulacaoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Simulacao.
+     */
+    data: XOR<SimulacaoUpdateInput, SimulacaoUncheckedUpdateInput>
+    /**
+     * Choose, which Simulacao to update.
+     */
+    where: SimulacaoWhereUniqueInput
+  }
+
+  /**
+   * Simulacao updateMany
+   */
+  export type SimulacaoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Simulacaos.
+     */
+    data: XOR<SimulacaoUpdateManyMutationInput, SimulacaoUncheckedUpdateManyInput>
+    /**
+     * Filter which Simulacaos to update
+     */
+    where?: SimulacaoWhereInput
+    /**
+     * Limit how many Simulacaos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Simulacao upsert
+   */
+  export type SimulacaoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Simulacao to update in case it exists.
+     */
+    where: SimulacaoWhereUniqueInput
+    /**
+     * In case the Simulacao found by the `where` argument doesn't exist, create a new Simulacao with this data.
+     */
+    create: XOR<SimulacaoCreateInput, SimulacaoUncheckedCreateInput>
+    /**
+     * In case the Simulacao was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SimulacaoUpdateInput, SimulacaoUncheckedUpdateInput>
+  }
+
+  /**
+   * Simulacao delete
+   */
+  export type SimulacaoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    /**
+     * Filter which Simulacao to delete.
+     */
+    where: SimulacaoWhereUniqueInput
+  }
+
+  /**
+   * Simulacao deleteMany
+   */
+  export type SimulacaoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Simulacaos to delete
+     */
+    where?: SimulacaoWhereInput
+    /**
+     * Limit how many Simulacaos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Simulacao without action
+   */
+  export type SimulacaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8842,12 +9962,33 @@ export namespace Prisma {
   export type EstimativasScalarFieldEnum = (typeof EstimativasScalarFieldEnum)[keyof typeof EstimativasScalarFieldEnum]
 
 
+  export const SimulacaoScalarFieldEnum: {
+    id: 'id',
+    dadosJson: 'dadosJson',
+    resultado: 'resultado',
+    dataSimulacao: 'dataSimulacao',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt',
+    propriedadeId: 'propriedadeId'
+  };
+
+  export type SimulacaoScalarFieldEnum = (typeof SimulacaoScalarFieldEnum)[keyof typeof SimulacaoScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const NullsOrder: {
@@ -8892,6 +10033,23 @@ export namespace Prisma {
   export type HistoricoOrderByRelevanceFieldEnum = (typeof HistoricoOrderByRelevanceFieldEnum)[keyof typeof HistoricoOrderByRelevanceFieldEnum]
 
 
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
+  };
+
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
   /**
    * Field references
    */
@@ -8929,6 +10087,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
   /**
    * Deep Input Types
@@ -9106,6 +10278,7 @@ export namespace Prisma {
     adminId?: IntNullableFilter<"Propriedade"> | number | null
     admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     estimativas?: EstimativasListRelationFilter
+    simulacoes?: SimulacaoListRelationFilter
   }
 
   export type PropriedadeOrderByWithRelationInput = {
@@ -9122,6 +10295,7 @@ export namespace Prisma {
     adminId?: SortOrderInput | SortOrder
     admin?: AdminOrderByWithRelationInput
     estimativas?: EstimativasOrderByRelationAggregateInput
+    simulacoes?: SimulacaoOrderByRelationAggregateInput
     _relevance?: PropriedadeOrderByRelevanceInput
   }
 
@@ -9142,6 +10316,7 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
     admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     estimativas?: EstimativasListRelationFilter
+    simulacoes?: SimulacaoListRelationFilter
   }, "id" | "adminId">
 
   export type PropriedadeOrderByWithAggregationInput = {
@@ -9482,6 +10657,78 @@ export namespace Prisma {
     propriedadeId?: IntWithAggregatesFilter<"Estimativas"> | number
   }
 
+  export type SimulacaoWhereInput = {
+    AND?: SimulacaoWhereInput | SimulacaoWhereInput[]
+    OR?: SimulacaoWhereInput[]
+    NOT?: SimulacaoWhereInput | SimulacaoWhereInput[]
+    id?: IntFilter<"Simulacao"> | number
+    dadosJson?: JsonFilter<"Simulacao">
+    resultado?: FloatFilter<"Simulacao"> | number
+    dataSimulacao?: DateTimeFilter<"Simulacao"> | Date | string
+    createdAt?: DateTimeFilter<"Simulacao"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
+    propriedadeId?: IntFilter<"Simulacao"> | number
+    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
+  }
+
+  export type SimulacaoOrderByWithRelationInput = {
+    id?: SortOrder
+    dadosJson?: SortOrder
+    resultado?: SortOrder
+    dataSimulacao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    propriedadeId?: SortOrder
+    propriedade?: PropriedadeOrderByWithRelationInput
+  }
+
+  export type SimulacaoWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SimulacaoWhereInput | SimulacaoWhereInput[]
+    OR?: SimulacaoWhereInput[]
+    NOT?: SimulacaoWhereInput | SimulacaoWhereInput[]
+    dadosJson?: JsonFilter<"Simulacao">
+    resultado?: FloatFilter<"Simulacao"> | number
+    dataSimulacao?: DateTimeFilter<"Simulacao"> | Date | string
+    createdAt?: DateTimeFilter<"Simulacao"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
+    propriedadeId?: IntFilter<"Simulacao"> | number
+    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
+  }, "id">
+
+  export type SimulacaoOrderByWithAggregationInput = {
+    id?: SortOrder
+    dadosJson?: SortOrder
+    resultado?: SortOrder
+    dataSimulacao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    propriedadeId?: SortOrder
+    _count?: SimulacaoCountOrderByAggregateInput
+    _avg?: SimulacaoAvgOrderByAggregateInput
+    _max?: SimulacaoMaxOrderByAggregateInput
+    _min?: SimulacaoMinOrderByAggregateInput
+    _sum?: SimulacaoSumOrderByAggregateInput
+  }
+
+  export type SimulacaoScalarWhereWithAggregatesInput = {
+    AND?: SimulacaoScalarWhereWithAggregatesInput | SimulacaoScalarWhereWithAggregatesInput[]
+    OR?: SimulacaoScalarWhereWithAggregatesInput[]
+    NOT?: SimulacaoScalarWhereWithAggregatesInput | SimulacaoScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Simulacao"> | number
+    dadosJson?: JsonWithAggregatesFilter<"Simulacao">
+    resultado?: FloatWithAggregatesFilter<"Simulacao"> | number
+    dataSimulacao?: DateTimeWithAggregatesFilter<"Simulacao"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"Simulacao"> | Date | string
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Simulacao"> | Date | string | null
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Simulacao"> | Date | string | null
+    propriedadeId?: IntWithAggregatesFilter<"Simulacao"> | number
+  }
+
   export type AdminCreateInput = {
     nome: string
     email: string
@@ -9656,6 +10903,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
     estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateInput = {
@@ -9671,6 +10919,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     adminId?: number | null
     estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUpdateInput = {
@@ -9685,6 +10934,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
     estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateInput = {
@@ -9700,6 +10950,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     adminId?: NullableIntFieldUpdateOperationsInput | number | null
     estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeCreateManyInput = {
@@ -10057,6 +11308,79 @@ export namespace Prisma {
     propriedadeId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type SimulacaoCreateInput = {
+    dadosJson: JsonNullValueInput | InputJsonValue
+    resultado: number
+    dataSimulacao: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    propriedade: PropriedadeCreateNestedOneWithoutSimulacoesInput
+  }
+
+  export type SimulacaoUncheckedCreateInput = {
+    id?: number
+    dadosJson: JsonNullValueInput | InputJsonValue
+    resultado: number
+    dataSimulacao: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    propriedadeId: number
+  }
+
+  export type SimulacaoUpdateInput = {
+    dadosJson?: JsonNullValueInput | InputJsonValue
+    resultado?: FloatFieldUpdateOperationsInput | number
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedade?: PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput
+  }
+
+  export type SimulacaoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dadosJson?: JsonNullValueInput | InputJsonValue
+    resultado?: FloatFieldUpdateOperationsInput | number
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SimulacaoCreateManyInput = {
+    id?: number
+    dadosJson: JsonNullValueInput | InputJsonValue
+    resultado: number
+    dataSimulacao: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    propriedadeId: number
+  }
+
+  export type SimulacaoUpdateManyMutationInput = {
+    dadosJson?: JsonNullValueInput | InputJsonValue
+    resultado?: FloatFieldUpdateOperationsInput | number
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SimulacaoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dadosJson?: JsonNullValueInput | InputJsonValue
+    resultado?: FloatFieldUpdateOperationsInput | number
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -10386,7 +11710,17 @@ export namespace Prisma {
     none?: EstimativasWhereInput
   }
 
+  export type SimulacaoListRelationFilter = {
+    every?: SimulacaoWhereInput
+    some?: SimulacaoWhereInput
+    none?: SimulacaoWhereInput
+  }
+
   export type EstimativasOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SimulacaoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10694,6 +12028,103 @@ export namespace Prisma {
     valorTotal?: SortOrder
     propriedadeId?: SortOrder
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type PropriedadeScalarRelationFilter = {
+    is?: PropriedadeWhereInput
+    isNot?: PropriedadeWhereInput
+  }
+
+  export type SimulacaoCountOrderByAggregateInput = {
+    id?: SortOrder
+    dadosJson?: SortOrder
+    resultado?: SortOrder
+    dataSimulacao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    propriedadeId?: SortOrder
+  }
+
+  export type SimulacaoAvgOrderByAggregateInput = {
+    id?: SortOrder
+    resultado?: SortOrder
+    propriedadeId?: SortOrder
+  }
+
+  export type SimulacaoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    resultado?: SortOrder
+    dataSimulacao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    propriedadeId?: SortOrder
+  }
+
+  export type SimulacaoMinOrderByAggregateInput = {
+    id?: SortOrder
+    resultado?: SortOrder
+    dataSimulacao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    propriedadeId?: SortOrder
+  }
+
+  export type SimulacaoSumOrderByAggregateInput = {
+    id?: SortOrder
+    resultado?: SortOrder
+    propriedadeId?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
 
   export type TipoUserCreateNestedOneWithoutAdminsInput = {
     create?: XOR<TipoUserCreateWithoutAdminsInput, TipoUserUncheckedCreateWithoutAdminsInput>
@@ -10834,11 +12265,25 @@ export namespace Prisma {
     connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
   }
 
+  export type SimulacaoCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<SimulacaoCreateWithoutPropriedadeInput, SimulacaoUncheckedCreateWithoutPropriedadeInput> | SimulacaoCreateWithoutPropriedadeInput[] | SimulacaoUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutPropriedadeInput | SimulacaoCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: SimulacaoCreateManyPropriedadeInputEnvelope
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+  }
+
   export type EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput = {
     create?: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput> | EstimativasCreateWithoutPropriedadeInput[] | EstimativasUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: EstimativasCreateOrConnectWithoutPropriedadeInput | EstimativasCreateOrConnectWithoutPropriedadeInput[]
     createMany?: EstimativasCreateManyPropriedadeInputEnvelope
     connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+  }
+
+  export type SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<SimulacaoCreateWithoutPropriedadeInput, SimulacaoUncheckedCreateWithoutPropriedadeInput> | SimulacaoCreateWithoutPropriedadeInput[] | SimulacaoUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutPropriedadeInput | SimulacaoCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: SimulacaoCreateManyPropriedadeInputEnvelope
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -10873,6 +12318,20 @@ export namespace Prisma {
     deleteMany?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
   }
 
+  export type SimulacaoUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<SimulacaoCreateWithoutPropriedadeInput, SimulacaoUncheckedCreateWithoutPropriedadeInput> | SimulacaoCreateWithoutPropriedadeInput[] | SimulacaoUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutPropriedadeInput | SimulacaoCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: SimulacaoUpsertWithWhereUniqueWithoutPropriedadeInput | SimulacaoUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: SimulacaoCreateManyPropriedadeInputEnvelope
+    set?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    disconnect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    delete?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    update?: SimulacaoUpdateWithWhereUniqueWithoutPropriedadeInput | SimulacaoUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: SimulacaoUpdateManyWithWhereWithoutPropriedadeInput | SimulacaoUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
+  }
+
   export type EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput = {
     create?: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput> | EstimativasCreateWithoutPropriedadeInput[] | EstimativasUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: EstimativasCreateOrConnectWithoutPropriedadeInput | EstimativasCreateOrConnectWithoutPropriedadeInput[]
@@ -10885,6 +12344,20 @@ export namespace Prisma {
     update?: EstimativasUpdateWithWhereUniqueWithoutPropriedadeInput | EstimativasUpdateWithWhereUniqueWithoutPropriedadeInput[]
     updateMany?: EstimativasUpdateManyWithWhereWithoutPropriedadeInput | EstimativasUpdateManyWithWhereWithoutPropriedadeInput[]
     deleteMany?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
+  }
+
+  export type SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<SimulacaoCreateWithoutPropriedadeInput, SimulacaoUncheckedCreateWithoutPropriedadeInput> | SimulacaoCreateWithoutPropriedadeInput[] | SimulacaoUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutPropriedadeInput | SimulacaoCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: SimulacaoUpsertWithWhereUniqueWithoutPropriedadeInput | SimulacaoUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: SimulacaoCreateManyPropriedadeInputEnvelope
+    set?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    disconnect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    delete?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    update?: SimulacaoUpdateWithWhereUniqueWithoutPropriedadeInput | SimulacaoUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: SimulacaoUpdateManyWithWhereWithoutPropriedadeInput | SimulacaoUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
   }
 
   export type PrecipitacaoCreateNestedOneWithoutHistoricoInput = {
@@ -10993,6 +12466,20 @@ export namespace Prisma {
     delete?: PropriedadeWhereInput | boolean
     connect?: PropriedadeWhereUniqueInput
     update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutEstimativasInput, PropriedadeUpdateWithoutEstimativasInput>, PropriedadeUncheckedUpdateWithoutEstimativasInput>
+  }
+
+  export type PropriedadeCreateNestedOneWithoutSimulacoesInput = {
+    create?: XOR<PropriedadeCreateWithoutSimulacoesInput, PropriedadeUncheckedCreateWithoutSimulacoesInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutSimulacoesInput
+    connect?: PropriedadeWhereUniqueInput
+  }
+
+  export type PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput = {
+    create?: XOR<PropriedadeCreateWithoutSimulacoesInput, PropriedadeUncheckedCreateWithoutSimulacoesInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutSimulacoesInput
+    upsert?: PropriedadeUpsertWithoutSimulacoesInput
+    connect?: PropriedadeWhereUniqueInput
+    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutSimulacoesInput, PropriedadeUpdateWithoutSimulacoesInput>, PropriedadeUncheckedUpdateWithoutSimulacoesInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -11215,6 +12702,29 @@ export namespace Prisma {
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
   }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type TipoUserCreateWithoutAdminsInput = {
     tipo: string
@@ -11251,6 +12761,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutAdminInput = {
@@ -11265,6 +12776,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutAdminInput = {
@@ -11324,6 +12836,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutAdminInput = {
@@ -11338,6 +12851,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type AdminCreateWithoutTipoUserInput = {
@@ -11462,6 +12976,35 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SimulacaoCreateWithoutPropriedadeInput = {
+    dadosJson: JsonNullValueInput | InputJsonValue
+    resultado: number
+    dataSimulacao: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+  }
+
+  export type SimulacaoUncheckedCreateWithoutPropriedadeInput = {
+    id?: number
+    dadosJson: JsonNullValueInput | InputJsonValue
+    resultado: number
+    dataSimulacao: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+  }
+
+  export type SimulacaoCreateOrConnectWithoutPropriedadeInput = {
+    where: SimulacaoWhereUniqueInput
+    create: XOR<SimulacaoCreateWithoutPropriedadeInput, SimulacaoUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type SimulacaoCreateManyPropriedadeInputEnvelope = {
+    data: SimulacaoCreateManyPropriedadeInput | SimulacaoCreateManyPropriedadeInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AdminUpsertWithoutPropriedadeInput = {
     update: XOR<AdminUpdateWithoutPropriedadeInput, AdminUncheckedUpdateWithoutPropriedadeInput>
     create: XOR<AdminCreateWithoutPropriedadeInput, AdminUncheckedCreateWithoutPropriedadeInput>
@@ -11524,6 +13067,36 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     propriedadeId?: IntFilter<"Estimativas"> | number
+  }
+
+  export type SimulacaoUpsertWithWhereUniqueWithoutPropriedadeInput = {
+    where: SimulacaoWhereUniqueInput
+    update: XOR<SimulacaoUpdateWithoutPropriedadeInput, SimulacaoUncheckedUpdateWithoutPropriedadeInput>
+    create: XOR<SimulacaoCreateWithoutPropriedadeInput, SimulacaoUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type SimulacaoUpdateWithWhereUniqueWithoutPropriedadeInput = {
+    where: SimulacaoWhereUniqueInput
+    data: XOR<SimulacaoUpdateWithoutPropriedadeInput, SimulacaoUncheckedUpdateWithoutPropriedadeInput>
+  }
+
+  export type SimulacaoUpdateManyWithWhereWithoutPropriedadeInput = {
+    where: SimulacaoScalarWhereInput
+    data: XOR<SimulacaoUpdateManyMutationInput, SimulacaoUncheckedUpdateManyWithoutPropriedadeInput>
+  }
+
+  export type SimulacaoScalarWhereInput = {
+    AND?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
+    OR?: SimulacaoScalarWhereInput[]
+    NOT?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
+    id?: IntFilter<"Simulacao"> | number
+    dadosJson?: JsonFilter<"Simulacao">
+    resultado?: FloatFilter<"Simulacao"> | number
+    dataSimulacao?: DateTimeFilter<"Simulacao"> | Date | string
+    createdAt?: DateTimeFilter<"Simulacao"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
+    propriedadeId?: IntFilter<"Simulacao"> | number
   }
 
   export type PrecipitacaoCreateWithoutHistoricoInput = {
@@ -11773,6 +13346,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
+    simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutEstimativasInput = {
@@ -11787,6 +13361,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     adminId?: number | null
+    simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutEstimativasInput = {
@@ -11816,6 +13391,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutEstimativasInput = {
@@ -11830,6 +13406,81 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     adminId?: NullableIntFieldUpdateOperationsInput | number | null
+    simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+  }
+
+  export type PropriedadeCreateWithoutSimulacoesInput = {
+    nomeProprietario: string
+    nomePropriedade: string
+    latitude: number
+    longitude: number
+    altitude: number
+    simulacao: string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    admin?: AdminCreateNestedOneWithoutPropriedadeInput
+    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeUncheckedCreateWithoutSimulacoesInput = {
+    id?: number
+    nomeProprietario: string
+    nomePropriedade: string
+    latitude: number
+    longitude: number
+    altitude: number
+    simulacao: string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    adminId?: number | null
+    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeCreateOrConnectWithoutSimulacoesInput = {
+    where: PropriedadeWhereUniqueInput
+    create: XOR<PropriedadeCreateWithoutSimulacoesInput, PropriedadeUncheckedCreateWithoutSimulacoesInput>
+  }
+
+  export type PropriedadeUpsertWithoutSimulacoesInput = {
+    update: XOR<PropriedadeUpdateWithoutSimulacoesInput, PropriedadeUncheckedUpdateWithoutSimulacoesInput>
+    create: XOR<PropriedadeCreateWithoutSimulacoesInput, PropriedadeUncheckedCreateWithoutSimulacoesInput>
+    where?: PropriedadeWhereInput
+  }
+
+  export type PropriedadeUpdateToOneWithWhereWithoutSimulacoesInput = {
+    where?: PropriedadeWhereInput
+    data: XOR<PropriedadeUpdateWithoutSimulacoesInput, PropriedadeUncheckedUpdateWithoutSimulacoesInput>
+  }
+
+  export type PropriedadeUpdateWithoutSimulacoesInput = {
+    nomeProprietario?: StringFieldUpdateOperationsInput | string
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    altitude?: FloatFieldUpdateOperationsInput | number
+    simulacao?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    admin?: AdminUpdateOneWithoutPropriedadeNestedInput
+    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+  }
+
+  export type PropriedadeUncheckedUpdateWithoutSimulacoesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nomeProprietario?: StringFieldUpdateOperationsInput | string
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    altitude?: FloatFieldUpdateOperationsInput | number
+    simulacao?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    adminId?: NullableIntFieldUpdateOperationsInput | number | null
+    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type AdminCreateManyTipoUserInput = {
@@ -11889,6 +13540,16 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
+  export type SimulacaoCreateManyPropriedadeInput = {
+    id?: number
+    dadosJson: JsonNullValueInput | InputJsonValue
+    resultado: number
+    dataSimulacao: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+  }
+
   export type EstimativasUpdateWithoutPropriedadeInput = {
     valorTotal?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11907,6 +13568,35 @@ export namespace Prisma {
   export type EstimativasUncheckedUpdateManyWithoutPropriedadeInput = {
     id?: IntFieldUpdateOperationsInput | number
     valorTotal?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SimulacaoUpdateWithoutPropriedadeInput = {
+    dadosJson?: JsonNullValueInput | InputJsonValue
+    resultado?: FloatFieldUpdateOperationsInput | number
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SimulacaoUncheckedUpdateWithoutPropriedadeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dadosJson?: JsonNullValueInput | InputJsonValue
+    resultado?: FloatFieldUpdateOperationsInput | number
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SimulacaoUncheckedUpdateManyWithoutPropriedadeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dadosJson?: JsonNullValueInput | InputJsonValue
+    resultado?: FloatFieldUpdateOperationsInput | number
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

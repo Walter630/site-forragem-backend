@@ -1,7 +1,8 @@
+// Ajustado: Propriedade
 import { Admin, Estimativas } from "../../generated/prisma";
 
 type PropriedadeProps = {
-    id: number;
+    id?: number;
     nomePropriedade: string;
     nomeProprietario: string;
     latitude: number;
@@ -26,9 +27,8 @@ export class Propriedade {
     public static create(props: Omit<PropriedadeProps, "id">): Propriedade {
         return new Propriedade({
             ...props,
-            id: 0, // Default id to 0, will be set by the database
-            // createdAt and updatedAt will be set by the database
             createdAt: props.createdAt || new Date(),
+            updatedAt: props.updatedAt || new Date(),
         });
     }
 
@@ -83,6 +83,7 @@ export class Propriedade {
     get updatedAt(): Date | undefined {
         return this.props.updatedAt;
     }
+
     get deletedAt(): Date | null | undefined {
         return this.props.deletedAt;
     }
@@ -100,6 +101,7 @@ export class Propriedade {
             estimativas: this.estimativas,
             createdAt: this.props.createdAt,
             updatedAt: this.props.updatedAt,
-        }
+            deletedAt: this.props.deletedAt,
+        };
     }
 }
