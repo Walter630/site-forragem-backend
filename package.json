@@ -11,7 +11,7 @@
   },
   "prisma": {
     "seed": "ts-node src/generated/prisma/Seed.ts"
-  }, 
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

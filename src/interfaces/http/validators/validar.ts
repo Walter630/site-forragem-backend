@@ -8,7 +8,7 @@ export function validar(schema: ZodType<any>, fonte: "body" | "params" | "query"
 
     if (!resultado.success) {
       const erros = z.treeifyError(resultado.error);
-      return res.status(400).json({
+       res.status(400).json({
         mensagem: "Erro de validação" + erros,
         erros,
       });

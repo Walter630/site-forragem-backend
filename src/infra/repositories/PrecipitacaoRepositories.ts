@@ -48,8 +48,24 @@ export class PrecipitacaoRepositories implements IPrecipitacaoRepositories {
     }
   }
 
+  async findByPropriedadeId(propriedadeId: number): Promise<Precipitacao | null> {
+    try {
+      const precipitacao = await this.prisma.precipitacao.findFirst({
+        where: { id: propriedadeId },
+      });
+
+      if (!precipitacao) return null;
+
+      return Precipitacao.fromPrisma(precipitacao);
+    } catch (error) {
+      console.error("Error finding precipitacao by propriedadeId:", error);
+      throw new Error("Error finding precipitacao by propriedadeId");
+    }
+  }
+
   async createPrecipitacao(precipitacao: Precipitacao): Promise<Precipitacao> {
     try {
+      console.error('Creating precipitation with body:', precipitacao);
       const data = {
         mmAno: precipitacao.mmAno,
         chuvas: precipitacao.chuvas,
@@ -63,17 +79,7 @@ export class PrecipitacaoRepositories implements IPrecipitacaoRepositories {
 
       const created = await this.prisma.precipitacao.create({ data });
 
-      return Precipitacao.with({
-        id: created.id,
-        mmAno: created.mmAno,
-        chuvas: created.chuvas,
-        mmDia: created.mmDia,
-        cvDia: created.cvDia,
-        mmMes: created.mmMes,
-        cvMes: created.cvMes,
-        createdAt: created.createdAt,
-        updatedAt: created.updatedAt || new Date(),
-      });
+      return Precipitacao.fromPrisma(created);
     } catch {
       throw new Error("Error creating precipitacao");
     }

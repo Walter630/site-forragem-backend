@@ -14,19 +14,31 @@ export class AdminServices {
 
     async create(admin: Admin): Promise<Admin | null> {
         try{
-            
+            console.log("Creating admin:", admin);
             const cpfLimpo = admin.cpf.replace(/\D/g, "");
             
             const senhaCpf = cpfLimpo.slice(0, 8);
             const senhaCriptografada = await bcrypt.hash(senhaCpf, SALT_ROUNDS);
+            if (admin.tipoUserId === 1) {
+                const adminExistente = await this.adminRepository.findByEmail(admin.email);
+                if (adminExistente) {
+                    throw new Error("E-mail já cadastrado");
+                }
+            } else if (admin.tipoUserId === 2) {
+                const adminExistente = await this.adminRepository.findByCPF(cpfLimpo);
+                if (adminExistente) {
+                    throw new Error("CPF já cadastrado");
+                }
+            }
+            const tipoUserId = admin.tipoUserId ?? 1; // Se não for passado, assume 1 (Admin)
             const adminCreated = Admin.create({
-                tipoUserId: admin.tipoUserId,
+                tipoUserId: tipoUserId,
                 nome: admin.nome,
                 email: admin.email,
                 cpf: admin.cpf,
                 senha: senhaCriptografada,
-                ativo: admin.ativo,
-                propriedadeId: admin.propriedadeId,
+                ativado: admin.ativado,
+                propriedade: admin.propriedade,
             });
 
             if (!adminCreated) {

@@ -1,6 +1,3 @@
-// PRECIPITACAO
-import { Historico } from "./Historico";
-
 type PrecipitacaoProps = {
   id?: number;
   mmAno: number;
@@ -12,7 +9,6 @@ type PrecipitacaoProps = {
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date | null;
-  historico?: Historico;
 };
 
 export class Precipitacao {
@@ -22,7 +18,7 @@ export class Precipitacao {
     this.props = props;
   }
 
-  public static create(props: PrecipitacaoProps): Precipitacao {
+  public static create(props: Omit<PrecipitacaoProps, 'id'>): Precipitacao {
     return new Precipitacao({
       ...props,
       createdAt: props.createdAt || new Date(),
@@ -30,8 +26,22 @@ export class Precipitacao {
     });
   }
 
-  static with(props: Partial<PrecipitacaoProps>): Precipitacao {
-    return new Precipitacao(props as PrecipitacaoProps);
+  static with(props: PrecipitacaoProps): Precipitacao {
+    return new Precipitacao(props);
+  }
+
+  // *** Método para converter do resultado Prisma para a entidade ***
+  static fromPrisma(prismaObj: any): Precipitacao {
+    return new Precipitacao({
+      id: prismaObj.id,
+      mmAno: prismaObj.mmAno,
+      chuvas: prismaObj.chuvas,
+      mmDia: prismaObj.mmDia,
+      cvDia: prismaObj.cvDia,
+      mmMes: prismaObj.mmMes,
+      cvMes: prismaObj.cvMes,
+      createdAt: prismaObj.createdAt,
+    });
   }
 
   get id(): number | undefined {
@@ -63,9 +73,6 @@ export class Precipitacao {
   }
   get deletedAt(): Date | null | undefined {
     return this.props.deletedAt;
-  }
-  get historico(): Historico | undefined {
-    return this.props.historico;
   }
 
   toJSON() {

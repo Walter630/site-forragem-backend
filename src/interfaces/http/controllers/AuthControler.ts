@@ -8,9 +8,9 @@ export class AuthController {
     try {
       const { login, senha } = req.body;
       const resultado = await this.service.login(login, senha);
-      return res.json(resultado);
+       res.json(resultado);
     } catch (err: any) {
-      return res.status(401).json({ erro: err.message });
+       res.status(401).json({ erro: err.message });
     }
   }
 }

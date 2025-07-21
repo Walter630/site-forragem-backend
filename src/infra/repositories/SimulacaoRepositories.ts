@@ -1,8 +1,8 @@
+// src/infra/repositories/SimulacaoRepositories.ts
 import { PrismaClient } from "../../generated/prisma";
 import { ISimulacaoGateway } from "../../domain/gateway/ISimulacaoGateway";
 import { Simulacao } from "../../domain/entities/Simulacao";
 import { SimulacaoForragemDTO } from "../../aplication/dto/SimulacaoForragemDTO";
-import { Prisma } from "@prisma/client";
 
 export class SimulacaoRepositories implements ISimulacaoGateway {
   constructor(private readonly prisma: PrismaClient) {}
@@ -10,8 +10,8 @@ export class SimulacaoRepositories implements ISimulacaoGateway {
   async salvar(dados: SimulacaoForragemDTO, resultado: number): Promise<Simulacao> {
     await this.prisma.simulacao.create({
       data: {
-        propriedade: { connect: { id: dados.propriedadeId} },
-        dadosJson: dados as any,  // cast aqu
+        propriedade: { connect: { id: dados.propriedadeId } },
+        dadosJson: dados as any,
         resultado,
         dataSimulacao: new Date(),
       },

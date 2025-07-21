@@ -19,8 +19,7 @@ export class AdminRoutes {
     }
 
     private addRotas() {
-        this.api.addRotas("/admin/login", "POST", validar(loginSchema, "body"), this.adminController.login.bind(this.adminController));
-        this.api.addRotas("/admin", "POST", requireAdmin, validar(createAdminSchema), this.adminController.create.bind(this.adminController));
+        this.api.addRotas("/admin", "POST", validar(createAdminSchema), this.adminController.create.bind(this.adminController));
         this.api.addRotas("/admin", "PUT", requireAdmin, validar(updateAdminSchema), this.adminController.update.bind(this.adminController));
         this.api.addRotas("/admin", "DELETE", requireAdmin, validar(deleteAdminSchema), this.adminController.delete.bind(this.adminController));
         this.api.addRotas("/admin", "GET", this.adminController.findAll.bind(this.adminController));

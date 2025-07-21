@@ -1,26 +1,38 @@
 // src/presentation/controllers/SimulacaoController.ts
 import { Request, Response } from "express";
 import { SimulacaoServices } from "../../../aplication/services/SimulacaoServices";
-import { SimulacaoRepositories } from "../../../infra/repositories/SimulacaoRepositories";
-
 
 export class SimulacaoController {
-    constructor(private readonly simulacaoServices: SimulacaoServices, private readonly simulacaoRepository: SimulacaoRepositories) {}
+  // Injetando o serviço de simulação
+  // e removendo o repositório, pois não é necessário aqui
 
-   async simular(req: Request, res: Response) {
+  constructor(private readonly simulacaoServices: SimulacaoServices, ) {}
+
+  // Agora espera no body: { propriedadeId: number, descricao?: string }
+  async simular(req: Request, res: Response) {
     try {
-      const {dados} = req.body;
-      const resultado = await this.simulacaoServices.calcularProducao(dados);
-      const saved = await this.simulacaoRepository.salvar(dados, resultado);
+      const { propriedadeId, descricao } = req.body;
 
-      return res.status(201).json({ resultado, id: saved.id });
-    } catch (error) {
-      return res.status(500).json({ error: "Erro ao simular produção." });
+      if (!propriedadeId) {
+         res.status(400).json({ error: "PropriedadeId é obrigatório" });
+      }
+
+      const resultado = await this.simulacaoServices.calcularProducaoPorPropriedade(propriedadeId, descricao);
+
+       res.status(201).json({ resultado });
+    } catch (error: any) {
+      console.error("Erro na simulação:", error);
+       res.status(500).json({ error: error.message || "Erro ao simular produção." });
     }
   }
 
-    async historico(req: Request, res: Response) {
-    const historico = await this.simulacaoRepository.listarHistorico();
-    return res.json(historico);
+  async historico(req: Request, res: Response) {
+    try {
+      const historico = await this.simulacaoServices.listarHistorico();
+       res.json(historico);
+    } catch (error) {
+      console.error("Erro ao buscar histórico:", error);
+       res.status(500).json({ error: "Erro ao buscar histórico" });
+    }
   }
 }

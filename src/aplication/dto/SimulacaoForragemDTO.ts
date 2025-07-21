@@ -1,27 +1,17 @@
+
+
+// src/application/dto/SimulacaoForragemDTO.ts
 export interface SimulacaoForragemDTO {
-    propriedadeId: number;
-  nome: string;
-  coordenadas: {
-    lat: number;
-    long: number;
+  solo: {
+    agua0Bar: number;
+    agua15Bar: number;
+    fatorRocha: number;
+    profundidade: number;
   };
-  altitude: number;
-  dataSimulacao: Date;
   precipitacao: {
     mmAno: number;
-    mmDia: number;
-    mmMes: number;
-    chuvas: number;
-    cvDia: number;
-    cvMes: number;
   };
-  solo: {
-    profundidade: number;
-    fatorRocha: number;
-    condutividade: number;
-    densidade: number;
-    agua0Bar: number;
-    agua13Bar: number;  // ajustado para manter padrão
-    agua15Bar: number;
-  };
+  propriedadeId: number; // necessário para associar ao histórico
+  descricao?: string;    // opcional, mas recomendado
 }
+

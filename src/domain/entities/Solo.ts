@@ -1,4 +1,3 @@
-// Ajustado: Solo
 type SoloProps = {
     id?: number;
     profundidade: number;
@@ -33,60 +32,67 @@ export class Solo {
         return new Solo(props as SoloProps);
     }
 
-    get id(): number | undefined {
-        return this.props.id;
+    // *** Método para converter do resultado Prisma para a entidade ***
+    static fromPrisma(prismaObj: any): Solo {
+        return new Solo({
+            id: prismaObj.id,
+            profundidade: prismaObj.profundidade,
+            fator_rocha: prismaObj.fatorRocha,
+            condut_hidraulica_saturada: prismaObj.condutHidraulicaSaturada,
+            densidade_aparente: prismaObj.densidadeAparente,
+            agua_0_bar: prismaObj.agua0Bar,
+            agua_13_bar: prismaObj.agua13Bar,
+            agua_15_bar: prismaObj.agua15Bar,
+            createdAt: prismaObj.createdAt,
+            updatedAt: prismaObj.updatedAt,
+            deletedAt: prismaObj.deletedAt,
+        });
     }
 
-    get profundidade(): number {
-        return this.props.profundidade;
-    }
+  get id(): number | undefined {
+    return this.props.id;
+  }
+  get profundidade(): number {
+    return this.props.profundidade;
+  }
+  get fator_rocha(): number {
+    return this.props.fator_rocha;
+  }
+  get condut_hidraulica_saturada(): number {
+    return this.props.condut_hidraulica_saturada;
+  }
+  get densidade_aparente(): number {
+    return this.props.densidade_aparente;
+  }
+  get agua_0_bar(): number {
+    return this.props.agua_0_bar;
+  }
+  get agua_13_bar(): number {
+    return this.props.agua_13_bar;
+  }
+  get agua_15_bar(): number {
+    return this.props.agua_15_bar;
+  }
+  get createdAt(): Date | undefined {
+    return this.props.createdAt;
+  }
+  get updatedAt(): Date | undefined {
+    return this.props.updatedAt;
+  }
+  get deletedAt(): Date | null | undefined {
+    return this.props.deletedAt;
+  }
 
-    get fator_rocha(): number {
-        return this.props.fator_rocha;
-    }
-
-    get condut_hidraulica_saturada(): number {
-        return this.props.condut_hidraulica_saturada;
-    }
-
-    get densidade_aparente(): number {
-        return this.props.densidade_aparente;
-    }
-
-    get agua_0_bar(): number {
-        return this.props.agua_0_bar;
-    }
-
-    get agua_13_bar(): number {
-        return this.props.agua_13_bar;
-    }
-
-    get agua_15_bar(): number {
-        return this.props.agua_15_bar;
-    }
-
-    get createdAt(): Date | undefined {
-        return this.props.createdAt;
-    }
-
-    get updatedAt(): Date | undefined {
-        return this.props.updatedAt;
-    }
-
-    get deletedAt(): Date | null | undefined {
-        return this.props.deletedAt;
-    }
-
-    toJSON() {
+   toJSON() {
         return {
-            id: this.id,
-            profundidade: this.profundidade,
-            fator_rocha: this.fator_rocha,
-            condut_hidraulica_saturada: this.condut_hidraulica_saturada,
-            densidade_aparente: this.densidade_aparente,
-            agua_0_bar: this.agua_0_bar,
-            agua_13_bar: this.agua_13_bar,
-            agua_15_bar: this.agua_15_bar,
+            id: this.props.id,
+            profundidade: this.props.profundidade,
+            fator_rocha: this.props.fator_rocha,
+            condut_hidraulica_saturada: this.props.condut_hidraulica_saturada,
+            densidade_aparente: this.props.densidade_aparente,
+            agua_0_bar: this.props.agua_0_bar,
+            agua_13_bar: this.props.agua_13_bar,
+            agua_15_bar: this.props.agua_15_bar,
             createdAt: this.props.createdAt,
             updatedAt: this.props.updatedAt,
             deletedAt: this.props.deletedAt,

@@ -18,7 +18,7 @@ export class SoloRoutes {
     }
 
     addRotas() {
-        this.api.addRotas("/solo", "GET",  this.soloController.getAll.bind(this.soloController));
+        this.api.addRotas("/solo", "GET",  this.soloController.findAll.bind(this.soloController));
         this.api.addRotas("/solo/:id", "GET",  this.soloController.findById.bind(this.soloController));
         this.api.addRotas("/solo", "POST", this.soloController.create.bind(this.soloController));
         this.api.addRotas("/solo/:id", "PUT",  this.soloController.update.bind(this.soloController));

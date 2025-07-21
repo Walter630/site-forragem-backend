@@ -3,15 +3,17 @@ import { SimulacaoRepositories } from "../../../infra/repositories/SimulacaoRepo
 import { prisma } from "../../../infra/prisma/PrismaClient";
 import { SimulacaoController } from "../controllers/SimulacaoController";
 import { Api } from "./Api";
+import { HistoricoServices } from "../../../aplication/services/HistoricoServices";
+import { HistoricoRepositories } from "../../../infra/repositories/HistoricoRepositories";
 
 export class SimulacaoRoutes {
     private simulacaoController: SimulacaoController;
 
     constructor(private api: Api) {
         const simulacaoRepository = new SimulacaoRepositories(prisma);
-        const simulacaoService = new SimulacaoServices(simulacaoRepository);
+        const simulacaoService = new SimulacaoServices(simulacaoRepository, new HistoricoServices( ), new HistoricoRepositories(prisma), new PrecipitacaoRepositories(prisma));
 
-        this.simulacaoController = new SimulacaoController(simulacaoService, simulacaoRepository);
+        this.simulacaoController = new SimulacaoController(simulacaoService);
     }
 
     static build(api: Api) {
