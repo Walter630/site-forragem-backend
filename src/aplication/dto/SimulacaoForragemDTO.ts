@@ -1,17 +1,13 @@
+// src/aplication/dto/SimulacaoForragemDTO.ts
 
-
-// src/application/dto/SimulacaoForragemDTO.ts
-export interface SimulacaoForragemDTO {
-  solo: {
-    agua0Bar: number;
-    agua15Bar: number;
-    fatorRocha: number;
-    profundidade: number;
-  };
-  precipitacao: {
-    mmAno: number;
-  };
-  propriedadeId: number; // necessário para associar ao histórico
-  descricao?: string;    // opcional, mas recomendado
+export interface SimularForragemInputDTO {
+  propriedadeId: number;
+  dados: Record<string, any>; // <- Aqui está o ajuste
 }
 
+export interface SimularForragemOutputDTO {
+  resultado: number;
+  estimativa?: number;
+  diferenca?: number;
+  status: string;
+}

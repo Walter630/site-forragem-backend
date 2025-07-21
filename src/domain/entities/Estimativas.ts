@@ -4,11 +4,11 @@ import { Propriedade } from "./Propriedade";
 type EstimativasProps = {
   id?: number;
   valorTotal: number;
-  descricao: string;
+  descricao?: string | null;
   propriedadeId: number;
   propriedade?: Propriedade;
   createdAt?: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | null;
   deletedAt?: Date | null;
 };
 
@@ -37,7 +37,7 @@ export class Estimativas {
   get valorTotal(): number {
     return this.props.valorTotal;
   }
-    get descricao(): string {
+    get descricao(): string | undefined | null{
         return this.props.descricao;
     }
   get propriedadeId(): number {
@@ -49,7 +49,7 @@ export class Estimativas {
   get createdAt(): Date | undefined {
     return this.props.createdAt;
   }
-  get updatedAt(): Date | undefined {
+  get updatedAt(): Date | undefined | null {
     return this.props.updatedAt;
   }
   get deletedAt(): Date | null | undefined {

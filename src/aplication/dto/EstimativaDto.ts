@@ -1,3 +1,5 @@
+// src/aplication/dto/EstimativasDTO.ts
+
 export interface createEstimativa {
     id?: number;
     valorTotal: number;
@@ -12,9 +14,12 @@ export interface createEstimativa {
         adminId?: number;
         simulacao?: string;
     };
-    descricao: string;
+    descricao: string | null; // já está ok
     createdAt?: Date;
+    updatedAt?: Date | null; // <-- Adicione isso
+    deletedAt?: Date | null; // <-- Se estiver usando também
 }
+
 
 export interface UpdateEstimativaDTO {
     valorTotal?: number;

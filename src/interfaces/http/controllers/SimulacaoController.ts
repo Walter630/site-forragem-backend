@@ -3,36 +3,33 @@ import { Request, Response } from "express";
 import { SimulacaoServices } from "../../../aplication/services/SimulacaoServices";
 
 export class SimulacaoController {
-  // Injetando o serviço de simulação
-  // e removendo o repositório, pois não é necessário aqui
+  constructor(private readonly simulacaoServices: SimulacaoServices) {}
 
-  constructor(private readonly simulacaoServices: SimulacaoServices, ) {}
-
-  // Agora espera no body: { propriedadeId: number, descricao?: string }
+  // Espera no body: { propriedadeId: number, dados: any }
   async simular(req: Request, res: Response) {
     try {
-      const { propriedadeId, descricao } = req.body;
+      const { propriedadeId, dados } = req.body;
 
-      if (!propriedadeId) {
-         res.status(400).json({ error: "PropriedadeId é obrigatório" });
+      if (!propriedadeId || !dados) {
+        return res.status(400).json({ error: "propriedadeId e dados são obrigatórios." });
       }
 
-      const resultado = await this.simulacaoServices.calcularProducaoPorPropriedade(propriedadeId, descricao);
+      const resultado = await this.simulacaoServices.simularForragem({ propriedadeId, dados });
 
-       res.status(201).json({ resultado });
+      return res.status(201).json({ resultado });
     } catch (error: any) {
       console.error("Erro na simulação:", error);
-       res.status(500).json({ error: error.message || "Erro ao simular produção." });
+      return res.status(500).json({ error: error.message || "Erro ao simular produção." });
     }
   }
 
   async historico(req: Request, res: Response) {
     try {
       const historico = await this.simulacaoServices.listarHistorico();
-       res.json(historico);
-    } catch (error) {
+      return res.json(historico);
+    } catch (error: any) {
       console.error("Erro ao buscar histórico:", error);
-       res.status(500).json({ error: "Erro ao buscar histórico" });
+      return res.status(500).json({ error: error.message || "Erro ao buscar histórico." });
     }
   }
 }

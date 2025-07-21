@@ -1,24 +1,28 @@
 // Ajustado: Simulacao
-import { SimulacaoForragemDTO } from "../../aplication/dto/SimulacaoForragemDTO";
+import { SimularForragemInputDTO } from "../../aplication/dto/SimulacaoForragemDTO";
 
 export class Simulacao {
     constructor(
         public id: number,
-        public dados: SimulacaoForragemDTO,
-        public resultado: number
+        public propriedadeId: number,
+        public dados: SimularForragemInputDTO,
+        public resultado: number,
+        public dataSimulacao: Date,  // adiciona aqui
     ) {}
 
     static with(data: {
-        id: number;
-        propriedadeId: number;
-        dadosJson: SimulacaoForragemDTO;
-        resultado: number;
-        dataSimulacao: Date;
-    }): Simulacao {
-        return new Simulacao(
-            data.id,
-            data.dadosJson,
-            data.resultado
-        );
-    }
+    id: number;
+    propriedadeId: number;
+    dados: SimularForragemInputDTO;
+    resultado: number;
+    dataSimulacao: Date;
+}): Simulacao {
+    return new Simulacao(
+        data.id,
+        data.propriedadeId,
+        data.dados,
+        data.resultado,
+        data.dataSimulacao
+    );
+}
 }

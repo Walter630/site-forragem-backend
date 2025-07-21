@@ -6,6 +6,7 @@ import { SimulacaoRoutes } from "./SimulacaoRoutes";
 import { SoloRoutes } from "./SoloRoutes";
 import { HistoricoRoutes } from "./HistoricoRoutes";
 import { PrecipitacaoRoutes } from "./PrecipitacaoRoutes";
+import { PropriedadeRoutes } from "./PropriedadeRoutes";
 
 
 export function loadAllRoutes(api: Api) {
@@ -16,4 +17,5 @@ export function loadAllRoutes(api: Api) {
   SoloRoutes.build(api);
   HistoricoRoutes.build(api);
   PrecipitacaoRoutes.build(api);
+  PropriedadeRoutes.build(api);
 }

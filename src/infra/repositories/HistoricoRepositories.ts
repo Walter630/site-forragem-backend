@@ -5,15 +5,6 @@ import { Propriedade } from "../../domain/entities/Propriedade";
 
 export class HistoricoRepositories implements IHistoricoRepositories {
   constructor(private readonly prisma: PrismaClient = new PrismaClient()) {}
-  findByPropriedade(propriedade: Propriedade): Promise<Historico[]> {
-    throw new Error("Method not implemented.");
-  }
-  findBySolo(solo: Solo): Promise<Historico[]> {
-    throw new Error("Method not implemented.");
-  }
-  findByPrecipitacao(precipitacao: Precipitacao): Promise<Historico[]> {
-    throw new Error("Method not implemented.");
-  }
 
   private mapToDomain(data: any): Historico {
     return Historico.with({
@@ -21,6 +12,7 @@ export class HistoricoRepositories implements IHistoricoRepositories {
       descricao: data.descricao ?? undefined,
       valorSimulacao: data.valorSimulacao,
       propriedadeId: data.propriedadeId,
+      simulacaoId: data.simulacaoId,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
       deletedAt: data.deletedAt ?? null,
@@ -41,18 +33,19 @@ export class HistoricoRepositories implements IHistoricoRepositories {
 
   async findByPropriedadeId(propriedadeId: number): Promise<Historico[]> {
     const historicos = await this.prisma.historico.findMany({
-      where: { id: propriedadeId },
+      where: { propriedadeId },  // CORREÇÃO AQUI
       orderBy: { createdAt: "desc" },
     });
     return historicos.map(this.mapToDomain);
   }
 
-  async create(data: Omit<Historico, "id" | "createdAt" | "updatedAt" | "deletedAt"> & { propriedadeId: number }): Promise<Historico> {
+  async create(data: Omit<Historico, "id" | "createdAt" | "updatedAt" | "deletedAt">): Promise<Historico> {
     const created = await this.prisma.historico.create({
       data: {
         descricao: data.descricao,
         valorSimulacao: data.valorSimulacao,
         propriedadeId: data.propriedadeId,
+        simulacaoId: data.simulacaoId,
       },
     });
     return this.mapToDomain(created);
@@ -65,6 +58,7 @@ export class HistoricoRepositories implements IHistoricoRepositories {
         descricao: historico.descricao,
         valorSimulacao: historico.valorSimulacao,
         propriedadeId: historico.propriedadeId,
+        simulacaoId: historico.simulacaoId,
         updatedAt: new Date(),
       },
     });
@@ -74,4 +68,8 @@ export class HistoricoRepositories implements IHistoricoRepositories {
   async delete(id: number): Promise<void> {
     await this.prisma.historico.delete({ where: { id } });
   }
+  async listarHistorico(): Promise<Historico[]> {
+      return await this.listarHistorico()
+  }
 }
+

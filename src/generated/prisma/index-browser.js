@@ -162,6 +162,7 @@ exports.Prisma.HistoricoScalarFieldEnum = {
   descricao: 'descricao',
   valorSimulacao: 'valorSimulacao',
   propriedadeId: 'propriedadeId',
+  simulacaoId: 'simulacaoId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
@@ -177,7 +178,8 @@ exports.Prisma.PrecipitacaoScalarFieldEnum = {
   cvMes: 'cvMes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  propriedadeId: 'propriedadeId'
 };
 
 exports.Prisma.SoloScalarFieldEnum = {
@@ -189,6 +191,7 @@ exports.Prisma.SoloScalarFieldEnum = {
   agua0Bar: 'agua0Bar',
   agua13Bar: 'agua13Bar',
   agua15Bar: 'agua15Bar',
+  propriedadeId: 'propriedadeId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'

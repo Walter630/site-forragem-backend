@@ -1,6 +1,7 @@
+// src/domain/gateway/ISimulacaoGateway.ts
 import { Simulacao } from "../entities/Simulacao";
 
 export interface ISimulacaoGateway {
-  salvar(dados: any, resultado: number): Promise<Simulacao>;
-    listarHistorico(): Promise<any[]>;
+  create(data: Partial<Simulacao>): Promise<Simulacao>;
+  listarHistorico(): Promise<any[]>;
 }

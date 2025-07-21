@@ -56,9 +56,11 @@ model Propriedade {
   adminId Int?   @unique
   admin   Admin? @relation(fields: [adminId], references: [id])
 
-  estimativas Estimativas[]
-  simulacoes  Simulacao[]
-  historicos  Historico[]
+  estimativas   Estimativas[]
+  simulacoes    Simulacao[]
+  historicos    Historico[]
+  precipitacoes Precipitacao[] // <<< Adicione este array para a relação inversa
+  solos         Solo[] // <<< Também este
 
   @@map("propriedades")
 }
@@ -69,6 +71,8 @@ model Historico {
   valorSimulacao Float
   propriedadeId  Int
   propriedade    Propriedade @relation(fields: [propriedadeId], references: [id])
+  simulacaoId    Int
+  simulacao      Simulacao   @relation(fields: [simulacaoId], references: [id])
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
   deletedAt      DateTime?
@@ -88,11 +92,14 @@ model Precipitacao {
   updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt DateTime? @map("deleted_at") @db.DateTime()
 
+  propriedadeId Int
+  propriedade   Propriedade @relation(fields: [propriedadeId], references: [id])
+
   @@map("precipitacaos")
 }
 
 model Solo {
-  id                       Int       @id @default(autoincrement())
+  id                       Int         @id @default(autoincrement())
   profundidade             Float
   fatorRocha               Float
   condutHidraulicaSaturada Float
@@ -100,9 +107,11 @@ model Solo {
   agua0Bar                 Float
   agua13Bar                Float
   agua15Bar                Float
-  createdAt                DateTime  @default(now()) @map("created_at")
-  updatedAt                DateTime? @updatedAt @map("updated_at") @db.DateTime()
-  deletedAt                DateTime? @map("deleted_at") @db.DateTime()
+  propriedadeId            Int
+  propriedade              Propriedade @relation(fields: [propriedadeId], references: [id])
+  createdAt                DateTime    @default(now()) @map("created_at")
+  updatedAt                DateTime?   @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt                DateTime?   @map("deleted_at") @db.DateTime()
 
   @@map("solos")
 }
@@ -131,6 +140,8 @@ model Simulacao {
 
   propriedadeId Int
   propriedade   Propriedade @relation(fields: [propriedadeId], references: [id])
+
+  historico Historico[] // <<< Também este
 
   @@map("simulacoes")
 }

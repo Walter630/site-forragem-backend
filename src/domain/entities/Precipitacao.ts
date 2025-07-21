@@ -1,5 +1,6 @@
 type PrecipitacaoProps = {
   id?: number;
+  propriedadeId: number;
   mmAno: number;
   chuvas: number;
   mmDia: number;
@@ -34,6 +35,7 @@ export class Precipitacao {
   static fromPrisma(prismaObj: any): Precipitacao {
     return new Precipitacao({
       id: prismaObj.id,
+      propriedadeId: prismaObj.propriedadeId,
       mmAno: prismaObj.mmAno,
       chuvas: prismaObj.chuvas,
       mmDia: prismaObj.mmDia,
@@ -46,6 +48,9 @@ export class Precipitacao {
 
   get id(): number | undefined {
     return this.props.id;
+  }
+  get propriedadeId(): number {
+    return this.props.propriedadeId;
   }
   get mmAno(): number {
     return this.props.mmAno;

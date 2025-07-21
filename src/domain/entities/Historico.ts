@@ -1,7 +1,8 @@
 type HistoricoProps = {
   id?: number;
   descricao?: string;          // se quiser, pode guardar uma descrição opcional
-  valorSimulacao: number;      // resultado da simulação
+  valorSimulacao: number; 
+  simulacaoId: number  // resultado da simulação
   propriedadeId: number;       // FK para Propriedade
   createdAt?: Date;
   updatedAt?: Date;
@@ -31,6 +32,7 @@ export class Historico {
   get descricao(): string | undefined { return this.props.descricao; }
   get valorSimulacao(): number { return this.props.valorSimulacao; }
   get propriedadeId(): number { return this.props.propriedadeId; }
+  get simulacaoId(): number { return this.props.simulacaoId; }
   get createdAt(): Date | undefined { return this.props.createdAt; }
   get updatedAt(): Date | undefined { return this.props.updatedAt; }
   get deletedAt(): Date | null | undefined { return this.props.deletedAt; }
