@@ -27,7 +27,9 @@ export class PropriedadeServices {
         if (data.estimativas && !Array.isArray(data.estimativas)) {
             throw new Error('Estimativas deve ser um array');
         }
-        return this.propriedadeRepository.createPropriedades({...data,
+        console.log("chegando services", data)
+        return this.propriedadeRepository.createPropriedades({
+            ...data,
             createdAt: data.createdAt || new Date(),
             updatedAt: data.updatedAt || new Date(),
         } as Propriedade);

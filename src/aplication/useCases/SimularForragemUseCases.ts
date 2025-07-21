@@ -1,6 +1,6 @@
 import {
   SimularForragemInputDTO,
-  SimularForragemOutputDTO
+  SimularForragemOutputDTO,
 } from "../dto/SimulacaoForragemDTO";
 
 import { IHistoricoRepositories } from "../../domain/gateway/IHistoricoRepositories";
@@ -26,47 +26,57 @@ export class SimularForragemUseCase {
 
     const resultadoSimulado = this.calcularForragem(dados);
 
-    const simulacao = await this.simulacaoRepo.create({
-      dados: dados as any, // garantir que seu repositório aceite dadosJson do tipo JSON
+    const simulacaoCriada = await this.simulacaoRepo.create({
+      propriedadeId,
+      dadosJson: dados,
       resultado: resultadoSimulado,
       dataSimulacao: new Date(),
-      propriedadeId,
     });
 
     await this.historicoRepo.create(
-    Historico.create({
+      Historico.create({
         valorSimulacao: resultadoSimulado,
-        simulacaoId: simulacao.id!,
+        simulacaoId: simulacaoCriada.id!,
         propriedadeId,
         descricao: `Simulação realizada em ${new Date().toLocaleDateString()}`,
         createdAt: new Date(),
         updatedAt: new Date(),
-    })
+      })
     );
 
-    // Passar objeto Propriedade, ajuste conforme seu domínio
-    const estimativa = await this.estimativaRepo.findByPropriedade({ id: propriedadeId } as any);
+    const estimativa = await this.estimativaRepo.findByPropriedade(propriedadeId); // <- aqui
 
-    if (estimativa && estimativa.length > 0) {
-      const valorEstimativa = estimativa[0].valorTotal;
-      const diferenca = valorEstimativa - resultadoSimulado;
-      return {
-        resultado: resultadoSimulado,
-        estimativa: valorEstimativa,
-        diferenca,
-        status: diferenca > 0 ? "Necessita mais produção" : "Produção suficiente",
-      };
+    if (estimativa) {
+  const valorEstimativa = estimativa.valorTotal;
+  const diferenca = valorEstimativa - resultadoSimulado;
+
+  const status = diferenca > 0 ? "Necessita mais produção" : "Produção suficiente";
+
+  const mensagem =
+    diferenca > 0
+      ? `Você precisa de mais ${diferenca.toFixed(2)} kg para atingir a meta.`
+      : `Você superou a meta em ${Math.abs(diferenca).toFixed(2)} kg.`;
+
+  return {
+    resultado: resultadoSimulado,
+    estimativa: valorEstimativa,
+    diferenca,
+    status,
+    mensagem,
+  };
     }
 
     return {
       resultado: resultadoSimulado,
       status: "Nenhuma estimativa registrada para esta propriedade",
+      mensagem: "Cadastre uma estimativa para comparações futuras.",
     };
   }
 
   private calcularForragem(dados: DadosSimulacao): number {
     const area = dados.area ?? 1;
     const eficiencia = dados.eficiencia ?? 0.75;
-    return area * eficiencia * 1000;
+
+    return area * eficiencia * 1000; // resultado em kg
   }
 }

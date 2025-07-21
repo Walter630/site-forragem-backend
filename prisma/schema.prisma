@@ -95,7 +95,7 @@ model Precipitacao {
   propriedadeId Int
   propriedade   Propriedade @relation(fields: [propriedadeId], references: [id])
 
-  @@map("precipitacaos")
+  @@map("precipitacao")
 }
 
 model Solo {

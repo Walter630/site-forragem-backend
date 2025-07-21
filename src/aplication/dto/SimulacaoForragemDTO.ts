@@ -6,8 +6,10 @@ export interface SimularForragemInputDTO {
 }
 
 export interface SimularForragemOutputDTO {
-  resultado: number;
-  estimativa?: number;
-  diferenca?: number;
-  status: string;
+  resultado: number;              // valor em kg
+  estimativa?: number;           // valor estimado em kg
+  diferenca?: number;            // diferença (estimativa - resultado)
+  status: string;                // ex: "Produção suficiente" ou "Necessita mais produção"
+  mensagem?: string;             // ex: "Você precisa de mais 120kg para atingir a meta"
 }
+

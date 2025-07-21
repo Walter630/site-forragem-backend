@@ -33,9 +33,10 @@ export class PrecipitacaoController {
     try {
         console.log("Headers:", req.headers);
     console.log("Body (raw):", req.body);
-        const { mmAno, chuvas, mmDia, cvDia, mmMes, cvMes } = req.body;
+        const {propriedadeId ,mmAno, chuvas, mmDia, cvDia, mmMes, cvMes } = req.body;
 
       const created = await this.service.create({
+        propriedadeId,
         mmAno,
         chuvas,
         mmDia,
@@ -54,7 +55,7 @@ export class PrecipitacaoController {
   async update(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      const { mmAno, chuvas, mmDia, cvDia, mmMes, cvMes } = req.body;
+      const {propriedadeId, mmAno, chuvas, mmDia, cvDia, mmMes, cvMes } = req.body;
 
       const existing = await this.service.findById(id);
       if (!existing) {
@@ -62,6 +63,7 @@ export class PrecipitacaoController {
       }
 
       const updated = await this.service.update(id, {
+        propriedadeId,
         mmAno,
         chuvas,
         mmDia,

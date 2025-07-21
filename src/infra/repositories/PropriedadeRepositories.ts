@@ -55,6 +55,7 @@ export class PropriedadeRepositories implements IPropriedadeRepositories {
 
   async createPropriedades(propriedade: Propriedade): Promise<Propriedade> {
     try {
+      console.log(propriedade)
       const data: any = {
         nomePropriedade: propriedade.nomePropriedade,
         nomeProprietario: propriedade.nomeProprietario,
@@ -64,12 +65,12 @@ export class PropriedadeRepositories implements IPropriedadeRepositories {
         simulacao: propriedade.simulacao || "",
         adminId: propriedade.admin?.id || propriedade.adminId,
       };
-
+      console.log(data)
       const created = await this.prisma.propriedade.create({
         data,
         include: { admin: true, estimativas: true },
       });
-
+      console.log(created)
       return Propriedade.with({
         id: created.id,
         nomePropriedade: created.nomePropriedade,

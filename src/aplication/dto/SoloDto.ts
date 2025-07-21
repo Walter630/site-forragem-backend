@@ -1,4 +1,5 @@
 export interface CreateSoloDTO {
+  propriedadeId: number;
   profundidade: number;
   condut_hidraulica_saturada: number;
   densidade_aparente: number;

@@ -46,14 +46,13 @@ export class EstimativasRepositories implements IEstimativasRepositories {
     return this.mapToDomain(created);
   }
 
-  async findByPropriedade(propriedade: Propriedade): Promise<Estimativas[]> {
-    const estimativas = await this.prisma.estimativas.findMany({
-      where: { propriedadeId: propriedade.id! },
-      include: { propriedade: { include: { admin: true } } },
-    });
-    return estimativas.map(e => Estimativas.with({ ...e, propriedade }));
-  }
-
+  async findByPropriedade(propriedadeId: number): Promise<Estimativas | null> {
+  const estimativa = await this.prisma.estimativas.findFirst({
+    where: { propriedadeId },
+    include: { propriedade: { include: { admin: true } } },
+  });
+  return estimativa ? this.mapToDomain(estimativa) : null;
+}
   async findById(id: number): Promise<Estimativas | null> {
     const estimativa = await this.prisma.estimativas.findUnique({
       where: { id },

@@ -9,6 +9,7 @@ export class SoloRepositories implements ISoloRepositories {
   try {
     // Debug: verificar valores
     console.log("Solo properties para salvar:", {
+      propriedadeId: solo.propriedadeId,
       profundidade: solo.profundidade,
       fatorRocha: solo.fator_rocha,
       condutHidraulicaSaturada: solo.condut_hidraulica_saturada,
@@ -19,6 +20,7 @@ export class SoloRepositories implements ISoloRepositories {
     });
 
     const data = {
+      propriedadeId: solo.propriedadeId,
       profundidade: solo.profundidade,
       fatorRocha: solo.fator_rocha,
       condutHidraulicaSaturada: solo.condut_hidraulica_saturada,

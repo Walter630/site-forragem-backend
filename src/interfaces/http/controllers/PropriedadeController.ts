@@ -6,8 +6,8 @@ export class PropriedadeController {
 
   async listar(req: Request, res: Response) {
     try {
-        await this.service.findAll();
-       res.json();
+        const listar = await this.service.findAll();
+        res.status(200).json(listar)
     } catch (err: any) {
        res.status(500).json({ erro: err.message });
     }
@@ -42,8 +42,10 @@ export class PropriedadeController {
     }
     async create(req: Request, res: Response) {
         try {
+           
             const propriedade = req.body;
             const createdPropriedade = await this.service.create(propriedade);
+            
              res.status(201).json(createdPropriedade);
         } catch (err: any) {
              res.status(500).json({ erro: err.message });

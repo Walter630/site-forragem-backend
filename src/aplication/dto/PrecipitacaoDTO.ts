@@ -1,4 +1,5 @@
 export interface CreatePrecipitacaoDTO {
+  propriedadeId: number;
   mmAno: number;
   mmDia: number;
   mmMes: number;
@@ -8,6 +9,7 @@ export interface CreatePrecipitacaoDTO {
 }
 export interface UpdatePrecipitacaoDTO {
   id: number;
+  propriedadeId: number;
   mmAno?: number;
   mmDia?: number;
   mmMes?: number;

@@ -6,6 +6,7 @@ export class SoloController {
   async create(req: Request, res: Response) {
     try {
       const {
+        propriedadeId,
         profundidade,
         condut_hidraulica_saturada,
         densidade_aparente,
@@ -16,6 +17,7 @@ export class SoloController {
       } = req.body;
 
       const novoSolo = await this.soloServices.create({
+        propriedadeId,
         profundidade,
         condut_hidraulica_saturada,
         densidade_aparente,

@@ -1,5 +1,6 @@
 type SoloProps = {
     id?: number;
+    propriedadeId: number;
     profundidade: number;
     fator_rocha: number;
     condut_hidraulica_saturada: number;
@@ -36,6 +37,7 @@ export class Solo {
     static fromPrisma(prismaObj: any): Solo {
         return new Solo({
             id: prismaObj.id,
+            propriedadeId: prismaObj.propriedadeId,
             profundidade: prismaObj.profundidade,
             fator_rocha: prismaObj.fatorRocha,
             condut_hidraulica_saturada: prismaObj.condutHidraulicaSaturada,
@@ -51,6 +53,9 @@ export class Solo {
 
   get id(): number | undefined {
     return this.props.id;
+  }
+  get propriedadeId(): number {
+    return this.props.propriedadeId
   }
   get profundidade(): number {
     return this.props.profundidade;
@@ -86,6 +91,7 @@ export class Solo {
    toJSON() {
         return {
             id: this.props.id,
+            propriedadeId: this.props.propriedadeId,
             profundidade: this.props.profundidade,
             fator_rocha: this.props.fator_rocha,
             condut_hidraulica_saturada: this.props.condut_hidraulica_saturada,
