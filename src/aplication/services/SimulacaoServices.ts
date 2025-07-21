@@ -13,9 +13,9 @@ export class SimulacaoServices {
 
   constructor(
     simulacaoRepository: SimulacaoRepositories,
-    historicoService: HistoricoServices,
-    soloRepository: SoloRepositories,
-    precipitacaoRepository: PrecipitacaoRepositories
+  historicoService: HistoricoServices,
+  soloRepository: SoloRepositories,
+  precipitacaoRepository: PrecipitacaoRepositories
   ) {
     this.simulacaoRepository = simulacaoRepository;
     this.historicoService = historicoService;

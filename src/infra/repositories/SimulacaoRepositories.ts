@@ -1,4 +1,3 @@
-// src/infra/repositories/SimulacaoRepositories.ts
 import { PrismaClient } from "../../generated/prisma";
 import { ISimulacaoGateway } from "../../domain/gateway/ISimulacaoGateway";
 import { Simulacao } from "../../domain/entities/Simulacao";
@@ -8,22 +7,17 @@ export class SimulacaoRepositories implements ISimulacaoGateway {
   constructor(private readonly prisma: PrismaClient) {}
 
   async salvar(dados: SimulacaoForragemDTO, resultado: number): Promise<Simulacao> {
-    await this.prisma.simulacao.create({
+    const simulacao = await this.prisma.simulacao.create({
       data: {
         propriedade: { connect: { id: dados.propriedadeId } },
-        dadosJson: dados as any,
+        dadosJson: {
+          propriedadeId: dados.propriedadeId,
+          descricao: dados.descricao ?? null
+        },
         resultado,
         dataSimulacao: new Date(),
       },
     });
-
-    const simulacao = await this.prisma.simulacao.findFirst({
-      where: { resultado },
-      orderBy: { dataSimulacao: "desc" },
-    });
-
-    if (!simulacao) throw new Error("Simulação não encontrada após salvar.");
-    if (!simulacao.dadosJson) throw new Error("dadosJson está nulo na simulação recuperada.");
 
     return Simulacao.with({
       id: simulacao.id,
