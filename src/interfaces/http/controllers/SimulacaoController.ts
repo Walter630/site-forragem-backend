@@ -11,25 +11,25 @@ export class SimulacaoController {
       const { propriedadeId, dados } = req.body;
 
       if (!propriedadeId || !dados) {
-        return res.status(400).json({ error: "propriedadeId e dados são obrigatórios." });
+         res.status(400).json({ error: "propriedadeId e dados são obrigatórios." });
       }
 
       const resultado = await this.simulacaoServices.simularForragem({ propriedadeId, dados });
 
-      return res.status(201).json({ resultado });
+       res.status(201).json({ resultado });
     } catch (error: any) {
       console.error("Erro na simulação:", error);
-      return res.status(500).json({ error: error.message || "Erro ao simular produção." });
+       res.status(500).json({ error: error.message || "Erro ao simular produção." });
     }
   }
 
   async historico(req: Request, res: Response) {
     try {
       const historico = await this.simulacaoServices.listarHistorico();
-      return res.json(historico);
+       res.json(historico);
     } catch (error: any) {
       console.error("Erro ao buscar histórico:", error);
-      return res.status(500).json({ error: error.message || "Erro ao buscar histórico." });
+       res.status(500).json({ error: error.message || "Erro ao buscar histórico." });
     }
   }
 }

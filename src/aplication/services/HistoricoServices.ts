@@ -1,3 +1,4 @@
+import { Historico } from "../../domain/entities/Historico";
 import { HistoricoRepositories } from "../../infra/repositories/HistoricoRepositories";
 
 export class HistoricoServices {
@@ -37,7 +38,8 @@ export class HistoricoServices {
     }
     async update(id: number, dados: any): Promise<any | null> {
         try {
-            return await this.simulacaoRepository.update({ ...dados, id } as any);
+            return await this.simulacaoRepository.update({ ...dados, id });
+
         } catch (error) {
             console.error("Erro ao atualizar histórico:", error);
             throw new Error("Erro ao atualizar histórico: ");
@@ -52,4 +54,21 @@ export class HistoricoServices {
         }
     }
     
+    async findAll(): Promise<Historico[]> {
+        try {
+            return await this.simulacaoRepository.findAll();
+        } catch (error) {
+            console.error("Erro ao buscar histórico:", error);
+            throw new Error("Erro ao buscar histórico: ");
+        }
+    }
+
+    async delete(id: number): Promise<void> {
+        try {
+            await this.simulacaoRepository.delete(id);
+        } catch (error) {
+            console.error("Erro ao deletar histórico por ID:", error);
+            throw new Error("Erro ao deletar histórico por ID: ");
+        }
+    }
 }

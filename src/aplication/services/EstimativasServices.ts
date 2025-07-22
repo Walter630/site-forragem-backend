@@ -38,4 +38,10 @@ export class EstimativaServices {
     async delete(id: number): Promise<void> {
         return this.estimativaRepository.delete(id);
     }
+    async findById(id: number): Promise<Estimativas | null> {
+        return this.estimativaRepository.findById(id);
+    }
+    async findByPropriedade(propriedadeId: number): Promise<Estimativas | null> {
+        return this.estimativaRepository.findByPropriedade(propriedadeId);
+    }
 }

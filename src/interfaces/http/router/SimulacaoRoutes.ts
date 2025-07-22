@@ -8,6 +8,8 @@ import { PrecipitacaoRepositories } from "../../../infra/repositories/Precipitac
 import { SoloRepositories } from "../../../infra/repositories/SoloRepositories";        
 import { prisma } from "../../../infra/prisma/PrismaClient";
 import { HistoricoRepositories } from "../../../infra/repositories/HistoricoRepositories";
+import { EstimativaServices } from "../../../aplication/services/EstimativasServices";
+import { EstimativasRepositories } from "../../../infra/repositories/EstimativasRepositories";
 // src/interfaces/http/router/SimulacaoRoutes.ts
 export class SimulacaoRoutes {
   private simulacaoController: SimulacaoController;
@@ -18,13 +20,14 @@ export class SimulacaoRoutes {
     const historicoRepository = new HistoricoRepositories(prisma);
     const historicoService = new HistoricoServices(historicoRepository);
     const precipitacaoRepository = new PrecipitacaoRepositories(prisma);
+    const estimativaServices = new EstimativaServices(new EstimativasRepositories(prisma));
+    const estimativasRepositories = new EstimativasRepositories(prisma);
     
 
     const simulacaoService = new SimulacaoServices(
       simulacaoRepository,
-      historicoService,
-      soloRepository,
-       precipitacaoRepository
+      historicoRepository,
+      estimativasRepositories,
     );
 
     this.simulacaoController = new SimulacaoController(simulacaoService);

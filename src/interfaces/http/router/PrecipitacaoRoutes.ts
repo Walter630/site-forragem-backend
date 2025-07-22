@@ -3,6 +3,7 @@ import { Api } from "./Api";
 import { PrecipitacaoController } from "../controllers/PrecipitacaoController";
 import { PrecipitacaoServices } from "../../../aplication/services/PrecipitacaoServices";
 import { PrecipitacaoRepositories } from "../../../infra/repositories/PrecipitacaoRepositories";
+import { requireAdmin } from "../validators/authenticateAdmin";
 
 
 export class PrecipitacaoRoutes {
@@ -20,8 +21,8 @@ export class PrecipitacaoRoutes {
     addRotas() {
         this.api.addRotas("/precipitacao", "GET",  this.precipitacaoController.findAll.bind(this.precipitacaoController));
         this.api.addRotas("/precipitacao/:id", "GET",  this.precipitacaoController.findById.bind(this.precipitacaoController));
-        this.api.addRotas("/precipitacao", "POST", this.precipitacaoController.create.bind(this.precipitacaoController));
-        this.api.addRotas("/precipitacao/:id", "PUT",  this.precipitacaoController.update.bind(this.precipitacaoController));
-        this.api.addRotas("/precipitacao/:id", "DELETE",  this.precipitacaoController.delete.bind(this.precipitacaoController));
+        this.api.addRotas("/precipitacao", "POST", requireAdmin, this.precipitacaoController.create.bind(this.precipitacaoController));
+        this.api.addRotas("/precipitacao/:id", "PUT", requireAdmin, this.precipitacaoController.update.bind(this.precipitacaoController));
+        this.api.addRotas("/precipitacao/:id", "DELETE", requireAdmin, this.precipitacaoController.delete.bind(this.precipitacaoController));
     }
 }

@@ -7,7 +7,7 @@ export class HistoricoController {
     async historico(req: Request, res: Response) {
         try {
             const historico = await this.simulacaoService.listarHistorico();
-             res.json();
+            res.status(200).json(historico);
         } catch (err: any) {
              res.status(500).json({ erro: err.message });
         }
@@ -59,4 +59,21 @@ export class HistoricoController {
         }
     }
 
+    async delete(req: Request, res: Response) {
+        try {
+            const id = Number(req.params.id);
+            await this.simulacaoService.delete(id);
+             res.status(204).send();
+        } catch (err: any) {
+             res.status(500).json({ erro: err.message });
+        }
+    }
+    async findAll(req: Request, res: Response) {
+        try {
+            const historicos = await this.simulacaoService.findAll();
+             res.status(200).json(historicos);
+        } catch (err: any) {
+             res.status(500).json({ erro: err.message });
+        }
+    }
 }

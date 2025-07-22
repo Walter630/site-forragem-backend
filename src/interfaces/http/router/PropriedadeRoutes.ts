@@ -3,6 +3,7 @@ import { Api } from "./Api";
 import { PropriedadeController } from "../controllers/PropriedadeController";
 import { PropriedadeServices } from "../../../aplication/services/PropriedadeServices";
 import { PropriedadeRepositories } from "../../../infra/repositories/PropriedadeRepositories";
+import { requireAdmin } from "../validators/authenticateAdmin";
 
 
 export class PropriedadeRoutes {
@@ -20,8 +21,8 @@ export class PropriedadeRoutes {
     addRotas() {
         this.api.addRotas("/propriedade", "GET",  this.propriedadeController.listar.bind(this.propriedadeController));
         this.api.addRotas("/propriedade/:id", "GET",  this.propriedadeController.findById.bind(this.propriedadeController));
-        this.api.addRotas("/propriedade", "POST", this.propriedadeController.create.bind(this.propriedadeController));
-        this.api.addRotas("/propriedade/:id", "PUT",  this.propriedadeController.update.bind(this.propriedadeController));
-        this.api.addRotas("/propriedade/:id", "DELETE",  this.propriedadeController.delete.bind(this.propriedadeController));
+        this.api.addRotas("/propriedade", "POST", requireAdmin, this.propriedadeController.create.bind(this.propriedadeController));
+        this.api.addRotas("/propriedade/:id", "PUT", requireAdmin, this.propriedadeController.update.bind(this.propriedadeController));
+        this.api.addRotas("/propriedade/:id", "DELETE", requireAdmin, this.propriedadeController.delete.bind(this.propriedadeController));
     }
 }

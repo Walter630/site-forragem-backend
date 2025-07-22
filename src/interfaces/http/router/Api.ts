@@ -6,10 +6,6 @@ export class Api {
   constructor() {
     // ✅ Usa o Router do Express corretamente
     this.router = express.Router();
-
-    // ✅ Aplica o middleware para leitura do body JSON
-
-
     // (opcional) Middleware de log
     this.router.use((req, _, next) => {
       console.log(`[${req.method}] ${req.originalUrl}`);

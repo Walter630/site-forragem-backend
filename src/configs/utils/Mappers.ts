@@ -1,6 +1,4 @@
 import { Historico as PrismaHistorico, Solo as PrismaSolo, Precipitacao as PrismaPrecipitacao } from "../../generated/prisma";
-
-import { Historico } from "../../domain/entities/Historico";
 import { Solo } from "../../domain/entities/Solo";
 import { Precipitacao } from "../../domain/entities/Precipitacao";
 import { Propriedade } from "../../domain/entities/Propriedade";
@@ -10,6 +8,7 @@ export function mapSolo(solo?: PrismaSolo | null): Solo | undefined {
 
   return Solo.with({
     id: solo.id,
+    propriedadeId: solo.propriedadeId,
     profundidade: solo.profundidade,
     fator_rocha: solo.fatorRocha,
     condut_hidraulica_saturada: solo.condutHidraulicaSaturada,
@@ -26,12 +25,13 @@ export function mapPrecipitacao(precipitacao?: PrismaPrecipitacao | null): Preci
 
   return Precipitacao.with({
     id: precipitacao.id,
-    mm_ano: precipitacao.mmAno,
+    propriedadeId: precipitacao.propriedadeId,
+    mmAno: precipitacao.mmAno,
     chuvas: precipitacao.chuvas,
-    mm_dia: precipitacao.mmDia,
-    chuvas_dia: precipitacao.cvDia,
-    mm_mes: precipitacao.mmMes,
-    chuvas_mes: precipitacao.cvMes,
+    mmDia: precipitacao.mmDia,
+    cvDia: precipitacao.cvDia,
+    mmMes: precipitacao.mmMes,
+    cvMes: precipitacao.cvMes,
   });
 }
 
