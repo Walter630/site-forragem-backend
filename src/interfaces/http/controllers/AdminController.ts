@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AdminServices } from "../../../aplication/services/AdminServices";
 import { Admin } from "../../../domain/entities/Admin";
+import { validarCPF } from "../../../configs/utils/cpfValidators"; // ajuste o caminho conforme seu projeto
 
 export class AdminController {
     constructor(private readonly adminService: AdminServices) {}
@@ -17,6 +18,12 @@ export class AdminController {
 
     async create(req: Request, res: Response) {
         try{
+            const adminData = req.body as Admin;
+             // Validação do CPF na criação
+            if (!validarCPF(adminData.cpf)) {
+                res.status(400).json({ message: "CPF inválido" });
+                return
+            }
             const admin = await this.adminService.create(req.body as Admin);
             res.status(201).json(admin);
         } catch (error) {

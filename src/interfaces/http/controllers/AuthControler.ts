@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { prisma } from "../../../infra/prisma/PrismaClient";
 import bcrypt from "bcrypt";
 import { Token } from "../../../configs/utils/jwt/Token";
+import { validarCPF } from "../../../configs/utils/cpfValidators"; // ajuste o caminho conforme seu projeto
 
 const tokenService = new Token();
 
@@ -12,6 +13,14 @@ export class AuthController {
     console.log(login, senha)
     if (!login || !senha) {
       res.status(400).json({ error: "login e senha são obrigatórios" });
+      return;
+    }
+
+    // Se o login for um CPF, valide antes
+    const somenteDigitos = login.replace(/[^\d]/g, '');
+    const isCPF = somenteDigitos.length === 11;
+    if (isCPF && !validarCPF(somenteDigitos)) {
+      res.status(400).json({ error: "CPF inválido" });
       return;
     }
 
