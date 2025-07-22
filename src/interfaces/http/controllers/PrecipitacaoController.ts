@@ -48,7 +48,7 @@ export class PrecipitacaoController {
        res.status(201).json(created);
     } catch (err: any) {
       console.error('Error creating precipitation:', err);
-       res.status(500).json({ error: err.message });
+      res.status(500).json({ error: err.message });
     }
   }
 

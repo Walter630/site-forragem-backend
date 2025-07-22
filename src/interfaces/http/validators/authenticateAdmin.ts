@@ -1,34 +1,39 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../../../infra/prisma/PrismaClient";
+import { Token } from "../../../configs/utils/jwt/Token";
+
+const tokenService = new Token();
 
 export async function requireAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const userId = req.body.user?.id;
-    const token = req.headers.authorization?.split(" ")[1];
+    const authHeader = req.headers.authorization;
 
-    if (!token) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       res.status(401).json({ error: "Token de autenticação ausente" });
       return;
     }
 
-    if (!userId) {
-      res.status(401).json({ error: "Não autenticado" });
-      return; // ✅ encerra aqui
+    const token = authHeader.split(" ")[1];
+    const decoded = await tokenService.verifyAccessToken(token);
+
+    const userId = decoded?.id;
+    const role = decoded?.role;
+
+    if (!userId || role !== "ADMIN") {
+      res.status(403).json({ error: "Acesso permitido apenas para administradores" });
+      return;
     }
 
-    const user = await prisma.admin.findFirst({
-      where: { id: userId },
-      include: { tipoUser: true },
-    });
-
-    if (!user || user.tipoUser?.tipo !== "ADMIN" ) {
-      res.status(403).json({ error: "Apenas administradores" });
-      return; // ✅ encerra aqui
+    const user = await prisma.admin.findUnique({ where: { id: userId } });
+    if (!user) {
+      res.status(401).json({ error: "Administrador não encontrado" });
+      return;
     }
 
-    next(); // ✅ só continua se passou nos testes
+    req.body.adminId = userId; // se quiser usar depois no controller
+    next();
   } catch (err) {
-    console.error(err, "error");
+    console.error("Erro ao verificar admin:", err);
     res.status(500).json({ error: "Falha na verificação de admin" });
   }
 }

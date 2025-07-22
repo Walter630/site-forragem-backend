@@ -17,13 +17,11 @@ export class AdminController {
 
     async create(req: Request, res: Response) {
         try{
-            console.log("Headers:", req.headers);
-            console.log("Body (raw):", req.body);
             const admin = await this.adminService.create(req.body as Admin);
             res.status(201).json(admin);
         } catch (error) {
             console.log(error, "error");
-            res.status(500).json({ message: "Erro ao criar admin", error: error });
+            res.status(402).json({ message: "Erro ao criar admin", error: error });
         }
     }
     

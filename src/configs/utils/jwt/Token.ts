@@ -73,4 +73,5 @@ export class Token {
     const payload = await this.verifyRefreshToken(refreshToken);
     return this.generateTokens(payload);
   }
+  
 }

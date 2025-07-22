@@ -38,7 +38,7 @@ export class SimularForragemUseCase {
         valorSimulacao: resultadoSimulado,
         simulacaoId: simulacaoCriada.id!,
         propriedadeId,
-        descricao: `Simulação realizada em ${new Date().toLocaleDateString()}`,
+        descricao: `Simulação realizada em ${new Date().toLocaleDateString()} para propriedade ${propriedadeId}`,
         createdAt: new Date(),
         updatedAt: new Date(),
       })

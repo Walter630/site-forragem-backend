@@ -45,7 +45,6 @@ export class PropriedadeController {
            
             const propriedade = req.body;
             const createdPropriedade = await this.service.create(propriedade);
-            
              res.status(201).json(createdPropriedade);
         } catch (err: any) {
              res.status(500).json({ erro: err.message });

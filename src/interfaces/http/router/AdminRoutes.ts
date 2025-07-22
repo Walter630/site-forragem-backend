@@ -25,6 +25,7 @@ export class AdminRoutes {
         this.api.addRotas("/admin", "GET", this.adminController.findAll.bind(this.adminController));
         this.api.addRotas("/admin/:id", "GET", this.adminController.findById.bind(this.adminController));
         this.api.addRotas("/admin/email/:email", "GET", this.adminController.findByEmail.bind(this.adminController));
+        this.api.addRotas("/admin/login", "POST", validar(loginSchema), this.adminController.login.bind(this.adminController));
     }
 }
 

@@ -18,7 +18,7 @@ export class EstimativaRoutes {
     addRotas() {
         this.api.addRotas("/estimativas", "GET", this.estimativaController.findAll.bind(this.estimativaController));
         this.api.addRotas("/estimativas/:id", "GET", this.estimativaController.findById.bind(this.estimativaController));
-        this.api.addRotas("/estimativas", "POST", this.estimativaController.create.bind(this.estimativaController));
+        this.api.addRotas("/estimativas", "POST", this.estimativaController.criar.bind(this.estimativaController));
         this.api.addRotas("/estimativas/:id", "PUT", this.estimativaController.update.bind(this.estimativaController));
         this.api.addRotas("/estimativas/:id", "DELETE", this.estimativaController.delete.bind(this.estimativaController));
     }

@@ -3,15 +3,22 @@ import { Request, Response } from "express";
 export class EstimativaController {
     constructor(private readonly service: EstimativaServices) {}
 
-    async create(req: Request, res: Response) {
-        try{
-            const estimativa = req.body;
-            const createdEstimativa = await this.service.create(estimativa);
-            res.status(201).json(createdEstimativa);
-        } catch (err: any) {
-            res.status(500).json({ erro: err.message });
-        }
+    async criar(req: Request, res: Response) {
+    try {
+      const { valorTotal, descricao, propriedade } = req.body;
+
+      const estimativa = await this.service.create({
+        valorTotal,
+        descricao,
+        propriedade,
+        createdAt: new Date()
+      });
+
+      res.status(201).json(estimativa);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
+  }
 
     async findAll(req: Request, res: Response) {
         try{

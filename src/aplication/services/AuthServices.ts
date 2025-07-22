@@ -8,6 +8,10 @@ const JWT_SECRET = process.env.JWT_SECRET || "segredo";
 
 export class AuthService {
   async login(login: string, senha: string) {
+    if (!login || !senha) {
+      throw new Error("Login e senha devem ser informados");
+    }
+
     const admin = await prisma.admin.findFirst({
       where: {
         OR: [

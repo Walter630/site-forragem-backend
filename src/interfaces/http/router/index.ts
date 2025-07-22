@@ -19,5 +19,5 @@ export function loadAllRoutes(api: Api) {
   HistoricoRoutes.build(api);
   PrecipitacaoRoutes.build(api);
   PropriedadeRoutes.build(api);
-  EstimativaRoutes.build(api)
+  EstimativaRoutes.build(api);
 }
