@@ -55,9 +55,10 @@ export class SimulacaoRoutes {
       this.simulacaoController.historico.bind(this.simulacaoController)
     );
 
+
     this.api.addRotas(
-      "/simulacao/pdf",
-      "POST",
+      "/simulacao/:id/pdf",
+      "GET",
       this.simulacaoController.gerarRelatorioPDF.bind(this.simulacaoController)
     );
   }

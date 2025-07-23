@@ -1,7 +1,7 @@
 import { Historico } from "../../domain/entities/Historico";
-import { Precipitacao, PrismaClient, Solo } from "../../generated/prisma";
+import {PrismaClient} from "../../generated/prisma";
 import { IHistoricoRepositories } from "../../domain/gateway/IHistoricoRepositories";
-import { Propriedade } from "../../domain/entities/Propriedade";
+
 
 export class HistoricoRepositories implements IHistoricoRepositories {
   constructor(private readonly prisma: PrismaClient = new PrismaClient()) {}
@@ -13,6 +13,8 @@ export class HistoricoRepositories implements IHistoricoRepositories {
       valorSimulacao: data.valorSimulacao,
       propriedadeId: data.propriedadeId,
       simulacaoId: data.simulacaoId,
+      precipitacaoId: data.precipitacaoId,
+      soloId: data.soloId,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
       deletedAt: data.deletedAt ?? null,
@@ -46,6 +48,8 @@ export class HistoricoRepositories implements IHistoricoRepositories {
         valorSimulacao: data.valorSimulacao,
         propriedadeId: data.propriedadeId,
         simulacaoId: data.simulacaoId,
+        precipitacaoId: data.precipitacaoId,
+        soloId: data.soloId
       },
     });
     return this.mapToDomain(created);

@@ -31,3 +31,12 @@ export interface UpdateEstimativaDTO {
     };
     descricao?: string;
 }
+
+export interface Estimativas {
+  id: number;
+  mes: string;
+  valor: number;
+  propriedadeId: number;
+  createdAt: Date;
+  updatedAt: Date;
+}

@@ -50,4 +50,13 @@ export class SimulacaoRepositories implements ISimulacaoGateway {
       })
     );
   }
+  async buscarPorId(id: number) {
+      return this.prisma.simulacao.findUnique({
+        where: { id },
+        include: {
+          propriedade: true, // se necessário trazer os dados da fazenda
+          // outras relações, se existirem
+        }
+      });
+    }
 }
