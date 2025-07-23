@@ -87,6 +87,30 @@ export class PropriedadeRepositories implements IPropriedadeRepositories {
     }
   }
 
+  async getSoloEPrecipitacao(propriedadeId: number): Promise<{
+    soloId: number;
+    precipitacaoId: number;
+  }> {
+    const solo = await this.prisma.solo.findFirst({
+      where: { propriedadeId },
+      orderBy: { createdAt: "desc" },
+    });
+
+    const precipitacao = await this.prisma.precipitacao.findFirst({
+      where: { propriedadeId },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!solo || !precipitacao) {
+      throw new Error("Solo ou Precipitação não encontrados para esta propriedade.");
+    }
+
+    return {
+      soloId: solo.id,
+      precipitacaoId: precipitacao.id,
+    };
+  }
+
   async update(propriedade: Propriedade): Promise<Propriedade> {
     try {
       const updated = await this.prisma.propriedade.update({

@@ -9,4 +9,8 @@ export interface IPropriedadeRepositories {
     findById(id: number): Promise<Propriedade | null>;
     update(propriedade: Propriedade): Promise<Propriedade>;
     delete(id: number): Promise<void>;
+    getSoloEPrecipitacao(propriedadeId: number): Promise<{
+    soloId: number;
+    precipitacaoId: number;
+  }>;
 }

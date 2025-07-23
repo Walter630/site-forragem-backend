@@ -163,6 +163,8 @@ exports.Prisma.HistoricoScalarFieldEnum = {
   valorSimulacao: 'valorSimulacao',
   propriedadeId: 'propriedadeId',
   simulacaoId: 'simulacaoId',
+  soloId: 'soloId',
+  precipitacaoId: 'precipitacaoId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'

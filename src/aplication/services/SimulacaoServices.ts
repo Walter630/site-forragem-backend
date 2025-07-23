@@ -3,6 +3,7 @@ import { ISimulacaoGateway } from "../../domain/gateway/ISimulacaoGateway";
 import { IHistoricoRepositories } from "../../domain/gateway/IHistoricoRepositories";
 import { IEstimativasRepositories } from "../../domain/gateway/IEstimativasRepositories";
 import { SimularForragemInputDTO, SimularForragemOutputDTO } from "../dto/SimulacaoForragemDTO";
+import { IPropriedadeRepositories } from "../../domain/gateway/IPropriedadeRepositories";
 
 export class SimulacaoServices {
   private simularForragemUseCase: SimularForragemUseCase;
@@ -10,12 +11,14 @@ export class SimulacaoServices {
   constructor(
     simulacaoRepo: ISimulacaoGateway,
     historicoRepo: IHistoricoRepositories,
-    estimativaRepo: IEstimativasRepositories
+    estimativaRepo: IEstimativasRepositories,
+    propriedadeRepo: IPropriedadeRepositories
   ) {
     this.simularForragemUseCase = new SimularForragemUseCase(
       simulacaoRepo,
       historicoRepo,
-      estimativaRepo
+      estimativaRepo,
+      propriedadeRepo
     );
   }
 

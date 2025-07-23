@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AdminServices } from "../../../aplication/services/AdminServices";
 import { Admin } from "../../../domain/entities/Admin";
-import { validarCPF } from "../../../configs/utils/cpfValidators"; // ajuste o caminho conforme seu projeto
+import { validarCPF } from "../../../configs/utils/CpfValidators"; // ajuste o caminho conforme seu projeto
 
 export class AdminController {
     constructor(private readonly adminService: AdminServices) {}

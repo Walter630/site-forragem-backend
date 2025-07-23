@@ -73,6 +73,10 @@ model Historico {
   propriedade    Propriedade @relation(fields: [propriedadeId], references: [id])
   simulacaoId    Int
   simulacao      Simulacao   @relation(fields: [simulacaoId], references: [id])
+  soloId Int
+  solo Solo @relation(fields: [soloId], references: [id])
+  precipitacaoId Int
+  precipitacao Precipitacao @relation(fields: [precipitacaoId], references: [id])
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
   deletedAt      DateTime?
@@ -95,6 +99,8 @@ model Precipitacao {
   propriedadeId Int
   propriedade   Propriedade @relation(fields: [propriedadeId], references: [id])
 
+  historico Historico[]
+
   @@map("precipitacao")
 }
 
@@ -112,6 +118,8 @@ model Solo {
   createdAt                DateTime    @default(now()) @map("created_at")
   updatedAt                DateTime?   @updatedAt @map("updated_at") @db.DateTime()
   deletedAt                DateTime?   @map("deleted_at") @db.DateTime()
+
+  historico Historico[]
 
   @@map("solos")
 }

@@ -20,6 +20,7 @@ export class SimulacaoRepositories implements ISimulacaoGateway {
         dataSimulacao: data.dataSimulacao,
       },
     });
+   
     if (!simulacao.dadosJson) {
       throw new Error("Dados da simulação estão ausentes.");
     }

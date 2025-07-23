@@ -6,19 +6,20 @@ import {
 import { IHistoricoRepositories } from "../../domain/gateway/IHistoricoRepositories";
 import { ISimulacaoGateway } from "../../domain/gateway/ISimulacaoGateway";
 import { IEstimativasRepositories } from "../../domain/gateway/IEstimativasRepositories";
+import { IPropriedadeRepositories } from "../../domain/gateway/IPropriedadeRepositories";
 import { Historico } from "../../domain/entities/Historico";
 
 type DadosSimulacao = {
   area?: number;
   eficiencia?: number;
-  // outros campos que possa ter
 };
 
 export class SimularForragemUseCase {
   constructor(
     private simulacaoRepo: ISimulacaoGateway,
     private historicoRepo: IHistoricoRepositories,
-    private estimativaRepo: IEstimativasRepositories
+    private estimativaRepo: IEstimativasRepositories,
+    private propriedadeDataRepo: IPropriedadeRepositories // ✅ injetado aqui
   ) {}
 
   async execute(input: SimularForragemInputDTO): Promise<SimularForragemOutputDTO> {
@@ -33,37 +34,42 @@ export class SimularForragemUseCase {
       dataSimulacao: new Date(),
     });
 
+    // ✅ Pegando o soloId e precipitacaoId com base na propriedade
+    const { soloId, precipitacaoId } = await this.propriedadeDataRepo.getSoloEPrecipitacao(propriedadeId);
+
     await this.historicoRepo.create(
       Historico.create({
         valorSimulacao: resultadoSimulado,
         simulacaoId: simulacaoCriada.id!,
         propriedadeId,
+        soloId,
+        precipitacaoId,
         descricao: `Simulação realizada em ${new Date().toLocaleDateString()} para propriedade ${propriedadeId}`,
         createdAt: new Date(),
         updatedAt: new Date(),
       })
     );
 
-    const estimativa = await this.estimativaRepo.findByPropriedade(propriedadeId); // <- aqui
+    const estimativa = await this.estimativaRepo.findByPropriedade(propriedadeId);
 
     if (estimativa) {
-  const valorEstimativa = estimativa.valorTotal;
-  const diferenca = valorEstimativa - resultadoSimulado;
+      const valorEstimativa = estimativa.valorTotal;
+      const diferenca = valorEstimativa - resultadoSimulado;
 
-  const status = diferenca > 0 ? "Necessita mais produção" : "Produção suficiente";
+      const status = diferenca > 0 ? "Necessita mais produção" : "Produção suficiente";
 
-  const mensagem =
-    diferenca > 0
-      ? `Você precisa de mais ${diferenca.toFixed(2)} kg para atingir a meta.`
-      : `Você superou a meta em ${Math.abs(diferenca).toFixed(2)} kg.`;
+      const mensagem =
+        diferenca > 0
+          ? `Você precisa de mais ${diferenca.toFixed(2)} kg para atingir a meta.`
+          : `Você superou a meta em ${Math.abs(diferenca).toFixed(2)} kg.`;
 
-  return {
-    resultado: resultadoSimulado,
-    estimativa: valorEstimativa,
-    diferenca,
-    status,
-    mensagem,
-  };
+      return {
+        resultado: resultadoSimulado,
+        estimativa: valorEstimativa,
+        diferenca,
+        status,
+        mensagem,
+      };
     }
 
     return {
@@ -77,6 +83,6 @@ export class SimularForragemUseCase {
     const area = dados.area ?? 1;
     const eficiencia = dados.eficiencia ?? 0.75;
 
-    return area * eficiencia * 1000; // resultado em kg
+    return area * eficiencia * 1000;
   }
 }

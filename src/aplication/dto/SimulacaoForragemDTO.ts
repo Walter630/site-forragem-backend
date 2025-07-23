@@ -2,6 +2,7 @@
 
 export interface SimularForragemInputDTO {
   propriedadeId: number;
+  
   dados: Record<string, any>; // <- Aqui está o ajuste
 }
 

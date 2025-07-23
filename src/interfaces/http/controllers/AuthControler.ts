@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { prisma } from "../../../infra/prisma/PrismaClient";
 import bcrypt from "bcrypt";
 import { Token } from "../../../configs/utils/jwt/Token";
-import { validarCPF } from "../../../configs/utils/cpfValidators"; // ajuste o caminho conforme seu projeto
+import { validarCPF } from "../../../configs/utils/CpfValidators"; // ajuste o caminho conforme seu projeto
 
 const tokenService = new Token();
 
