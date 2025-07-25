@@ -19,7 +19,7 @@ export class SimularForragemUseCase {
     private simulacaoRepo: ISimulacaoGateway,
     private historicoRepo: IHistoricoRepositories,
     private estimativaRepo: IEstimativasRepositories,
-    private propriedadeDataRepo: IPropriedadeRepositories // ✅ injetado aqui
+    private propriedadeDataRepo: IPropriedadeRepositories
   ) {}
 
   async execute(input: SimularForragemInputDTO): Promise<SimularForragemOutputDTO> {
@@ -27,15 +27,25 @@ export class SimularForragemUseCase {
 
     const resultadoSimulado = this.calcularForragem(dados);
 
+    const { soloId, precipitacaoId } =
+      await this.propriedadeDataRepo.getSoloEPrecipitacao(propriedadeId);
+
+    const estimativa = await this.estimativaRepo.findByPropriedade(input.propriedadeId);
+    const estimativas = estimativa[0]
+
+    const dadosCompletos = {
+      ...dados,
+      soloId,
+      precipitacao: precipitacaoId,
+      estimativa: estimativas?.valorTotal,
+    };
+
     const simulacaoCriada = await this.simulacaoRepo.create({
       propriedadeId,
-      dadosJson: dados,
+      dadosJson: dadosCompletos,
       resultado: resultadoSimulado,
       dataSimulacao: new Date(),
     });
-
-    // ✅ Pegando o soloId e precipitacaoId com base na propriedade
-    const { soloId, precipitacaoId } = await this.propriedadeDataRepo.getSoloEPrecipitacao(propriedadeId);
 
     await this.historicoRepo.create(
       Historico.create({
@@ -50,10 +60,8 @@ export class SimularForragemUseCase {
       })
     );
 
-    const estimativa = await this.estimativaRepo.findByPropriedade(propriedadeId);
-
-    if (estimativa) {
-      const valorEstimativa = estimativa.valorTotal;
+    if (estimativas) {
+      const valorEstimativa = estimativas.valorTotal;
       const diferenca = valorEstimativa - resultadoSimulado;
 
       const status = diferenca > 0 ? "Necessita mais produção" : "Produção suficiente";

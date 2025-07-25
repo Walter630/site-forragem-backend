@@ -14,7 +14,7 @@ export class Simulacao {
     return new Simulacao(
       data.id!,
       data.propriedadeId!,
-      data.dadosJson!,
+      data.dadosJson ?? {}, // forçar objeto vazio quando null
       data.resultado!,
       data.dataSimulacao!
     );

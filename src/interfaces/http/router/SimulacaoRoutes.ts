@@ -11,7 +11,7 @@ import { HistoricoRepositories } from "../../../infra/repositories/HistoricoRepo
 import { EstimativaServices } from "../../../aplication/services/EstimativasServices";
 import { EstimativasRepositories } from "../../../infra/repositories/EstimativasRepositories";
 import { PropriedadeRepositories } from "../../../infra/repositories/PropriedadeRepositories";
-import { SimulacaoPDFService } from "../../../aplication/services/PdfServices";
+
 // src/interfaces/http/router/SimulacaoRoutes.ts
 export class SimulacaoRoutes {
   private simulacaoController: SimulacaoController;
@@ -31,10 +31,9 @@ export class SimulacaoRoutes {
       propriedadeRepositories
     );
 
-    const pdfService = new SimulacaoPDFService();
 
     // Agora com os dois serviços corretamente
-    this.simulacaoController = new SimulacaoController(simulacaoService, pdfService);
+    this.simulacaoController = new SimulacaoController(simulacaoService);
   }
 
   static build(api: Api) {
@@ -53,13 +52,6 @@ export class SimulacaoRoutes {
       "/simulacao/historico",
       "GET",
       this.simulacaoController.historico.bind(this.simulacaoController)
-    );
-
-
-    this.api.addRotas(
-      "/simulacao/:id/pdf",
-      "GET",
-      this.simulacaoController.gerarRelatorioPDF.bind(this.simulacaoController)
     );
   }
 }

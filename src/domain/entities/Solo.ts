@@ -24,8 +24,8 @@ export class Solo {
         return new Solo({
             ...props,
             id: 0,
-            createdAt: props.createdAt || new Date(),
-            updatedAt: props.updatedAt || new Date(),
+            createdAt: props.createdAt  ?? undefined,
+            updatedAt: props.updatedAt  ?? undefined,
         });
     }
 

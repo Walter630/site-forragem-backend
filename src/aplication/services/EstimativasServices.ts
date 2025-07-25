@@ -6,8 +6,8 @@ export class EstimativaServices {
     constructor(private readonly estimativaRepository: EstimativasRepositories) {}
 
     async create(data: createEstimativa): Promise<Estimativas> {
-    if (!data.valorTotal || !data.propriedade || !data.descricao) {
-        throw new Error('Valor total, propriedade e descrição são obrigatórios');
+    if (data.valorTotal === undefined || data.valorTotal === null || !data.propriedade || !data.descricao) {
+        throw new Error('Todos os campos obrigatórios devem estar preenchidos');
     }
 
     if (data.propriedade.latitude < -90 || data.propriedade.latitude > 90 || 
@@ -41,7 +41,7 @@ export class EstimativaServices {
     async findById(id: number): Promise<Estimativas | null> {
         return this.estimativaRepository.findById(id);
     }
-    async findByPropriedade(propriedadeId: number): Promise<Estimativas | null> {
+    async findByPropriedade(propriedadeId: number): Promise<Estimativas[]> {
         return this.estimativaRepository.findByPropriedade(propriedadeId);
     }
 }

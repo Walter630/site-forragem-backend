@@ -40,3 +40,4 @@ export interface Estimativas {
   createdAt: Date;
   updatedAt: Date;
 }
+

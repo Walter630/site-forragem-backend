@@ -1,96 +1,51 @@
-import { SimulacaoRepositories } from './../../infra/repositories/SimulacaoRepositories';
-import PDFDocument from 'pdfkit';
-import fs from 'fs';
-import path from 'path';
-import { ChartService } from './ChartServices';
-import { prisma } from '../../infra/prisma/PrismaClient';
-import { EstimativasRepositories } from '../../infra/repositories/EstimativasRepositories';
+import path from "path";
+import PdfPrinter from "pdfmake";
+import { HistoricoCompleto } from "../dto/HistoricoDTO";
+import type { TDocumentDefinitions } from 'pdfmake/interfaces';
+import fs from "fs";
 
-export class SimulacaoPDFService {
-  private chartService = new ChartService();
-  private simulacaoRepository = new SimulacaoRepositories(prisma);
-  private estimativasRepository = new EstimativasRepositories(prisma)
+const fontsPath = path.resolve(__dirname, "../fonts");
 
-  async gerarPDF(dadosSimulacao: any): Promise<string> {
-    const doc = new PDFDocument();
-    const filePath = path.join(__dirname, '..', '..', 'pdfs', `simulacao-${Date.now()}.pdf`);
+const fonts = {
+  Roboto: {
+    normal: path.join(fontsPath, "Roboto-Regular.ttf"),
+    bold: path.join(fontsPath, "Roboto-Medium.ttf"),
+    italics: path.join(fontsPath, "Roboto-Italic.ttf"),
+    bolditalics: path.join(fontsPath, "Roboto-MediumItalic.ttf"),
+  },
+};
 
-    const dir = path.dirname(filePath);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+const printer = new PdfPrinter(fonts);
 
-    const stream = fs.createWriteStream(filePath);
-    doc.pipe(stream);
+export class PDFServices {
 
-    doc.fontSize(18).text('Relatório de Simulação de Forragem', { align: 'center' });
-    doc.moveDown();
+  async gerarPDFDoHistorico(data: HistoricoCompleto): Promise<Buffer> {
+    const documentDefinition: TDocumentDefinitions = {
+      content: [
+        { text: "Relatório da Simulação de Forragem", style: "header" },
+        { text: `Nome do Proprietário: ${data.propriedade.nomeProprietario}`, margin: [0, 10, 0, 0] },
+        { text: `Nome da Propriedade: ${data.propriedade.nomePropriedade}` },
+        { text: `Resultado da Simulação: ${data.simulacao.resultado} kg/ha`, margin: [0, 10, 0, 0] },
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: "center",
+        },
+      },
+      defaultStyle: {
+        font: "Roboto",
+      },
+    };
 
-    doc.fontSize(12).text(`Propriedade: ${dadosSimulacao.propriedade}`);
-    doc.text(`Solo: ${dadosSimulacao.soloId}`);
-    doc.text(`Precipitação: ${dadosSimulacao.precipitacao} mm`);
-    doc.text(`Resultado: ${dadosSimulacao.resultado} kg/ha`);
-    doc.text(`Data: ${new Date().toLocaleString()}`);
-    doc.moveDown();
+    const pdfDoc = printer.createPdfKitDocument(documentDefinition);
+    const chunks: Uint8Array[] = [];
 
-    // ⬇️ GERA O GRÁFICO
-    if (dadosSimulacao.estimativas) {
-      const { labels, values } = dadosSimulacao.estimativas;
-      const grafico = await this.chartService.gerarGrafico({ labels, values });
-
-      doc.addPage(); // adicionar nova página se quiser
-      doc.fontSize(14).text('Gráfico de Estimativas', { align: 'center' });
-      doc.moveDown();
-
-      // Adiciona a imagem do gráfico
-      doc.image(grafico, {
-        fit: [500, 300],
-        align: 'center',
-        valign: 'center',
-      });
-    }
-
-    doc.end();
-
-    return new Promise((resolve) => {
-      stream.on('finish', () => {
-        resolve(filePath);
-      });
+    return new Promise((resolve, reject) => {
+      pdfDoc.on("data", (chunk) => chunks.push(chunk));
+      pdfDoc.on("end", () => resolve(Buffer.concat(chunks)));
+      pdfDoc.end();
     });
   }
-  // src/aplication/services/SimulacaoServices.ts
-
-async buscarSimulacaoComEstimativas(id: number) {
-  const simulacao = await this.simulacaoRepository.buscarPorId(id);
-  if (!simulacao) return null;
-
-  const estimativas = await this.estimativasRepository.findByPropriedade(simulacao.propriedadeId);
-
-  if (!estimativas) {
-    throw new Error('Erro na estimativa');
-  }
-  // 🛠️ Tipagem explícita para garantir que é um array
-  if (!Array.isArray(estimativas) || estimativas.length === 0) {
-    throw new Error('Erro na estimativa');
-  }
-  const labels = estimativas.map((e: any) => e.mes);
-  const values = estimativas.map((e: any) => e.valor);
-
-  if (!labels || !values) {
-    throw new Error('Erro ao montar dados de estimativas');
-  }
-
-  return {
-    propriedade: simulacao.propriedadeId,
-    data: simulacao.dataSimulacao,
-    dadosJson: simulacao.dadosJson,
-    resultado: simulacao.resultado,
-    estimativas: {
-      labels,
-      values
-    }
-  };
-}
-async buscarPorId(id: number) {
-    return this.simulacaoRepository.buscarPorId(id);
-  }
-
 }

@@ -30,7 +30,4 @@ export class SimulacaoServices {
   async listarHistorico() {
     return await this.simularForragemUseCase["historicoRepo"].listarHistorico(); // ou use outro serviço, se aplicável
   }
-
-  
-  
 }

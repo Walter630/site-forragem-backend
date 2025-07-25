@@ -1,0 +1,11 @@
+import path from "path";
+import PdfPrinter from "pdfmake";
+
+const printer = new PdfPrinter({
+  Roboto: {
+    normal: path.resolve(__dirname, "../../fonts/Roboto-Regular.ttf"),
+    bold: path.resolve(__dirname, "../../fonts/Roboto-Medium.ttf"),
+    italics: path.resolve(__dirname, "../../fonts/Roboto-Italic.ttf"),
+    bolditalics: path.resolve(__dirname, "../../fonts/Roboto-MediumItalic.ttf"),
+  },
+});

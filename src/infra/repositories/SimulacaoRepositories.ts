@@ -57,6 +57,17 @@ export class SimulacaoRepositories implements ISimulacaoGateway {
           propriedade: true, // se necessário trazer os dados da fazenda
           // outras relações, se existirem
         }
+      }).then(simulacao => {
+        if (!simulacao) {
+          return null;
+        }
+        return Simulacao.with({
+          id: simulacao.id,
+          propriedadeId: simulacao.propriedadeId,
+          dadosJson: simulacao.dadosJson as any,
+          resultado: simulacao.resultado,
+          dataSimulacao: simulacao.dataSimulacao,
+        });
       });
     }
 }
