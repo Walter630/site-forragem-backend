@@ -1603,10 +1603,12 @@ export namespace Prisma {
 
   export type SimulacaoCountOutputType = {
     historico: number
+    estimativas: number
   }
 
   export type SimulacaoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     historico?: boolean | SimulacaoCountOutputTypeCountHistoricoArgs
+    estimativas?: boolean | SimulacaoCountOutputTypeCountEstimativasArgs
   }
 
   // Custom InputTypes
@@ -1625,6 +1627,13 @@ export namespace Prisma {
    */
   export type SimulacaoCountOutputTypeCountHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: HistoricoWhereInput
+  }
+
+  /**
+   * SimulacaoCountOutputType without action
+   */
+  export type SimulacaoCountOutputTypeCountEstimativasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EstimativasWhereInput
   }
 
 
@@ -8168,12 +8177,14 @@ export namespace Prisma {
     id: number | null
     valorTotal: number | null
     propriedadeId: number | null
+    simulacaoId: number | null
   }
 
   export type EstimativasSumAggregateOutputType = {
     id: number | null
     valorTotal: number | null
     propriedadeId: number | null
+    simulacaoId: number | null
   }
 
   export type EstimativasMinAggregateOutputType = {
@@ -8184,6 +8195,7 @@ export namespace Prisma {
     updatedAt: Date | null
     deletedAt: Date | null
     propriedadeId: number | null
+    simulacaoId: number | null
   }
 
   export type EstimativasMaxAggregateOutputType = {
@@ -8194,6 +8206,7 @@ export namespace Prisma {
     updatedAt: Date | null
     deletedAt: Date | null
     propriedadeId: number | null
+    simulacaoId: number | null
   }
 
   export type EstimativasCountAggregateOutputType = {
@@ -8204,6 +8217,7 @@ export namespace Prisma {
     updatedAt: number
     deletedAt: number
     propriedadeId: number
+    simulacaoId: number
     _all: number
   }
 
@@ -8212,12 +8226,14 @@ export namespace Prisma {
     id?: true
     valorTotal?: true
     propriedadeId?: true
+    simulacaoId?: true
   }
 
   export type EstimativasSumAggregateInputType = {
     id?: true
     valorTotal?: true
     propriedadeId?: true
+    simulacaoId?: true
   }
 
   export type EstimativasMinAggregateInputType = {
@@ -8228,6 +8244,7 @@ export namespace Prisma {
     updatedAt?: true
     deletedAt?: true
     propriedadeId?: true
+    simulacaoId?: true
   }
 
   export type EstimativasMaxAggregateInputType = {
@@ -8238,6 +8255,7 @@ export namespace Prisma {
     updatedAt?: true
     deletedAt?: true
     propriedadeId?: true
+    simulacaoId?: true
   }
 
   export type EstimativasCountAggregateInputType = {
@@ -8248,6 +8266,7 @@ export namespace Prisma {
     updatedAt?: true
     deletedAt?: true
     propriedadeId?: true
+    simulacaoId?: true
     _all?: true
   }
 
@@ -8345,6 +8364,7 @@ export namespace Prisma {
     updatedAt: Date | null
     deletedAt: Date | null
     propriedadeId: number
+    simulacaoId: number
     _count: EstimativasCountAggregateOutputType | null
     _avg: EstimativasAvgAggregateOutputType | null
     _sum: EstimativasSumAggregateOutputType | null
@@ -8374,6 +8394,8 @@ export namespace Prisma {
     updatedAt?: boolean
     deletedAt?: boolean
     propriedadeId?: boolean
+    simulacaoId?: boolean
+    simulacao?: boolean | SimulacaoDefaultArgs<ExtArgs>
     propriedade?: boolean | Estimativas$propriedadeArgs<ExtArgs>
   }, ExtArgs["result"]["estimativas"]>
 
@@ -8387,16 +8409,19 @@ export namespace Prisma {
     updatedAt?: boolean
     deletedAt?: boolean
     propriedadeId?: boolean
+    simulacaoId?: boolean
   }
 
-  export type EstimativasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "valorTotal" | "descricao" | "createdAt" | "updatedAt" | "deletedAt" | "propriedadeId", ExtArgs["result"]["estimativas"]>
+  export type EstimativasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "valorTotal" | "descricao" | "createdAt" | "updatedAt" | "deletedAt" | "propriedadeId" | "simulacaoId", ExtArgs["result"]["estimativas"]>
   export type EstimativasInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    simulacao?: boolean | SimulacaoDefaultArgs<ExtArgs>
     propriedade?: boolean | Estimativas$propriedadeArgs<ExtArgs>
   }
 
   export type $EstimativasPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Estimativas"
     objects: {
+      simulacao: Prisma.$SimulacaoPayload<ExtArgs>
       propriedade: Prisma.$PropriedadePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -8407,6 +8432,7 @@ export namespace Prisma {
       updatedAt: Date | null
       deletedAt: Date | null
       propriedadeId: number
+      simulacaoId: number
     }, ExtArgs["result"]["estimativas"]>
     composites: {}
   }
@@ -8747,6 +8773,7 @@ export namespace Prisma {
    */
   export interface Prisma__EstimativasClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    simulacao<T extends SimulacaoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SimulacaoDefaultArgs<ExtArgs>>): Prisma__SimulacaoClient<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     propriedade<T extends Estimativas$propriedadeArgs<ExtArgs> = {}>(args?: Subset<T, Estimativas$propriedadeArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -8784,6 +8811,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Estimativas", 'DateTime'>
     readonly deletedAt: FieldRef<"Estimativas", 'DateTime'>
     readonly propriedadeId: FieldRef<"Estimativas", 'Int'>
+    readonly simulacaoId: FieldRef<"Estimativas", 'Int'>
   }
     
 
@@ -9392,6 +9420,7 @@ export namespace Prisma {
     propriedadeId?: boolean
     propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
     historico?: boolean | Simulacao$historicoArgs<ExtArgs>
+    estimativas?: boolean | Simulacao$estimativasArgs<ExtArgs>
     _count?: boolean | SimulacaoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["simulacao"]>
 
@@ -9412,6 +9441,7 @@ export namespace Prisma {
   export type SimulacaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
     historico?: boolean | Simulacao$historicoArgs<ExtArgs>
+    estimativas?: boolean | Simulacao$estimativasArgs<ExtArgs>
     _count?: boolean | SimulacaoCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -9420,6 +9450,7 @@ export namespace Prisma {
     objects: {
       propriedade: Prisma.$PropriedadePayload<ExtArgs>
       historico: Prisma.$HistoricoPayload<ExtArgs>[]
+      estimativas: Prisma.$EstimativasPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -9772,6 +9803,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     propriedade<T extends PropriedadeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PropriedadeDefaultArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     historico<T extends Simulacao$historicoArgs<ExtArgs> = {}>(args?: Subset<T, Simulacao$historicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    estimativas<T extends Simulacao$estimativasArgs<ExtArgs> = {}>(args?: Subset<T, Simulacao$estimativasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstimativasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10176,6 +10208,30 @@ export namespace Prisma {
   }
 
   /**
+   * Simulacao.estimativas
+   */
+  export type Simulacao$estimativasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Estimativas
+     */
+    select?: EstimativasSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Estimativas
+     */
+    omit?: EstimativasOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EstimativasInclude<ExtArgs> | null
+    where?: EstimativasWhereInput
+    orderBy?: EstimativasOrderByWithRelationInput | EstimativasOrderByWithRelationInput[]
+    cursor?: EstimativasWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EstimativasScalarFieldEnum | EstimativasScalarFieldEnum[]
+  }
+
+  /**
    * Simulacao without action
    */
   export type SimulacaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10312,7 +10368,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
-    propriedadeId: 'propriedadeId'
+    propriedadeId: 'propriedadeId',
+    simulacaoId: 'simulacaoId'
   };
 
   export type EstimativasScalarFieldEnum = (typeof EstimativasScalarFieldEnum)[keyof typeof EstimativasScalarFieldEnum]
@@ -11015,6 +11072,8 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     propriedadeId?: IntFilter<"Estimativas"> | number
+    simulacaoId?: IntFilter<"Estimativas"> | number
+    simulacao?: XOR<SimulacaoScalarRelationFilter, SimulacaoWhereInput>
     propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
   }
 
@@ -11026,6 +11085,8 @@ export namespace Prisma {
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     propriedadeId?: SortOrder
+    simulacaoId?: SortOrder
+    simulacao?: SimulacaoOrderByWithRelationInput
     propriedade?: PropriedadeOrderByWithRelationInput
     _relevance?: EstimativasOrderByRelevanceInput
   }
@@ -11041,6 +11102,8 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     propriedadeId?: IntFilter<"Estimativas"> | number
+    simulacaoId?: IntFilter<"Estimativas"> | number
+    simulacao?: XOR<SimulacaoScalarRelationFilter, SimulacaoWhereInput>
     propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
   }, "id">
 
@@ -11052,6 +11115,7 @@ export namespace Prisma {
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     propriedadeId?: SortOrder
+    simulacaoId?: SortOrder
     _count?: EstimativasCountOrderByAggregateInput
     _avg?: EstimativasAvgOrderByAggregateInput
     _max?: EstimativasMaxOrderByAggregateInput
@@ -11070,6 +11134,7 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Estimativas"> | Date | string | null
     propriedadeId?: IntWithAggregatesFilter<"Estimativas"> | number
+    simulacaoId?: IntWithAggregatesFilter<"Estimativas"> | number
   }
 
   export type SimulacaoWhereInput = {
@@ -11086,6 +11151,7 @@ export namespace Prisma {
     propriedadeId?: IntFilter<"Simulacao"> | number
     propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
     historico?: HistoricoListRelationFilter
+    estimativas?: EstimativasListRelationFilter
   }
 
   export type SimulacaoOrderByWithRelationInput = {
@@ -11099,6 +11165,7 @@ export namespace Prisma {
     propriedadeId?: SortOrder
     propriedade?: PropriedadeOrderByWithRelationInput
     historico?: HistoricoOrderByRelationAggregateInput
+    estimativas?: EstimativasOrderByRelationAggregateInput
   }
 
   export type SimulacaoWhereUniqueInput = Prisma.AtLeast<{
@@ -11115,6 +11182,7 @@ export namespace Prisma {
     propriedadeId?: IntFilter<"Simulacao"> | number
     propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
     historico?: HistoricoListRelationFilter
+    estimativas?: EstimativasListRelationFilter
   }, "id">
 
   export type SimulacaoOrderByWithAggregationInput = {
@@ -11716,6 +11784,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
+    simulacao: SimulacaoCreateNestedOneWithoutEstimativasInput
     propriedade?: PropriedadeCreateNestedOneWithoutEstimativasInput
   }
 
@@ -11727,6 +11796,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     propriedadeId: number
+    simulacaoId: number
   }
 
   export type EstimativasUpdateInput = {
@@ -11735,6 +11805,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    simulacao?: SimulacaoUpdateOneRequiredWithoutEstimativasNestedInput
     propriedade?: PropriedadeUpdateOneWithoutEstimativasNestedInput
   }
 
@@ -11746,6 +11817,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     propriedadeId?: IntFieldUpdateOperationsInput | number
+    simulacaoId?: IntFieldUpdateOperationsInput | number
   }
 
   export type EstimativasCreateManyInput = {
@@ -11756,6 +11828,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     propriedadeId: number
+    simulacaoId: number
   }
 
   export type EstimativasUpdateManyMutationInput = {
@@ -11774,6 +11847,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     propriedadeId?: IntFieldUpdateOperationsInput | number
+    simulacaoId?: IntFieldUpdateOperationsInput | number
   }
 
   export type SimulacaoCreateInput = {
@@ -11785,6 +11859,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     propriedade: PropriedadeCreateNestedOneWithoutSimulacoesInput
     historico?: HistoricoCreateNestedManyWithoutSimulacaoInput
+    estimativas?: EstimativasCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoUncheckedCreateInput = {
@@ -11797,6 +11872,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     propriedadeId: number
     historico?: HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput
+    estimativas?: EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoUpdateInput = {
@@ -11808,6 +11884,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     propriedade?: PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput
     historico?: HistoricoUpdateManyWithoutSimulacaoNestedInput
+    estimativas?: EstimativasUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type SimulacaoUncheckedUpdateInput = {
@@ -11820,6 +11897,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     propriedadeId?: IntFieldUpdateOperationsInput | number
     historico?: HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput
+    estimativas?: EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type SimulacaoCreateManyInput = {
@@ -12536,12 +12614,14 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     propriedadeId?: SortOrder
+    simulacaoId?: SortOrder
   }
 
   export type EstimativasAvgOrderByAggregateInput = {
     id?: SortOrder
     valorTotal?: SortOrder
     propriedadeId?: SortOrder
+    simulacaoId?: SortOrder
   }
 
   export type EstimativasMaxOrderByAggregateInput = {
@@ -12552,6 +12632,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     propriedadeId?: SortOrder
+    simulacaoId?: SortOrder
   }
 
   export type EstimativasMinOrderByAggregateInput = {
@@ -12562,12 +12643,14 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     propriedadeId?: SortOrder
+    simulacaoId?: SortOrder
   }
 
   export type EstimativasSumOrderByAggregateInput = {
     id?: SortOrder
     valorTotal?: SortOrder
     propriedadeId?: SortOrder
+    simulacaoId?: SortOrder
   }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -13190,10 +13273,24 @@ export namespace Prisma {
     deleteMany?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
   }
 
+  export type SimulacaoCreateNestedOneWithoutEstimativasInput = {
+    create?: XOR<SimulacaoCreateWithoutEstimativasInput, SimulacaoUncheckedCreateWithoutEstimativasInput>
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutEstimativasInput
+    connect?: SimulacaoWhereUniqueInput
+  }
+
   export type PropriedadeCreateNestedOneWithoutEstimativasInput = {
     create?: XOR<PropriedadeCreateWithoutEstimativasInput, PropriedadeUncheckedCreateWithoutEstimativasInput>
     connectOrCreate?: PropriedadeCreateOrConnectWithoutEstimativasInput
     connect?: PropriedadeWhereUniqueInput
+  }
+
+  export type SimulacaoUpdateOneRequiredWithoutEstimativasNestedInput = {
+    create?: XOR<SimulacaoCreateWithoutEstimativasInput, SimulacaoUncheckedCreateWithoutEstimativasInput>
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutEstimativasInput
+    upsert?: SimulacaoUpsertWithoutEstimativasInput
+    connect?: SimulacaoWhereUniqueInput
+    update?: XOR<XOR<SimulacaoUpdateToOneWithWhereWithoutEstimativasInput, SimulacaoUpdateWithoutEstimativasInput>, SimulacaoUncheckedUpdateWithoutEstimativasInput>
   }
 
   export type PropriedadeUpdateOneWithoutEstimativasNestedInput = {
@@ -13219,11 +13316,25 @@ export namespace Prisma {
     connect?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
   }
 
+  export type EstimativasCreateNestedManyWithoutSimulacaoInput = {
+    create?: XOR<EstimativasCreateWithoutSimulacaoInput, EstimativasUncheckedCreateWithoutSimulacaoInput> | EstimativasCreateWithoutSimulacaoInput[] | EstimativasUncheckedCreateWithoutSimulacaoInput[]
+    connectOrCreate?: EstimativasCreateOrConnectWithoutSimulacaoInput | EstimativasCreateOrConnectWithoutSimulacaoInput[]
+    createMany?: EstimativasCreateManySimulacaoInputEnvelope
+    connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+  }
+
   export type HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput = {
     create?: XOR<HistoricoCreateWithoutSimulacaoInput, HistoricoUncheckedCreateWithoutSimulacaoInput> | HistoricoCreateWithoutSimulacaoInput[] | HistoricoUncheckedCreateWithoutSimulacaoInput[]
     connectOrCreate?: HistoricoCreateOrConnectWithoutSimulacaoInput | HistoricoCreateOrConnectWithoutSimulacaoInput[]
     createMany?: HistoricoCreateManySimulacaoInputEnvelope
     connect?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
+  }
+
+  export type EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput = {
+    create?: XOR<EstimativasCreateWithoutSimulacaoInput, EstimativasUncheckedCreateWithoutSimulacaoInput> | EstimativasCreateWithoutSimulacaoInput[] | EstimativasUncheckedCreateWithoutSimulacaoInput[]
+    connectOrCreate?: EstimativasCreateOrConnectWithoutSimulacaoInput | EstimativasCreateOrConnectWithoutSimulacaoInput[]
+    createMany?: EstimativasCreateManySimulacaoInputEnvelope
+    connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
   }
 
   export type PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput = {
@@ -13248,6 +13359,20 @@ export namespace Prisma {
     deleteMany?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
   }
 
+  export type EstimativasUpdateManyWithoutSimulacaoNestedInput = {
+    create?: XOR<EstimativasCreateWithoutSimulacaoInput, EstimativasUncheckedCreateWithoutSimulacaoInput> | EstimativasCreateWithoutSimulacaoInput[] | EstimativasUncheckedCreateWithoutSimulacaoInput[]
+    connectOrCreate?: EstimativasCreateOrConnectWithoutSimulacaoInput | EstimativasCreateOrConnectWithoutSimulacaoInput[]
+    upsert?: EstimativasUpsertWithWhereUniqueWithoutSimulacaoInput | EstimativasUpsertWithWhereUniqueWithoutSimulacaoInput[]
+    createMany?: EstimativasCreateManySimulacaoInputEnvelope
+    set?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    disconnect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    delete?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    update?: EstimativasUpdateWithWhereUniqueWithoutSimulacaoInput | EstimativasUpdateWithWhereUniqueWithoutSimulacaoInput[]
+    updateMany?: EstimativasUpdateManyWithWhereWithoutSimulacaoInput | EstimativasUpdateManyWithWhereWithoutSimulacaoInput[]
+    deleteMany?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
+  }
+
   export type HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput = {
     create?: XOR<HistoricoCreateWithoutSimulacaoInput, HistoricoUncheckedCreateWithoutSimulacaoInput> | HistoricoCreateWithoutSimulacaoInput[] | HistoricoUncheckedCreateWithoutSimulacaoInput[]
     connectOrCreate?: HistoricoCreateOrConnectWithoutSimulacaoInput | HistoricoCreateOrConnectWithoutSimulacaoInput[]
@@ -13260,6 +13385,20 @@ export namespace Prisma {
     update?: HistoricoUpdateWithWhereUniqueWithoutSimulacaoInput | HistoricoUpdateWithWhereUniqueWithoutSimulacaoInput[]
     updateMany?: HistoricoUpdateManyWithWhereWithoutSimulacaoInput | HistoricoUpdateManyWithWhereWithoutSimulacaoInput[]
     deleteMany?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
+  }
+
+  export type EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput = {
+    create?: XOR<EstimativasCreateWithoutSimulacaoInput, EstimativasUncheckedCreateWithoutSimulacaoInput> | EstimativasCreateWithoutSimulacaoInput[] | EstimativasUncheckedCreateWithoutSimulacaoInput[]
+    connectOrCreate?: EstimativasCreateOrConnectWithoutSimulacaoInput | EstimativasCreateOrConnectWithoutSimulacaoInput[]
+    upsert?: EstimativasUpsertWithWhereUniqueWithoutSimulacaoInput | EstimativasUpsertWithWhereUniqueWithoutSimulacaoInput[]
+    createMany?: EstimativasCreateManySimulacaoInputEnvelope
+    set?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    disconnect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    delete?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    update?: EstimativasUpdateWithWhereUniqueWithoutSimulacaoInput | EstimativasUpdateWithWhereUniqueWithoutSimulacaoInput[]
+    updateMany?: EstimativasUpdateManyWithWhereWithoutSimulacaoInput | EstimativasUpdateManyWithWhereWithoutSimulacaoInput[]
+    deleteMany?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -13749,6 +13888,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
+    simulacao: SimulacaoCreateNestedOneWithoutEstimativasInput
   }
 
   export type EstimativasUncheckedCreateWithoutPropriedadeInput = {
@@ -13758,6 +13898,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
+    simulacaoId: number
   }
 
   export type EstimativasCreateOrConnectWithoutPropriedadeInput = {
@@ -13778,6 +13919,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     historico?: HistoricoCreateNestedManyWithoutSimulacaoInput
+    estimativas?: EstimativasCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoUncheckedCreateWithoutPropriedadeInput = {
@@ -13789,6 +13931,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     historico?: HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput
+    estimativas?: EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoCreateOrConnectWithoutPropriedadeInput = {
@@ -13973,6 +14116,7 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     propriedadeId?: IntFilter<"Estimativas"> | number
+    simulacaoId?: IntFilter<"Estimativas"> | number
   }
 
   export type SimulacaoUpsertWithWhereUniqueWithoutPropriedadeInput = {
@@ -14152,6 +14296,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     propriedade: PropriedadeCreateNestedOneWithoutSimulacoesInput
+    estimativas?: EstimativasCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoUncheckedCreateWithoutHistoricoInput = {
@@ -14163,6 +14308,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     propriedadeId: number
+    estimativas?: EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoCreateOrConnectWithoutHistoricoInput = {
@@ -14301,6 +14447,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     propriedade?: PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput
+    estimativas?: EstimativasUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type SimulacaoUncheckedUpdateWithoutHistoricoInput = {
@@ -14312,6 +14459,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     propriedadeId?: IntFieldUpdateOperationsInput | number
+    estimativas?: EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type SoloUpsertWithoutHistoricoInput = {
@@ -14662,6 +14810,34 @@ export namespace Prisma {
     data: XOR<HistoricoUpdateManyMutationInput, HistoricoUncheckedUpdateManyWithoutSoloInput>
   }
 
+  export type SimulacaoCreateWithoutEstimativasInput = {
+    dadosJson: JsonNullValueInput | InputJsonValue
+    resultado: number
+    dataSimulacao: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    propriedade: PropriedadeCreateNestedOneWithoutSimulacoesInput
+    historico?: HistoricoCreateNestedManyWithoutSimulacaoInput
+  }
+
+  export type SimulacaoUncheckedCreateWithoutEstimativasInput = {
+    id?: number
+    dadosJson: JsonNullValueInput | InputJsonValue
+    resultado: number
+    dataSimulacao: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    propriedadeId: number
+    historico?: HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput
+  }
+
+  export type SimulacaoCreateOrConnectWithoutEstimativasInput = {
+    where: SimulacaoWhereUniqueInput
+    create: XOR<SimulacaoCreateWithoutEstimativasInput, SimulacaoUncheckedCreateWithoutEstimativasInput>
+  }
+
   export type PropriedadeCreateWithoutEstimativasInput = {
     nomeProprietario: string
     nomePropriedade: string
@@ -14700,6 +14876,40 @@ export namespace Prisma {
   export type PropriedadeCreateOrConnectWithoutEstimativasInput = {
     where: PropriedadeWhereUniqueInput
     create: XOR<PropriedadeCreateWithoutEstimativasInput, PropriedadeUncheckedCreateWithoutEstimativasInput>
+  }
+
+  export type SimulacaoUpsertWithoutEstimativasInput = {
+    update: XOR<SimulacaoUpdateWithoutEstimativasInput, SimulacaoUncheckedUpdateWithoutEstimativasInput>
+    create: XOR<SimulacaoCreateWithoutEstimativasInput, SimulacaoUncheckedCreateWithoutEstimativasInput>
+    where?: SimulacaoWhereInput
+  }
+
+  export type SimulacaoUpdateToOneWithWhereWithoutEstimativasInput = {
+    where?: SimulacaoWhereInput
+    data: XOR<SimulacaoUpdateWithoutEstimativasInput, SimulacaoUncheckedUpdateWithoutEstimativasInput>
+  }
+
+  export type SimulacaoUpdateWithoutEstimativasInput = {
+    dadosJson?: JsonNullValueInput | InputJsonValue
+    resultado?: FloatFieldUpdateOperationsInput | number
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedade?: PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput
+    historico?: HistoricoUpdateManyWithoutSimulacaoNestedInput
+  }
+
+  export type SimulacaoUncheckedUpdateWithoutEstimativasInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dadosJson?: JsonNullValueInput | InputJsonValue
+    resultado?: FloatFieldUpdateOperationsInput | number
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: IntFieldUpdateOperationsInput | number
+    historico?: HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type PropriedadeUpsertWithoutEstimativasInput = {
@@ -14821,6 +15031,35 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EstimativasCreateWithoutSimulacaoInput = {
+    valorTotal: number
+    descricao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    propriedade?: PropriedadeCreateNestedOneWithoutEstimativasInput
+  }
+
+  export type EstimativasUncheckedCreateWithoutSimulacaoInput = {
+    id?: number
+    valorTotal: number
+    descricao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    propriedadeId: number
+  }
+
+  export type EstimativasCreateOrConnectWithoutSimulacaoInput = {
+    where: EstimativasWhereUniqueInput
+    create: XOR<EstimativasCreateWithoutSimulacaoInput, EstimativasUncheckedCreateWithoutSimulacaoInput>
+  }
+
+  export type EstimativasCreateManySimulacaoInputEnvelope = {
+    data: EstimativasCreateManySimulacaoInput | EstimativasCreateManySimulacaoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PropriedadeUpsertWithoutSimulacoesInput = {
     update: XOR<PropriedadeUpdateWithoutSimulacoesInput, PropriedadeUncheckedUpdateWithoutSimulacoesInput>
     create: XOR<PropriedadeCreateWithoutSimulacoesInput, PropriedadeUncheckedCreateWithoutSimulacoesInput>
@@ -14883,6 +15122,22 @@ export namespace Prisma {
     data: XOR<HistoricoUpdateManyMutationInput, HistoricoUncheckedUpdateManyWithoutSimulacaoInput>
   }
 
+  export type EstimativasUpsertWithWhereUniqueWithoutSimulacaoInput = {
+    where: EstimativasWhereUniqueInput
+    update: XOR<EstimativasUpdateWithoutSimulacaoInput, EstimativasUncheckedUpdateWithoutSimulacaoInput>
+    create: XOR<EstimativasCreateWithoutSimulacaoInput, EstimativasUncheckedCreateWithoutSimulacaoInput>
+  }
+
+  export type EstimativasUpdateWithWhereUniqueWithoutSimulacaoInput = {
+    where: EstimativasWhereUniqueInput
+    data: XOR<EstimativasUpdateWithoutSimulacaoInput, EstimativasUncheckedUpdateWithoutSimulacaoInput>
+  }
+
+  export type EstimativasUpdateManyWithWhereWithoutSimulacaoInput = {
+    where: EstimativasScalarWhereInput
+    data: XOR<EstimativasUpdateManyMutationInput, EstimativasUncheckedUpdateManyWithoutSimulacaoInput>
+  }
+
   export type AdminCreateManyTipoUserInput = {
     id?: number
     nome: string
@@ -14939,6 +15194,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
+    simulacaoId: number
   }
 
   export type SimulacaoCreateManyPropriedadeInput = {
@@ -14996,6 +15252,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    simulacao?: SimulacaoUpdateOneRequiredWithoutEstimativasNestedInput
   }
 
   export type EstimativasUncheckedUpdateWithoutPropriedadeInput = {
@@ -15005,6 +15262,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    simulacaoId?: IntFieldUpdateOperationsInput | number
   }
 
   export type EstimativasUncheckedUpdateManyWithoutPropriedadeInput = {
@@ -15014,6 +15272,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    simulacaoId?: IntFieldUpdateOperationsInput | number
   }
 
   export type SimulacaoUpdateWithoutPropriedadeInput = {
@@ -15024,6 +15283,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     historico?: HistoricoUpdateManyWithoutSimulacaoNestedInput
+    estimativas?: EstimativasUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type SimulacaoUncheckedUpdateWithoutPropriedadeInput = {
@@ -15035,6 +15295,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     historico?: HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput
+    estimativas?: EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type SimulacaoUncheckedUpdateManyWithoutPropriedadeInput = {
@@ -15271,6 +15532,16 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
+  export type EstimativasCreateManySimulacaoInput = {
+    id?: number
+    valorTotal: number
+    descricao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    propriedadeId: number
+  }
+
   export type HistoricoUpdateWithoutSimulacaoInput = {
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
     valorSimulacao?: FloatFieldUpdateOperationsInput | number
@@ -15304,6 +15575,35 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EstimativasUpdateWithoutSimulacaoInput = {
+    valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedade?: PropriedadeUpdateOneWithoutEstimativasNestedInput
+  }
+
+  export type EstimativasUncheckedUpdateWithoutSimulacaoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type EstimativasUncheckedUpdateManyWithoutSimulacaoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: IntFieldUpdateOperationsInput | number
   }
 
 

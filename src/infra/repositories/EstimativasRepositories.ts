@@ -9,7 +9,7 @@ export class EstimativasRepositories implements IEstimativasRepositories {
   private mapToDomain(data: any): Estimativas {
     return Estimativas.with({
       ...data,
-      descricao: data.descricao ?? "", // aqui!
+      descricao: data.descricao ?? "",
       propriedade: data.propriedade
         ? Propriedade.with({
             ...data.propriedade,
@@ -20,7 +20,7 @@ export class EstimativasRepositories implements IEstimativasRepositories {
           })
         : undefined,
       createdAt: data.createdAt,
-      updatedAt: data.updatedAt ?? new Date() ,
+      updatedAt: data.updatedAt ?? new Date(),
       deletedAt: data.deletedAt ?? null,
     });
   }
@@ -29,39 +29,60 @@ export class EstimativasRepositories implements IEstimativasRepositories {
     const estimativas = await this.prisma.estimativas.findMany({
       include: { propriedade: { include: { admin: true } } },
     });
+
     return estimativas.map(this.mapToDomain.bind(this));
   }
 
   async create(estimativa: Estimativas): Promise<Estimativas> {
-    const created = await this.prisma.estimativas.create({
-      data: {
-        valorTotal: estimativa.valorTotal,
-        descricao: estimativa.descricao,
-        propriedadeId: estimativa.propriedadeId,
-        createdAt: estimativa.createdAt,
-        updatedAt: estimativa.updatedAt,
+  const dataToCreate: any = {
+    valorTotal: estimativa.valorTotal,
+    descricao: estimativa.descricao,
+    propriedade: { connect: { id: estimativa.propriedadeId } }, // substitui propriedadeId
+    createdAt: estimativa.createdAt,
+    updatedAt: estimativa.updatedAt,
+  };
+
+  if (estimativa.simulacaoId) {
+    dataToCreate.simulacao = { connect: { id: estimativa.simulacaoId } };
+  } else {
+    dataToCreate.simulacao = {
+      create: {
+       dadosJson: estimativa.descricao ?? "",
+      resultado: estimativa.valorTotal,
+      dataSimulacao: estimativa.createdAt ?? new Date(),
+      propriedade: { connect: { id: estimativa.propriedadeId } }, // necessário aqui também!
       },
-      include: { propriedade: { include: { admin: true } } },
-    });
-    return this.mapToDomain(created);
+    };
   }
 
-  async findByPropriedade(propriedadeId: number): Promise<Estimativas[]> {
-  const estimativa = await this.prisma.estimativas.findMany({
-    where: { propriedadeId },
+  const created = await this.prisma.estimativas.create({
+    data: dataToCreate,
     include: { propriedade: { include: { admin: true } } },
   });
 
-  if(!estimativa) {
-    throw new Error('estimativa vazia')
-  }
-  return estimativa.map(this.mapToDomain.bind(this));
+  return this.mapToDomain(created);
 }
+
+
+  async findByPropriedade(propriedadeId: number): Promise<Estimativas[]> {
+    const estimativas = await this.prisma.estimativas.findMany({
+      where: { propriedadeId },
+      include: { propriedade: { include: { admin: true } } },
+    });
+
+    if (!estimativas.length) {
+      throw new Error("Nenhuma estimativa encontrada para esta propriedade.");
+    }
+
+    return estimativas.map(this.mapToDomain.bind(this));
+  }
+
   async findById(id: number): Promise<Estimativas | null> {
     const estimativa = await this.prisma.estimativas.findUnique({
       where: { id },
       include: { propriedade: { include: { admin: true } } },
     });
+
     return estimativa ? this.mapToDomain(estimativa) : null;
   }
 
@@ -72,10 +93,11 @@ export class EstimativasRepositories implements IEstimativasRepositories {
         valorTotal: estimativa.valorTotal,
         descricao: estimativa.descricao || undefined,
         propriedadeId: estimativa.propriedadeId,
-        updatedAt: estimativa.updatedAt ?? new Date(),
+        updatedAt: new Date(),
       },
       include: { propriedade: { include: { admin: true } } },
     });
+
     return this.mapToDomain(updated);
   }
 

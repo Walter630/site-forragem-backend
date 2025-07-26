@@ -1,34 +1,41 @@
+// ChartServices.ts
 import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
+import { ChartConfiguration } from 'chart.js';
 
 export class ChartService {
-  private width = 600;
-  private height = 400;
-  private chartCallback = (ChartJS: any) => {
-    // registrar plugins se quiser
-  };
+  private chartCanvas = new ChartJSNodeCanvas({ width: 800, height: 400 });
 
-  private chartJSNodeCanvas = new ChartJSNodeCanvas({
-    width: this.width,
-    height: this.height,
-    chartCallback: this.chartCallback,
-    backgroundColour: 'white',
-  });
+  async gerarGrafico(dados: { mes: number; producao: number }[]): Promise<Buffer> {
+    const meses = [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril',
+      'Maio', 'Junho', 'Julho', 'Agosto',
+      'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
 
-  async gerarGrafico(dados: { labels: string[]; values: number[] }): Promise<Buffer> {
-    const configuration = {
-      type: 'bar', // ou 'line', 'pie' etc.
+    const config: ChartConfiguration<'bar'> = {
+      type: 'bar',
       data: {
-        labels: dados.labels,
+        labels: meses,
         datasets: [
           {
-            label: 'Estimativas (kg/ha)',
-            data: dados.values,
-            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            label: 'Produção Mensal',
+            data: dados.map(d => d.producao),
+            backgroundColor: 'rgba(75, 192, 192, 0.4)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
           },
         ],
       },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
     };
 
-    return await this.chartJSNodeCanvas.renderToBuffer(configuration as any);
+    return this.chartCanvas.renderToBuffer(config);
   }
 }

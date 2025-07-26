@@ -23,6 +23,7 @@ export class EstimativaServices {
         valorTotal: data.valorTotal,
         descricao: data.descricao,
         propriedadeId: data.propriedade.id,
+        simulacaoId: data.simulacaoId,  // <- importante!
         createdAt: data.createdAt
     });
 

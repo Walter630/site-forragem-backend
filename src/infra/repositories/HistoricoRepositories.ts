@@ -84,6 +84,15 @@ export class HistoricoRepositories implements IHistoricoRepositories {
       return await this.findAll()
   }
 
+  async buscarEstimativasMensais(propriedadeId: number): Promise<any[]> {
+      return this.prisma.simulacao.findMany({
+        where: { propriedadeId },
+        include: {
+          estimativas: true,
+        }
+      });
+    }
+
  async findByIdWithDetails(id: number): Promise<HistoricoCompleto | null> {
   const historico = await this.prisma.historico.findUnique({
     where: { id },

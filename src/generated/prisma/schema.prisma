@@ -125,13 +125,16 @@ model Solo {
 }
 
 model Estimativas {
-  id            Int          @id @default(autoincrement())
-  valorTotal    Float
-  descricao     String? // agora opcional
-  createdAt     DateTime     @default(now()) @map("created_at")
-  updatedAt     DateTime?    @updatedAt @map("updated_at") @db.DateTime()
-  deletedAt     DateTime?    @map("deleted_at") @db.DateTime()
+  id         Int       @id @default(autoincrement())
+  valorTotal Float
+  descricao  String?
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime? @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt  DateTime? @map("deleted_at") @db.DateTime()
+
   propriedadeId Int
+  simulacaoId   Int // ✅ nova coluna FK
+  simulacao     Simulacao    @relation(fields: [simulacaoId], references: [id]) // ✅ relação
   propriedade   Propriedade? @relation(fields: [propriedadeId], references: [id])
 
   @@map("estimativas")
@@ -149,7 +152,8 @@ model Simulacao {
   propriedadeId Int
   propriedade   Propriedade @relation(fields: [propriedadeId], references: [id])
 
-  historico Historico[] // <<< Também este
+  historico   Historico[]
+  estimativas Estimativas[] // ✅ novo relacionamento aqui
 
   @@map("simulacoes")
 }

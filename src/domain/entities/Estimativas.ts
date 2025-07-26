@@ -7,6 +7,7 @@ type EstimativasProps = {
   descricao?: string | null;
   propriedadeId: number;
   propriedade?: Propriedade;
+  simulacaoId: number;
   createdAt?: Date;
   updatedAt?: Date | null;
   deletedAt?: Date | null;
@@ -45,6 +46,9 @@ export class Estimativas {
   }
   get propriedade(): Propriedade | undefined {
     return this.props.propriedade;
+  }
+  get simulacaoId(): number {
+    return this.props.simulacaoId;
   }
   get createdAt(): Date | undefined {
     return this.props.createdAt;

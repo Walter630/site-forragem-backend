@@ -206,7 +206,8 @@ exports.Prisma.EstimativasScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
-  propriedadeId: 'propriedadeId'
+  propriedadeId: 'propriedadeId',
+  simulacaoId: 'simulacaoId'
 };
 
 exports.Prisma.SimulacaoScalarFieldEnum = {

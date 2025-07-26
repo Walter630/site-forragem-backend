@@ -15,6 +15,7 @@ export interface createEstimativa {
         simulacao?: string;
     };
     descricao: string | null; // já está ok
+    simulacaoId: number; // <- importante!
     createdAt?: Date;
     updatedAt?: Date | null; // <-- Adicione isso
     deletedAt?: Date | null; // <-- Se estiver usando também
