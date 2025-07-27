@@ -83,7 +83,7 @@ async gerarPDFHistorico(id: number): Promise<Buffer> {
   }
 
   // Extrai dados no formato esperado por montarDadosGrafico
-  const producaoPorMes = this.extrairProducaoPorMes(historicoCompleto);
+  const producaoPorMes = this.extrairProducaoPorMes(historicoCompleto as any);
 
   // Monta labels e valores para o gráfico
   const dadosGrafico = montarDadosGrafico(producaoPorMes);
