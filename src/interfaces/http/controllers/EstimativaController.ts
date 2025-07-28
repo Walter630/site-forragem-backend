@@ -5,12 +5,13 @@ export class EstimativaController {
 
     async criar(req: Request, res: Response) {
     try {
-      const { valorTotal, descricao, propriedade } = req.body;
+      const { valorTotal, descricao, propriedade, simulacaoId } = req.body;
 
       const estimativa = await this.service.create({
         valorTotal,
         descricao,
         propriedade,
+        simulacaoId,
         createdAt: new Date()
       });
 

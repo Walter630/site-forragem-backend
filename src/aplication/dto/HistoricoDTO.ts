@@ -12,4 +12,5 @@ export type HistoricoCompleto = {
   precipitacao: Precipitacao;
   estimativas: Estimativas;
   propriedade: Propriedade;
+  producaoPorMes: { mes: string; valor: number }[];
 };

@@ -1,20 +1,10 @@
+// HistoricoServices.ts
 import { ChartService } from './ChartServices';
-import { Historico } from "../../domain/entities/Historico";
-import { HistoricoRepositories } from "../../infra/repositories/HistoricoRepositories";
-import { montarDadosGrafico } from "./MontarDadosGraficos";
-import { PDFServices } from "./PdfServices";
-import { HistoricoCompleto } from "../../aplication/dto/HistoricoDTO";
-
-type HistoricoProps = {
-  id: number;
-  descricao: string;
-  valorSimulacao: number;
-  propriedadeId: number;
-  simulacaoId: number;
-  soloId: number;
-  precipitacaoId: number;
-  // outras propriedades obrigatórias
-};
+import { montarDadosGrafico } from './MontarDadosGraficos';
+import { PDFServices } from './PdfServices';
+import { HistoricoCompleto } from '../../aplication/dto/HistoricoDTO';
+import { HistoricoRepositories } from '../../infra/repositories/HistoricoRepositories';
+import { Historico } from '../../domain/entities/Historico';
 
 export class HistoricoServices {
   private chartService = new ChartService();
@@ -24,122 +14,76 @@ export class HistoricoServices {
     private historicoRepository: HistoricoRepositories
   ) {}
 
-  async listarTodos(): Promise<Historico[]> {
-    return this.historicoRepository.findAll();
-  }
-
-  async listarPorPropriedade(usuarioId: number): Promise<Historico[]> {
-    return this.historicoRepository.findByPropriedadeId(usuarioId);
-  }
-
-  async buscarPorId(id: number): Promise<Historico | null> {
-    return this.historicoRepository.findById(id);
-  }
-
   async buscarComDetalhes(id: number): Promise<HistoricoCompleto | null> {
     return this.historicoRepository.findByIdWithDetails(id);
   }
 
+  /**
+   * Gera PDF do histórico somando produções por mês de todas simulações da propriedade.
+   */
+  async gerarPDFHistorico(id: number): Promise<Buffer> {
+    // Busca histórico detalhado para o relatório
+    const historicoCompleto = await this.buscarComDetalhes(id);
+    if (!historicoCompleto) throw new Error('Histórico não encontrado.');
 
+    // Busca todos históricos completos da propriedade (para agregar produção mensal)
+    const todosHistoricos = await this.historicoRepository.findAllWithDetailsByPropriedadeId(
+      historicoCompleto.propriedade.id ?? 0
+    );
 
-// Em atualizar:
-async atualizar(id: number, dadosAtualizados: Partial<HistoricoProps>): Promise<Historico | null> {
-  const historicoExistente = await this.historicoRepository.findById(id);
-  if (!historicoExistente) {
-    throw new Error("Histórico não encontrado para atualizar");
+    if(!todosHistoricos) throw new Error('Vazio')
+
+    // Extrai dados de mês e valor para cada simulação
+    const dadosSimulacoes: { mes: string; valor: number }[] = todosHistoricos.map((historico: any) => {
+      const dataSimulacao = new Date(historico.simulacao.dataSimulacao);
+      const mesNome = this.numeroParaMes(dataSimulacao.getMonth()); // 0 a 11
+      return { mes: mesNome, valor: historico.simulacao.resultado };
+    });
+
+    // Agrega a soma dos valores por mês
+    const producaoAgrupada = this.agregarPorMes(dadosSimulacoes);
+
+    // Monta dados para gráfico (labels + values)
+    const dadosGrafico = montarDadosGrafico(producaoAgrupada);
+
+    // Prepara dados para gerar o gráfico
+    const dadosParaChart = dadosGrafico.labels.map((label, i) => ({
+      mes: label,
+      valor: dadosGrafico.values[i],
+    }));
+
+    // Gera buffer do gráfico
+    const bufferGrafico = await this.chartService.gerarGrafico(dadosParaChart);
+
+    // Gera PDF com histórico e gráfico
+    return this.pdfServices.gerarPDFDoHistorico(historicoCompleto, bufferGrafico);
   }
 
-  // Aqui você garante valores definidos, caso contrário usa valor existente
-  const propsAtualizados: HistoricoProps = {
-    id: historicoExistente.id ?? 0,
-    descricao: dadosAtualizados.descricao ?? historicoExistente.descricao ?? "",
-    valorSimulacao: dadosAtualizados.valorSimulacao ?? historicoExistente.valorSimulacao ?? 0,
-    propriedadeId: dadosAtualizados.propriedadeId ?? historicoExistente.propriedadeId ?? 0,
-    simulacaoId: dadosAtualizados.simulacaoId ?? historicoExistente.simulacaoId ?? 0,
-    soloId: dadosAtualizados.soloId ?? historicoExistente.soloId ?? 0,
-    precipitacaoId: dadosAtualizados.precipitacaoId ?? historicoExistente.precipitacaoId ?? 0,
-    // outras propriedades aqui da mesma forma
-  };
+  private agregarPorMes(dados: { mes: string; valor: number }[]): { mes: string; valor: number }[] {
+    const meses = [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril',
+      'Maio', 'Junho', 'Julho', 'Agosto',
+      'Setembro', 'Outubro', 'Novembro', 'Dezembro',
+    ];
 
-  const historicoAtualizado = new Historico(propsAtualizados);
-  return this.historicoRepository.update(historicoAtualizado);
-}
+    const somaPorMes: Record<string, number> = {};
+    meses.forEach(mes => (somaPorMes[mes] = 0));
 
+    dados.forEach(({ mes, valor }) => {
+      if (somaPorMes.hasOwnProperty(mes)) {
+        somaPorMes[mes] += valor;
+      }
+    });
 
-  async deletar(id: number): Promise<void> {
-    await this.historicoRepository.delete(id);
+    return meses.map(mes => ({ mes, valor: somaPorMes[mes] }));
   }
 
-async gerarPDFHistorico(id: number): Promise<Buffer> {
-  const historicoCompleto = await this.buscarComDetalhes(id);
-  if (!historicoCompleto) throw new Error("Histórico não encontrado.");
-
-  // Garante que os campos necessários existam e são do tipo certo
-  if (
-    !historicoCompleto ||
-    !Array.isArray(historicoCompleto)
-  ) {
-    throw new Error("Propriedade 'producaoMensal' ausente ou inválida.");
+  private numeroParaMes(numero: number): string {
+    const meses = [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril',
+      'Maio', 'Junho', 'Julho', 'Agosto',
+      'Setembro', 'Outubro', 'Novembro', 'Dezembro',
+    ];
+    return meses[numero] ?? 'Mês inválido';
   }
-
-  // Extrai dados no formato esperado por montarDadosGrafico
-  const producaoPorMes = this.extrairProducaoPorMes(historicoCompleto as any);
-
-  // Monta labels e valores para o gráfico
-  const dadosGrafico = montarDadosGrafico(producaoPorMes);
-
-  // Converte para o formato que ChartService espera
-  const dadosParaChart = dadosGrafico.labels.map((label, index) => ({
-    mes: index + 1,
-    producao: dadosGrafico.values[index],
-  }));
-
-  const chartService = new ChartService();
-  const bufferGrafico = await chartService.gerarGrafico(dadosParaChart);
-
-  // ✅ Aqui você pode adaptar se precisar extrair apenas o "props"
-  // return this.pdfServices.gerarPDFDoHistorico(historicoCompleto.props, bufferGrafico);
-
-  // ou, se o método aceita HistoricoCompleto:
-  return this.pdfServices.gerarPDFDoHistorico(historicoCompleto, bufferGrafico);
-}
-
-  // Ajuste aqui para converter nome do mês para número
-  private mesStringParaNumero(mes: string): number {
-    const meses: Record<string, number> = {
-      Janeiro: 1,
-      Fevereiro: 2,
-      Março: 3,
-      Abril: 4,
-      Maio: 5,
-      Junho: 6,
-      Julho: 7,
-      Agosto: 8,
-      Setembro: 9,
-      Outubro: 10,
-      Novembro: 11,
-      Dezembro: 12
-    };
-    return meses[mes] ?? 0;
-  }
-
-  private extrairProducaoPorMes(historico: Historico): { mes: string; valor: number }[] {
-  // Use dados reais do histórico aqui
-  return [
-    { mes: "Janeiro", valor: 120 },
-    { mes: "Fevereiro", valor: 110 },
-    { mes: "Março", valor: 130 },
-    { mes: "Abril", valor: 100 },
-    { mes: "Maio", valor: 0 },
-    { mes: "Junho", valor: 0 },
-    { mes: "Julho", valor: 0 },
-    { mes: "Agosto", valor: 0 },
-    { mes: "Setembro", valor: 0 },
-    { mes: "Outubro", valor: 0 },
-    { mes: "Novembro", valor: 0 },
-    { mes: "Dezembro", valor: 0 }
-  ];
-}
-
-  
 }

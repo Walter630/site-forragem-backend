@@ -6,22 +6,23 @@ import { montarDadosGrafico } from '../services/MontarDadosGraficos';
 async function main() {
   async function gerarRelatorio(simulacaoData: {
     producaoPorMes: { mes: string; valor: number }[],
+    
     historicoCompleto: {
       propriedade: { nomeProprietario: string; nomePropriedade: string },
       simulacao: { dataSimulacao: Date; resultado: number },
-      estimativas: Record<string, number>
+      estimativas: Record<string, number> 
     }
   }) {
     try {
       const dadosConvertidos = simulacaoData.producaoPorMes.map(dado => ({
-        mes: parseInt(dado.mes),
-        producao: dado.valor
+        mes: dado.mes,
+        valor: dado.valor
       }));
 
       const dadosGrafico = montarDadosGrafico(dadosConvertidos);
 
       const chartService = new ChartService();
-      const bufferGrafico = await chartService.gerarGrafico(dadosGrafico);
+      const bufferGrafico = await chartService.gerarGrafico(dadosGrafico as any);
 
       fs.writeFileSync('grafico-forragem.png', bufferGrafico);
 

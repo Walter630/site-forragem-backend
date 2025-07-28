@@ -25,24 +25,64 @@ export class PDFServices {
       data.estimativas && typeof data.estimativas === 'object'
         ? Object.entries(data.estimativas).map(([nome, valor]) => ({
             text: `- ${nome}: ${valor} kg/ha`,
+            margin: [0, 2, 0, 0],
           }))
         : [{ text: 'Sem estimativas disponíveis' }];
 
     const contentArray: any[] = [
-      { text: 'Relatório da Simulação de Forragem', style: 'header' },
-      { text: `Nome do Proprietário: ${data.propriedade.nomeProprietario}`, margin: [0, 10, 0, 0] },
+      { text: '📄 Relatório da Simulação de Forragem', style: 'header', margin: [0, 0, 0, 10] },
+
+      // 🧑‍🌾 Propriedade
+      { text: 'Informações da Propriedade', style: 'subheader' },
+      { text: `Proprietário: ${data.propriedade.nomeProprietario}` },
       { text: `Nome da Propriedade: ${data.propriedade.nomePropriedade}` },
+      { text: `Latitude: ${data.propriedade.latitude}` },
+      { text: `Longitude: ${data.propriedade.longitude}` },
+      { text: `Altitude: ${data.propriedade.altitude} m`, margin: [0, 0, 0, 10] },
+
+      // 📘 Histórico
+      { text: 'Detalhes do Histórico', style: 'subheader' },
+      { text: `Descrição: ${data.historico.descricao}` },
+      { text: `Valor da Simulação: ${data.historico.valorSimulacao} kg/ha`, margin: [0, 0, 0, 10] },
+
+      // 🧪 Simulação
+      { text: 'Informações da Simulação', style: 'subheader' },
       {
         text: `Data da Simulação: ${new Date(data.simulacao.dataSimulacao).toLocaleString()}`,
-        margin: [0, 10, 0, 0],
       },
-      { text: 'Estimativas:', margin: [0, 10, 0, 0], bold: true },
+      { text: `Resultado Final: ${data.simulacao.resultado} kg/ha`, margin: [0, 0, 0, 10] },
+
+      // 📊 Estimativas
+      { text: 'Estimativas de Produção', style: 'subheader' },
       ...estimativasArray,
-      { text: `Resultado da Simulação: ${data.simulacao.resultado} kg/ha`, margin: [0, 10, 0, 0] },
+      { text: '', margin: [0, 0, 0, 10] },
+
+      // 🌱 Solo
+      { text: 'Informações do Solo', style: 'subheader' },
+      { text: `ID Solo: ${data.solo.id}` },
+      { text: `Profundidade: ${data.solo.profundidade} cm` },
+      { text: `Fator Rocha: ${data.solo.fatorRocha ?? 'N/A'}` },
+      { text: `Condutividade Hidráulica Saturada: ${data.solo.condutHidraulicaSaturada ?? 'N/A'}` },
+      { text: `Densidade Aparente: ${data.solo.densidadeAparente ?? 'N/A'}` },
+      { text: `Água 0 Bar: ${data.solo.agua0Bar ?? 'N/A'}` },
+      { text: `Água 13 Bar: ${data.solo.agua13Bar ?? 'N/A'}` },
+      { text: `Água 15 Bar: ${data.solo.agua15Bar ?? 'N/A'}` },
+
+      // 🌧️ Precipitação
+      { text: 'Informações de Precipitação', style: 'subheader' },
+      { text: `ID Precipitação: ${data.precipitacao.id}` },
+      { text: `Milímetros por Ano: ${data.precipitacao.mmAno ?? 'N/A'}` },
+      { text: `Chuvas: ${data.precipitacao.chuvas ?? 'N/A'} mm` },
+      { text: `Milímetros por Dia: ${data.precipitacao.mmDia ?? 'N/A'}` },
+      { text: `Coeficiente de Variação Diário: ${data.precipitacao.cvDia ?? 'N/A'}` },
+      { text: `Milímetros por Mês: ${data.precipitacao.mmMes ?? 'N/A'}` },
+      { text: `Coeficiente de Variação Mensal: ${data.precipitacao.cvMes ?? 'N/A'}`, margin: [0, 0, 0, 10] },
     ];
 
+    // 📈 Adiciona o gráfico, se existir
     if (imageGrafico) {
-      contentArray.push({ image: imageGrafico, width: 500, margin: [0, 20, 0, 0] });
+      contentArray.push({ text: 'Gráfico de Produção Mensal', style: 'subheader' });
+      contentArray.push({ image: imageGrafico, width: 500, margin: [0, 10, 0, 0] });
     }
 
     const documentDefinition: TDocumentDefinitions = {
@@ -52,6 +92,11 @@ export class PDFServices {
           fontSize: 18,
           bold: true,
           alignment: 'center',
+        },
+        subheader: {
+          fontSize: 14,
+          bold: true,
+          margin: [0, 10, 0, 4],
         },
       },
       defaultStyle: {

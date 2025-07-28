@@ -5,7 +5,7 @@ import { ChartConfiguration } from 'chart.js';
 export class ChartService {
   private chartCanvas = new ChartJSNodeCanvas({ width: 800, height: 400 });
 
-  async gerarGrafico(dados: { mes: number; producao: number }[]): Promise<Buffer> {
+  async gerarGrafico(dados: { mes: string; valor: number }[]): Promise<Buffer> {
     const meses = [
       'Janeiro', 'Fevereiro', 'Março', 'Abril',
       'Maio', 'Junho', 'Julho', 'Agosto',
@@ -19,7 +19,7 @@ export class ChartService {
         datasets: [
           {
             label: 'Produção Mensal',
-            data: dados.map(d => d.producao),
+            data: dados.map(d => d.valor),
             backgroundColor: 'rgba(75, 192, 192, 0.4)',
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1,

@@ -29,12 +29,12 @@ export class HistoricoRoutes {
 
         this.api.addRotas("/historico/:id", "GET", this.historicoController.findById.bind(this.historicoController));
 
-        this.api.addRotas("/historico", "POST", this.historicoController.create.bind(this.historicoController));
+   
 
         this.api.addRotas("/historico/:id/relatorio", "GET", this.historicoController.gerarRelatorio.bind(this.historicoController));
 
         this.api.addRotas("/historico/:id", "PUT", this.historicoController.update.bind(this.historicoController));
 
-        this.api.addRotas("/historico/:id", "DELETE", requireAdmin, this.historicoController.deleteByPropriedadeId.bind(this.historicoController));
+        this.api.addRotas("/historico/:id", "DELETE", requireAdmin, this.historicoController.delete.bind(this.historicoController));
     }
 }
