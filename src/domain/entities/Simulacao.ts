@@ -7,7 +7,8 @@ export class Simulacao {
     public propriedadeId: number,
     public dadosJson: Record<string, any>, // ✅ Adicionado
     public resultado: number,
-    public dataSimulacao: Date
+    public dataSimulacao: Date,
+    public culturaId?: number
   ) {}
 
   static with(data: Partial<Simulacao>): Simulacao {
@@ -16,7 +17,8 @@ export class Simulacao {
       data.propriedadeId!,
       data.dadosJson ?? {}, // forçar objeto vazio quando null
       data.resultado!,
-      data.dataSimulacao!
+      data.dataSimulacao!,
+      data.culturaId!
     );
   }
 }

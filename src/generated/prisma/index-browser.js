@@ -149,12 +149,22 @@ exports.Prisma.PropriedadeScalarFieldEnum = {
   nomePropriedade: 'nomePropriedade',
   latitude: 'latitude',
   longitude: 'longitude',
-  altitude: 'altitude',
-  simulacao: 'simulacao',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   adminId: 'adminId'
+};
+
+exports.Prisma.PropriedadeCulturaScalarFieldEnum = {
+  id: 'id',
+  propriedadeId: 'propriedadeId',
+  culturaId: 'culturaId'
+};
+
+exports.Prisma.PropriedadeSoloScalarFieldEnum = {
+  id: 'id',
+  propriedadeId: 'propriedadeId',
+  soloId: 'soloId'
 };
 
 exports.Prisma.HistoricoScalarFieldEnum = {
@@ -186,6 +196,7 @@ exports.Prisma.PrecipitacaoScalarFieldEnum = {
 
 exports.Prisma.SoloScalarFieldEnum = {
   id: 'id',
+  nomeClasse: 'nomeClasse',
   profundidade: 'profundidade',
   fatorRocha: 'fatorRocha',
   condutHidraulicaSaturada: 'condutHidraulicaSaturada',
@@ -193,10 +204,10 @@ exports.Prisma.SoloScalarFieldEnum = {
   agua0Bar: 'agua0Bar',
   agua13Bar: 'agua13Bar',
   agua15Bar: 'agua15Bar',
-  propriedadeId: 'propriedadeId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  propriedadeId: 'propriedadeId'
 };
 
 exports.Prisma.EstimativasScalarFieldEnum = {
@@ -212,7 +223,10 @@ exports.Prisma.EstimativasScalarFieldEnum = {
 
 exports.Prisma.SimulacaoScalarFieldEnum = {
   id: 'id',
+  nomeSimulacao: 'nomeSimulacao',
   dadosJson: 'dadosJson',
+  culturaId: 'culturaId',
+  soloId: 'soloId',
   resultado: 'resultado',
   dataSimulacao: 'dataSimulacao',
   createdAt: 'createdAt',
@@ -221,12 +235,22 @@ exports.Prisma.SimulacaoScalarFieldEnum = {
   propriedadeId: 'propriedadeId'
 };
 
+exports.Prisma.CulturaScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  eua: 'eua',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
 };
 
-exports.Prisma.JsonNullValueInput = {
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
@@ -249,12 +273,15 @@ exports.Prisma.TipoUserOrderByRelevanceFieldEnum = {
 
 exports.Prisma.PropriedadeOrderByRelevanceFieldEnum = {
   nomeProprietario: 'nomeProprietario',
-  nomePropriedade: 'nomePropriedade',
-  simulacao: 'simulacao'
+  nomePropriedade: 'nomePropriedade'
 };
 
 exports.Prisma.HistoricoOrderByRelevanceFieldEnum = {
   descricao: 'descricao'
+};
+
+exports.Prisma.SoloOrderByRelevanceFieldEnum = {
+  nomeClasse: 'nomeClasse'
 };
 
 exports.Prisma.EstimativasOrderByRelevanceFieldEnum = {
@@ -272,16 +299,27 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.SimulacaoOrderByRelevanceFieldEnum = {
+  nomeSimulacao: 'nomeSimulacao'
+};
+
+exports.Prisma.CulturaOrderByRelevanceFieldEnum = {
+  name: 'name'
+};
+
 
 exports.Prisma.ModelName = {
   Admin: 'Admin',
   TipoUser: 'TipoUser',
   Propriedade: 'Propriedade',
+  PropriedadeCultura: 'PropriedadeCultura',
+  PropriedadeSolo: 'PropriedadeSolo',
   Historico: 'Historico',
   Precipitacao: 'Precipitacao',
   Solo: 'Solo',
   Estimativas: 'Estimativas',
-  Simulacao: 'Simulacao'
+  Simulacao: 'Simulacao',
+  Cultura: 'Cultura'
 };
 
 /**

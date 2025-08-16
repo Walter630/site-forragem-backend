@@ -30,7 +30,7 @@ model Admin {
 model TipoUser {
   id        Int       @id @default(autoincrement())
   tipo      String
-  descricao String?   @default("Tipo de usuário") @db.Text()
+  descricao String?   @db.Text() // sem default
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt DateTime? @map("deleted_at") @db.DateTime()
@@ -47,8 +47,6 @@ model Propriedade {
   nomePropriedade  String
   latitude         Float
   longitude        Float
-  altitude         Float
-  simulacao        String
   createdAt        DateTime  @default(now()) @map("created_at")
   updatedAt        DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt        DateTime? @map("deleted_at") @db.DateTime()
@@ -56,18 +54,42 @@ model Propriedade {
   adminId Int?   @unique
   admin   Admin? @relation(fields: [adminId], references: [id])
 
-  estimativas   Estimativas[]
-  simulacoes    Simulacao[]
-  historicos    Historico[]
-  precipitacoes Precipitacao[] // <<< Adicione este array para a relação inversa
-  solos         Solo[] // <<< Também este
+  estimativas        Estimativas[]
+  simulacoes         Simulacao[]
+  historicos         Historico[]
+  precipitacoes      Precipitacao[]
+  propriedadeCultura PropriedadeCultura[]
+  propriedadeSolo    PropriedadeSolo[]
+  Solo               Solo[] // via N:N PropriedadeSolo
 
   @@map("propriedades")
 }
 
+model PropriedadeCultura {
+  id            Int         @id @default(autoincrement())
+  propriedade   Propriedade @relation(fields: [propriedadeId], references: [id])
+  propriedadeId Int
+  cultura       Cultura     @relation(fields: [culturaId], references: [id])
+  culturaId     Int
+
+  @@unique([propriedadeId, culturaId])
+  @@map("propriedade_culturas")
+}
+
+model PropriedadeSolo {
+  id            Int         @id @default(autoincrement())
+  propriedade   Propriedade @relation(fields: [propriedadeId], references: [id])
+  propriedadeId Int
+  solo          Solo        @relation(fields: [soloId], references: [id])
+  soloId        Int
+
+  @@unique([propriedadeId, soloId])
+  @@map("propriedade_solos")
+}
+
 model Historico {
   id             Int          @id @default(autoincrement())
-  descricao      String?
+  descricao      String? // sem default
   valorSimulacao Float
   propriedadeId  Int
   propriedade    Propriedade  @relation(fields: [propriedadeId], references: [id])
@@ -105,7 +127,8 @@ model Precipitacao {
 }
 
 model Solo {
-  id                       Int         @id @default(autoincrement())
+  id                       Int       @id @default(autoincrement())
+  nomeClasse               String
   profundidade             Float
   fatorRocha               Float
   condutHidraulicaSaturada Float
@@ -113,13 +136,14 @@ model Solo {
   agua0Bar                 Float
   agua13Bar                Float
   agua15Bar                Float
-  propriedadeId            Int
-  propriedade              Propriedade @relation(fields: [propriedadeId], references: [id])
-  createdAt                DateTime    @default(now()) @map("created_at")
-  updatedAt                DateTime?   @updatedAt @map("updated_at") @db.DateTime()
-  deletedAt                DateTime?   @map("deleted_at") @db.DateTime()
+  createdAt                DateTime  @default(now()) @map("created_at")
+  updatedAt                DateTime? @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt                DateTime? @map("deleted_at") @db.DateTime()
 
-  historico Historico[]
+  historico       Historico[]
+  propriedadeSolo PropriedadeSolo[]
+  Propriedade     Propriedade?      @relation(fields: [propriedadeId], references: [id])
+  propriedadeId   Int?
 
   @@map("solos")
 }
@@ -127,14 +151,14 @@ model Solo {
 model Estimativas {
   id         Int       @id @default(autoincrement())
   valorTotal Float
-  descricao  String?
+  descricao  String? // sem default
   createdAt  DateTime  @default(now()) @map("created_at")
   updatedAt  DateTime? @updatedAt @map("updated_at") @db.DateTime()
   deletedAt  DateTime? @map("deleted_at") @db.DateTime()
 
   propriedadeId Int
-  simulacaoId   Int // ✅ nova coluna FK
-  simulacao     Simulacao    @relation(fields: [simulacaoId], references: [id]) // ✅ relação
+  simulacaoId   Int
+  simulacao     Simulacao    @relation(fields: [simulacaoId], references: [id])
   propriedade   Propriedade? @relation(fields: [propriedadeId], references: [id])
 
   @@map("estimativas")
@@ -142,7 +166,10 @@ model Estimativas {
 
 model Simulacao {
   id            Int       @id @default(autoincrement())
-  dadosJson     Json
+  nomeSimulacao String
+  dadosJson     Json? // sem default
+  culturaId     Int
+  soloId        Int
   resultado     Float
   dataSimulacao DateTime
   createdAt     DateTime  @default(now()) @map("created_at")
@@ -153,7 +180,20 @@ model Simulacao {
   propriedade   Propriedade @relation(fields: [propriedadeId], references: [id])
 
   historico   Historico[]
-  estimativas Estimativas[] // ✅ novo relacionamento aqui
+  estimativas Estimativas[]
 
   @@map("simulacoes")
+}
+
+model Cultura {
+  id        Int       @id @default(autoincrement())
+  name      String
+  eua       Float
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt DateTime? @map("deleted_at") @db.DateTime()
+
+  PropriedadeCultura PropriedadeCultura[]
+
+  @@map("culturas")
 }

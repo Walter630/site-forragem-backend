@@ -29,6 +29,16 @@ export type TipoUser = $Result.DefaultSelection<Prisma.$TipoUserPayload>
  */
 export type Propriedade = $Result.DefaultSelection<Prisma.$PropriedadePayload>
 /**
+ * Model PropriedadeCultura
+ * 
+ */
+export type PropriedadeCultura = $Result.DefaultSelection<Prisma.$PropriedadeCulturaPayload>
+/**
+ * Model PropriedadeSolo
+ * 
+ */
+export type PropriedadeSolo = $Result.DefaultSelection<Prisma.$PropriedadeSoloPayload>
+/**
  * Model Historico
  * 
  */
@@ -53,6 +63,11 @@ export type Estimativas = $Result.DefaultSelection<Prisma.$EstimativasPayload>
  * 
  */
 export type Simulacao = $Result.DefaultSelection<Prisma.$SimulacaoPayload>
+/**
+ * Model Cultura
+ * 
+ */
+export type Cultura = $Result.DefaultSelection<Prisma.$CulturaPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -210,6 +225,26 @@ export class PrismaClient<
   get propriedade(): Prisma.PropriedadeDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.propriedadeCultura`: Exposes CRUD operations for the **PropriedadeCultura** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PropriedadeCulturas
+    * const propriedadeCulturas = await prisma.propriedadeCultura.findMany()
+    * ```
+    */
+  get propriedadeCultura(): Prisma.PropriedadeCulturaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.propriedadeSolo`: Exposes CRUD operations for the **PropriedadeSolo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PropriedadeSolos
+    * const propriedadeSolos = await prisma.propriedadeSolo.findMany()
+    * ```
+    */
+  get propriedadeSolo(): Prisma.PropriedadeSoloDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.historico`: Exposes CRUD operations for the **Historico** model.
     * Example usage:
     * ```ts
@@ -258,6 +293,16 @@ export class PrismaClient<
     * ```
     */
   get simulacao(): Prisma.SimulacaoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cultura`: Exposes CRUD operations for the **Cultura** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Culturas
+    * const culturas = await prisma.cultura.findMany()
+    * ```
+    */
+  get cultura(): Prisma.CulturaDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -701,11 +746,14 @@ export namespace Prisma {
     Admin: 'Admin',
     TipoUser: 'TipoUser',
     Propriedade: 'Propriedade',
+    PropriedadeCultura: 'PropriedadeCultura',
+    PropriedadeSolo: 'PropriedadeSolo',
     Historico: 'Historico',
     Precipitacao: 'Precipitacao',
     Solo: 'Solo',
     Estimativas: 'Estimativas',
-    Simulacao: 'Simulacao'
+    Simulacao: 'Simulacao',
+    Cultura: 'Cultura'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -724,7 +772,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "admin" | "tipoUser" | "propriedade" | "historico" | "precipitacao" | "solo" | "estimativas" | "simulacao"
+      modelProps: "admin" | "tipoUser" | "propriedade" | "propriedadeCultura" | "propriedadeSolo" | "historico" | "precipitacao" | "solo" | "estimativas" | "simulacao" | "cultura"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -923,6 +971,138 @@ export namespace Prisma {
           count: {
             args: Prisma.PropriedadeCountArgs<ExtArgs>
             result: $Utils.Optional<PropriedadeCountAggregateOutputType> | number
+          }
+        }
+      }
+      PropriedadeCultura: {
+        payload: Prisma.$PropriedadeCulturaPayload<ExtArgs>
+        fields: Prisma.PropriedadeCulturaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PropriedadeCulturaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeCulturaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PropriedadeCulturaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeCulturaPayload>
+          }
+          findFirst: {
+            args: Prisma.PropriedadeCulturaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeCulturaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PropriedadeCulturaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeCulturaPayload>
+          }
+          findMany: {
+            args: Prisma.PropriedadeCulturaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeCulturaPayload>[]
+          }
+          create: {
+            args: Prisma.PropriedadeCulturaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeCulturaPayload>
+          }
+          createMany: {
+            args: Prisma.PropriedadeCulturaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PropriedadeCulturaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeCulturaPayload>
+          }
+          update: {
+            args: Prisma.PropriedadeCulturaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeCulturaPayload>
+          }
+          deleteMany: {
+            args: Prisma.PropriedadeCulturaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PropriedadeCulturaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PropriedadeCulturaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeCulturaPayload>
+          }
+          aggregate: {
+            args: Prisma.PropriedadeCulturaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePropriedadeCultura>
+          }
+          groupBy: {
+            args: Prisma.PropriedadeCulturaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PropriedadeCulturaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PropriedadeCulturaCountArgs<ExtArgs>
+            result: $Utils.Optional<PropriedadeCulturaCountAggregateOutputType> | number
+          }
+        }
+      }
+      PropriedadeSolo: {
+        payload: Prisma.$PropriedadeSoloPayload<ExtArgs>
+        fields: Prisma.PropriedadeSoloFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PropriedadeSoloFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeSoloPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PropriedadeSoloFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeSoloPayload>
+          }
+          findFirst: {
+            args: Prisma.PropriedadeSoloFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeSoloPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PropriedadeSoloFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeSoloPayload>
+          }
+          findMany: {
+            args: Prisma.PropriedadeSoloFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeSoloPayload>[]
+          }
+          create: {
+            args: Prisma.PropriedadeSoloCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeSoloPayload>
+          }
+          createMany: {
+            args: Prisma.PropriedadeSoloCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PropriedadeSoloDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeSoloPayload>
+          }
+          update: {
+            args: Prisma.PropriedadeSoloUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeSoloPayload>
+          }
+          deleteMany: {
+            args: Prisma.PropriedadeSoloDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PropriedadeSoloUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PropriedadeSoloUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PropriedadeSoloPayload>
+          }
+          aggregate: {
+            args: Prisma.PropriedadeSoloAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePropriedadeSolo>
+          }
+          groupBy: {
+            args: Prisma.PropriedadeSoloGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PropriedadeSoloGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PropriedadeSoloCountArgs<ExtArgs>
+            result: $Utils.Optional<PropriedadeSoloCountAggregateOutputType> | number
           }
         }
       }
@@ -1256,6 +1436,72 @@ export namespace Prisma {
           }
         }
       }
+      Cultura: {
+        payload: Prisma.$CulturaPayload<ExtArgs>
+        fields: Prisma.CulturaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CulturaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CulturaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CulturaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CulturaPayload>
+          }
+          findFirst: {
+            args: Prisma.CulturaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CulturaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CulturaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CulturaPayload>
+          }
+          findMany: {
+            args: Prisma.CulturaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CulturaPayload>[]
+          }
+          create: {
+            args: Prisma.CulturaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CulturaPayload>
+          }
+          createMany: {
+            args: Prisma.CulturaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.CulturaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CulturaPayload>
+          }
+          update: {
+            args: Prisma.CulturaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CulturaPayload>
+          }
+          deleteMany: {
+            args: Prisma.CulturaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CulturaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CulturaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CulturaPayload>
+          }
+          aggregate: {
+            args: Prisma.CulturaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCultura>
+          }
+          groupBy: {
+            args: Prisma.CulturaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CulturaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CulturaCountArgs<ExtArgs>
+            result: $Utils.Optional<CulturaCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1343,11 +1589,14 @@ export namespace Prisma {
     admin?: AdminOmit
     tipoUser?: TipoUserOmit
     propriedade?: PropriedadeOmit
+    propriedadeCultura?: PropriedadeCulturaOmit
+    propriedadeSolo?: PropriedadeSoloOmit
     historico?: HistoricoOmit
     precipitacao?: PrecipitacaoOmit
     solo?: SoloOmit
     estimativas?: EstimativasOmit
     simulacao?: SimulacaoOmit
+    cultura?: CulturaOmit
   }
 
   /* Types for Logging */
@@ -1477,7 +1726,9 @@ export namespace Prisma {
     simulacoes: number
     historicos: number
     precipitacoes: number
-    solos: number
+    propriedadeCultura: number
+    propriedadeSolo: number
+    Solo: number
   }
 
   export type PropriedadeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1485,7 +1736,9 @@ export namespace Prisma {
     simulacoes?: boolean | PropriedadeCountOutputTypeCountSimulacoesArgs
     historicos?: boolean | PropriedadeCountOutputTypeCountHistoricosArgs
     precipitacoes?: boolean | PropriedadeCountOutputTypeCountPrecipitacoesArgs
-    solos?: boolean | PropriedadeCountOutputTypeCountSolosArgs
+    propriedadeCultura?: boolean | PropriedadeCountOutputTypeCountPropriedadeCulturaArgs
+    propriedadeSolo?: boolean | PropriedadeCountOutputTypeCountPropriedadeSoloArgs
+    Solo?: boolean | PropriedadeCountOutputTypeCountSoloArgs
   }
 
   // Custom InputTypes
@@ -1530,7 +1783,21 @@ export namespace Prisma {
   /**
    * PropriedadeCountOutputType without action
    */
-  export type PropriedadeCountOutputTypeCountSolosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PropriedadeCountOutputTypeCountPropriedadeCulturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropriedadeCulturaWhereInput
+  }
+
+  /**
+   * PropriedadeCountOutputType without action
+   */
+  export type PropriedadeCountOutputTypeCountPropriedadeSoloArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropriedadeSoloWhereInput
+  }
+
+  /**
+   * PropriedadeCountOutputType without action
+   */
+  export type PropriedadeCountOutputTypeCountSoloArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SoloWhereInput
   }
 
@@ -1572,10 +1839,12 @@ export namespace Prisma {
 
   export type SoloCountOutputType = {
     historico: number
+    propriedadeSolo: number
   }
 
   export type SoloCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     historico?: boolean | SoloCountOutputTypeCountHistoricoArgs
+    propriedadeSolo?: boolean | SoloCountOutputTypeCountPropriedadeSoloArgs
   }
 
   // Custom InputTypes
@@ -1594,6 +1863,13 @@ export namespace Prisma {
    */
   export type SoloCountOutputTypeCountHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: HistoricoWhereInput
+  }
+
+  /**
+   * SoloCountOutputType without action
+   */
+  export type SoloCountOutputTypeCountPropriedadeSoloArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropriedadeSoloWhereInput
   }
 
 
@@ -1634,6 +1910,37 @@ export namespace Prisma {
    */
   export type SimulacaoCountOutputTypeCountEstimativasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EstimativasWhereInput
+  }
+
+
+  /**
+   * Count Type CulturaCountOutputType
+   */
+
+  export type CulturaCountOutputType = {
+    PropriedadeCultura: number
+  }
+
+  export type CulturaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    PropriedadeCultura?: boolean | CulturaCountOutputTypeCountPropriedadeCulturaArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CulturaCountOutputType without action
+   */
+  export type CulturaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CulturaCountOutputType
+     */
+    select?: CulturaCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CulturaCountOutputType without action
+   */
+  export type CulturaCountOutputTypeCountPropriedadeCulturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropriedadeCulturaWhereInput
   }
 
 
@@ -3732,7 +4039,6 @@ export namespace Prisma {
     id: number | null
     latitude: number | null
     longitude: number | null
-    altitude: number | null
     adminId: number | null
   }
 
@@ -3740,7 +4046,6 @@ export namespace Prisma {
     id: number | null
     latitude: number | null
     longitude: number | null
-    altitude: number | null
     adminId: number | null
   }
 
@@ -3750,8 +4055,6 @@ export namespace Prisma {
     nomePropriedade: string | null
     latitude: number | null
     longitude: number | null
-    altitude: number | null
-    simulacao: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -3764,8 +4067,6 @@ export namespace Prisma {
     nomePropriedade: string | null
     latitude: number | null
     longitude: number | null
-    altitude: number | null
-    simulacao: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -3778,8 +4079,6 @@ export namespace Prisma {
     nomePropriedade: number
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: number
     createdAt: number
     updatedAt: number
     deletedAt: number
@@ -3792,7 +4091,6 @@ export namespace Prisma {
     id?: true
     latitude?: true
     longitude?: true
-    altitude?: true
     adminId?: true
   }
 
@@ -3800,7 +4098,6 @@ export namespace Prisma {
     id?: true
     latitude?: true
     longitude?: true
-    altitude?: true
     adminId?: true
   }
 
@@ -3810,8 +4107,6 @@ export namespace Prisma {
     nomePropriedade?: true
     latitude?: true
     longitude?: true
-    altitude?: true
-    simulacao?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -3824,8 +4119,6 @@ export namespace Prisma {
     nomePropriedade?: true
     latitude?: true
     longitude?: true
-    altitude?: true
-    simulacao?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -3838,8 +4131,6 @@ export namespace Prisma {
     nomePropriedade?: true
     latitude?: true
     longitude?: true
-    altitude?: true
-    simulacao?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -3939,8 +4230,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt: Date
     updatedAt: Date | null
     deletedAt: Date | null
@@ -3972,8 +4261,6 @@ export namespace Prisma {
     nomePropriedade?: boolean
     latitude?: boolean
     longitude?: boolean
-    altitude?: boolean
-    simulacao?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
@@ -3983,7 +4270,9 @@ export namespace Prisma {
     simulacoes?: boolean | Propriedade$simulacoesArgs<ExtArgs>
     historicos?: boolean | Propriedade$historicosArgs<ExtArgs>
     precipitacoes?: boolean | Propriedade$precipitacoesArgs<ExtArgs>
-    solos?: boolean | Propriedade$solosArgs<ExtArgs>
+    propriedadeCultura?: boolean | Propriedade$propriedadeCulturaArgs<ExtArgs>
+    propriedadeSolo?: boolean | Propriedade$propriedadeSoloArgs<ExtArgs>
+    Solo?: boolean | Propriedade$SoloArgs<ExtArgs>
     _count?: boolean | PropriedadeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["propriedade"]>
 
@@ -3995,22 +4284,22 @@ export namespace Prisma {
     nomePropriedade?: boolean
     latitude?: boolean
     longitude?: boolean
-    altitude?: boolean
-    simulacao?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     adminId?: boolean
   }
 
-  export type PropriedadeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nomeProprietario" | "nomePropriedade" | "latitude" | "longitude" | "altitude" | "simulacao" | "createdAt" | "updatedAt" | "deletedAt" | "adminId", ExtArgs["result"]["propriedade"]>
+  export type PropriedadeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nomeProprietario" | "nomePropriedade" | "latitude" | "longitude" | "createdAt" | "updatedAt" | "deletedAt" | "adminId", ExtArgs["result"]["propriedade"]>
   export type PropriedadeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     admin?: boolean | Propriedade$adminArgs<ExtArgs>
     estimativas?: boolean | Propriedade$estimativasArgs<ExtArgs>
     simulacoes?: boolean | Propriedade$simulacoesArgs<ExtArgs>
     historicos?: boolean | Propriedade$historicosArgs<ExtArgs>
     precipitacoes?: boolean | Propriedade$precipitacoesArgs<ExtArgs>
-    solos?: boolean | Propriedade$solosArgs<ExtArgs>
+    propriedadeCultura?: boolean | Propriedade$propriedadeCulturaArgs<ExtArgs>
+    propriedadeSolo?: boolean | Propriedade$propriedadeSoloArgs<ExtArgs>
+    Solo?: boolean | Propriedade$SoloArgs<ExtArgs>
     _count?: boolean | PropriedadeCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4022,7 +4311,9 @@ export namespace Prisma {
       simulacoes: Prisma.$SimulacaoPayload<ExtArgs>[]
       historicos: Prisma.$HistoricoPayload<ExtArgs>[]
       precipitacoes: Prisma.$PrecipitacaoPayload<ExtArgs>[]
-      solos: Prisma.$SoloPayload<ExtArgs>[]
+      propriedadeCultura: Prisma.$PropriedadeCulturaPayload<ExtArgs>[]
+      propriedadeSolo: Prisma.$PropriedadeSoloPayload<ExtArgs>[]
+      Solo: Prisma.$SoloPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4030,8 +4321,6 @@ export namespace Prisma {
       nomePropriedade: string
       latitude: number
       longitude: number
-      altitude: number
-      simulacao: string
       createdAt: Date
       updatedAt: Date | null
       deletedAt: Date | null
@@ -4381,7 +4670,9 @@ export namespace Prisma {
     simulacoes<T extends Propriedade$simulacoesArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$simulacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     historicos<T extends Propriedade$historicosArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$historicosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     precipitacoes<T extends Propriedade$precipitacoesArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$precipitacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrecipitacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    solos<T extends Propriedade$solosArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$solosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SoloPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    propriedadeCultura<T extends Propriedade$propriedadeCulturaArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$propriedadeCulturaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    propriedadeSolo<T extends Propriedade$propriedadeSoloArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$propriedadeSoloArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Solo<T extends Propriedade$SoloArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$SoloArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SoloPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4416,8 +4707,6 @@ export namespace Prisma {
     readonly nomePropriedade: FieldRef<"Propriedade", 'String'>
     readonly latitude: FieldRef<"Propriedade", 'Float'>
     readonly longitude: FieldRef<"Propriedade", 'Float'>
-    readonly altitude: FieldRef<"Propriedade", 'Float'>
-    readonly simulacao: FieldRef<"Propriedade", 'String'>
     readonly createdAt: FieldRef<"Propriedade", 'DateTime'>
     readonly updatedAt: FieldRef<"Propriedade", 'DateTime'>
     readonly deletedAt: FieldRef<"Propriedade", 'DateTime'>
@@ -4880,9 +5169,57 @@ export namespace Prisma {
   }
 
   /**
-   * Propriedade.solos
+   * Propriedade.propriedadeCultura
    */
-  export type Propriedade$solosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Propriedade$propriedadeCulturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    where?: PropriedadeCulturaWhereInput
+    orderBy?: PropriedadeCulturaOrderByWithRelationInput | PropriedadeCulturaOrderByWithRelationInput[]
+    cursor?: PropriedadeCulturaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PropriedadeCulturaScalarFieldEnum | PropriedadeCulturaScalarFieldEnum[]
+  }
+
+  /**
+   * Propriedade.propriedadeSolo
+   */
+  export type Propriedade$propriedadeSoloArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    where?: PropriedadeSoloWhereInput
+    orderBy?: PropriedadeSoloOrderByWithRelationInput | PropriedadeSoloOrderByWithRelationInput[]
+    cursor?: PropriedadeSoloWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PropriedadeSoloScalarFieldEnum | PropriedadeSoloScalarFieldEnum[]
+  }
+
+  /**
+   * Propriedade.Solo
+   */
+  export type Propriedade$SoloArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Solo
      */
@@ -4919,6 +5256,1912 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PropriedadeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PropriedadeCultura
+   */
+
+  export type AggregatePropriedadeCultura = {
+    _count: PropriedadeCulturaCountAggregateOutputType | null
+    _avg: PropriedadeCulturaAvgAggregateOutputType | null
+    _sum: PropriedadeCulturaSumAggregateOutputType | null
+    _min: PropriedadeCulturaMinAggregateOutputType | null
+    _max: PropriedadeCulturaMaxAggregateOutputType | null
+  }
+
+  export type PropriedadeCulturaAvgAggregateOutputType = {
+    id: number | null
+    propriedadeId: number | null
+    culturaId: number | null
+  }
+
+  export type PropriedadeCulturaSumAggregateOutputType = {
+    id: number | null
+    propriedadeId: number | null
+    culturaId: number | null
+  }
+
+  export type PropriedadeCulturaMinAggregateOutputType = {
+    id: number | null
+    propriedadeId: number | null
+    culturaId: number | null
+  }
+
+  export type PropriedadeCulturaMaxAggregateOutputType = {
+    id: number | null
+    propriedadeId: number | null
+    culturaId: number | null
+  }
+
+  export type PropriedadeCulturaCountAggregateOutputType = {
+    id: number
+    propriedadeId: number
+    culturaId: number
+    _all: number
+  }
+
+
+  export type PropriedadeCulturaAvgAggregateInputType = {
+    id?: true
+    propriedadeId?: true
+    culturaId?: true
+  }
+
+  export type PropriedadeCulturaSumAggregateInputType = {
+    id?: true
+    propriedadeId?: true
+    culturaId?: true
+  }
+
+  export type PropriedadeCulturaMinAggregateInputType = {
+    id?: true
+    propriedadeId?: true
+    culturaId?: true
+  }
+
+  export type PropriedadeCulturaMaxAggregateInputType = {
+    id?: true
+    propriedadeId?: true
+    culturaId?: true
+  }
+
+  export type PropriedadeCulturaCountAggregateInputType = {
+    id?: true
+    propriedadeId?: true
+    culturaId?: true
+    _all?: true
+  }
+
+  export type PropriedadeCulturaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PropriedadeCultura to aggregate.
+     */
+    where?: PropriedadeCulturaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropriedadeCulturas to fetch.
+     */
+    orderBy?: PropriedadeCulturaOrderByWithRelationInput | PropriedadeCulturaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PropriedadeCulturaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropriedadeCulturas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropriedadeCulturas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PropriedadeCulturas
+    **/
+    _count?: true | PropriedadeCulturaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PropriedadeCulturaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PropriedadeCulturaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PropriedadeCulturaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PropriedadeCulturaMaxAggregateInputType
+  }
+
+  export type GetPropriedadeCulturaAggregateType<T extends PropriedadeCulturaAggregateArgs> = {
+        [P in keyof T & keyof AggregatePropriedadeCultura]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePropriedadeCultura[P]>
+      : GetScalarType<T[P], AggregatePropriedadeCultura[P]>
+  }
+
+
+
+
+  export type PropriedadeCulturaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropriedadeCulturaWhereInput
+    orderBy?: PropriedadeCulturaOrderByWithAggregationInput | PropriedadeCulturaOrderByWithAggregationInput[]
+    by: PropriedadeCulturaScalarFieldEnum[] | PropriedadeCulturaScalarFieldEnum
+    having?: PropriedadeCulturaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PropriedadeCulturaCountAggregateInputType | true
+    _avg?: PropriedadeCulturaAvgAggregateInputType
+    _sum?: PropriedadeCulturaSumAggregateInputType
+    _min?: PropriedadeCulturaMinAggregateInputType
+    _max?: PropriedadeCulturaMaxAggregateInputType
+  }
+
+  export type PropriedadeCulturaGroupByOutputType = {
+    id: number
+    propriedadeId: number
+    culturaId: number
+    _count: PropriedadeCulturaCountAggregateOutputType | null
+    _avg: PropriedadeCulturaAvgAggregateOutputType | null
+    _sum: PropriedadeCulturaSumAggregateOutputType | null
+    _min: PropriedadeCulturaMinAggregateOutputType | null
+    _max: PropriedadeCulturaMaxAggregateOutputType | null
+  }
+
+  type GetPropriedadeCulturaGroupByPayload<T extends PropriedadeCulturaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PropriedadeCulturaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PropriedadeCulturaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PropriedadeCulturaGroupByOutputType[P]>
+            : GetScalarType<T[P], PropriedadeCulturaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PropriedadeCulturaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    propriedadeId?: boolean
+    culturaId?: boolean
+    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
+    cultura?: boolean | CulturaDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["propriedadeCultura"]>
+
+
+
+  export type PropriedadeCulturaSelectScalar = {
+    id?: boolean
+    propriedadeId?: boolean
+    culturaId?: boolean
+  }
+
+  export type PropriedadeCulturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "propriedadeId" | "culturaId", ExtArgs["result"]["propriedadeCultura"]>
+  export type PropriedadeCulturaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
+    cultura?: boolean | CulturaDefaultArgs<ExtArgs>
+  }
+
+  export type $PropriedadeCulturaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PropriedadeCultura"
+    objects: {
+      propriedade: Prisma.$PropriedadePayload<ExtArgs>
+      cultura: Prisma.$CulturaPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      propriedadeId: number
+      culturaId: number
+    }, ExtArgs["result"]["propriedadeCultura"]>
+    composites: {}
+  }
+
+  type PropriedadeCulturaGetPayload<S extends boolean | null | undefined | PropriedadeCulturaDefaultArgs> = $Result.GetResult<Prisma.$PropriedadeCulturaPayload, S>
+
+  type PropriedadeCulturaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PropriedadeCulturaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PropriedadeCulturaCountAggregateInputType | true
+    }
+
+  export interface PropriedadeCulturaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PropriedadeCultura'], meta: { name: 'PropriedadeCultura' } }
+    /**
+     * Find zero or one PropriedadeCultura that matches the filter.
+     * @param {PropriedadeCulturaFindUniqueArgs} args - Arguments to find a PropriedadeCultura
+     * @example
+     * // Get one PropriedadeCultura
+     * const propriedadeCultura = await prisma.propriedadeCultura.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PropriedadeCulturaFindUniqueArgs>(args: SelectSubset<T, PropriedadeCulturaFindUniqueArgs<ExtArgs>>): Prisma__PropriedadeCulturaClient<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PropriedadeCultura that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PropriedadeCulturaFindUniqueOrThrowArgs} args - Arguments to find a PropriedadeCultura
+     * @example
+     * // Get one PropriedadeCultura
+     * const propriedadeCultura = await prisma.propriedadeCultura.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PropriedadeCulturaFindUniqueOrThrowArgs>(args: SelectSubset<T, PropriedadeCulturaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PropriedadeCulturaClient<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PropriedadeCultura that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeCulturaFindFirstArgs} args - Arguments to find a PropriedadeCultura
+     * @example
+     * // Get one PropriedadeCultura
+     * const propriedadeCultura = await prisma.propriedadeCultura.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PropriedadeCulturaFindFirstArgs>(args?: SelectSubset<T, PropriedadeCulturaFindFirstArgs<ExtArgs>>): Prisma__PropriedadeCulturaClient<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PropriedadeCultura that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeCulturaFindFirstOrThrowArgs} args - Arguments to find a PropriedadeCultura
+     * @example
+     * // Get one PropriedadeCultura
+     * const propriedadeCultura = await prisma.propriedadeCultura.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PropriedadeCulturaFindFirstOrThrowArgs>(args?: SelectSubset<T, PropriedadeCulturaFindFirstOrThrowArgs<ExtArgs>>): Prisma__PropriedadeCulturaClient<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PropriedadeCulturas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeCulturaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PropriedadeCulturas
+     * const propriedadeCulturas = await prisma.propriedadeCultura.findMany()
+     * 
+     * // Get first 10 PropriedadeCulturas
+     * const propriedadeCulturas = await prisma.propriedadeCultura.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const propriedadeCulturaWithIdOnly = await prisma.propriedadeCultura.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PropriedadeCulturaFindManyArgs>(args?: SelectSubset<T, PropriedadeCulturaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PropriedadeCultura.
+     * @param {PropriedadeCulturaCreateArgs} args - Arguments to create a PropriedadeCultura.
+     * @example
+     * // Create one PropriedadeCultura
+     * const PropriedadeCultura = await prisma.propriedadeCultura.create({
+     *   data: {
+     *     // ... data to create a PropriedadeCultura
+     *   }
+     * })
+     * 
+     */
+    create<T extends PropriedadeCulturaCreateArgs>(args: SelectSubset<T, PropriedadeCulturaCreateArgs<ExtArgs>>): Prisma__PropriedadeCulturaClient<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PropriedadeCulturas.
+     * @param {PropriedadeCulturaCreateManyArgs} args - Arguments to create many PropriedadeCulturas.
+     * @example
+     * // Create many PropriedadeCulturas
+     * const propriedadeCultura = await prisma.propriedadeCultura.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PropriedadeCulturaCreateManyArgs>(args?: SelectSubset<T, PropriedadeCulturaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PropriedadeCultura.
+     * @param {PropriedadeCulturaDeleteArgs} args - Arguments to delete one PropriedadeCultura.
+     * @example
+     * // Delete one PropriedadeCultura
+     * const PropriedadeCultura = await prisma.propriedadeCultura.delete({
+     *   where: {
+     *     // ... filter to delete one PropriedadeCultura
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PropriedadeCulturaDeleteArgs>(args: SelectSubset<T, PropriedadeCulturaDeleteArgs<ExtArgs>>): Prisma__PropriedadeCulturaClient<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PropriedadeCultura.
+     * @param {PropriedadeCulturaUpdateArgs} args - Arguments to update one PropriedadeCultura.
+     * @example
+     * // Update one PropriedadeCultura
+     * const propriedadeCultura = await prisma.propriedadeCultura.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PropriedadeCulturaUpdateArgs>(args: SelectSubset<T, PropriedadeCulturaUpdateArgs<ExtArgs>>): Prisma__PropriedadeCulturaClient<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PropriedadeCulturas.
+     * @param {PropriedadeCulturaDeleteManyArgs} args - Arguments to filter PropriedadeCulturas to delete.
+     * @example
+     * // Delete a few PropriedadeCulturas
+     * const { count } = await prisma.propriedadeCultura.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PropriedadeCulturaDeleteManyArgs>(args?: SelectSubset<T, PropriedadeCulturaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PropriedadeCulturas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeCulturaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PropriedadeCulturas
+     * const propriedadeCultura = await prisma.propriedadeCultura.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PropriedadeCulturaUpdateManyArgs>(args: SelectSubset<T, PropriedadeCulturaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PropriedadeCultura.
+     * @param {PropriedadeCulturaUpsertArgs} args - Arguments to update or create a PropriedadeCultura.
+     * @example
+     * // Update or create a PropriedadeCultura
+     * const propriedadeCultura = await prisma.propriedadeCultura.upsert({
+     *   create: {
+     *     // ... data to create a PropriedadeCultura
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PropriedadeCultura we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PropriedadeCulturaUpsertArgs>(args: SelectSubset<T, PropriedadeCulturaUpsertArgs<ExtArgs>>): Prisma__PropriedadeCulturaClient<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PropriedadeCulturas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeCulturaCountArgs} args - Arguments to filter PropriedadeCulturas to count.
+     * @example
+     * // Count the number of PropriedadeCulturas
+     * const count = await prisma.propriedadeCultura.count({
+     *   where: {
+     *     // ... the filter for the PropriedadeCulturas we want to count
+     *   }
+     * })
+    **/
+    count<T extends PropriedadeCulturaCountArgs>(
+      args?: Subset<T, PropriedadeCulturaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PropriedadeCulturaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PropriedadeCultura.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeCulturaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PropriedadeCulturaAggregateArgs>(args: Subset<T, PropriedadeCulturaAggregateArgs>): Prisma.PrismaPromise<GetPropriedadeCulturaAggregateType<T>>
+
+    /**
+     * Group by PropriedadeCultura.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeCulturaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PropriedadeCulturaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PropriedadeCulturaGroupByArgs['orderBy'] }
+        : { orderBy?: PropriedadeCulturaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PropriedadeCulturaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPropriedadeCulturaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PropriedadeCultura model
+   */
+  readonly fields: PropriedadeCulturaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PropriedadeCultura.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PropriedadeCulturaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    propriedade<T extends PropriedadeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PropriedadeDefaultArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    cultura<T extends CulturaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CulturaDefaultArgs<ExtArgs>>): Prisma__CulturaClient<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PropriedadeCultura model
+   */
+  interface PropriedadeCulturaFieldRefs {
+    readonly id: FieldRef<"PropriedadeCultura", 'Int'>
+    readonly propriedadeId: FieldRef<"PropriedadeCultura", 'Int'>
+    readonly culturaId: FieldRef<"PropriedadeCultura", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PropriedadeCultura findUnique
+   */
+  export type PropriedadeCulturaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    /**
+     * Filter, which PropriedadeCultura to fetch.
+     */
+    where: PropriedadeCulturaWhereUniqueInput
+  }
+
+  /**
+   * PropriedadeCultura findUniqueOrThrow
+   */
+  export type PropriedadeCulturaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    /**
+     * Filter, which PropriedadeCultura to fetch.
+     */
+    where: PropriedadeCulturaWhereUniqueInput
+  }
+
+  /**
+   * PropriedadeCultura findFirst
+   */
+  export type PropriedadeCulturaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    /**
+     * Filter, which PropriedadeCultura to fetch.
+     */
+    where?: PropriedadeCulturaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropriedadeCulturas to fetch.
+     */
+    orderBy?: PropriedadeCulturaOrderByWithRelationInput | PropriedadeCulturaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PropriedadeCulturas.
+     */
+    cursor?: PropriedadeCulturaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropriedadeCulturas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropriedadeCulturas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropriedadeCulturas.
+     */
+    distinct?: PropriedadeCulturaScalarFieldEnum | PropriedadeCulturaScalarFieldEnum[]
+  }
+
+  /**
+   * PropriedadeCultura findFirstOrThrow
+   */
+  export type PropriedadeCulturaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    /**
+     * Filter, which PropriedadeCultura to fetch.
+     */
+    where?: PropriedadeCulturaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropriedadeCulturas to fetch.
+     */
+    orderBy?: PropriedadeCulturaOrderByWithRelationInput | PropriedadeCulturaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PropriedadeCulturas.
+     */
+    cursor?: PropriedadeCulturaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropriedadeCulturas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropriedadeCulturas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropriedadeCulturas.
+     */
+    distinct?: PropriedadeCulturaScalarFieldEnum | PropriedadeCulturaScalarFieldEnum[]
+  }
+
+  /**
+   * PropriedadeCultura findMany
+   */
+  export type PropriedadeCulturaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    /**
+     * Filter, which PropriedadeCulturas to fetch.
+     */
+    where?: PropriedadeCulturaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropriedadeCulturas to fetch.
+     */
+    orderBy?: PropriedadeCulturaOrderByWithRelationInput | PropriedadeCulturaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PropriedadeCulturas.
+     */
+    cursor?: PropriedadeCulturaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropriedadeCulturas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropriedadeCulturas.
+     */
+    skip?: number
+    distinct?: PropriedadeCulturaScalarFieldEnum | PropriedadeCulturaScalarFieldEnum[]
+  }
+
+  /**
+   * PropriedadeCultura create
+   */
+  export type PropriedadeCulturaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PropriedadeCultura.
+     */
+    data: XOR<PropriedadeCulturaCreateInput, PropriedadeCulturaUncheckedCreateInput>
+  }
+
+  /**
+   * PropriedadeCultura createMany
+   */
+  export type PropriedadeCulturaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PropriedadeCulturas.
+     */
+    data: PropriedadeCulturaCreateManyInput | PropriedadeCulturaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PropriedadeCultura update
+   */
+  export type PropriedadeCulturaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PropriedadeCultura.
+     */
+    data: XOR<PropriedadeCulturaUpdateInput, PropriedadeCulturaUncheckedUpdateInput>
+    /**
+     * Choose, which PropriedadeCultura to update.
+     */
+    where: PropriedadeCulturaWhereUniqueInput
+  }
+
+  /**
+   * PropriedadeCultura updateMany
+   */
+  export type PropriedadeCulturaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PropriedadeCulturas.
+     */
+    data: XOR<PropriedadeCulturaUpdateManyMutationInput, PropriedadeCulturaUncheckedUpdateManyInput>
+    /**
+     * Filter which PropriedadeCulturas to update
+     */
+    where?: PropriedadeCulturaWhereInput
+    /**
+     * Limit how many PropriedadeCulturas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PropriedadeCultura upsert
+   */
+  export type PropriedadeCulturaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PropriedadeCultura to update in case it exists.
+     */
+    where: PropriedadeCulturaWhereUniqueInput
+    /**
+     * In case the PropriedadeCultura found by the `where` argument doesn't exist, create a new PropriedadeCultura with this data.
+     */
+    create: XOR<PropriedadeCulturaCreateInput, PropriedadeCulturaUncheckedCreateInput>
+    /**
+     * In case the PropriedadeCultura was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PropriedadeCulturaUpdateInput, PropriedadeCulturaUncheckedUpdateInput>
+  }
+
+  /**
+   * PropriedadeCultura delete
+   */
+  export type PropriedadeCulturaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    /**
+     * Filter which PropriedadeCultura to delete.
+     */
+    where: PropriedadeCulturaWhereUniqueInput
+  }
+
+  /**
+   * PropriedadeCultura deleteMany
+   */
+  export type PropriedadeCulturaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PropriedadeCulturas to delete
+     */
+    where?: PropriedadeCulturaWhereInput
+    /**
+     * Limit how many PropriedadeCulturas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PropriedadeCultura without action
+   */
+  export type PropriedadeCulturaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PropriedadeSolo
+   */
+
+  export type AggregatePropriedadeSolo = {
+    _count: PropriedadeSoloCountAggregateOutputType | null
+    _avg: PropriedadeSoloAvgAggregateOutputType | null
+    _sum: PropriedadeSoloSumAggregateOutputType | null
+    _min: PropriedadeSoloMinAggregateOutputType | null
+    _max: PropriedadeSoloMaxAggregateOutputType | null
+  }
+
+  export type PropriedadeSoloAvgAggregateOutputType = {
+    id: number | null
+    propriedadeId: number | null
+    soloId: number | null
+  }
+
+  export type PropriedadeSoloSumAggregateOutputType = {
+    id: number | null
+    propriedadeId: number | null
+    soloId: number | null
+  }
+
+  export type PropriedadeSoloMinAggregateOutputType = {
+    id: number | null
+    propriedadeId: number | null
+    soloId: number | null
+  }
+
+  export type PropriedadeSoloMaxAggregateOutputType = {
+    id: number | null
+    propriedadeId: number | null
+    soloId: number | null
+  }
+
+  export type PropriedadeSoloCountAggregateOutputType = {
+    id: number
+    propriedadeId: number
+    soloId: number
+    _all: number
+  }
+
+
+  export type PropriedadeSoloAvgAggregateInputType = {
+    id?: true
+    propriedadeId?: true
+    soloId?: true
+  }
+
+  export type PropriedadeSoloSumAggregateInputType = {
+    id?: true
+    propriedadeId?: true
+    soloId?: true
+  }
+
+  export type PropriedadeSoloMinAggregateInputType = {
+    id?: true
+    propriedadeId?: true
+    soloId?: true
+  }
+
+  export type PropriedadeSoloMaxAggregateInputType = {
+    id?: true
+    propriedadeId?: true
+    soloId?: true
+  }
+
+  export type PropriedadeSoloCountAggregateInputType = {
+    id?: true
+    propriedadeId?: true
+    soloId?: true
+    _all?: true
+  }
+
+  export type PropriedadeSoloAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PropriedadeSolo to aggregate.
+     */
+    where?: PropriedadeSoloWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropriedadeSolos to fetch.
+     */
+    orderBy?: PropriedadeSoloOrderByWithRelationInput | PropriedadeSoloOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PropriedadeSoloWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropriedadeSolos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropriedadeSolos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PropriedadeSolos
+    **/
+    _count?: true | PropriedadeSoloCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PropriedadeSoloAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PropriedadeSoloSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PropriedadeSoloMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PropriedadeSoloMaxAggregateInputType
+  }
+
+  export type GetPropriedadeSoloAggregateType<T extends PropriedadeSoloAggregateArgs> = {
+        [P in keyof T & keyof AggregatePropriedadeSolo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePropriedadeSolo[P]>
+      : GetScalarType<T[P], AggregatePropriedadeSolo[P]>
+  }
+
+
+
+
+  export type PropriedadeSoloGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropriedadeSoloWhereInput
+    orderBy?: PropriedadeSoloOrderByWithAggregationInput | PropriedadeSoloOrderByWithAggregationInput[]
+    by: PropriedadeSoloScalarFieldEnum[] | PropriedadeSoloScalarFieldEnum
+    having?: PropriedadeSoloScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PropriedadeSoloCountAggregateInputType | true
+    _avg?: PropriedadeSoloAvgAggregateInputType
+    _sum?: PropriedadeSoloSumAggregateInputType
+    _min?: PropriedadeSoloMinAggregateInputType
+    _max?: PropriedadeSoloMaxAggregateInputType
+  }
+
+  export type PropriedadeSoloGroupByOutputType = {
+    id: number
+    propriedadeId: number
+    soloId: number
+    _count: PropriedadeSoloCountAggregateOutputType | null
+    _avg: PropriedadeSoloAvgAggregateOutputType | null
+    _sum: PropriedadeSoloSumAggregateOutputType | null
+    _min: PropriedadeSoloMinAggregateOutputType | null
+    _max: PropriedadeSoloMaxAggregateOutputType | null
+  }
+
+  type GetPropriedadeSoloGroupByPayload<T extends PropriedadeSoloGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PropriedadeSoloGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PropriedadeSoloGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PropriedadeSoloGroupByOutputType[P]>
+            : GetScalarType<T[P], PropriedadeSoloGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PropriedadeSoloSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    propriedadeId?: boolean
+    soloId?: boolean
+    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
+    solo?: boolean | SoloDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["propriedadeSolo"]>
+
+
+
+  export type PropriedadeSoloSelectScalar = {
+    id?: boolean
+    propriedadeId?: boolean
+    soloId?: boolean
+  }
+
+  export type PropriedadeSoloOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "propriedadeId" | "soloId", ExtArgs["result"]["propriedadeSolo"]>
+  export type PropriedadeSoloInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
+    solo?: boolean | SoloDefaultArgs<ExtArgs>
+  }
+
+  export type $PropriedadeSoloPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PropriedadeSolo"
+    objects: {
+      propriedade: Prisma.$PropriedadePayload<ExtArgs>
+      solo: Prisma.$SoloPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      propriedadeId: number
+      soloId: number
+    }, ExtArgs["result"]["propriedadeSolo"]>
+    composites: {}
+  }
+
+  type PropriedadeSoloGetPayload<S extends boolean | null | undefined | PropriedadeSoloDefaultArgs> = $Result.GetResult<Prisma.$PropriedadeSoloPayload, S>
+
+  type PropriedadeSoloCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PropriedadeSoloFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PropriedadeSoloCountAggregateInputType | true
+    }
+
+  export interface PropriedadeSoloDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PropriedadeSolo'], meta: { name: 'PropriedadeSolo' } }
+    /**
+     * Find zero or one PropriedadeSolo that matches the filter.
+     * @param {PropriedadeSoloFindUniqueArgs} args - Arguments to find a PropriedadeSolo
+     * @example
+     * // Get one PropriedadeSolo
+     * const propriedadeSolo = await prisma.propriedadeSolo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PropriedadeSoloFindUniqueArgs>(args: SelectSubset<T, PropriedadeSoloFindUniqueArgs<ExtArgs>>): Prisma__PropriedadeSoloClient<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PropriedadeSolo that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PropriedadeSoloFindUniqueOrThrowArgs} args - Arguments to find a PropriedadeSolo
+     * @example
+     * // Get one PropriedadeSolo
+     * const propriedadeSolo = await prisma.propriedadeSolo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PropriedadeSoloFindUniqueOrThrowArgs>(args: SelectSubset<T, PropriedadeSoloFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PropriedadeSoloClient<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PropriedadeSolo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeSoloFindFirstArgs} args - Arguments to find a PropriedadeSolo
+     * @example
+     * // Get one PropriedadeSolo
+     * const propriedadeSolo = await prisma.propriedadeSolo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PropriedadeSoloFindFirstArgs>(args?: SelectSubset<T, PropriedadeSoloFindFirstArgs<ExtArgs>>): Prisma__PropriedadeSoloClient<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PropriedadeSolo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeSoloFindFirstOrThrowArgs} args - Arguments to find a PropriedadeSolo
+     * @example
+     * // Get one PropriedadeSolo
+     * const propriedadeSolo = await prisma.propriedadeSolo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PropriedadeSoloFindFirstOrThrowArgs>(args?: SelectSubset<T, PropriedadeSoloFindFirstOrThrowArgs<ExtArgs>>): Prisma__PropriedadeSoloClient<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PropriedadeSolos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeSoloFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PropriedadeSolos
+     * const propriedadeSolos = await prisma.propriedadeSolo.findMany()
+     * 
+     * // Get first 10 PropriedadeSolos
+     * const propriedadeSolos = await prisma.propriedadeSolo.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const propriedadeSoloWithIdOnly = await prisma.propriedadeSolo.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PropriedadeSoloFindManyArgs>(args?: SelectSubset<T, PropriedadeSoloFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PropriedadeSolo.
+     * @param {PropriedadeSoloCreateArgs} args - Arguments to create a PropriedadeSolo.
+     * @example
+     * // Create one PropriedadeSolo
+     * const PropriedadeSolo = await prisma.propriedadeSolo.create({
+     *   data: {
+     *     // ... data to create a PropriedadeSolo
+     *   }
+     * })
+     * 
+     */
+    create<T extends PropriedadeSoloCreateArgs>(args: SelectSubset<T, PropriedadeSoloCreateArgs<ExtArgs>>): Prisma__PropriedadeSoloClient<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PropriedadeSolos.
+     * @param {PropriedadeSoloCreateManyArgs} args - Arguments to create many PropriedadeSolos.
+     * @example
+     * // Create many PropriedadeSolos
+     * const propriedadeSolo = await prisma.propriedadeSolo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PropriedadeSoloCreateManyArgs>(args?: SelectSubset<T, PropriedadeSoloCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PropriedadeSolo.
+     * @param {PropriedadeSoloDeleteArgs} args - Arguments to delete one PropriedadeSolo.
+     * @example
+     * // Delete one PropriedadeSolo
+     * const PropriedadeSolo = await prisma.propriedadeSolo.delete({
+     *   where: {
+     *     // ... filter to delete one PropriedadeSolo
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PropriedadeSoloDeleteArgs>(args: SelectSubset<T, PropriedadeSoloDeleteArgs<ExtArgs>>): Prisma__PropriedadeSoloClient<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PropriedadeSolo.
+     * @param {PropriedadeSoloUpdateArgs} args - Arguments to update one PropriedadeSolo.
+     * @example
+     * // Update one PropriedadeSolo
+     * const propriedadeSolo = await prisma.propriedadeSolo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PropriedadeSoloUpdateArgs>(args: SelectSubset<T, PropriedadeSoloUpdateArgs<ExtArgs>>): Prisma__PropriedadeSoloClient<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PropriedadeSolos.
+     * @param {PropriedadeSoloDeleteManyArgs} args - Arguments to filter PropriedadeSolos to delete.
+     * @example
+     * // Delete a few PropriedadeSolos
+     * const { count } = await prisma.propriedadeSolo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PropriedadeSoloDeleteManyArgs>(args?: SelectSubset<T, PropriedadeSoloDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PropriedadeSolos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeSoloUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PropriedadeSolos
+     * const propriedadeSolo = await prisma.propriedadeSolo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PropriedadeSoloUpdateManyArgs>(args: SelectSubset<T, PropriedadeSoloUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PropriedadeSolo.
+     * @param {PropriedadeSoloUpsertArgs} args - Arguments to update or create a PropriedadeSolo.
+     * @example
+     * // Update or create a PropriedadeSolo
+     * const propriedadeSolo = await prisma.propriedadeSolo.upsert({
+     *   create: {
+     *     // ... data to create a PropriedadeSolo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PropriedadeSolo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PropriedadeSoloUpsertArgs>(args: SelectSubset<T, PropriedadeSoloUpsertArgs<ExtArgs>>): Prisma__PropriedadeSoloClient<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PropriedadeSolos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeSoloCountArgs} args - Arguments to filter PropriedadeSolos to count.
+     * @example
+     * // Count the number of PropriedadeSolos
+     * const count = await prisma.propriedadeSolo.count({
+     *   where: {
+     *     // ... the filter for the PropriedadeSolos we want to count
+     *   }
+     * })
+    **/
+    count<T extends PropriedadeSoloCountArgs>(
+      args?: Subset<T, PropriedadeSoloCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PropriedadeSoloCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PropriedadeSolo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeSoloAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PropriedadeSoloAggregateArgs>(args: Subset<T, PropriedadeSoloAggregateArgs>): Prisma.PrismaPromise<GetPropriedadeSoloAggregateType<T>>
+
+    /**
+     * Group by PropriedadeSolo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PropriedadeSoloGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PropriedadeSoloGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PropriedadeSoloGroupByArgs['orderBy'] }
+        : { orderBy?: PropriedadeSoloGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PropriedadeSoloGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPropriedadeSoloGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PropriedadeSolo model
+   */
+  readonly fields: PropriedadeSoloFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PropriedadeSolo.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PropriedadeSoloClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    propriedade<T extends PropriedadeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PropriedadeDefaultArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    solo<T extends SoloDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SoloDefaultArgs<ExtArgs>>): Prisma__SoloClient<$Result.GetResult<Prisma.$SoloPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PropriedadeSolo model
+   */
+  interface PropriedadeSoloFieldRefs {
+    readonly id: FieldRef<"PropriedadeSolo", 'Int'>
+    readonly propriedadeId: FieldRef<"PropriedadeSolo", 'Int'>
+    readonly soloId: FieldRef<"PropriedadeSolo", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PropriedadeSolo findUnique
+   */
+  export type PropriedadeSoloFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    /**
+     * Filter, which PropriedadeSolo to fetch.
+     */
+    where: PropriedadeSoloWhereUniqueInput
+  }
+
+  /**
+   * PropriedadeSolo findUniqueOrThrow
+   */
+  export type PropriedadeSoloFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    /**
+     * Filter, which PropriedadeSolo to fetch.
+     */
+    where: PropriedadeSoloWhereUniqueInput
+  }
+
+  /**
+   * PropriedadeSolo findFirst
+   */
+  export type PropriedadeSoloFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    /**
+     * Filter, which PropriedadeSolo to fetch.
+     */
+    where?: PropriedadeSoloWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropriedadeSolos to fetch.
+     */
+    orderBy?: PropriedadeSoloOrderByWithRelationInput | PropriedadeSoloOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PropriedadeSolos.
+     */
+    cursor?: PropriedadeSoloWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropriedadeSolos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropriedadeSolos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropriedadeSolos.
+     */
+    distinct?: PropriedadeSoloScalarFieldEnum | PropriedadeSoloScalarFieldEnum[]
+  }
+
+  /**
+   * PropriedadeSolo findFirstOrThrow
+   */
+  export type PropriedadeSoloFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    /**
+     * Filter, which PropriedadeSolo to fetch.
+     */
+    where?: PropriedadeSoloWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropriedadeSolos to fetch.
+     */
+    orderBy?: PropriedadeSoloOrderByWithRelationInput | PropriedadeSoloOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PropriedadeSolos.
+     */
+    cursor?: PropriedadeSoloWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropriedadeSolos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropriedadeSolos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropriedadeSolos.
+     */
+    distinct?: PropriedadeSoloScalarFieldEnum | PropriedadeSoloScalarFieldEnum[]
+  }
+
+  /**
+   * PropriedadeSolo findMany
+   */
+  export type PropriedadeSoloFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    /**
+     * Filter, which PropriedadeSolos to fetch.
+     */
+    where?: PropriedadeSoloWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PropriedadeSolos to fetch.
+     */
+    orderBy?: PropriedadeSoloOrderByWithRelationInput | PropriedadeSoloOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PropriedadeSolos.
+     */
+    cursor?: PropriedadeSoloWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PropriedadeSolos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PropriedadeSolos.
+     */
+    skip?: number
+    distinct?: PropriedadeSoloScalarFieldEnum | PropriedadeSoloScalarFieldEnum[]
+  }
+
+  /**
+   * PropriedadeSolo create
+   */
+  export type PropriedadeSoloCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PropriedadeSolo.
+     */
+    data: XOR<PropriedadeSoloCreateInput, PropriedadeSoloUncheckedCreateInput>
+  }
+
+  /**
+   * PropriedadeSolo createMany
+   */
+  export type PropriedadeSoloCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PropriedadeSolos.
+     */
+    data: PropriedadeSoloCreateManyInput | PropriedadeSoloCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PropriedadeSolo update
+   */
+  export type PropriedadeSoloUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PropriedadeSolo.
+     */
+    data: XOR<PropriedadeSoloUpdateInput, PropriedadeSoloUncheckedUpdateInput>
+    /**
+     * Choose, which PropriedadeSolo to update.
+     */
+    where: PropriedadeSoloWhereUniqueInput
+  }
+
+  /**
+   * PropriedadeSolo updateMany
+   */
+  export type PropriedadeSoloUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PropriedadeSolos.
+     */
+    data: XOR<PropriedadeSoloUpdateManyMutationInput, PropriedadeSoloUncheckedUpdateManyInput>
+    /**
+     * Filter which PropriedadeSolos to update
+     */
+    where?: PropriedadeSoloWhereInput
+    /**
+     * Limit how many PropriedadeSolos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PropriedadeSolo upsert
+   */
+  export type PropriedadeSoloUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PropriedadeSolo to update in case it exists.
+     */
+    where: PropriedadeSoloWhereUniqueInput
+    /**
+     * In case the PropriedadeSolo found by the `where` argument doesn't exist, create a new PropriedadeSolo with this data.
+     */
+    create: XOR<PropriedadeSoloCreateInput, PropriedadeSoloUncheckedCreateInput>
+    /**
+     * In case the PropriedadeSolo was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PropriedadeSoloUpdateInput, PropriedadeSoloUncheckedUpdateInput>
+  }
+
+  /**
+   * PropriedadeSolo delete
+   */
+  export type PropriedadeSoloDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    /**
+     * Filter which PropriedadeSolo to delete.
+     */
+    where: PropriedadeSoloWhereUniqueInput
+  }
+
+  /**
+   * PropriedadeSolo deleteMany
+   */
+  export type PropriedadeSoloDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PropriedadeSolos to delete
+     */
+    where?: PropriedadeSoloWhereInput
+    /**
+     * Limit how many PropriedadeSolos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PropriedadeSolo without action
+   */
+  export type PropriedadeSoloDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
   }
 
 
@@ -7097,6 +9340,7 @@ export namespace Prisma {
 
   export type SoloMinAggregateOutputType = {
     id: number | null
+    nomeClasse: string | null
     profundidade: number | null
     fatorRocha: number | null
     condutHidraulicaSaturada: number | null
@@ -7104,14 +9348,15 @@ export namespace Prisma {
     agua0Bar: number | null
     agua13Bar: number | null
     agua15Bar: number | null
-    propriedadeId: number | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
+    propriedadeId: number | null
   }
 
   export type SoloMaxAggregateOutputType = {
     id: number | null
+    nomeClasse: string | null
     profundidade: number | null
     fatorRocha: number | null
     condutHidraulicaSaturada: number | null
@@ -7119,14 +9364,15 @@ export namespace Prisma {
     agua0Bar: number | null
     agua13Bar: number | null
     agua15Bar: number | null
-    propriedadeId: number | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
+    propriedadeId: number | null
   }
 
   export type SoloCountAggregateOutputType = {
     id: number
+    nomeClasse: number
     profundidade: number
     fatorRocha: number
     condutHidraulicaSaturada: number
@@ -7134,10 +9380,10 @@ export namespace Prisma {
     agua0Bar: number
     agua13Bar: number
     agua15Bar: number
-    propriedadeId: number
     createdAt: number
     updatedAt: number
     deletedAt: number
+    propriedadeId: number
     _all: number
   }
 
@@ -7168,6 +9414,7 @@ export namespace Prisma {
 
   export type SoloMinAggregateInputType = {
     id?: true
+    nomeClasse?: true
     profundidade?: true
     fatorRocha?: true
     condutHidraulicaSaturada?: true
@@ -7175,14 +9422,15 @@ export namespace Prisma {
     agua0Bar?: true
     agua13Bar?: true
     agua15Bar?: true
-    propriedadeId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
+    propriedadeId?: true
   }
 
   export type SoloMaxAggregateInputType = {
     id?: true
+    nomeClasse?: true
     profundidade?: true
     fatorRocha?: true
     condutHidraulicaSaturada?: true
@@ -7190,14 +9438,15 @@ export namespace Prisma {
     agua0Bar?: true
     agua13Bar?: true
     agua15Bar?: true
-    propriedadeId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
+    propriedadeId?: true
   }
 
   export type SoloCountAggregateInputType = {
     id?: true
+    nomeClasse?: true
     profundidade?: true
     fatorRocha?: true
     condutHidraulicaSaturada?: true
@@ -7205,10 +9454,10 @@ export namespace Prisma {
     agua0Bar?: true
     agua13Bar?: true
     agua15Bar?: true
-    propriedadeId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
+    propriedadeId?: true
     _all?: true
   }
 
@@ -7300,6 +9549,7 @@ export namespace Prisma {
 
   export type SoloGroupByOutputType = {
     id: number
+    nomeClasse: string
     profundidade: number
     fatorRocha: number
     condutHidraulicaSaturada: number
@@ -7307,10 +9557,10 @@ export namespace Prisma {
     agua0Bar: number
     agua13Bar: number
     agua15Bar: number
-    propriedadeId: number
     createdAt: Date
     updatedAt: Date | null
     deletedAt: Date | null
+    propriedadeId: number | null
     _count: SoloCountAggregateOutputType | null
     _avg: SoloAvgAggregateOutputType | null
     _sum: SoloSumAggregateOutputType | null
@@ -7334,6 +9584,7 @@ export namespace Prisma {
 
   export type SoloSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    nomeClasse?: boolean
     profundidade?: boolean
     fatorRocha?: boolean
     condutHidraulicaSaturada?: boolean
@@ -7341,12 +9592,13 @@ export namespace Prisma {
     agua0Bar?: boolean
     agua13Bar?: boolean
     agua15Bar?: boolean
-    propriedadeId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
+    propriedadeId?: boolean
     historico?: boolean | Solo$historicoArgs<ExtArgs>
+    propriedadeSolo?: boolean | Solo$propriedadeSoloArgs<ExtArgs>
+    Propriedade?: boolean | Solo$PropriedadeArgs<ExtArgs>
     _count?: boolean | SoloCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solo"]>
 
@@ -7354,6 +9606,7 @@ export namespace Prisma {
 
   export type SoloSelectScalar = {
     id?: boolean
+    nomeClasse?: boolean
     profundidade?: boolean
     fatorRocha?: boolean
     condutHidraulicaSaturada?: boolean
@@ -7361,27 +9614,30 @@ export namespace Prisma {
     agua0Bar?: boolean
     agua13Bar?: boolean
     agua15Bar?: boolean
-    propriedadeId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
+    propriedadeId?: boolean
   }
 
-  export type SoloOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profundidade" | "fatorRocha" | "condutHidraulicaSaturada" | "densidadeAparente" | "agua0Bar" | "agua13Bar" | "agua15Bar" | "propriedadeId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["solo"]>
+  export type SoloOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nomeClasse" | "profundidade" | "fatorRocha" | "condutHidraulicaSaturada" | "densidadeAparente" | "agua0Bar" | "agua13Bar" | "agua15Bar" | "createdAt" | "updatedAt" | "deletedAt" | "propriedadeId", ExtArgs["result"]["solo"]>
   export type SoloInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
     historico?: boolean | Solo$historicoArgs<ExtArgs>
+    propriedadeSolo?: boolean | Solo$propriedadeSoloArgs<ExtArgs>
+    Propriedade?: boolean | Solo$PropriedadeArgs<ExtArgs>
     _count?: boolean | SoloCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $SoloPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Solo"
     objects: {
-      propriedade: Prisma.$PropriedadePayload<ExtArgs>
       historico: Prisma.$HistoricoPayload<ExtArgs>[]
+      propriedadeSolo: Prisma.$PropriedadeSoloPayload<ExtArgs>[]
+      Propriedade: Prisma.$PropriedadePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      nomeClasse: string
       profundidade: number
       fatorRocha: number
       condutHidraulicaSaturada: number
@@ -7389,10 +9645,10 @@ export namespace Prisma {
       agua0Bar: number
       agua13Bar: number
       agua15Bar: number
-      propriedadeId: number
       createdAt: Date
       updatedAt: Date | null
       deletedAt: Date | null
+      propriedadeId: number | null
     }, ExtArgs["result"]["solo"]>
     composites: {}
   }
@@ -7733,8 +9989,9 @@ export namespace Prisma {
    */
   export interface Prisma__SoloClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    propriedade<T extends PropriedadeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PropriedadeDefaultArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     historico<T extends Solo$historicoArgs<ExtArgs> = {}>(args?: Subset<T, Solo$historicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    propriedadeSolo<T extends Solo$propriedadeSoloArgs<ExtArgs> = {}>(args?: Subset<T, Solo$propriedadeSoloArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Propriedade<T extends Solo$PropriedadeArgs<ExtArgs> = {}>(args?: Subset<T, Solo$PropriedadeArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7765,6 +10022,7 @@ export namespace Prisma {
    */
   interface SoloFieldRefs {
     readonly id: FieldRef<"Solo", 'Int'>
+    readonly nomeClasse: FieldRef<"Solo", 'String'>
     readonly profundidade: FieldRef<"Solo", 'Float'>
     readonly fatorRocha: FieldRef<"Solo", 'Float'>
     readonly condutHidraulicaSaturada: FieldRef<"Solo", 'Float'>
@@ -7772,10 +10030,10 @@ export namespace Prisma {
     readonly agua0Bar: FieldRef<"Solo", 'Float'>
     readonly agua13Bar: FieldRef<"Solo", 'Float'>
     readonly agua15Bar: FieldRef<"Solo", 'Float'>
-    readonly propriedadeId: FieldRef<"Solo", 'Int'>
     readonly createdAt: FieldRef<"Solo", 'DateTime'>
     readonly updatedAt: FieldRef<"Solo", 'DateTime'>
     readonly deletedAt: FieldRef<"Solo", 'DateTime'>
+    readonly propriedadeId: FieldRef<"Solo", 'Int'>
   }
     
 
@@ -8140,6 +10398,49 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: HistoricoScalarFieldEnum | HistoricoScalarFieldEnum[]
+  }
+
+  /**
+   * Solo.propriedadeSolo
+   */
+  export type Solo$propriedadeSoloArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    where?: PropriedadeSoloWhereInput
+    orderBy?: PropriedadeSoloOrderByWithRelationInput | PropriedadeSoloOrderByWithRelationInput[]
+    cursor?: PropriedadeSoloWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PropriedadeSoloScalarFieldEnum | PropriedadeSoloScalarFieldEnum[]
+  }
+
+  /**
+   * Solo.Propriedade
+   */
+  export type Solo$PropriedadeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Propriedade
+     */
+    select?: PropriedadeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Propriedade
+     */
+    omit?: PropriedadeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeInclude<ExtArgs> | null
+    where?: PropriedadeWhereInput
   }
 
   /**
@@ -9206,18 +11507,25 @@ export namespace Prisma {
 
   export type SimulacaoAvgAggregateOutputType = {
     id: number | null
+    culturaId: number | null
+    soloId: number | null
     resultado: number | null
     propriedadeId: number | null
   }
 
   export type SimulacaoSumAggregateOutputType = {
     id: number | null
+    culturaId: number | null
+    soloId: number | null
     resultado: number | null
     propriedadeId: number | null
   }
 
   export type SimulacaoMinAggregateOutputType = {
     id: number | null
+    nomeSimulacao: string | null
+    culturaId: number | null
+    soloId: number | null
     resultado: number | null
     dataSimulacao: Date | null
     createdAt: Date | null
@@ -9228,6 +11536,9 @@ export namespace Prisma {
 
   export type SimulacaoMaxAggregateOutputType = {
     id: number | null
+    nomeSimulacao: string | null
+    culturaId: number | null
+    soloId: number | null
     resultado: number | null
     dataSimulacao: Date | null
     createdAt: Date | null
@@ -9238,7 +11549,10 @@ export namespace Prisma {
 
   export type SimulacaoCountAggregateOutputType = {
     id: number
+    nomeSimulacao: number
     dadosJson: number
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: number
     createdAt: number
@@ -9251,18 +11565,25 @@ export namespace Prisma {
 
   export type SimulacaoAvgAggregateInputType = {
     id?: true
+    culturaId?: true
+    soloId?: true
     resultado?: true
     propriedadeId?: true
   }
 
   export type SimulacaoSumAggregateInputType = {
     id?: true
+    culturaId?: true
+    soloId?: true
     resultado?: true
     propriedadeId?: true
   }
 
   export type SimulacaoMinAggregateInputType = {
     id?: true
+    nomeSimulacao?: true
+    culturaId?: true
+    soloId?: true
     resultado?: true
     dataSimulacao?: true
     createdAt?: true
@@ -9273,6 +11594,9 @@ export namespace Prisma {
 
   export type SimulacaoMaxAggregateInputType = {
     id?: true
+    nomeSimulacao?: true
+    culturaId?: true
+    soloId?: true
     resultado?: true
     dataSimulacao?: true
     createdAt?: true
@@ -9283,7 +11607,10 @@ export namespace Prisma {
 
   export type SimulacaoCountAggregateInputType = {
     id?: true
+    nomeSimulacao?: true
     dadosJson?: true
+    culturaId?: true
+    soloId?: true
     resultado?: true
     dataSimulacao?: true
     createdAt?: true
@@ -9381,7 +11708,10 @@ export namespace Prisma {
 
   export type SimulacaoGroupByOutputType = {
     id: number
-    dadosJson: JsonValue
+    nomeSimulacao: string
+    dadosJson: JsonValue | null
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: Date
     createdAt: Date
@@ -9411,7 +11741,10 @@ export namespace Prisma {
 
   export type SimulacaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    nomeSimulacao?: boolean
     dadosJson?: boolean
+    culturaId?: boolean
+    soloId?: boolean
     resultado?: boolean
     dataSimulacao?: boolean
     createdAt?: boolean
@@ -9428,7 +11761,10 @@ export namespace Prisma {
 
   export type SimulacaoSelectScalar = {
     id?: boolean
+    nomeSimulacao?: boolean
     dadosJson?: boolean
+    culturaId?: boolean
+    soloId?: boolean
     resultado?: boolean
     dataSimulacao?: boolean
     createdAt?: boolean
@@ -9437,7 +11773,7 @@ export namespace Prisma {
     propriedadeId?: boolean
   }
 
-  export type SimulacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dadosJson" | "resultado" | "dataSimulacao" | "createdAt" | "updatedAt" | "deletedAt" | "propriedadeId", ExtArgs["result"]["simulacao"]>
+  export type SimulacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nomeSimulacao" | "dadosJson" | "culturaId" | "soloId" | "resultado" | "dataSimulacao" | "createdAt" | "updatedAt" | "deletedAt" | "propriedadeId", ExtArgs["result"]["simulacao"]>
   export type SimulacaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
     historico?: boolean | Simulacao$historicoArgs<ExtArgs>
@@ -9454,7 +11790,10 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      dadosJson: Prisma.JsonValue
+      nomeSimulacao: string
+      dadosJson: Prisma.JsonValue | null
+      culturaId: number
+      soloId: number
       resultado: number
       dataSimulacao: Date
       createdAt: Date
@@ -9834,7 +12173,10 @@ export namespace Prisma {
    */
   interface SimulacaoFieldRefs {
     readonly id: FieldRef<"Simulacao", 'Int'>
+    readonly nomeSimulacao: FieldRef<"Simulacao", 'String'>
     readonly dadosJson: FieldRef<"Simulacao", 'Json'>
+    readonly culturaId: FieldRef<"Simulacao", 'Int'>
+    readonly soloId: FieldRef<"Simulacao", 'Int'>
     readonly resultado: FieldRef<"Simulacao", 'Float'>
     readonly dataSimulacao: FieldRef<"Simulacao", 'DateTime'>
     readonly createdAt: FieldRef<"Simulacao", 'DateTime'>
@@ -10251,6 +12593,1010 @@ export namespace Prisma {
 
 
   /**
+   * Model Cultura
+   */
+
+  export type AggregateCultura = {
+    _count: CulturaCountAggregateOutputType | null
+    _avg: CulturaAvgAggregateOutputType | null
+    _sum: CulturaSumAggregateOutputType | null
+    _min: CulturaMinAggregateOutputType | null
+    _max: CulturaMaxAggregateOutputType | null
+  }
+
+  export type CulturaAvgAggregateOutputType = {
+    id: number | null
+    eua: number | null
+  }
+
+  export type CulturaSumAggregateOutputType = {
+    id: number | null
+    eua: number | null
+  }
+
+  export type CulturaMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    eua: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type CulturaMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    eua: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type CulturaCountAggregateOutputType = {
+    id: number
+    name: number
+    eua: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type CulturaAvgAggregateInputType = {
+    id?: true
+    eua?: true
+  }
+
+  export type CulturaSumAggregateInputType = {
+    id?: true
+    eua?: true
+  }
+
+  export type CulturaMinAggregateInputType = {
+    id?: true
+    name?: true
+    eua?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type CulturaMaxAggregateInputType = {
+    id?: true
+    name?: true
+    eua?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type CulturaCountAggregateInputType = {
+    id?: true
+    name?: true
+    eua?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type CulturaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Cultura to aggregate.
+     */
+    where?: CulturaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Culturas to fetch.
+     */
+    orderBy?: CulturaOrderByWithRelationInput | CulturaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CulturaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Culturas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Culturas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Culturas
+    **/
+    _count?: true | CulturaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CulturaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CulturaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CulturaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CulturaMaxAggregateInputType
+  }
+
+  export type GetCulturaAggregateType<T extends CulturaAggregateArgs> = {
+        [P in keyof T & keyof AggregateCultura]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCultura[P]>
+      : GetScalarType<T[P], AggregateCultura[P]>
+  }
+
+
+
+
+  export type CulturaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CulturaWhereInput
+    orderBy?: CulturaOrderByWithAggregationInput | CulturaOrderByWithAggregationInput[]
+    by: CulturaScalarFieldEnum[] | CulturaScalarFieldEnum
+    having?: CulturaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CulturaCountAggregateInputType | true
+    _avg?: CulturaAvgAggregateInputType
+    _sum?: CulturaSumAggregateInputType
+    _min?: CulturaMinAggregateInputType
+    _max?: CulturaMaxAggregateInputType
+  }
+
+  export type CulturaGroupByOutputType = {
+    id: number
+    name: string
+    eua: number
+    createdAt: Date
+    updatedAt: Date | null
+    deletedAt: Date | null
+    _count: CulturaCountAggregateOutputType | null
+    _avg: CulturaAvgAggregateOutputType | null
+    _sum: CulturaSumAggregateOutputType | null
+    _min: CulturaMinAggregateOutputType | null
+    _max: CulturaMaxAggregateOutputType | null
+  }
+
+  type GetCulturaGroupByPayload<T extends CulturaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CulturaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CulturaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CulturaGroupByOutputType[P]>
+            : GetScalarType<T[P], CulturaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CulturaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    eua?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    PropriedadeCultura?: boolean | Cultura$PropriedadeCulturaArgs<ExtArgs>
+    _count?: boolean | CulturaCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cultura"]>
+
+
+
+  export type CulturaSelectScalar = {
+    id?: boolean
+    name?: boolean
+    eua?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type CulturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "eua" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["cultura"]>
+  export type CulturaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    PropriedadeCultura?: boolean | Cultura$PropriedadeCulturaArgs<ExtArgs>
+    _count?: boolean | CulturaCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $CulturaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Cultura"
+    objects: {
+      PropriedadeCultura: Prisma.$PropriedadeCulturaPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      eua: number
+      createdAt: Date
+      updatedAt: Date | null
+      deletedAt: Date | null
+    }, ExtArgs["result"]["cultura"]>
+    composites: {}
+  }
+
+  type CulturaGetPayload<S extends boolean | null | undefined | CulturaDefaultArgs> = $Result.GetResult<Prisma.$CulturaPayload, S>
+
+  type CulturaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CulturaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CulturaCountAggregateInputType | true
+    }
+
+  export interface CulturaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Cultura'], meta: { name: 'Cultura' } }
+    /**
+     * Find zero or one Cultura that matches the filter.
+     * @param {CulturaFindUniqueArgs} args - Arguments to find a Cultura
+     * @example
+     * // Get one Cultura
+     * const cultura = await prisma.cultura.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CulturaFindUniqueArgs>(args: SelectSubset<T, CulturaFindUniqueArgs<ExtArgs>>): Prisma__CulturaClient<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Cultura that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CulturaFindUniqueOrThrowArgs} args - Arguments to find a Cultura
+     * @example
+     * // Get one Cultura
+     * const cultura = await prisma.cultura.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CulturaFindUniqueOrThrowArgs>(args: SelectSubset<T, CulturaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CulturaClient<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Cultura that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CulturaFindFirstArgs} args - Arguments to find a Cultura
+     * @example
+     * // Get one Cultura
+     * const cultura = await prisma.cultura.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CulturaFindFirstArgs>(args?: SelectSubset<T, CulturaFindFirstArgs<ExtArgs>>): Prisma__CulturaClient<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Cultura that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CulturaFindFirstOrThrowArgs} args - Arguments to find a Cultura
+     * @example
+     * // Get one Cultura
+     * const cultura = await prisma.cultura.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CulturaFindFirstOrThrowArgs>(args?: SelectSubset<T, CulturaFindFirstOrThrowArgs<ExtArgs>>): Prisma__CulturaClient<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Culturas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CulturaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Culturas
+     * const culturas = await prisma.cultura.findMany()
+     * 
+     * // Get first 10 Culturas
+     * const culturas = await prisma.cultura.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const culturaWithIdOnly = await prisma.cultura.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CulturaFindManyArgs>(args?: SelectSubset<T, CulturaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Cultura.
+     * @param {CulturaCreateArgs} args - Arguments to create a Cultura.
+     * @example
+     * // Create one Cultura
+     * const Cultura = await prisma.cultura.create({
+     *   data: {
+     *     // ... data to create a Cultura
+     *   }
+     * })
+     * 
+     */
+    create<T extends CulturaCreateArgs>(args: SelectSubset<T, CulturaCreateArgs<ExtArgs>>): Prisma__CulturaClient<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Culturas.
+     * @param {CulturaCreateManyArgs} args - Arguments to create many Culturas.
+     * @example
+     * // Create many Culturas
+     * const cultura = await prisma.cultura.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CulturaCreateManyArgs>(args?: SelectSubset<T, CulturaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Cultura.
+     * @param {CulturaDeleteArgs} args - Arguments to delete one Cultura.
+     * @example
+     * // Delete one Cultura
+     * const Cultura = await prisma.cultura.delete({
+     *   where: {
+     *     // ... filter to delete one Cultura
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CulturaDeleteArgs>(args: SelectSubset<T, CulturaDeleteArgs<ExtArgs>>): Prisma__CulturaClient<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Cultura.
+     * @param {CulturaUpdateArgs} args - Arguments to update one Cultura.
+     * @example
+     * // Update one Cultura
+     * const cultura = await prisma.cultura.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CulturaUpdateArgs>(args: SelectSubset<T, CulturaUpdateArgs<ExtArgs>>): Prisma__CulturaClient<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Culturas.
+     * @param {CulturaDeleteManyArgs} args - Arguments to filter Culturas to delete.
+     * @example
+     * // Delete a few Culturas
+     * const { count } = await prisma.cultura.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CulturaDeleteManyArgs>(args?: SelectSubset<T, CulturaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Culturas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CulturaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Culturas
+     * const cultura = await prisma.cultura.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CulturaUpdateManyArgs>(args: SelectSubset<T, CulturaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Cultura.
+     * @param {CulturaUpsertArgs} args - Arguments to update or create a Cultura.
+     * @example
+     * // Update or create a Cultura
+     * const cultura = await prisma.cultura.upsert({
+     *   create: {
+     *     // ... data to create a Cultura
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Cultura we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CulturaUpsertArgs>(args: SelectSubset<T, CulturaUpsertArgs<ExtArgs>>): Prisma__CulturaClient<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Culturas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CulturaCountArgs} args - Arguments to filter Culturas to count.
+     * @example
+     * // Count the number of Culturas
+     * const count = await prisma.cultura.count({
+     *   where: {
+     *     // ... the filter for the Culturas we want to count
+     *   }
+     * })
+    **/
+    count<T extends CulturaCountArgs>(
+      args?: Subset<T, CulturaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CulturaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Cultura.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CulturaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CulturaAggregateArgs>(args: Subset<T, CulturaAggregateArgs>): Prisma.PrismaPromise<GetCulturaAggregateType<T>>
+
+    /**
+     * Group by Cultura.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CulturaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CulturaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CulturaGroupByArgs['orderBy'] }
+        : { orderBy?: CulturaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CulturaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCulturaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Cultura model
+   */
+  readonly fields: CulturaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Cultura.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CulturaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    PropriedadeCultura<T extends Cultura$PropriedadeCulturaArgs<ExtArgs> = {}>(args?: Subset<T, Cultura$PropriedadeCulturaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Cultura model
+   */
+  interface CulturaFieldRefs {
+    readonly id: FieldRef<"Cultura", 'Int'>
+    readonly name: FieldRef<"Cultura", 'String'>
+    readonly eua: FieldRef<"Cultura", 'Float'>
+    readonly createdAt: FieldRef<"Cultura", 'DateTime'>
+    readonly updatedAt: FieldRef<"Cultura", 'DateTime'>
+    readonly deletedAt: FieldRef<"Cultura", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Cultura findUnique
+   */
+  export type CulturaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cultura
+     */
+    select?: CulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cultura
+     */
+    omit?: CulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CulturaInclude<ExtArgs> | null
+    /**
+     * Filter, which Cultura to fetch.
+     */
+    where: CulturaWhereUniqueInput
+  }
+
+  /**
+   * Cultura findUniqueOrThrow
+   */
+  export type CulturaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cultura
+     */
+    select?: CulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cultura
+     */
+    omit?: CulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CulturaInclude<ExtArgs> | null
+    /**
+     * Filter, which Cultura to fetch.
+     */
+    where: CulturaWhereUniqueInput
+  }
+
+  /**
+   * Cultura findFirst
+   */
+  export type CulturaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cultura
+     */
+    select?: CulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cultura
+     */
+    omit?: CulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CulturaInclude<ExtArgs> | null
+    /**
+     * Filter, which Cultura to fetch.
+     */
+    where?: CulturaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Culturas to fetch.
+     */
+    orderBy?: CulturaOrderByWithRelationInput | CulturaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Culturas.
+     */
+    cursor?: CulturaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Culturas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Culturas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Culturas.
+     */
+    distinct?: CulturaScalarFieldEnum | CulturaScalarFieldEnum[]
+  }
+
+  /**
+   * Cultura findFirstOrThrow
+   */
+  export type CulturaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cultura
+     */
+    select?: CulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cultura
+     */
+    omit?: CulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CulturaInclude<ExtArgs> | null
+    /**
+     * Filter, which Cultura to fetch.
+     */
+    where?: CulturaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Culturas to fetch.
+     */
+    orderBy?: CulturaOrderByWithRelationInput | CulturaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Culturas.
+     */
+    cursor?: CulturaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Culturas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Culturas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Culturas.
+     */
+    distinct?: CulturaScalarFieldEnum | CulturaScalarFieldEnum[]
+  }
+
+  /**
+   * Cultura findMany
+   */
+  export type CulturaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cultura
+     */
+    select?: CulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cultura
+     */
+    omit?: CulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CulturaInclude<ExtArgs> | null
+    /**
+     * Filter, which Culturas to fetch.
+     */
+    where?: CulturaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Culturas to fetch.
+     */
+    orderBy?: CulturaOrderByWithRelationInput | CulturaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Culturas.
+     */
+    cursor?: CulturaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Culturas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Culturas.
+     */
+    skip?: number
+    distinct?: CulturaScalarFieldEnum | CulturaScalarFieldEnum[]
+  }
+
+  /**
+   * Cultura create
+   */
+  export type CulturaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cultura
+     */
+    select?: CulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cultura
+     */
+    omit?: CulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CulturaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Cultura.
+     */
+    data: XOR<CulturaCreateInput, CulturaUncheckedCreateInput>
+  }
+
+  /**
+   * Cultura createMany
+   */
+  export type CulturaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Culturas.
+     */
+    data: CulturaCreateManyInput | CulturaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Cultura update
+   */
+  export type CulturaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cultura
+     */
+    select?: CulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cultura
+     */
+    omit?: CulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CulturaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Cultura.
+     */
+    data: XOR<CulturaUpdateInput, CulturaUncheckedUpdateInput>
+    /**
+     * Choose, which Cultura to update.
+     */
+    where: CulturaWhereUniqueInput
+  }
+
+  /**
+   * Cultura updateMany
+   */
+  export type CulturaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Culturas.
+     */
+    data: XOR<CulturaUpdateManyMutationInput, CulturaUncheckedUpdateManyInput>
+    /**
+     * Filter which Culturas to update
+     */
+    where?: CulturaWhereInput
+    /**
+     * Limit how many Culturas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Cultura upsert
+   */
+  export type CulturaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cultura
+     */
+    select?: CulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cultura
+     */
+    omit?: CulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CulturaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Cultura to update in case it exists.
+     */
+    where: CulturaWhereUniqueInput
+    /**
+     * In case the Cultura found by the `where` argument doesn't exist, create a new Cultura with this data.
+     */
+    create: XOR<CulturaCreateInput, CulturaUncheckedCreateInput>
+    /**
+     * In case the Cultura was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CulturaUpdateInput, CulturaUncheckedUpdateInput>
+  }
+
+  /**
+   * Cultura delete
+   */
+  export type CulturaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cultura
+     */
+    select?: CulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cultura
+     */
+    omit?: CulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CulturaInclude<ExtArgs> | null
+    /**
+     * Filter which Cultura to delete.
+     */
+    where: CulturaWhereUniqueInput
+  }
+
+  /**
+   * Cultura deleteMany
+   */
+  export type CulturaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Culturas to delete
+     */
+    where?: CulturaWhereInput
+    /**
+     * Limit how many Culturas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Cultura.PropriedadeCultura
+   */
+  export type Cultura$PropriedadeCulturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeCultura
+     */
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeCultura
+     */
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    where?: PropriedadeCulturaWhereInput
+    orderBy?: PropriedadeCulturaOrderByWithRelationInput | PropriedadeCulturaOrderByWithRelationInput[]
+    cursor?: PropriedadeCulturaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PropriedadeCulturaScalarFieldEnum | PropriedadeCulturaScalarFieldEnum[]
+  }
+
+  /**
+   * Cultura without action
+   */
+  export type CulturaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cultura
+     */
+    select?: CulturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cultura
+     */
+    omit?: CulturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CulturaInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -10299,8 +13645,6 @@ export namespace Prisma {
     nomePropriedade: 'nomePropriedade',
     latitude: 'latitude',
     longitude: 'longitude',
-    altitude: 'altitude',
-    simulacao: 'simulacao',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
@@ -10308,6 +13652,24 @@ export namespace Prisma {
   };
 
   export type PropriedadeScalarFieldEnum = (typeof PropriedadeScalarFieldEnum)[keyof typeof PropriedadeScalarFieldEnum]
+
+
+  export const PropriedadeCulturaScalarFieldEnum: {
+    id: 'id',
+    propriedadeId: 'propriedadeId',
+    culturaId: 'culturaId'
+  };
+
+  export type PropriedadeCulturaScalarFieldEnum = (typeof PropriedadeCulturaScalarFieldEnum)[keyof typeof PropriedadeCulturaScalarFieldEnum]
+
+
+  export const PropriedadeSoloScalarFieldEnum: {
+    id: 'id',
+    propriedadeId: 'propriedadeId',
+    soloId: 'soloId'
+  };
+
+  export type PropriedadeSoloScalarFieldEnum = (typeof PropriedadeSoloScalarFieldEnum)[keyof typeof PropriedadeSoloScalarFieldEnum]
 
 
   export const HistoricoScalarFieldEnum: {
@@ -10345,6 +13707,7 @@ export namespace Prisma {
 
   export const SoloScalarFieldEnum: {
     id: 'id',
+    nomeClasse: 'nomeClasse',
     profundidade: 'profundidade',
     fatorRocha: 'fatorRocha',
     condutHidraulicaSaturada: 'condutHidraulicaSaturada',
@@ -10352,10 +13715,10 @@ export namespace Prisma {
     agua0Bar: 'agua0Bar',
     agua13Bar: 'agua13Bar',
     agua15Bar: 'agua15Bar',
-    propriedadeId: 'propriedadeId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt'
+    deletedAt: 'deletedAt',
+    propriedadeId: 'propriedadeId'
   };
 
   export type SoloScalarFieldEnum = (typeof SoloScalarFieldEnum)[keyof typeof SoloScalarFieldEnum]
@@ -10377,7 +13740,10 @@ export namespace Prisma {
 
   export const SimulacaoScalarFieldEnum: {
     id: 'id',
+    nomeSimulacao: 'nomeSimulacao',
     dadosJson: 'dadosJson',
+    culturaId: 'culturaId',
+    soloId: 'soloId',
     resultado: 'resultado',
     dataSimulacao: 'dataSimulacao',
     createdAt: 'createdAt',
@@ -10389,6 +13755,18 @@ export namespace Prisma {
   export type SimulacaoScalarFieldEnum = (typeof SimulacaoScalarFieldEnum)[keyof typeof SimulacaoScalarFieldEnum]
 
 
+  export const CulturaScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    eua: 'eua',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type CulturaScalarFieldEnum = (typeof CulturaScalarFieldEnum)[keyof typeof CulturaScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -10397,11 +13775,12 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const JsonNullValueInput: {
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
     JsonNull: typeof JsonNull
   };
 
-  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const NullsOrder: {
@@ -10432,8 +13811,7 @@ export namespace Prisma {
 
   export const PropriedadeOrderByRelevanceFieldEnum: {
     nomeProprietario: 'nomeProprietario',
-    nomePropriedade: 'nomePropriedade',
-    simulacao: 'simulacao'
+    nomePropriedade: 'nomePropriedade'
   };
 
   export type PropriedadeOrderByRelevanceFieldEnum = (typeof PropriedadeOrderByRelevanceFieldEnum)[keyof typeof PropriedadeOrderByRelevanceFieldEnum]
@@ -10444,6 +13822,13 @@ export namespace Prisma {
   };
 
   export type HistoricoOrderByRelevanceFieldEnum = (typeof HistoricoOrderByRelevanceFieldEnum)[keyof typeof HistoricoOrderByRelevanceFieldEnum]
+
+
+  export const SoloOrderByRelevanceFieldEnum: {
+    nomeClasse: 'nomeClasse'
+  };
+
+  export type SoloOrderByRelevanceFieldEnum = (typeof SoloOrderByRelevanceFieldEnum)[keyof typeof SoloOrderByRelevanceFieldEnum]
 
 
   export const EstimativasOrderByRelevanceFieldEnum: {
@@ -10468,6 +13853,20 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const SimulacaoOrderByRelevanceFieldEnum: {
+    nomeSimulacao: 'nomeSimulacao'
+  };
+
+  export type SimulacaoOrderByRelevanceFieldEnum = (typeof SimulacaoOrderByRelevanceFieldEnum)[keyof typeof SimulacaoOrderByRelevanceFieldEnum]
+
+
+  export const CulturaOrderByRelevanceFieldEnum: {
+    name: 'name'
+  };
+
+  export type CulturaOrderByRelevanceFieldEnum = (typeof CulturaOrderByRelevanceFieldEnum)[keyof typeof CulturaOrderByRelevanceFieldEnum]
 
 
   /**
@@ -10690,8 +14089,6 @@ export namespace Prisma {
     nomePropriedade?: StringFilter<"Propriedade"> | string
     latitude?: FloatFilter<"Propriedade"> | number
     longitude?: FloatFilter<"Propriedade"> | number
-    altitude?: FloatFilter<"Propriedade"> | number
-    simulacao?: StringFilter<"Propriedade"> | string
     createdAt?: DateTimeFilter<"Propriedade"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
@@ -10701,7 +14098,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoListRelationFilter
     historicos?: HistoricoListRelationFilter
     precipitacoes?: PrecipitacaoListRelationFilter
-    solos?: SoloListRelationFilter
+    propriedadeCultura?: PropriedadeCulturaListRelationFilter
+    propriedadeSolo?: PropriedadeSoloListRelationFilter
+    Solo?: SoloListRelationFilter
   }
 
   export type PropriedadeOrderByWithRelationInput = {
@@ -10710,8 +14109,6 @@ export namespace Prisma {
     nomePropriedade?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    altitude?: SortOrder
-    simulacao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -10721,7 +14118,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoOrderByRelationAggregateInput
     historicos?: HistoricoOrderByRelationAggregateInput
     precipitacoes?: PrecipitacaoOrderByRelationAggregateInput
-    solos?: SoloOrderByRelationAggregateInput
+    propriedadeCultura?: PropriedadeCulturaOrderByRelationAggregateInput
+    propriedadeSolo?: PropriedadeSoloOrderByRelationAggregateInput
+    Solo?: SoloOrderByRelationAggregateInput
     _relevance?: PropriedadeOrderByRelevanceInput
   }
 
@@ -10735,8 +14134,6 @@ export namespace Prisma {
     nomePropriedade?: StringFilter<"Propriedade"> | string
     latitude?: FloatFilter<"Propriedade"> | number
     longitude?: FloatFilter<"Propriedade"> | number
-    altitude?: FloatFilter<"Propriedade"> | number
-    simulacao?: StringFilter<"Propriedade"> | string
     createdAt?: DateTimeFilter<"Propriedade"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
@@ -10745,7 +14142,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoListRelationFilter
     historicos?: HistoricoListRelationFilter
     precipitacoes?: PrecipitacaoListRelationFilter
-    solos?: SoloListRelationFilter
+    propriedadeCultura?: PropriedadeCulturaListRelationFilter
+    propriedadeSolo?: PropriedadeSoloListRelationFilter
+    Solo?: SoloListRelationFilter
   }, "id" | "adminId">
 
   export type PropriedadeOrderByWithAggregationInput = {
@@ -10754,8 +14153,6 @@ export namespace Prisma {
     nomePropriedade?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    altitude?: SortOrder
-    simulacao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -10776,12 +14173,112 @@ export namespace Prisma {
     nomePropriedade?: StringWithAggregatesFilter<"Propriedade"> | string
     latitude?: FloatWithAggregatesFilter<"Propriedade"> | number
     longitude?: FloatWithAggregatesFilter<"Propriedade"> | number
-    altitude?: FloatWithAggregatesFilter<"Propriedade"> | number
-    simulacao?: StringWithAggregatesFilter<"Propriedade"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Propriedade"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Propriedade"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Propriedade"> | Date | string | null
     adminId?: IntNullableWithAggregatesFilter<"Propriedade"> | number | null
+  }
+
+  export type PropriedadeCulturaWhereInput = {
+    AND?: PropriedadeCulturaWhereInput | PropriedadeCulturaWhereInput[]
+    OR?: PropriedadeCulturaWhereInput[]
+    NOT?: PropriedadeCulturaWhereInput | PropriedadeCulturaWhereInput[]
+    id?: IntFilter<"PropriedadeCultura"> | number
+    propriedadeId?: IntFilter<"PropriedadeCultura"> | number
+    culturaId?: IntFilter<"PropriedadeCultura"> | number
+    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
+    cultura?: XOR<CulturaScalarRelationFilter, CulturaWhereInput>
+  }
+
+  export type PropriedadeCulturaOrderByWithRelationInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    culturaId?: SortOrder
+    propriedade?: PropriedadeOrderByWithRelationInput
+    cultura?: CulturaOrderByWithRelationInput
+  }
+
+  export type PropriedadeCulturaWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    propriedadeId_culturaId?: PropriedadeCulturaPropriedadeIdCulturaIdCompoundUniqueInput
+    AND?: PropriedadeCulturaWhereInput | PropriedadeCulturaWhereInput[]
+    OR?: PropriedadeCulturaWhereInput[]
+    NOT?: PropriedadeCulturaWhereInput | PropriedadeCulturaWhereInput[]
+    propriedadeId?: IntFilter<"PropriedadeCultura"> | number
+    culturaId?: IntFilter<"PropriedadeCultura"> | number
+    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
+    cultura?: XOR<CulturaScalarRelationFilter, CulturaWhereInput>
+  }, "id" | "propriedadeId_culturaId">
+
+  export type PropriedadeCulturaOrderByWithAggregationInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    culturaId?: SortOrder
+    _count?: PropriedadeCulturaCountOrderByAggregateInput
+    _avg?: PropriedadeCulturaAvgOrderByAggregateInput
+    _max?: PropriedadeCulturaMaxOrderByAggregateInput
+    _min?: PropriedadeCulturaMinOrderByAggregateInput
+    _sum?: PropriedadeCulturaSumOrderByAggregateInput
+  }
+
+  export type PropriedadeCulturaScalarWhereWithAggregatesInput = {
+    AND?: PropriedadeCulturaScalarWhereWithAggregatesInput | PropriedadeCulturaScalarWhereWithAggregatesInput[]
+    OR?: PropriedadeCulturaScalarWhereWithAggregatesInput[]
+    NOT?: PropriedadeCulturaScalarWhereWithAggregatesInput | PropriedadeCulturaScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"PropriedadeCultura"> | number
+    propriedadeId?: IntWithAggregatesFilter<"PropriedadeCultura"> | number
+    culturaId?: IntWithAggregatesFilter<"PropriedadeCultura"> | number
+  }
+
+  export type PropriedadeSoloWhereInput = {
+    AND?: PropriedadeSoloWhereInput | PropriedadeSoloWhereInput[]
+    OR?: PropriedadeSoloWhereInput[]
+    NOT?: PropriedadeSoloWhereInput | PropriedadeSoloWhereInput[]
+    id?: IntFilter<"PropriedadeSolo"> | number
+    propriedadeId?: IntFilter<"PropriedadeSolo"> | number
+    soloId?: IntFilter<"PropriedadeSolo"> | number
+    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
+    solo?: XOR<SoloScalarRelationFilter, SoloWhereInput>
+  }
+
+  export type PropriedadeSoloOrderByWithRelationInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    soloId?: SortOrder
+    propriedade?: PropriedadeOrderByWithRelationInput
+    solo?: SoloOrderByWithRelationInput
+  }
+
+  export type PropriedadeSoloWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    propriedadeId_soloId?: PropriedadeSoloPropriedadeIdSoloIdCompoundUniqueInput
+    AND?: PropriedadeSoloWhereInput | PropriedadeSoloWhereInput[]
+    OR?: PropriedadeSoloWhereInput[]
+    NOT?: PropriedadeSoloWhereInput | PropriedadeSoloWhereInput[]
+    propriedadeId?: IntFilter<"PropriedadeSolo"> | number
+    soloId?: IntFilter<"PropriedadeSolo"> | number
+    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
+    solo?: XOR<SoloScalarRelationFilter, SoloWhereInput>
+  }, "id" | "propriedadeId_soloId">
+
+  export type PropriedadeSoloOrderByWithAggregationInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    soloId?: SortOrder
+    _count?: PropriedadeSoloCountOrderByAggregateInput
+    _avg?: PropriedadeSoloAvgOrderByAggregateInput
+    _max?: PropriedadeSoloMaxOrderByAggregateInput
+    _min?: PropriedadeSoloMinOrderByAggregateInput
+    _sum?: PropriedadeSoloSumOrderByAggregateInput
+  }
+
+  export type PropriedadeSoloScalarWhereWithAggregatesInput = {
+    AND?: PropriedadeSoloScalarWhereWithAggregatesInput | PropriedadeSoloScalarWhereWithAggregatesInput[]
+    OR?: PropriedadeSoloScalarWhereWithAggregatesInput[]
+    NOT?: PropriedadeSoloScalarWhereWithAggregatesInput | PropriedadeSoloScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"PropriedadeSolo"> | number
+    propriedadeId?: IntWithAggregatesFilter<"PropriedadeSolo"> | number
+    soloId?: IntWithAggregatesFilter<"PropriedadeSolo"> | number
   }
 
   export type HistoricoWhereInput = {
@@ -10971,6 +14468,7 @@ export namespace Prisma {
     OR?: SoloWhereInput[]
     NOT?: SoloWhereInput | SoloWhereInput[]
     id?: IntFilter<"Solo"> | number
+    nomeClasse?: StringFilter<"Solo"> | string
     profundidade?: FloatFilter<"Solo"> | number
     fatorRocha?: FloatFilter<"Solo"> | number
     condutHidraulicaSaturada?: FloatFilter<"Solo"> | number
@@ -10978,16 +14476,18 @@ export namespace Prisma {
     agua0Bar?: FloatFilter<"Solo"> | number
     agua13Bar?: FloatFilter<"Solo"> | number
     agua15Bar?: FloatFilter<"Solo"> | number
-    propriedadeId?: IntFilter<"Solo"> | number
     createdAt?: DateTimeFilter<"Solo"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
-    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
+    propriedadeId?: IntNullableFilter<"Solo"> | number | null
     historico?: HistoricoListRelationFilter
+    propriedadeSolo?: PropriedadeSoloListRelationFilter
+    Propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
   }
 
   export type SoloOrderByWithRelationInput = {
     id?: SortOrder
+    nomeClasse?: SortOrder
     profundidade?: SortOrder
     fatorRocha?: SortOrder
     condutHidraulicaSaturada?: SortOrder
@@ -10995,12 +14495,14 @@ export namespace Prisma {
     agua0Bar?: SortOrder
     agua13Bar?: SortOrder
     agua15Bar?: SortOrder
-    propriedadeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    propriedade?: PropriedadeOrderByWithRelationInput
+    propriedadeId?: SortOrderInput | SortOrder
     historico?: HistoricoOrderByRelationAggregateInput
+    propriedadeSolo?: PropriedadeSoloOrderByRelationAggregateInput
+    Propriedade?: PropriedadeOrderByWithRelationInput
+    _relevance?: SoloOrderByRelevanceInput
   }
 
   export type SoloWhereUniqueInput = Prisma.AtLeast<{
@@ -11008,6 +14510,7 @@ export namespace Prisma {
     AND?: SoloWhereInput | SoloWhereInput[]
     OR?: SoloWhereInput[]
     NOT?: SoloWhereInput | SoloWhereInput[]
+    nomeClasse?: StringFilter<"Solo"> | string
     profundidade?: FloatFilter<"Solo"> | number
     fatorRocha?: FloatFilter<"Solo"> | number
     condutHidraulicaSaturada?: FloatFilter<"Solo"> | number
@@ -11015,16 +14518,18 @@ export namespace Prisma {
     agua0Bar?: FloatFilter<"Solo"> | number
     agua13Bar?: FloatFilter<"Solo"> | number
     agua15Bar?: FloatFilter<"Solo"> | number
-    propriedadeId?: IntFilter<"Solo"> | number
     createdAt?: DateTimeFilter<"Solo"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
-    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
+    propriedadeId?: IntNullableFilter<"Solo"> | number | null
     historico?: HistoricoListRelationFilter
+    propriedadeSolo?: PropriedadeSoloListRelationFilter
+    Propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
   }, "id">
 
   export type SoloOrderByWithAggregationInput = {
     id?: SortOrder
+    nomeClasse?: SortOrder
     profundidade?: SortOrder
     fatorRocha?: SortOrder
     condutHidraulicaSaturada?: SortOrder
@@ -11032,10 +14537,10 @@ export namespace Prisma {
     agua0Bar?: SortOrder
     agua13Bar?: SortOrder
     agua15Bar?: SortOrder
-    propriedadeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
+    propriedadeId?: SortOrderInput | SortOrder
     _count?: SoloCountOrderByAggregateInput
     _avg?: SoloAvgOrderByAggregateInput
     _max?: SoloMaxOrderByAggregateInput
@@ -11048,6 +14553,7 @@ export namespace Prisma {
     OR?: SoloScalarWhereWithAggregatesInput[]
     NOT?: SoloScalarWhereWithAggregatesInput | SoloScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Solo"> | number
+    nomeClasse?: StringWithAggregatesFilter<"Solo"> | string
     profundidade?: FloatWithAggregatesFilter<"Solo"> | number
     fatorRocha?: FloatWithAggregatesFilter<"Solo"> | number
     condutHidraulicaSaturada?: FloatWithAggregatesFilter<"Solo"> | number
@@ -11055,10 +14561,10 @@ export namespace Prisma {
     agua0Bar?: FloatWithAggregatesFilter<"Solo"> | number
     agua13Bar?: FloatWithAggregatesFilter<"Solo"> | number
     agua15Bar?: FloatWithAggregatesFilter<"Solo"> | number
-    propriedadeId?: IntWithAggregatesFilter<"Solo"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Solo"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Solo"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Solo"> | Date | string | null
+    propriedadeId?: IntNullableWithAggregatesFilter<"Solo"> | number | null
   }
 
   export type EstimativasWhereInput = {
@@ -11142,7 +14648,10 @@ export namespace Prisma {
     OR?: SimulacaoWhereInput[]
     NOT?: SimulacaoWhereInput | SimulacaoWhereInput[]
     id?: IntFilter<"Simulacao"> | number
-    dadosJson?: JsonFilter<"Simulacao">
+    nomeSimulacao?: StringFilter<"Simulacao"> | string
+    dadosJson?: JsonNullableFilter<"Simulacao">
+    culturaId?: IntFilter<"Simulacao"> | number
+    soloId?: IntFilter<"Simulacao"> | number
     resultado?: FloatFilter<"Simulacao"> | number
     dataSimulacao?: DateTimeFilter<"Simulacao"> | Date | string
     createdAt?: DateTimeFilter<"Simulacao"> | Date | string
@@ -11156,7 +14665,10 @@ export namespace Prisma {
 
   export type SimulacaoOrderByWithRelationInput = {
     id?: SortOrder
-    dadosJson?: SortOrder
+    nomeSimulacao?: SortOrder
+    dadosJson?: SortOrderInput | SortOrder
+    culturaId?: SortOrder
+    soloId?: SortOrder
     resultado?: SortOrder
     dataSimulacao?: SortOrder
     createdAt?: SortOrder
@@ -11166,6 +14678,7 @@ export namespace Prisma {
     propriedade?: PropriedadeOrderByWithRelationInput
     historico?: HistoricoOrderByRelationAggregateInput
     estimativas?: EstimativasOrderByRelationAggregateInput
+    _relevance?: SimulacaoOrderByRelevanceInput
   }
 
   export type SimulacaoWhereUniqueInput = Prisma.AtLeast<{
@@ -11173,7 +14686,10 @@ export namespace Prisma {
     AND?: SimulacaoWhereInput | SimulacaoWhereInput[]
     OR?: SimulacaoWhereInput[]
     NOT?: SimulacaoWhereInput | SimulacaoWhereInput[]
-    dadosJson?: JsonFilter<"Simulacao">
+    nomeSimulacao?: StringFilter<"Simulacao"> | string
+    dadosJson?: JsonNullableFilter<"Simulacao">
+    culturaId?: IntFilter<"Simulacao"> | number
+    soloId?: IntFilter<"Simulacao"> | number
     resultado?: FloatFilter<"Simulacao"> | number
     dataSimulacao?: DateTimeFilter<"Simulacao"> | Date | string
     createdAt?: DateTimeFilter<"Simulacao"> | Date | string
@@ -11187,7 +14703,10 @@ export namespace Prisma {
 
   export type SimulacaoOrderByWithAggregationInput = {
     id?: SortOrder
-    dadosJson?: SortOrder
+    nomeSimulacao?: SortOrder
+    dadosJson?: SortOrderInput | SortOrder
+    culturaId?: SortOrder
+    soloId?: SortOrder
     resultado?: SortOrder
     dataSimulacao?: SortOrder
     createdAt?: SortOrder
@@ -11206,13 +14725,79 @@ export namespace Prisma {
     OR?: SimulacaoScalarWhereWithAggregatesInput[]
     NOT?: SimulacaoScalarWhereWithAggregatesInput | SimulacaoScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Simulacao"> | number
-    dadosJson?: JsonWithAggregatesFilter<"Simulacao">
+    nomeSimulacao?: StringWithAggregatesFilter<"Simulacao"> | string
+    dadosJson?: JsonNullableWithAggregatesFilter<"Simulacao">
+    culturaId?: IntWithAggregatesFilter<"Simulacao"> | number
+    soloId?: IntWithAggregatesFilter<"Simulacao"> | number
     resultado?: FloatWithAggregatesFilter<"Simulacao"> | number
     dataSimulacao?: DateTimeWithAggregatesFilter<"Simulacao"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Simulacao"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Simulacao"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Simulacao"> | Date | string | null
     propriedadeId?: IntWithAggregatesFilter<"Simulacao"> | number
+  }
+
+  export type CulturaWhereInput = {
+    AND?: CulturaWhereInput | CulturaWhereInput[]
+    OR?: CulturaWhereInput[]
+    NOT?: CulturaWhereInput | CulturaWhereInput[]
+    id?: IntFilter<"Cultura"> | number
+    name?: StringFilter<"Cultura"> | string
+    eua?: FloatFilter<"Cultura"> | number
+    createdAt?: DateTimeFilter<"Cultura"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Cultura"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Cultura"> | Date | string | null
+    PropriedadeCultura?: PropriedadeCulturaListRelationFilter
+  }
+
+  export type CulturaOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    eua?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    PropriedadeCultura?: PropriedadeCulturaOrderByRelationAggregateInput
+    _relevance?: CulturaOrderByRelevanceInput
+  }
+
+  export type CulturaWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: CulturaWhereInput | CulturaWhereInput[]
+    OR?: CulturaWhereInput[]
+    NOT?: CulturaWhereInput | CulturaWhereInput[]
+    name?: StringFilter<"Cultura"> | string
+    eua?: FloatFilter<"Cultura"> | number
+    createdAt?: DateTimeFilter<"Cultura"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Cultura"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Cultura"> | Date | string | null
+    PropriedadeCultura?: PropriedadeCulturaListRelationFilter
+  }, "id">
+
+  export type CulturaOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    eua?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: CulturaCountOrderByAggregateInput
+    _avg?: CulturaAvgOrderByAggregateInput
+    _max?: CulturaMaxOrderByAggregateInput
+    _min?: CulturaMinOrderByAggregateInput
+    _sum?: CulturaSumOrderByAggregateInput
+  }
+
+  export type CulturaScalarWhereWithAggregatesInput = {
+    AND?: CulturaScalarWhereWithAggregatesInput | CulturaScalarWhereWithAggregatesInput[]
+    OR?: CulturaScalarWhereWithAggregatesInput[]
+    NOT?: CulturaScalarWhereWithAggregatesInput | CulturaScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Cultura"> | number
+    name?: StringWithAggregatesFilter<"Cultura"> | string
+    eua?: FloatWithAggregatesFilter<"Cultura"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Cultura"> | Date | string
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Cultura"> | Date | string | null
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Cultura"> | Date | string | null
   }
 
   export type AdminCreateInput = {
@@ -11382,8 +14967,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -11392,7 +14975,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
     historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
     precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateInput = {
@@ -11401,8 +14986,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -11411,7 +14994,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
     historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
     precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUpdateInput = {
@@ -11419,8 +15004,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11429,7 +15012,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
     historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
     precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateInput = {
@@ -11438,8 +15023,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11448,7 +15031,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
     historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
     precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeCreateManyInput = {
@@ -11457,8 +15042,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -11470,8 +15053,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11483,12 +15064,86 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     adminId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type PropriedadeCulturaCreateInput = {
+    propriedade: PropriedadeCreateNestedOneWithoutPropriedadeCulturaInput
+    cultura: CulturaCreateNestedOneWithoutPropriedadeCulturaInput
+  }
+
+  export type PropriedadeCulturaUncheckedCreateInput = {
+    id?: number
+    propriedadeId: number
+    culturaId: number
+  }
+
+  export type PropriedadeCulturaUpdateInput = {
+    propriedade?: PropriedadeUpdateOneRequiredWithoutPropriedadeCulturaNestedInput
+    cultura?: CulturaUpdateOneRequiredWithoutPropriedadeCulturaNestedInput
+  }
+
+  export type PropriedadeCulturaUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PropriedadeCulturaCreateManyInput = {
+    id?: number
+    propriedadeId: number
+    culturaId: number
+  }
+
+  export type PropriedadeCulturaUpdateManyMutationInput = {
+
+  }
+
+  export type PropriedadeCulturaUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PropriedadeSoloCreateInput = {
+    propriedade: PropriedadeCreateNestedOneWithoutPropriedadeSoloInput
+    solo: SoloCreateNestedOneWithoutPropriedadeSoloInput
+  }
+
+  export type PropriedadeSoloUncheckedCreateInput = {
+    id?: number
+    propriedadeId: number
+    soloId: number
+  }
+
+  export type PropriedadeSoloUpdateInput = {
+    propriedade?: PropriedadeUpdateOneRequiredWithoutPropriedadeSoloNestedInput
+    solo?: SoloUpdateOneRequiredWithoutPropriedadeSoloNestedInput
+  }
+
+  export type PropriedadeSoloUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PropriedadeSoloCreateManyInput = {
+    id?: number
+    propriedadeId: number
+    soloId: number
+  }
+
+  export type PropriedadeSoloUpdateManyMutationInput = {
+
+  }
+
+  export type PropriedadeSoloUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
   }
 
   export type HistoricoCreateInput = {
@@ -11674,6 +15329,7 @@ export namespace Prisma {
   }
 
   export type SoloCreateInput = {
+    nomeClasse: string
     profundidade: number
     fatorRocha: number
     condutHidraulicaSaturada: number
@@ -11684,12 +15340,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedade: PropriedadeCreateNestedOneWithoutSolosInput
     historico?: HistoricoCreateNestedManyWithoutSoloInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutSoloInput
+    Propriedade?: PropriedadeCreateNestedOneWithoutSoloInput
   }
 
   export type SoloUncheckedCreateInput = {
     id?: number
+    nomeClasse: string
     profundidade: number
     fatorRocha: number
     condutHidraulicaSaturada: number
@@ -11697,14 +15355,16 @@ export namespace Prisma {
     agua0Bar: number
     agua13Bar: number
     agua15Bar: number
-    propriedadeId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
+    propriedadeId?: number | null
     historico?: HistoricoUncheckedCreateNestedManyWithoutSoloInput
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutSoloInput
   }
 
   export type SoloUpdateInput = {
+    nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
     condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
@@ -11715,12 +15375,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedade?: PropriedadeUpdateOneRequiredWithoutSolosNestedInput
     historico?: HistoricoUpdateManyWithoutSoloNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutSoloNestedInput
+    Propriedade?: PropriedadeUpdateOneWithoutSoloNestedInput
   }
 
   export type SoloUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
     condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
@@ -11728,15 +15390,17 @@ export namespace Prisma {
     agua0Bar?: FloatFieldUpdateOperationsInput | number
     agua13Bar?: FloatFieldUpdateOperationsInput | number
     agua15Bar?: FloatFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: NullableIntFieldUpdateOperationsInput | number | null
     historico?: HistoricoUncheckedUpdateManyWithoutSoloNestedInput
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutSoloNestedInput
   }
 
   export type SoloCreateManyInput = {
     id?: number
+    nomeClasse: string
     profundidade: number
     fatorRocha: number
     condutHidraulicaSaturada: number
@@ -11744,13 +15408,14 @@ export namespace Prisma {
     agua0Bar: number
     agua13Bar: number
     agua15Bar: number
-    propriedadeId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
+    propriedadeId?: number | null
   }
 
   export type SoloUpdateManyMutationInput = {
+    nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
     condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
@@ -11765,6 +15430,7 @@ export namespace Prisma {
 
   export type SoloUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
     condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
@@ -11772,10 +15438,10 @@ export namespace Prisma {
     agua0Bar?: FloatFieldUpdateOperationsInput | number
     agua13Bar?: FloatFieldUpdateOperationsInput | number
     agua15Bar?: FloatFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type EstimativasCreateInput = {
@@ -11851,7 +15517,10 @@ export namespace Prisma {
   }
 
   export type SimulacaoCreateInput = {
-    dadosJson: JsonNullValueInput | InputJsonValue
+    nomeSimulacao: string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: Date | string
     createdAt?: Date | string
@@ -11864,7 +15533,10 @@ export namespace Prisma {
 
   export type SimulacaoUncheckedCreateInput = {
     id?: number
-    dadosJson: JsonNullValueInput | InputJsonValue
+    nomeSimulacao: string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: Date | string
     createdAt?: Date | string
@@ -11876,7 +15548,10 @@ export namespace Prisma {
   }
 
   export type SimulacaoUpdateInput = {
-    dadosJson?: JsonNullValueInput | InputJsonValue
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
     resultado?: FloatFieldUpdateOperationsInput | number
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11889,7 +15564,10 @@ export namespace Prisma {
 
   export type SimulacaoUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    dadosJson?: JsonNullValueInput | InputJsonValue
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
     resultado?: FloatFieldUpdateOperationsInput | number
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11902,7 +15580,10 @@ export namespace Prisma {
 
   export type SimulacaoCreateManyInput = {
     id?: number
-    dadosJson: JsonNullValueInput | InputJsonValue
+    nomeSimulacao: string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: Date | string
     createdAt?: Date | string
@@ -11912,7 +15593,10 @@ export namespace Prisma {
   }
 
   export type SimulacaoUpdateManyMutationInput = {
-    dadosJson?: JsonNullValueInput | InputJsonValue
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
     resultado?: FloatFieldUpdateOperationsInput | number
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11922,13 +15606,80 @@ export namespace Prisma {
 
   export type SimulacaoUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    dadosJson?: JsonNullValueInput | InputJsonValue
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
     resultado?: FloatFieldUpdateOperationsInput | number
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     propriedadeId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CulturaCreateInput = {
+    name: string
+    eua: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    PropriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutCulturaInput
+  }
+
+  export type CulturaUncheckedCreateInput = {
+    id?: number
+    name: string
+    eua: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    PropriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutCulturaInput
+  }
+
+  export type CulturaUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    eua?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    PropriedadeCultura?: PropriedadeCulturaUpdateManyWithoutCulturaNestedInput
+  }
+
+  export type CulturaUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    eua?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    PropriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutCulturaNestedInput
+  }
+
+  export type CulturaCreateManyInput = {
+    id?: number
+    name: string
+    eua: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+  }
+
+  export type CulturaUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    eua?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CulturaUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    eua?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -12278,6 +16029,18 @@ export namespace Prisma {
     none?: PrecipitacaoWhereInput
   }
 
+  export type PropriedadeCulturaListRelationFilter = {
+    every?: PropriedadeCulturaWhereInput
+    some?: PropriedadeCulturaWhereInput
+    none?: PropriedadeCulturaWhereInput
+  }
+
+  export type PropriedadeSoloListRelationFilter = {
+    every?: PropriedadeSoloWhereInput
+    some?: PropriedadeSoloWhereInput
+    none?: PropriedadeSoloWhereInput
+  }
+
   export type SoloListRelationFilter = {
     every?: SoloWhereInput
     some?: SoloWhereInput
@@ -12300,6 +16063,14 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type PropriedadeCulturaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PropriedadeSoloOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type SoloOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -12316,8 +16087,6 @@ export namespace Prisma {
     nomePropriedade?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    altitude?: SortOrder
-    simulacao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -12328,7 +16097,6 @@ export namespace Prisma {
     id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    altitude?: SortOrder
     adminId?: SortOrder
   }
 
@@ -12338,8 +16106,6 @@ export namespace Prisma {
     nomePropriedade?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    altitude?: SortOrder
-    simulacao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -12352,8 +16118,6 @@ export namespace Prisma {
     nomePropriedade?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    altitude?: SortOrder
-    simulacao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -12364,7 +16128,6 @@ export namespace Prisma {
     id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    altitude?: SortOrder
     adminId?: SortOrder
   }
 
@@ -12389,14 +16152,89 @@ export namespace Prisma {
     isNot?: PropriedadeWhereInput
   }
 
-  export type SimulacaoScalarRelationFilter = {
-    is?: SimulacaoWhereInput
-    isNot?: SimulacaoWhereInput
+  export type CulturaScalarRelationFilter = {
+    is?: CulturaWhereInput
+    isNot?: CulturaWhereInput
+  }
+
+  export type PropriedadeCulturaPropriedadeIdCulturaIdCompoundUniqueInput = {
+    propriedadeId: number
+    culturaId: number
+  }
+
+  export type PropriedadeCulturaCountOrderByAggregateInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    culturaId?: SortOrder
+  }
+
+  export type PropriedadeCulturaAvgOrderByAggregateInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    culturaId?: SortOrder
+  }
+
+  export type PropriedadeCulturaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    culturaId?: SortOrder
+  }
+
+  export type PropriedadeCulturaMinOrderByAggregateInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    culturaId?: SortOrder
+  }
+
+  export type PropriedadeCulturaSumOrderByAggregateInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    culturaId?: SortOrder
   }
 
   export type SoloScalarRelationFilter = {
     is?: SoloWhereInput
     isNot?: SoloWhereInput
+  }
+
+  export type PropriedadeSoloPropriedadeIdSoloIdCompoundUniqueInput = {
+    propriedadeId: number
+    soloId: number
+  }
+
+  export type PropriedadeSoloCountOrderByAggregateInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    soloId?: SortOrder
+  }
+
+  export type PropriedadeSoloAvgOrderByAggregateInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    soloId?: SortOrder
+  }
+
+  export type PropriedadeSoloMaxOrderByAggregateInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    soloId?: SortOrder
+  }
+
+  export type PropriedadeSoloMinOrderByAggregateInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    soloId?: SortOrder
+  }
+
+  export type PropriedadeSoloSumOrderByAggregateInput = {
+    id?: SortOrder
+    propriedadeId?: SortOrder
+    soloId?: SortOrder
+  }
+
+  export type SimulacaoScalarRelationFilter = {
+    is?: SimulacaoWhereInput
+    isNot?: SimulacaoWhereInput
   }
 
   export type PrecipitacaoScalarRelationFilter = {
@@ -12531,8 +16369,15 @@ export namespace Prisma {
     propriedadeId?: SortOrder
   }
 
+  export type SoloOrderByRelevanceInput = {
+    fields: SoloOrderByRelevanceFieldEnum | SoloOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
   export type SoloCountOrderByAggregateInput = {
     id?: SortOrder
+    nomeClasse?: SortOrder
     profundidade?: SortOrder
     fatorRocha?: SortOrder
     condutHidraulicaSaturada?: SortOrder
@@ -12540,10 +16385,10 @@ export namespace Prisma {
     agua0Bar?: SortOrder
     agua13Bar?: SortOrder
     agua15Bar?: SortOrder
-    propriedadeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    propriedadeId?: SortOrder
   }
 
   export type SoloAvgOrderByAggregateInput = {
@@ -12560,6 +16405,7 @@ export namespace Prisma {
 
   export type SoloMaxOrderByAggregateInput = {
     id?: SortOrder
+    nomeClasse?: SortOrder
     profundidade?: SortOrder
     fatorRocha?: SortOrder
     condutHidraulicaSaturada?: SortOrder
@@ -12567,14 +16413,15 @@ export namespace Prisma {
     agua0Bar?: SortOrder
     agua13Bar?: SortOrder
     agua15Bar?: SortOrder
-    propriedadeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    propriedadeId?: SortOrder
   }
 
   export type SoloMinOrderByAggregateInput = {
     id?: SortOrder
+    nomeClasse?: SortOrder
     profundidade?: SortOrder
     fatorRocha?: SortOrder
     condutHidraulicaSaturada?: SortOrder
@@ -12582,10 +16429,10 @@ export namespace Prisma {
     agua0Bar?: SortOrder
     agua13Bar?: SortOrder
     agua15Bar?: SortOrder
-    propriedadeId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    propriedadeId?: SortOrder
   }
 
   export type SoloSumOrderByAggregateInput = {
@@ -12652,14 +16499,14 @@ export namespace Prisma {
     propriedadeId?: SortOrder
     simulacaoId?: SortOrder
   }
-  export type JsonFilter<$PrismaModel = never> =
+  export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
       >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonFilterBase<$PrismaModel = never> = {
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
     equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     path?: string
     mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
@@ -12676,9 +16523,18 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type SimulacaoOrderByRelevanceInput = {
+    fields: SimulacaoOrderByRelevanceFieldEnum | SimulacaoOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
   export type SimulacaoCountOrderByAggregateInput = {
     id?: SortOrder
+    nomeSimulacao?: SortOrder
     dadosJson?: SortOrder
+    culturaId?: SortOrder
+    soloId?: SortOrder
     resultado?: SortOrder
     dataSimulacao?: SortOrder
     createdAt?: SortOrder
@@ -12689,12 +16545,17 @@ export namespace Prisma {
 
   export type SimulacaoAvgOrderByAggregateInput = {
     id?: SortOrder
+    culturaId?: SortOrder
+    soloId?: SortOrder
     resultado?: SortOrder
     propriedadeId?: SortOrder
   }
 
   export type SimulacaoMaxOrderByAggregateInput = {
     id?: SortOrder
+    nomeSimulacao?: SortOrder
+    culturaId?: SortOrder
+    soloId?: SortOrder
     resultado?: SortOrder
     dataSimulacao?: SortOrder
     createdAt?: SortOrder
@@ -12705,6 +16566,9 @@ export namespace Prisma {
 
   export type SimulacaoMinOrderByAggregateInput = {
     id?: SortOrder
+    nomeSimulacao?: SortOrder
+    culturaId?: SortOrder
+    soloId?: SortOrder
     resultado?: SortOrder
     dataSimulacao?: SortOrder
     createdAt?: SortOrder
@@ -12715,17 +16579,19 @@ export namespace Prisma {
 
   export type SimulacaoSumOrderByAggregateInput = {
     id?: SortOrder
+    culturaId?: SortOrder
+    soloId?: SortOrder
     resultado?: SortOrder
     propriedadeId?: SortOrder
   }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
       >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
     equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     path?: string
     mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
@@ -12740,9 +16606,52 @@ export namespace Prisma {
     gt?: InputJsonValue
     gte?: InputJsonValue
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type CulturaOrderByRelevanceInput = {
+    fields: CulturaOrderByRelevanceFieldEnum | CulturaOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type CulturaCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    eua?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type CulturaAvgOrderByAggregateInput = {
+    id?: SortOrder
+    eua?: SortOrder
+  }
+
+  export type CulturaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    eua?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type CulturaMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    eua?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type CulturaSumOrderByAggregateInput = {
+    id?: SortOrder
+    eua?: SortOrder
   }
 
   export type TipoUserCreateNestedOneWithoutAdminsInput = {
@@ -12905,6 +16814,20 @@ export namespace Prisma {
     connect?: PrecipitacaoWhereUniqueInput | PrecipitacaoWhereUniqueInput[]
   }
 
+  export type PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+  }
+
+  export type PropriedadeSoloCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+  }
+
   export type SoloCreateNestedManyWithoutPropriedadeInput = {
     create?: XOR<SoloCreateWithoutPropriedadeInput, SoloUncheckedCreateWithoutPropriedadeInput> | SoloCreateWithoutPropriedadeInput[] | SoloUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: SoloCreateOrConnectWithoutPropriedadeInput | SoloCreateOrConnectWithoutPropriedadeInput[]
@@ -12938,6 +16861,20 @@ export namespace Prisma {
     connectOrCreate?: PrecipitacaoCreateOrConnectWithoutPropriedadeInput | PrecipitacaoCreateOrConnectWithoutPropriedadeInput[]
     createMany?: PrecipitacaoCreateManyPropriedadeInputEnvelope
     connect?: PrecipitacaoWhereUniqueInput | PrecipitacaoWhereUniqueInput[]
+  }
+
+  export type PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+  }
+
+  export type PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
   }
 
   export type SoloUncheckedCreateNestedManyWithoutPropriedadeInput = {
@@ -13021,6 +16958,34 @@ export namespace Prisma {
     deleteMany?: PrecipitacaoScalarWhereInput | PrecipitacaoScalarWhereInput[]
   }
 
+  export type PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
+    set?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    disconnect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    delete?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    update?: PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
+  }
+
+  export type PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
+    set?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    disconnect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    delete?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    update?: PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
+  }
+
   export type SoloUpdateManyWithoutPropriedadeNestedInput = {
     create?: XOR<SoloCreateWithoutPropriedadeInput, SoloUncheckedCreateWithoutPropriedadeInput> | SoloCreateWithoutPropriedadeInput[] | SoloUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: SoloCreateOrConnectWithoutPropriedadeInput | SoloCreateOrConnectWithoutPropriedadeInput[]
@@ -13091,6 +17056,34 @@ export namespace Prisma {
     deleteMany?: PrecipitacaoScalarWhereInput | PrecipitacaoScalarWhereInput[]
   }
 
+  export type PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
+    set?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    disconnect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    delete?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    update?: PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
+  }
+
+  export type PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
+    set?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    disconnect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    delete?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    update?: PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
+  }
+
   export type SoloUncheckedUpdateManyWithoutPropriedadeNestedInput = {
     create?: XOR<SoloCreateWithoutPropriedadeInput, SoloUncheckedCreateWithoutPropriedadeInput> | SoloCreateWithoutPropriedadeInput[] | SoloUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: SoloCreateOrConnectWithoutPropriedadeInput | SoloCreateOrConnectWithoutPropriedadeInput[]
@@ -13103,6 +17096,62 @@ export namespace Prisma {
     update?: SoloUpdateWithWhereUniqueWithoutPropriedadeInput | SoloUpdateWithWhereUniqueWithoutPropriedadeInput[]
     updateMany?: SoloUpdateManyWithWhereWithoutPropriedadeInput | SoloUpdateManyWithWhereWithoutPropriedadeInput[]
     deleteMany?: SoloScalarWhereInput | SoloScalarWhereInput[]
+  }
+
+  export type PropriedadeCreateNestedOneWithoutPropriedadeCulturaInput = {
+    create?: XOR<PropriedadeCreateWithoutPropriedadeCulturaInput, PropriedadeUncheckedCreateWithoutPropriedadeCulturaInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutPropriedadeCulturaInput
+    connect?: PropriedadeWhereUniqueInput
+  }
+
+  export type CulturaCreateNestedOneWithoutPropriedadeCulturaInput = {
+    create?: XOR<CulturaCreateWithoutPropriedadeCulturaInput, CulturaUncheckedCreateWithoutPropriedadeCulturaInput>
+    connectOrCreate?: CulturaCreateOrConnectWithoutPropriedadeCulturaInput
+    connect?: CulturaWhereUniqueInput
+  }
+
+  export type PropriedadeUpdateOneRequiredWithoutPropriedadeCulturaNestedInput = {
+    create?: XOR<PropriedadeCreateWithoutPropriedadeCulturaInput, PropriedadeUncheckedCreateWithoutPropriedadeCulturaInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutPropriedadeCulturaInput
+    upsert?: PropriedadeUpsertWithoutPropriedadeCulturaInput
+    connect?: PropriedadeWhereUniqueInput
+    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutPropriedadeCulturaInput, PropriedadeUpdateWithoutPropriedadeCulturaInput>, PropriedadeUncheckedUpdateWithoutPropriedadeCulturaInput>
+  }
+
+  export type CulturaUpdateOneRequiredWithoutPropriedadeCulturaNestedInput = {
+    create?: XOR<CulturaCreateWithoutPropriedadeCulturaInput, CulturaUncheckedCreateWithoutPropriedadeCulturaInput>
+    connectOrCreate?: CulturaCreateOrConnectWithoutPropriedadeCulturaInput
+    upsert?: CulturaUpsertWithoutPropriedadeCulturaInput
+    connect?: CulturaWhereUniqueInput
+    update?: XOR<XOR<CulturaUpdateToOneWithWhereWithoutPropriedadeCulturaInput, CulturaUpdateWithoutPropriedadeCulturaInput>, CulturaUncheckedUpdateWithoutPropriedadeCulturaInput>
+  }
+
+  export type PropriedadeCreateNestedOneWithoutPropriedadeSoloInput = {
+    create?: XOR<PropriedadeCreateWithoutPropriedadeSoloInput, PropriedadeUncheckedCreateWithoutPropriedadeSoloInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutPropriedadeSoloInput
+    connect?: PropriedadeWhereUniqueInput
+  }
+
+  export type SoloCreateNestedOneWithoutPropriedadeSoloInput = {
+    create?: XOR<SoloCreateWithoutPropriedadeSoloInput, SoloUncheckedCreateWithoutPropriedadeSoloInput>
+    connectOrCreate?: SoloCreateOrConnectWithoutPropriedadeSoloInput
+    connect?: SoloWhereUniqueInput
+  }
+
+  export type PropriedadeUpdateOneRequiredWithoutPropriedadeSoloNestedInput = {
+    create?: XOR<PropriedadeCreateWithoutPropriedadeSoloInput, PropriedadeUncheckedCreateWithoutPropriedadeSoloInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutPropriedadeSoloInput
+    upsert?: PropriedadeUpsertWithoutPropriedadeSoloInput
+    connect?: PropriedadeWhereUniqueInput
+    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutPropriedadeSoloInput, PropriedadeUpdateWithoutPropriedadeSoloInput>, PropriedadeUncheckedUpdateWithoutPropriedadeSoloInput>
+  }
+
+  export type SoloUpdateOneRequiredWithoutPropriedadeSoloNestedInput = {
+    create?: XOR<SoloCreateWithoutPropriedadeSoloInput, SoloUncheckedCreateWithoutPropriedadeSoloInput>
+    connectOrCreate?: SoloCreateOrConnectWithoutPropriedadeSoloInput
+    upsert?: SoloUpsertWithoutPropriedadeSoloInput
+    connect?: SoloWhereUniqueInput
+    update?: XOR<XOR<SoloUpdateToOneWithWhereWithoutPropriedadeSoloInput, SoloUpdateWithoutPropriedadeSoloInput>, SoloUncheckedUpdateWithoutPropriedadeSoloInput>
   }
 
   export type PropriedadeCreateNestedOneWithoutHistoricosInput = {
@@ -13217,17 +17266,24 @@ export namespace Prisma {
     deleteMany?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
   }
 
-  export type PropriedadeCreateNestedOneWithoutSolosInput = {
-    create?: XOR<PropriedadeCreateWithoutSolosInput, PropriedadeUncheckedCreateWithoutSolosInput>
-    connectOrCreate?: PropriedadeCreateOrConnectWithoutSolosInput
-    connect?: PropriedadeWhereUniqueInput
-  }
-
   export type HistoricoCreateNestedManyWithoutSoloInput = {
     create?: XOR<HistoricoCreateWithoutSoloInput, HistoricoUncheckedCreateWithoutSoloInput> | HistoricoCreateWithoutSoloInput[] | HistoricoUncheckedCreateWithoutSoloInput[]
     connectOrCreate?: HistoricoCreateOrConnectWithoutSoloInput | HistoricoCreateOrConnectWithoutSoloInput[]
     createMany?: HistoricoCreateManySoloInputEnvelope
     connect?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
+  }
+
+  export type PropriedadeSoloCreateNestedManyWithoutSoloInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutSoloInput, PropriedadeSoloUncheckedCreateWithoutSoloInput> | PropriedadeSoloCreateWithoutSoloInput[] | PropriedadeSoloUncheckedCreateWithoutSoloInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutSoloInput | PropriedadeSoloCreateOrConnectWithoutSoloInput[]
+    createMany?: PropriedadeSoloCreateManySoloInputEnvelope
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+  }
+
+  export type PropriedadeCreateNestedOneWithoutSoloInput = {
+    create?: XOR<PropriedadeCreateWithoutSoloInput, PropriedadeUncheckedCreateWithoutSoloInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutSoloInput
+    connect?: PropriedadeWhereUniqueInput
   }
 
   export type HistoricoUncheckedCreateNestedManyWithoutSoloInput = {
@@ -13237,12 +17293,11 @@ export namespace Prisma {
     connect?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
   }
 
-  export type PropriedadeUpdateOneRequiredWithoutSolosNestedInput = {
-    create?: XOR<PropriedadeCreateWithoutSolosInput, PropriedadeUncheckedCreateWithoutSolosInput>
-    connectOrCreate?: PropriedadeCreateOrConnectWithoutSolosInput
-    upsert?: PropriedadeUpsertWithoutSolosInput
-    connect?: PropriedadeWhereUniqueInput
-    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutSolosInput, PropriedadeUpdateWithoutSolosInput>, PropriedadeUncheckedUpdateWithoutSolosInput>
+  export type PropriedadeSoloUncheckedCreateNestedManyWithoutSoloInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutSoloInput, PropriedadeSoloUncheckedCreateWithoutSoloInput> | PropriedadeSoloCreateWithoutSoloInput[] | PropriedadeSoloUncheckedCreateWithoutSoloInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutSoloInput | PropriedadeSoloCreateOrConnectWithoutSoloInput[]
+    createMany?: PropriedadeSoloCreateManySoloInputEnvelope
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
   }
 
   export type HistoricoUpdateManyWithoutSoloNestedInput = {
@@ -13259,6 +17314,30 @@ export namespace Prisma {
     deleteMany?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
   }
 
+  export type PropriedadeSoloUpdateManyWithoutSoloNestedInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutSoloInput, PropriedadeSoloUncheckedCreateWithoutSoloInput> | PropriedadeSoloCreateWithoutSoloInput[] | PropriedadeSoloUncheckedCreateWithoutSoloInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutSoloInput | PropriedadeSoloCreateOrConnectWithoutSoloInput[]
+    upsert?: PropriedadeSoloUpsertWithWhereUniqueWithoutSoloInput | PropriedadeSoloUpsertWithWhereUniqueWithoutSoloInput[]
+    createMany?: PropriedadeSoloCreateManySoloInputEnvelope
+    set?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    disconnect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    delete?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    update?: PropriedadeSoloUpdateWithWhereUniqueWithoutSoloInput | PropriedadeSoloUpdateWithWhereUniqueWithoutSoloInput[]
+    updateMany?: PropriedadeSoloUpdateManyWithWhereWithoutSoloInput | PropriedadeSoloUpdateManyWithWhereWithoutSoloInput[]
+    deleteMany?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
+  }
+
+  export type PropriedadeUpdateOneWithoutSoloNestedInput = {
+    create?: XOR<PropriedadeCreateWithoutSoloInput, PropriedadeUncheckedCreateWithoutSoloInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutSoloInput
+    upsert?: PropriedadeUpsertWithoutSoloInput
+    disconnect?: PropriedadeWhereInput | boolean
+    delete?: PropriedadeWhereInput | boolean
+    connect?: PropriedadeWhereUniqueInput
+    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutSoloInput, PropriedadeUpdateWithoutSoloInput>, PropriedadeUncheckedUpdateWithoutSoloInput>
+  }
+
   export type HistoricoUncheckedUpdateManyWithoutSoloNestedInput = {
     create?: XOR<HistoricoCreateWithoutSoloInput, HistoricoUncheckedCreateWithoutSoloInput> | HistoricoCreateWithoutSoloInput[] | HistoricoUncheckedCreateWithoutSoloInput[]
     connectOrCreate?: HistoricoCreateOrConnectWithoutSoloInput | HistoricoCreateOrConnectWithoutSoloInput[]
@@ -13271,6 +17350,20 @@ export namespace Prisma {
     update?: HistoricoUpdateWithWhereUniqueWithoutSoloInput | HistoricoUpdateWithWhereUniqueWithoutSoloInput[]
     updateMany?: HistoricoUpdateManyWithWhereWithoutSoloInput | HistoricoUpdateManyWithWhereWithoutSoloInput[]
     deleteMany?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
+  }
+
+  export type PropriedadeSoloUncheckedUpdateManyWithoutSoloNestedInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutSoloInput, PropriedadeSoloUncheckedCreateWithoutSoloInput> | PropriedadeSoloCreateWithoutSoloInput[] | PropriedadeSoloUncheckedCreateWithoutSoloInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutSoloInput | PropriedadeSoloCreateOrConnectWithoutSoloInput[]
+    upsert?: PropriedadeSoloUpsertWithWhereUniqueWithoutSoloInput | PropriedadeSoloUpsertWithWhereUniqueWithoutSoloInput[]
+    createMany?: PropriedadeSoloCreateManySoloInputEnvelope
+    set?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    disconnect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    delete?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    update?: PropriedadeSoloUpdateWithWhereUniqueWithoutSoloInput | PropriedadeSoloUpdateWithWhereUniqueWithoutSoloInput[]
+    updateMany?: PropriedadeSoloUpdateManyWithWhereWithoutSoloInput | PropriedadeSoloUpdateManyWithWhereWithoutSoloInput[]
+    deleteMany?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
   }
 
   export type SimulacaoCreateNestedOneWithoutEstimativasInput = {
@@ -13399,6 +17492,48 @@ export namespace Prisma {
     update?: EstimativasUpdateWithWhereUniqueWithoutSimulacaoInput | EstimativasUpdateWithWhereUniqueWithoutSimulacaoInput[]
     updateMany?: EstimativasUpdateManyWithWhereWithoutSimulacaoInput | EstimativasUpdateManyWithWhereWithoutSimulacaoInput[]
     deleteMany?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
+  }
+
+  export type PropriedadeCulturaCreateNestedManyWithoutCulturaInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutCulturaInput, PropriedadeCulturaUncheckedCreateWithoutCulturaInput> | PropriedadeCulturaCreateWithoutCulturaInput[] | PropriedadeCulturaUncheckedCreateWithoutCulturaInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutCulturaInput | PropriedadeCulturaCreateOrConnectWithoutCulturaInput[]
+    createMany?: PropriedadeCulturaCreateManyCulturaInputEnvelope
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+  }
+
+  export type PropriedadeCulturaUncheckedCreateNestedManyWithoutCulturaInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutCulturaInput, PropriedadeCulturaUncheckedCreateWithoutCulturaInput> | PropriedadeCulturaCreateWithoutCulturaInput[] | PropriedadeCulturaUncheckedCreateWithoutCulturaInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutCulturaInput | PropriedadeCulturaCreateOrConnectWithoutCulturaInput[]
+    createMany?: PropriedadeCulturaCreateManyCulturaInputEnvelope
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+  }
+
+  export type PropriedadeCulturaUpdateManyWithoutCulturaNestedInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutCulturaInput, PropriedadeCulturaUncheckedCreateWithoutCulturaInput> | PropriedadeCulturaCreateWithoutCulturaInput[] | PropriedadeCulturaUncheckedCreateWithoutCulturaInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutCulturaInput | PropriedadeCulturaCreateOrConnectWithoutCulturaInput[]
+    upsert?: PropriedadeCulturaUpsertWithWhereUniqueWithoutCulturaInput | PropriedadeCulturaUpsertWithWhereUniqueWithoutCulturaInput[]
+    createMany?: PropriedadeCulturaCreateManyCulturaInputEnvelope
+    set?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    disconnect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    delete?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    update?: PropriedadeCulturaUpdateWithWhereUniqueWithoutCulturaInput | PropriedadeCulturaUpdateWithWhereUniqueWithoutCulturaInput[]
+    updateMany?: PropriedadeCulturaUpdateManyWithWhereWithoutCulturaInput | PropriedadeCulturaUpdateManyWithWhereWithoutCulturaInput[]
+    deleteMany?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
+  }
+
+  export type PropriedadeCulturaUncheckedUpdateManyWithoutCulturaNestedInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutCulturaInput, PropriedadeCulturaUncheckedCreateWithoutCulturaInput> | PropriedadeCulturaCreateWithoutCulturaInput[] | PropriedadeCulturaUncheckedCreateWithoutCulturaInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutCulturaInput | PropriedadeCulturaCreateOrConnectWithoutCulturaInput[]
+    upsert?: PropriedadeCulturaUpsertWithWhereUniqueWithoutCulturaInput | PropriedadeCulturaUpsertWithWhereUniqueWithoutCulturaInput[]
+    createMany?: PropriedadeCulturaCreateManyCulturaInputEnvelope
+    set?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    disconnect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    delete?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    update?: PropriedadeCulturaUpdateWithWhereUniqueWithoutCulturaInput | PropriedadeCulturaUpdateWithWhereUniqueWithoutCulturaInput[]
+    updateMany?: PropriedadeCulturaUpdateManyWithWhereWithoutCulturaInput | PropriedadeCulturaUpdateManyWithWhereWithoutCulturaInput[]
+    deleteMany?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -13621,14 +17756,14 @@ export namespace Prisma {
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
   }
-  export type NestedJsonFilter<$PrismaModel = never> =
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
-        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonFilterBase<$PrismaModel>>
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
       >
-    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type NestedJsonFilterBase<$PrismaModel = never> = {
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
     equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     path?: string
     mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
@@ -13674,8 +17809,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -13683,7 +17816,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
     historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
     precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutAdminInput = {
@@ -13692,8 +17827,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -13701,7 +17834,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
     historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
     precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutAdminInput = {
@@ -13755,8 +17890,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13764,7 +17897,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
     historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
     precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutAdminInput = {
@@ -13773,8 +17908,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13782,7 +17915,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
     historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
     precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type AdminCreateWithoutTipoUserInput = {
@@ -13912,7 +18047,10 @@ export namespace Prisma {
   }
 
   export type SimulacaoCreateWithoutPropriedadeInput = {
-    dadosJson: JsonNullValueInput | InputJsonValue
+    nomeSimulacao: string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: Date | string
     createdAt?: Date | string
@@ -13924,7 +18062,10 @@ export namespace Prisma {
 
   export type SimulacaoUncheckedCreateWithoutPropriedadeInput = {
     id?: number
-    dadosJson: JsonNullValueInput | InputJsonValue
+    nomeSimulacao: string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: Date | string
     createdAt?: Date | string
@@ -14014,7 +18155,46 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PropriedadeCulturaCreateWithoutPropriedadeInput = {
+    cultura: CulturaCreateNestedOneWithoutPropriedadeCulturaInput
+  }
+
+  export type PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput = {
+    id?: number
+    culturaId: number
+  }
+
+  export type PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput = {
+    where: PropriedadeCulturaWhereUniqueInput
+    create: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type PropriedadeCulturaCreateManyPropriedadeInputEnvelope = {
+    data: PropriedadeCulturaCreateManyPropriedadeInput | PropriedadeCulturaCreateManyPropriedadeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PropriedadeSoloCreateWithoutPropriedadeInput = {
+    solo: SoloCreateNestedOneWithoutPropriedadeSoloInput
+  }
+
+  export type PropriedadeSoloUncheckedCreateWithoutPropriedadeInput = {
+    id?: number
+    soloId: number
+  }
+
+  export type PropriedadeSoloCreateOrConnectWithoutPropriedadeInput = {
+    where: PropriedadeSoloWhereUniqueInput
+    create: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type PropriedadeSoloCreateManyPropriedadeInputEnvelope = {
+    data: PropriedadeSoloCreateManyPropriedadeInput | PropriedadeSoloCreateManyPropriedadeInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SoloCreateWithoutPropriedadeInput = {
+    nomeClasse: string
     profundidade: number
     fatorRocha: number
     condutHidraulicaSaturada: number
@@ -14026,10 +18206,12 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     historico?: HistoricoCreateNestedManyWithoutSoloInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutSoloInput
   }
 
   export type SoloUncheckedCreateWithoutPropriedadeInput = {
     id?: number
+    nomeClasse: string
     profundidade: number
     fatorRocha: number
     condutHidraulicaSaturada: number
@@ -14041,6 +18223,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     historico?: HistoricoUncheckedCreateNestedManyWithoutSoloInput
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutSoloInput
   }
 
   export type SoloCreateOrConnectWithoutPropriedadeInput = {
@@ -14140,7 +18323,10 @@ export namespace Prisma {
     OR?: SimulacaoScalarWhereInput[]
     NOT?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
     id?: IntFilter<"Simulacao"> | number
-    dadosJson?: JsonFilter<"Simulacao">
+    nomeSimulacao?: StringFilter<"Simulacao"> | string
+    dadosJson?: JsonNullableFilter<"Simulacao">
+    culturaId?: IntFilter<"Simulacao"> | number
+    soloId?: IntFilter<"Simulacao"> | number
     resultado?: FloatFilter<"Simulacao"> | number
     dataSimulacao?: DateTimeFilter<"Simulacao"> | Date | string
     createdAt?: DateTimeFilter<"Simulacao"> | Date | string
@@ -14214,6 +18400,56 @@ export namespace Prisma {
     propriedadeId?: IntFilter<"Precipitacao"> | number
   }
 
+  export type PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput = {
+    where: PropriedadeCulturaWhereUniqueInput
+    update: XOR<PropriedadeCulturaUpdateWithoutPropriedadeInput, PropriedadeCulturaUncheckedUpdateWithoutPropriedadeInput>
+    create: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput = {
+    where: PropriedadeCulturaWhereUniqueInput
+    data: XOR<PropriedadeCulturaUpdateWithoutPropriedadeInput, PropriedadeCulturaUncheckedUpdateWithoutPropriedadeInput>
+  }
+
+  export type PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput = {
+    where: PropriedadeCulturaScalarWhereInput
+    data: XOR<PropriedadeCulturaUpdateManyMutationInput, PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeInput>
+  }
+
+  export type PropriedadeCulturaScalarWhereInput = {
+    AND?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
+    OR?: PropriedadeCulturaScalarWhereInput[]
+    NOT?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
+    id?: IntFilter<"PropriedadeCultura"> | number
+    propriedadeId?: IntFilter<"PropriedadeCultura"> | number
+    culturaId?: IntFilter<"PropriedadeCultura"> | number
+  }
+
+  export type PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput = {
+    where: PropriedadeSoloWhereUniqueInput
+    update: XOR<PropriedadeSoloUpdateWithoutPropriedadeInput, PropriedadeSoloUncheckedUpdateWithoutPropriedadeInput>
+    create: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput = {
+    where: PropriedadeSoloWhereUniqueInput
+    data: XOR<PropriedadeSoloUpdateWithoutPropriedadeInput, PropriedadeSoloUncheckedUpdateWithoutPropriedadeInput>
+  }
+
+  export type PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput = {
+    where: PropriedadeSoloScalarWhereInput
+    data: XOR<PropriedadeSoloUpdateManyMutationInput, PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeInput>
+  }
+
+  export type PropriedadeSoloScalarWhereInput = {
+    AND?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
+    OR?: PropriedadeSoloScalarWhereInput[]
+    NOT?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
+    id?: IntFilter<"PropriedadeSolo"> | number
+    propriedadeId?: IntFilter<"PropriedadeSolo"> | number
+    soloId?: IntFilter<"PropriedadeSolo"> | number
+  }
+
   export type SoloUpsertWithWhereUniqueWithoutPropriedadeInput = {
     where: SoloWhereUniqueInput
     update: XOR<SoloUpdateWithoutPropriedadeInput, SoloUncheckedUpdateWithoutPropriedadeInput>
@@ -14235,6 +18471,7 @@ export namespace Prisma {
     OR?: SoloScalarWhereInput[]
     NOT?: SoloScalarWhereInput | SoloScalarWhereInput[]
     id?: IntFilter<"Solo"> | number
+    nomeClasse?: StringFilter<"Solo"> | string
     profundidade?: FloatFilter<"Solo"> | number
     fatorRocha?: FloatFilter<"Solo"> | number
     condutHidraulicaSaturada?: FloatFilter<"Solo"> | number
@@ -14242,10 +18479,314 @@ export namespace Prisma {
     agua0Bar?: FloatFilter<"Solo"> | number
     agua13Bar?: FloatFilter<"Solo"> | number
     agua15Bar?: FloatFilter<"Solo"> | number
-    propriedadeId?: IntFilter<"Solo"> | number
     createdAt?: DateTimeFilter<"Solo"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
+    propriedadeId?: IntNullableFilter<"Solo"> | number | null
+  }
+
+  export type PropriedadeCreateWithoutPropriedadeCulturaInput = {
+    nomeProprietario: string
+    nomePropriedade: string
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    admin?: AdminCreateNestedOneWithoutPropriedadeInput
+    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
+    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeUncheckedCreateWithoutPropriedadeCulturaInput = {
+    id?: number
+    nomeProprietario: string
+    nomePropriedade: string
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    adminId?: number | null
+    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
+    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeCreateOrConnectWithoutPropriedadeCulturaInput = {
+    where: PropriedadeWhereUniqueInput
+    create: XOR<PropriedadeCreateWithoutPropriedadeCulturaInput, PropriedadeUncheckedCreateWithoutPropriedadeCulturaInput>
+  }
+
+  export type CulturaCreateWithoutPropriedadeCulturaInput = {
+    name: string
+    eua: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+  }
+
+  export type CulturaUncheckedCreateWithoutPropriedadeCulturaInput = {
+    id?: number
+    name: string
+    eua: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+  }
+
+  export type CulturaCreateOrConnectWithoutPropriedadeCulturaInput = {
+    where: CulturaWhereUniqueInput
+    create: XOR<CulturaCreateWithoutPropriedadeCulturaInput, CulturaUncheckedCreateWithoutPropriedadeCulturaInput>
+  }
+
+  export type PropriedadeUpsertWithoutPropriedadeCulturaInput = {
+    update: XOR<PropriedadeUpdateWithoutPropriedadeCulturaInput, PropriedadeUncheckedUpdateWithoutPropriedadeCulturaInput>
+    create: XOR<PropriedadeCreateWithoutPropriedadeCulturaInput, PropriedadeUncheckedCreateWithoutPropriedadeCulturaInput>
+    where?: PropriedadeWhereInput
+  }
+
+  export type PropriedadeUpdateToOneWithWhereWithoutPropriedadeCulturaInput = {
+    where?: PropriedadeWhereInput
+    data: XOR<PropriedadeUpdateWithoutPropriedadeCulturaInput, PropriedadeUncheckedUpdateWithoutPropriedadeCulturaInput>
+  }
+
+  export type PropriedadeUpdateWithoutPropriedadeCulturaInput = {
+    nomeProprietario?: StringFieldUpdateOperationsInput | string
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    admin?: AdminUpdateOneWithoutPropriedadeNestedInput
+    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
+    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
+  }
+
+  export type PropriedadeUncheckedUpdateWithoutPropriedadeCulturaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nomeProprietario?: StringFieldUpdateOperationsInput | string
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    adminId?: NullableIntFieldUpdateOperationsInput | number | null
+    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+  }
+
+  export type CulturaUpsertWithoutPropriedadeCulturaInput = {
+    update: XOR<CulturaUpdateWithoutPropriedadeCulturaInput, CulturaUncheckedUpdateWithoutPropriedadeCulturaInput>
+    create: XOR<CulturaCreateWithoutPropriedadeCulturaInput, CulturaUncheckedCreateWithoutPropriedadeCulturaInput>
+    where?: CulturaWhereInput
+  }
+
+  export type CulturaUpdateToOneWithWhereWithoutPropriedadeCulturaInput = {
+    where?: CulturaWhereInput
+    data: XOR<CulturaUpdateWithoutPropriedadeCulturaInput, CulturaUncheckedUpdateWithoutPropriedadeCulturaInput>
+  }
+
+  export type CulturaUpdateWithoutPropriedadeCulturaInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    eua?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CulturaUncheckedUpdateWithoutPropriedadeCulturaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    eua?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PropriedadeCreateWithoutPropriedadeSoloInput = {
+    nomeProprietario: string
+    nomePropriedade: string
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    admin?: AdminCreateNestedOneWithoutPropriedadeInput
+    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
+    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeUncheckedCreateWithoutPropriedadeSoloInput = {
+    id?: number
+    nomeProprietario: string
+    nomePropriedade: string
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    adminId?: number | null
+    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
+    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeCreateOrConnectWithoutPropriedadeSoloInput = {
+    where: PropriedadeWhereUniqueInput
+    create: XOR<PropriedadeCreateWithoutPropriedadeSoloInput, PropriedadeUncheckedCreateWithoutPropriedadeSoloInput>
+  }
+
+  export type SoloCreateWithoutPropriedadeSoloInput = {
+    nomeClasse: string
+    profundidade: number
+    fatorRocha: number
+    condutHidraulicaSaturada: number
+    densidadeAparente: number
+    agua0Bar: number
+    agua13Bar: number
+    agua15Bar: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    historico?: HistoricoCreateNestedManyWithoutSoloInput
+    Propriedade?: PropriedadeCreateNestedOneWithoutSoloInput
+  }
+
+  export type SoloUncheckedCreateWithoutPropriedadeSoloInput = {
+    id?: number
+    nomeClasse: string
+    profundidade: number
+    fatorRocha: number
+    condutHidraulicaSaturada: number
+    densidadeAparente: number
+    agua0Bar: number
+    agua13Bar: number
+    agua15Bar: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    propriedadeId?: number | null
+    historico?: HistoricoUncheckedCreateNestedManyWithoutSoloInput
+  }
+
+  export type SoloCreateOrConnectWithoutPropriedadeSoloInput = {
+    where: SoloWhereUniqueInput
+    create: XOR<SoloCreateWithoutPropriedadeSoloInput, SoloUncheckedCreateWithoutPropriedadeSoloInput>
+  }
+
+  export type PropriedadeUpsertWithoutPropriedadeSoloInput = {
+    update: XOR<PropriedadeUpdateWithoutPropriedadeSoloInput, PropriedadeUncheckedUpdateWithoutPropriedadeSoloInput>
+    create: XOR<PropriedadeCreateWithoutPropriedadeSoloInput, PropriedadeUncheckedCreateWithoutPropriedadeSoloInput>
+    where?: PropriedadeWhereInput
+  }
+
+  export type PropriedadeUpdateToOneWithWhereWithoutPropriedadeSoloInput = {
+    where?: PropriedadeWhereInput
+    data: XOR<PropriedadeUpdateWithoutPropriedadeSoloInput, PropriedadeUncheckedUpdateWithoutPropriedadeSoloInput>
+  }
+
+  export type PropriedadeUpdateWithoutPropriedadeSoloInput = {
+    nomeProprietario?: StringFieldUpdateOperationsInput | string
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    admin?: AdminUpdateOneWithoutPropriedadeNestedInput
+    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
+    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
+  }
+
+  export type PropriedadeUncheckedUpdateWithoutPropriedadeSoloInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nomeProprietario?: StringFieldUpdateOperationsInput | string
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    adminId?: NullableIntFieldUpdateOperationsInput | number | null
+    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+  }
+
+  export type SoloUpsertWithoutPropriedadeSoloInput = {
+    update: XOR<SoloUpdateWithoutPropriedadeSoloInput, SoloUncheckedUpdateWithoutPropriedadeSoloInput>
+    create: XOR<SoloCreateWithoutPropriedadeSoloInput, SoloUncheckedCreateWithoutPropriedadeSoloInput>
+    where?: SoloWhereInput
+  }
+
+  export type SoloUpdateToOneWithWhereWithoutPropriedadeSoloInput = {
+    where?: SoloWhereInput
+    data: XOR<SoloUpdateWithoutPropriedadeSoloInput, SoloUncheckedUpdateWithoutPropriedadeSoloInput>
+  }
+
+  export type SoloUpdateWithoutPropriedadeSoloInput = {
+    nomeClasse?: StringFieldUpdateOperationsInput | string
+    profundidade?: FloatFieldUpdateOperationsInput | number
+    fatorRocha?: FloatFieldUpdateOperationsInput | number
+    condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
+    densidadeAparente?: FloatFieldUpdateOperationsInput | number
+    agua0Bar?: FloatFieldUpdateOperationsInput | number
+    agua13Bar?: FloatFieldUpdateOperationsInput | number
+    agua15Bar?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    historico?: HistoricoUpdateManyWithoutSoloNestedInput
+    Propriedade?: PropriedadeUpdateOneWithoutSoloNestedInput
+  }
+
+  export type SoloUncheckedUpdateWithoutPropriedadeSoloInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nomeClasse?: StringFieldUpdateOperationsInput | string
+    profundidade?: FloatFieldUpdateOperationsInput | number
+    fatorRocha?: FloatFieldUpdateOperationsInput | number
+    condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
+    densidadeAparente?: FloatFieldUpdateOperationsInput | number
+    agua0Bar?: FloatFieldUpdateOperationsInput | number
+    agua13Bar?: FloatFieldUpdateOperationsInput | number
+    agua15Bar?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: NullableIntFieldUpdateOperationsInput | number | null
+    historico?: HistoricoUncheckedUpdateManyWithoutSoloNestedInput
   }
 
   export type PropriedadeCreateWithoutHistoricosInput = {
@@ -14253,8 +18794,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -14262,7 +18801,9 @@ export namespace Prisma {
     estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
     precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutHistoricosInput = {
@@ -14271,8 +18812,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -14280,7 +18819,9 @@ export namespace Prisma {
     estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
     precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutHistoricosInput = {
@@ -14289,7 +18830,10 @@ export namespace Prisma {
   }
 
   export type SimulacaoCreateWithoutHistoricoInput = {
-    dadosJson: JsonNullValueInput | InputJsonValue
+    nomeSimulacao: string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: Date | string
     createdAt?: Date | string
@@ -14301,7 +18845,10 @@ export namespace Prisma {
 
   export type SimulacaoUncheckedCreateWithoutHistoricoInput = {
     id?: number
-    dadosJson: JsonNullValueInput | InputJsonValue
+    nomeSimulacao: string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: Date | string
     createdAt?: Date | string
@@ -14317,6 +18864,7 @@ export namespace Prisma {
   }
 
   export type SoloCreateWithoutHistoricoInput = {
+    nomeClasse: string
     profundidade: number
     fatorRocha: number
     condutHidraulicaSaturada: number
@@ -14327,11 +18875,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedade: PropriedadeCreateNestedOneWithoutSolosInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutSoloInput
+    Propriedade?: PropriedadeCreateNestedOneWithoutSoloInput
   }
 
   export type SoloUncheckedCreateWithoutHistoricoInput = {
     id?: number
+    nomeClasse: string
     profundidade: number
     fatorRocha: number
     condutHidraulicaSaturada: number
@@ -14339,10 +18889,11 @@ export namespace Prisma {
     agua0Bar: number
     agua13Bar: number
     agua15Bar: number
-    propriedadeId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
+    propriedadeId?: number | null
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutSoloInput
   }
 
   export type SoloCreateOrConnectWithoutHistoricoInput = {
@@ -14398,8 +18949,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14407,7 +18956,9 @@ export namespace Prisma {
     estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
     precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutHistoricosInput = {
@@ -14416,8 +18967,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14425,7 +18974,9 @@ export namespace Prisma {
     estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
     precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type SimulacaoUpsertWithoutHistoricoInput = {
@@ -14440,7 +18991,10 @@ export namespace Prisma {
   }
 
   export type SimulacaoUpdateWithoutHistoricoInput = {
-    dadosJson?: JsonNullValueInput | InputJsonValue
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
     resultado?: FloatFieldUpdateOperationsInput | number
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14452,7 +19006,10 @@ export namespace Prisma {
 
   export type SimulacaoUncheckedUpdateWithoutHistoricoInput = {
     id?: IntFieldUpdateOperationsInput | number
-    dadosJson?: JsonNullValueInput | InputJsonValue
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
     resultado?: FloatFieldUpdateOperationsInput | number
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14474,6 +19031,7 @@ export namespace Prisma {
   }
 
   export type SoloUpdateWithoutHistoricoInput = {
+    nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
     condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
@@ -14484,11 +19042,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedade?: PropriedadeUpdateOneRequiredWithoutSolosNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutSoloNestedInput
+    Propriedade?: PropriedadeUpdateOneWithoutSoloNestedInput
   }
 
   export type SoloUncheckedUpdateWithoutHistoricoInput = {
     id?: IntFieldUpdateOperationsInput | number
+    nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
     condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
@@ -14496,10 +19056,11 @@ export namespace Prisma {
     agua0Bar?: FloatFieldUpdateOperationsInput | number
     agua13Bar?: FloatFieldUpdateOperationsInput | number
     agua15Bar?: FloatFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: NullableIntFieldUpdateOperationsInput | number | null
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutSoloNestedInput
   }
 
   export type PrecipitacaoUpsertWithoutHistoricoInput = {
@@ -14545,8 +19106,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -14554,7 +19113,9 @@ export namespace Prisma {
     estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
     historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutPrecipitacoesInput = {
@@ -14563,8 +19124,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -14572,7 +19131,9 @@ export namespace Prisma {
     estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
     historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutPrecipitacoesInput = {
@@ -14629,8 +19190,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14638,7 +19197,9 @@ export namespace Prisma {
     estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
     historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutPrecipitacoesInput = {
@@ -14647,8 +19208,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14656,7 +19215,9 @@ export namespace Prisma {
     estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
     historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type HistoricoUpsertWithWhereUniqueWithoutPrecipitacaoInput = {
@@ -14673,46 +19234,6 @@ export namespace Prisma {
   export type HistoricoUpdateManyWithWhereWithoutPrecipitacaoInput = {
     where: HistoricoScalarWhereInput
     data: XOR<HistoricoUpdateManyMutationInput, HistoricoUncheckedUpdateManyWithoutPrecipitacaoInput>
-  }
-
-  export type PropriedadeCreateWithoutSolosInput = {
-    nomeProprietario: string
-    nomePropriedade: string
-    latitude: number
-    longitude: number
-    altitude: number
-    simulacao: string
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    admin?: AdminCreateNestedOneWithoutPropriedadeInput
-    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
-    simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-  }
-
-  export type PropriedadeUncheckedCreateWithoutSolosInput = {
-    id?: number
-    nomeProprietario: string
-    nomePropriedade: string
-    latitude: number
-    longitude: number
-    altitude: number
-    simulacao: string
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    adminId?: number | null
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
-    simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-  }
-
-  export type PropriedadeCreateOrConnectWithoutSolosInput = {
-    where: PropriedadeWhereUniqueInput
-    create: XOR<PropriedadeCreateWithoutSolosInput, PropriedadeUncheckedCreateWithoutSolosInput>
   }
 
   export type HistoricoCreateWithoutSoloInput = {
@@ -14748,50 +19269,63 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type PropriedadeUpsertWithoutSolosInput = {
-    update: XOR<PropriedadeUpdateWithoutSolosInput, PropriedadeUncheckedUpdateWithoutSolosInput>
-    create: XOR<PropriedadeCreateWithoutSolosInput, PropriedadeUncheckedCreateWithoutSolosInput>
-    where?: PropriedadeWhereInput
+  export type PropriedadeSoloCreateWithoutSoloInput = {
+    propriedade: PropriedadeCreateNestedOneWithoutPropriedadeSoloInput
   }
 
-  export type PropriedadeUpdateToOneWithWhereWithoutSolosInput = {
-    where?: PropriedadeWhereInput
-    data: XOR<PropriedadeUpdateWithoutSolosInput, PropriedadeUncheckedUpdateWithoutSolosInput>
+  export type PropriedadeSoloUncheckedCreateWithoutSoloInput = {
+    id?: number
+    propriedadeId: number
   }
 
-  export type PropriedadeUpdateWithoutSolosInput = {
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
-    nomePropriedade?: StringFieldUpdateOperationsInput | string
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    admin?: AdminUpdateOneWithoutPropriedadeNestedInput
-    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
-    simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
+  export type PropriedadeSoloCreateOrConnectWithoutSoloInput = {
+    where: PropriedadeSoloWhereUniqueInput
+    create: XOR<PropriedadeSoloCreateWithoutSoloInput, PropriedadeSoloUncheckedCreateWithoutSoloInput>
   }
 
-  export type PropriedadeUncheckedUpdateWithoutSolosInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
-    nomePropriedade?: StringFieldUpdateOperationsInput | string
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    adminId?: NullableIntFieldUpdateOperationsInput | number | null
-    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
-    simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+  export type PropriedadeSoloCreateManySoloInputEnvelope = {
+    data: PropriedadeSoloCreateManySoloInput | PropriedadeSoloCreateManySoloInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PropriedadeCreateWithoutSoloInput = {
+    nomeProprietario: string
+    nomePropriedade: string
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    admin?: AdminCreateNestedOneWithoutPropriedadeInput
+    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
+    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeUncheckedCreateWithoutSoloInput = {
+    id?: number
+    nomeProprietario: string
+    nomePropriedade: string
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    adminId?: number | null
+    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
+    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeCreateOrConnectWithoutSoloInput = {
+    where: PropriedadeWhereUniqueInput
+    create: XOR<PropriedadeCreateWithoutSoloInput, PropriedadeUncheckedCreateWithoutSoloInput>
   }
 
   export type HistoricoUpsertWithWhereUniqueWithoutSoloInput = {
@@ -14810,8 +19344,73 @@ export namespace Prisma {
     data: XOR<HistoricoUpdateManyMutationInput, HistoricoUncheckedUpdateManyWithoutSoloInput>
   }
 
+  export type PropriedadeSoloUpsertWithWhereUniqueWithoutSoloInput = {
+    where: PropriedadeSoloWhereUniqueInput
+    update: XOR<PropriedadeSoloUpdateWithoutSoloInput, PropriedadeSoloUncheckedUpdateWithoutSoloInput>
+    create: XOR<PropriedadeSoloCreateWithoutSoloInput, PropriedadeSoloUncheckedCreateWithoutSoloInput>
+  }
+
+  export type PropriedadeSoloUpdateWithWhereUniqueWithoutSoloInput = {
+    where: PropriedadeSoloWhereUniqueInput
+    data: XOR<PropriedadeSoloUpdateWithoutSoloInput, PropriedadeSoloUncheckedUpdateWithoutSoloInput>
+  }
+
+  export type PropriedadeSoloUpdateManyWithWhereWithoutSoloInput = {
+    where: PropriedadeSoloScalarWhereInput
+    data: XOR<PropriedadeSoloUpdateManyMutationInput, PropriedadeSoloUncheckedUpdateManyWithoutSoloInput>
+  }
+
+  export type PropriedadeUpsertWithoutSoloInput = {
+    update: XOR<PropriedadeUpdateWithoutSoloInput, PropriedadeUncheckedUpdateWithoutSoloInput>
+    create: XOR<PropriedadeCreateWithoutSoloInput, PropriedadeUncheckedCreateWithoutSoloInput>
+    where?: PropriedadeWhereInput
+  }
+
+  export type PropriedadeUpdateToOneWithWhereWithoutSoloInput = {
+    where?: PropriedadeWhereInput
+    data: XOR<PropriedadeUpdateWithoutSoloInput, PropriedadeUncheckedUpdateWithoutSoloInput>
+  }
+
+  export type PropriedadeUpdateWithoutSoloInput = {
+    nomeProprietario?: StringFieldUpdateOperationsInput | string
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    admin?: AdminUpdateOneWithoutPropriedadeNestedInput
+    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
+    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+  }
+
+  export type PropriedadeUncheckedUpdateWithoutSoloInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nomeProprietario?: StringFieldUpdateOperationsInput | string
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    adminId?: NullableIntFieldUpdateOperationsInput | number | null
+    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+  }
+
   export type SimulacaoCreateWithoutEstimativasInput = {
-    dadosJson: JsonNullValueInput | InputJsonValue
+    nomeSimulacao: string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: Date | string
     createdAt?: Date | string
@@ -14823,7 +19422,10 @@ export namespace Prisma {
 
   export type SimulacaoUncheckedCreateWithoutEstimativasInput = {
     id?: number
-    dadosJson: JsonNullValueInput | InputJsonValue
+    nomeSimulacao: string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: Date | string
     createdAt?: Date | string
@@ -14843,8 +19445,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -14852,7 +19452,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
     historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
     precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutEstimativasInput = {
@@ -14861,8 +19463,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -14870,7 +19470,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
     historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
     precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutEstimativasInput = {
@@ -14890,7 +19492,10 @@ export namespace Prisma {
   }
 
   export type SimulacaoUpdateWithoutEstimativasInput = {
-    dadosJson?: JsonNullValueInput | InputJsonValue
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
     resultado?: FloatFieldUpdateOperationsInput | number
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14902,7 +19507,10 @@ export namespace Prisma {
 
   export type SimulacaoUncheckedUpdateWithoutEstimativasInput = {
     id?: IntFieldUpdateOperationsInput | number
-    dadosJson?: JsonNullValueInput | InputJsonValue
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
     resultado?: FloatFieldUpdateOperationsInput | number
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14928,8 +19536,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14937,7 +19543,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
     historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
     precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutEstimativasInput = {
@@ -14946,8 +19554,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14955,7 +19561,9 @@ export namespace Prisma {
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
     historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
     precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeCreateWithoutSimulacoesInput = {
@@ -14963,8 +19571,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -14972,7 +19578,9 @@ export namespace Prisma {
     estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
     historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
     precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutSimulacoesInput = {
@@ -14981,8 +19589,6 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
-    altitude: number
-    simulacao: string
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -14990,7 +19596,9 @@ export namespace Prisma {
     estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
     historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
     precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    solos?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutSimulacoesInput = {
@@ -15076,8 +19684,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15085,7 +19691,9 @@ export namespace Prisma {
     estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
     historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
     precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutSimulacoesInput = {
@@ -15094,8 +19702,6 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    altitude?: FloatFieldUpdateOperationsInput | number
-    simulacao?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15103,7 +19709,9 @@ export namespace Prisma {
     estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
     historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
     precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    solos?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type HistoricoUpsertWithWhereUniqueWithoutSimulacaoInput = {
@@ -15136,6 +19744,41 @@ export namespace Prisma {
   export type EstimativasUpdateManyWithWhereWithoutSimulacaoInput = {
     where: EstimativasScalarWhereInput
     data: XOR<EstimativasUpdateManyMutationInput, EstimativasUncheckedUpdateManyWithoutSimulacaoInput>
+  }
+
+  export type PropriedadeCulturaCreateWithoutCulturaInput = {
+    propriedade: PropriedadeCreateNestedOneWithoutPropriedadeCulturaInput
+  }
+
+  export type PropriedadeCulturaUncheckedCreateWithoutCulturaInput = {
+    id?: number
+    propriedadeId: number
+  }
+
+  export type PropriedadeCulturaCreateOrConnectWithoutCulturaInput = {
+    where: PropriedadeCulturaWhereUniqueInput
+    create: XOR<PropriedadeCulturaCreateWithoutCulturaInput, PropriedadeCulturaUncheckedCreateWithoutCulturaInput>
+  }
+
+  export type PropriedadeCulturaCreateManyCulturaInputEnvelope = {
+    data: PropriedadeCulturaCreateManyCulturaInput | PropriedadeCulturaCreateManyCulturaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PropriedadeCulturaUpsertWithWhereUniqueWithoutCulturaInput = {
+    where: PropriedadeCulturaWhereUniqueInput
+    update: XOR<PropriedadeCulturaUpdateWithoutCulturaInput, PropriedadeCulturaUncheckedUpdateWithoutCulturaInput>
+    create: XOR<PropriedadeCulturaCreateWithoutCulturaInput, PropriedadeCulturaUncheckedCreateWithoutCulturaInput>
+  }
+
+  export type PropriedadeCulturaUpdateWithWhereUniqueWithoutCulturaInput = {
+    where: PropriedadeCulturaWhereUniqueInput
+    data: XOR<PropriedadeCulturaUpdateWithoutCulturaInput, PropriedadeCulturaUncheckedUpdateWithoutCulturaInput>
+  }
+
+  export type PropriedadeCulturaUpdateManyWithWhereWithoutCulturaInput = {
+    where: PropriedadeCulturaScalarWhereInput
+    data: XOR<PropriedadeCulturaUpdateManyMutationInput, PropriedadeCulturaUncheckedUpdateManyWithoutCulturaInput>
   }
 
   export type AdminCreateManyTipoUserInput = {
@@ -15199,7 +19842,10 @@ export namespace Prisma {
 
   export type SimulacaoCreateManyPropriedadeInput = {
     id?: number
-    dadosJson: JsonNullValueInput | InputJsonValue
+    nomeSimulacao: string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId: number
+    soloId: number
     resultado: number
     dataSimulacao: Date | string
     createdAt?: Date | string
@@ -15232,8 +19878,19 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
+  export type PropriedadeCulturaCreateManyPropriedadeInput = {
+    id?: number
+    culturaId: number
+  }
+
+  export type PropriedadeSoloCreateManyPropriedadeInput = {
+    id?: number
+    soloId: number
+  }
+
   export type SoloCreateManyPropriedadeInput = {
     id?: number
+    nomeClasse: string
     profundidade: number
     fatorRocha: number
     condutHidraulicaSaturada: number
@@ -15276,7 +19933,10 @@ export namespace Prisma {
   }
 
   export type SimulacaoUpdateWithoutPropriedadeInput = {
-    dadosJson?: JsonNullValueInput | InputJsonValue
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
     resultado?: FloatFieldUpdateOperationsInput | number
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15288,7 +19948,10 @@ export namespace Prisma {
 
   export type SimulacaoUncheckedUpdateWithoutPropriedadeInput = {
     id?: IntFieldUpdateOperationsInput | number
-    dadosJson?: JsonNullValueInput | InputJsonValue
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
     resultado?: FloatFieldUpdateOperationsInput | number
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15300,7 +19963,10 @@ export namespace Prisma {
 
   export type SimulacaoUncheckedUpdateManyWithoutPropriedadeInput = {
     id?: IntFieldUpdateOperationsInput | number
-    dadosJson?: JsonNullValueInput | InputJsonValue
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    dadosJson?: NullableJsonNullValueInput | InputJsonValue
+    culturaId?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
     resultado?: FloatFieldUpdateOperationsInput | number
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15383,7 +20049,36 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type PropriedadeCulturaUpdateWithoutPropriedadeInput = {
+    cultura?: CulturaUpdateOneRequiredWithoutPropriedadeCulturaNestedInput
+  }
+
+  export type PropriedadeCulturaUncheckedUpdateWithoutPropriedadeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PropriedadeSoloUpdateWithoutPropriedadeInput = {
+    solo?: SoloUpdateOneRequiredWithoutPropriedadeSoloNestedInput
+  }
+
+  export type PropriedadeSoloUncheckedUpdateWithoutPropriedadeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type SoloUpdateWithoutPropriedadeInput = {
+    nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
     condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
@@ -15395,10 +20090,12 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     historico?: HistoricoUpdateManyWithoutSoloNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutSoloNestedInput
   }
 
   export type SoloUncheckedUpdateWithoutPropriedadeInput = {
     id?: IntFieldUpdateOperationsInput | number
+    nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
     condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
@@ -15410,10 +20107,12 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     historico?: HistoricoUncheckedUpdateManyWithoutSoloNestedInput
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutSoloNestedInput
   }
 
   export type SoloUncheckedUpdateManyWithoutPropriedadeInput = {
     id?: IntFieldUpdateOperationsInput | number
+    nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
     condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
@@ -15485,6 +20184,11 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
+  export type PropriedadeSoloCreateManySoloInput = {
+    id?: number
+    propriedadeId: number
+  }
+
   export type HistoricoUpdateWithoutSoloInput = {
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
     valorSimulacao?: FloatFieldUpdateOperationsInput | number
@@ -15518,6 +20222,20 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PropriedadeSoloUpdateWithoutSoloInput = {
+    propriedade?: PropriedadeUpdateOneRequiredWithoutPropriedadeSoloNestedInput
+  }
+
+  export type PropriedadeSoloUncheckedUpdateWithoutSoloInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PropriedadeSoloUncheckedUpdateManyWithoutSoloInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: IntFieldUpdateOperationsInput | number
   }
 
   export type HistoricoCreateManySimulacaoInput = {
@@ -15603,6 +20321,25 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PropriedadeCulturaCreateManyCulturaInput = {
+    id?: number
+    propriedadeId: number
+  }
+
+  export type PropriedadeCulturaUpdateWithoutCulturaInput = {
+    propriedade?: PropriedadeUpdateOneRequiredWithoutPropriedadeCulturaNestedInput
+  }
+
+  export type PropriedadeCulturaUncheckedUpdateWithoutCulturaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PropriedadeCulturaUncheckedUpdateManyWithoutCulturaInput = {
+    id?: IntFieldUpdateOperationsInput | number
     propriedadeId?: IntFieldUpdateOperationsInput | number
   }
 

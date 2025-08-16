@@ -1,5 +1,5 @@
 // Ajustado: Propriedade
-import { Admin, Estimativas } from "../../generated/prisma";
+import { Admin, Estimativas, PropriedadeCultura } from "../../generated/prisma";
 
 type PropriedadeProps = {
     id?: number;
@@ -7,11 +7,12 @@ type PropriedadeProps = {
     nomeProprietario: string;
     latitude: number;
     longitude: number;
-    altitude: number;
     simulacao: string;
     adminId?: number;
     admin?: Admin;
     estimativas?: Estimativas[];
+    propriedadeCultura?: PropriedadeCultura[];
+
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
@@ -56,10 +57,6 @@ export class Propriedade {
         return this.props.longitude;
     }
 
-    get altitude(): number {
-        return this.props.altitude;
-    }
-
     get simulacao(): string | undefined {
         return this.props.simulacao;
     }
@@ -70,6 +67,9 @@ export class Propriedade {
 
     get admin(): Admin | undefined {
         return this.props.admin;
+    }
+    get propriedadeCultura(): PropriedadeCultura[] | undefined {
+        return this.props.propriedadeCultura;
     }
 
     get estimativas(): Estimativas[] | undefined {
@@ -88,6 +88,7 @@ export class Propriedade {
         return this.props.deletedAt;
     }
 
+
     toJSON() {
         return {
             id: this.id,
@@ -95,7 +96,6 @@ export class Propriedade {
             nomeProprietario: this.nomeProprietario,
             latitude: this.latitude,
             longitude: this.longitude,
-            altitude: this.altitude,
             simulacao: this.simulacao,
             adminId: this.adminId,
             estimativas: this.estimativas,
