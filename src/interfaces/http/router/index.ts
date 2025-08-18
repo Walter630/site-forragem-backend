@@ -8,6 +8,7 @@ import { HistoricoRoutes } from "./HistoricoRoutes";
 import { PrecipitacaoRoutes } from "./PrecipitacaoRoutes";
 import { PropriedadeRoutes } from "./PropriedadeRoutes";
 import { EstimativaRoutes } from "./EstimativaRoutes";
+import { CulturaRoutes } from "./CulturaRoutes";
 
 
 export function loadAllRoutes(api: Api) {
@@ -20,4 +21,5 @@ export function loadAllRoutes(api: Api) {
   PrecipitacaoRoutes.build(api);
   PropriedadeRoutes.build(api);
   EstimativaRoutes.build(api);
+  CulturaRoutes.build(api);
 }
