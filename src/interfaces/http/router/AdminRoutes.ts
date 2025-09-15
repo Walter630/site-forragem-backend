@@ -6,11 +6,13 @@ import { createAdminSchema, deleteAdminSchema, loginSchema, updateAdminSchema } 
 import { validar } from "../validators/validar";
 import { prisma } from "../../../infra/prisma/PrismaClient";
 import { requireAdmin } from "../validators/authenticateAdmin";
-
 export class AdminRoutes {
     private readonly adminController: AdminController;
+
     constructor(private readonly api: Api) {
-        this.adminController = new AdminController(new AdminServices(AdminRepositories.create(prisma)));   
+        this.adminController = new AdminController(
+            new AdminServices(AdminRepositories.create(prisma))
+        );
     }
 
     public static build(api: Api) {
@@ -19,13 +21,18 @@ export class AdminRoutes {
     }
 
     private addRotas() {
+        // Criação de admin
         this.api.addRotas("/admin", "POST", validar(createAdminSchema), this.adminController.create.bind(this.adminController));
+        // Atualização, deleção com autenticação
         this.api.addRotas("/admin", "PUT", requireAdmin, validar(updateAdminSchema), this.adminController.update.bind(this.adminController));
         this.api.addRotas("/admin", "DELETE", requireAdmin, validar(deleteAdminSchema), this.adminController.delete.bind(this.adminController));
+        // Listar e buscar admins
         this.api.addRotas("/admin", "GET", this.adminController.findAll.bind(this.adminController));
         this.api.addRotas("/admin/:id", "GET", this.adminController.findById.bind(this.adminController));
         this.api.addRotas("/admin/email/:email", "GET", this.adminController.findByEmail.bind(this.adminController));
+        // Login
         this.api.addRotas("/admin/login", "POST", validar(loginSchema), this.adminController.login.bind(this.adminController));
     }
 }
+
 

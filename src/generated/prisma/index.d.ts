@@ -4039,6 +4039,8 @@ export namespace Prisma {
     id: number | null
     latitude: number | null
     longitude: number | null
+    soloId: number | null
+    culturaId: number | null
     adminId: number | null
   }
 
@@ -4046,6 +4048,8 @@ export namespace Prisma {
     id: number | null
     latitude: number | null
     longitude: number | null
+    soloId: number | null
+    culturaId: number | null
     adminId: number | null
   }
 
@@ -4055,6 +4059,8 @@ export namespace Prisma {
     nomePropriedade: string | null
     latitude: number | null
     longitude: number | null
+    soloId: number | null
+    culturaId: number | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -4067,6 +4073,8 @@ export namespace Prisma {
     nomePropriedade: string | null
     latitude: number | null
     longitude: number | null
+    soloId: number | null
+    culturaId: number | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -4079,6 +4087,8 @@ export namespace Prisma {
     nomePropriedade: number
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt: number
     updatedAt: number
     deletedAt: number
@@ -4091,6 +4101,8 @@ export namespace Prisma {
     id?: true
     latitude?: true
     longitude?: true
+    soloId?: true
+    culturaId?: true
     adminId?: true
   }
 
@@ -4098,6 +4110,8 @@ export namespace Prisma {
     id?: true
     latitude?: true
     longitude?: true
+    soloId?: true
+    culturaId?: true
     adminId?: true
   }
 
@@ -4107,6 +4121,8 @@ export namespace Prisma {
     nomePropriedade?: true
     latitude?: true
     longitude?: true
+    soloId?: true
+    culturaId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -4119,6 +4135,8 @@ export namespace Prisma {
     nomePropriedade?: true
     latitude?: true
     longitude?: true
+    soloId?: true
+    culturaId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -4131,6 +4149,8 @@ export namespace Prisma {
     nomePropriedade?: true
     latitude?: true
     longitude?: true
+    soloId?: true
+    culturaId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -4230,6 +4250,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt: Date
     updatedAt: Date | null
     deletedAt: Date | null
@@ -4261,6 +4283,8 @@ export namespace Prisma {
     nomePropriedade?: boolean
     latitude?: boolean
     longitude?: boolean
+    soloId?: boolean
+    culturaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
@@ -4284,13 +4308,15 @@ export namespace Prisma {
     nomePropriedade?: boolean
     latitude?: boolean
     longitude?: boolean
+    soloId?: boolean
+    culturaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     adminId?: boolean
   }
 
-  export type PropriedadeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nomeProprietario" | "nomePropriedade" | "latitude" | "longitude" | "createdAt" | "updatedAt" | "deletedAt" | "adminId", ExtArgs["result"]["propriedade"]>
+  export type PropriedadeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nomeProprietario" | "nomePropriedade" | "latitude" | "longitude" | "soloId" | "culturaId" | "createdAt" | "updatedAt" | "deletedAt" | "adminId", ExtArgs["result"]["propriedade"]>
   export type PropriedadeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     admin?: boolean | Propriedade$adminArgs<ExtArgs>
     estimativas?: boolean | Propriedade$estimativasArgs<ExtArgs>
@@ -4321,6 +4347,8 @@ export namespace Prisma {
       nomePropriedade: string
       latitude: number
       longitude: number
+      soloId: number
+      culturaId: number
       createdAt: Date
       updatedAt: Date | null
       deletedAt: Date | null
@@ -4707,6 +4735,8 @@ export namespace Prisma {
     readonly nomePropriedade: FieldRef<"Propriedade", 'String'>
     readonly latitude: FieldRef<"Propriedade", 'Float'>
     readonly longitude: FieldRef<"Propriedade", 'Float'>
+    readonly soloId: FieldRef<"Propriedade", 'Int'>
+    readonly culturaId: FieldRef<"Propriedade", 'Int'>
     readonly createdAt: FieldRef<"Propriedade", 'DateTime'>
     readonly updatedAt: FieldRef<"Propriedade", 'DateTime'>
     readonly deletedAt: FieldRef<"Propriedade", 'DateTime'>
@@ -13645,6 +13675,8 @@ export namespace Prisma {
     nomePropriedade: 'nomePropriedade',
     latitude: 'latitude',
     longitude: 'longitude',
+    soloId: 'soloId',
+    culturaId: 'culturaId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
@@ -14089,6 +14121,8 @@ export namespace Prisma {
     nomePropriedade?: StringFilter<"Propriedade"> | string
     latitude?: FloatFilter<"Propriedade"> | number
     longitude?: FloatFilter<"Propriedade"> | number
+    soloId?: IntFilter<"Propriedade"> | number
+    culturaId?: IntFilter<"Propriedade"> | number
     createdAt?: DateTimeFilter<"Propriedade"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
@@ -14109,6 +14143,8 @@ export namespace Prisma {
     nomePropriedade?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    soloId?: SortOrder
+    culturaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -14134,6 +14170,8 @@ export namespace Prisma {
     nomePropriedade?: StringFilter<"Propriedade"> | string
     latitude?: FloatFilter<"Propriedade"> | number
     longitude?: FloatFilter<"Propriedade"> | number
+    soloId?: IntFilter<"Propriedade"> | number
+    culturaId?: IntFilter<"Propriedade"> | number
     createdAt?: DateTimeFilter<"Propriedade"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
@@ -14153,6 +14191,8 @@ export namespace Prisma {
     nomePropriedade?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    soloId?: SortOrder
+    culturaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -14173,6 +14213,8 @@ export namespace Prisma {
     nomePropriedade?: StringWithAggregatesFilter<"Propriedade"> | string
     latitude?: FloatWithAggregatesFilter<"Propriedade"> | number
     longitude?: FloatWithAggregatesFilter<"Propriedade"> | number
+    soloId?: IntWithAggregatesFilter<"Propriedade"> | number
+    culturaId?: IntWithAggregatesFilter<"Propriedade"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Propriedade"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Propriedade"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Propriedade"> | Date | string | null
@@ -14967,6 +15009,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -14986,6 +15030,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -15004,6 +15050,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15023,6 +15071,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15042,6 +15092,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -15053,6 +15105,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15064,6 +15118,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -16087,6 +16143,8 @@ export namespace Prisma {
     nomePropriedade?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    soloId?: SortOrder
+    culturaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -16097,6 +16155,8 @@ export namespace Prisma {
     id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    soloId?: SortOrder
+    culturaId?: SortOrder
     adminId?: SortOrder
   }
 
@@ -16106,6 +16166,8 @@ export namespace Prisma {
     nomePropriedade?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    soloId?: SortOrder
+    culturaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -16118,6 +16180,8 @@ export namespace Prisma {
     nomePropriedade?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    soloId?: SortOrder
+    culturaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -16128,6 +16192,8 @@ export namespace Prisma {
     id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
+    soloId?: SortOrder
+    culturaId?: SortOrder
     adminId?: SortOrder
   }
 
@@ -17809,6 +17875,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -17827,6 +17895,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -17890,6 +17960,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17908,6 +17980,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18490,6 +18564,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -18508,6 +18584,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -18563,6 +18641,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18581,6 +18661,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18626,6 +18708,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -18644,6 +18728,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -18715,6 +18801,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18733,6 +18821,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18794,6 +18884,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -18812,6 +18904,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -18949,6 +19043,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18967,6 +19063,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19106,6 +19204,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -19124,6 +19224,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -19190,6 +19292,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19208,6 +19312,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19293,6 +19399,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -19311,6 +19419,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -19376,6 +19486,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19394,6 +19506,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19445,6 +19559,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -19463,6 +19579,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -19536,6 +19654,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19554,6 +19674,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19571,6 +19693,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -19589,6 +19713,8 @@ export namespace Prisma {
     nomePropriedade: string
     latitude: number
     longitude: number
+    soloId: number
+    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
@@ -19684,6 +19810,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19702,6 +19830,8 @@ export namespace Prisma {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
+    soloId?: IntFieldUpdateOperationsInput | number
+    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

@@ -149,6 +149,8 @@ exports.Prisma.PropriedadeScalarFieldEnum = {
   nomePropriedade: 'nomePropriedade',
   latitude: 'latitude',
   longitude: 'longitude',
+  soloId: 'soloId',
+  culturaId: 'culturaId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',

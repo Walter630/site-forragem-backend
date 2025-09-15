@@ -42,7 +42,6 @@ export function mapPropriedade(propriedade: any): Propriedade {
     nomeProprietario: propriedade.nomeProprietario,
     latitude: propriedade.latitude,
     longitude: propriedade.longitude,
-    altitude: propriedade.altitude,
     simulacao: propriedade.simulacao || "",
     estimativas: propriedade.estimativas || [],
   });

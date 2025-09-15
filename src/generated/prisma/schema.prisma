@@ -42,14 +42,17 @@ model TipoUser {
 }
 
 model Propriedade {
-  id               Int       @id @default(autoincrement())
+  id               Int    @id @default(autoincrement())
   nomeProprietario String
   nomePropriedade  String
   latitude         Float
   longitude        Float
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime? @updatedAt @map("updated_at") @db.DateTime()
-  deletedAt        DateTime? @map("deleted_at") @db.DateTime()
+  soloId           Int
+  culturaId        Int
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime()
+  deletedAt DateTime? @map("deleted_at") @db.DateTime()
 
   adminId Int?   @unique
   admin   Admin? @relation(fields: [adminId], references: [id])
