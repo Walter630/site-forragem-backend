@@ -21,12 +21,13 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.0.4",
+    "@types/node": "^24.8.1",
     "@types/pdfkit": "^0.17.2",
     "@types/pdfmake": "^0.2.11",
     "prisma": "^6.10.1",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@prisma/client": "^6.10.1",

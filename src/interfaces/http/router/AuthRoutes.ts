@@ -7,5 +7,6 @@ export class AuthRoutes {
   static build(api: Api) {
     api.addRotas("/auth/login", "POST", this.AuthController.login.bind(this.AuthController));
     api.addRotas("/auth/refresh", "POST", this.AuthController.refresh.bind(this.AuthController));
+    api.addRotas("/auth/me", "GET", this.AuthController.me.bind(this.AuthController)); // ✅ aqui
   }
 }

@@ -41,8 +41,8 @@ export class AdminRepositories implements IAdminRepositories {
           email: admin.email,
           cpf: admin.cpf,
           ativado: admin.ativado,
-          senha: admin.senha,
-          tipoUserId: admin.tipoUserId || null,
+          senha: admin.senha? admin.senha : '',
+          tipoUserId: admin.tipoUserId || 1,
         },
         include: {
           tipoUser: true,

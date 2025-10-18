@@ -306,7 +306,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\walter\\WebstormProjects\\site-forragem-backend\\src\\generated\\prisma",
+      "value": "C:\\Users\\jwnet\\Desktop\\backend_forragem\\site-forragem-backend\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -320,7 +320,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\walter\\WebstormProjects\\site-forragem-backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\jwnet\\Desktop\\backend_forragem\\site-forragem-backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -334,7 +334,6 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

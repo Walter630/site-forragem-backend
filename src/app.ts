@@ -8,9 +8,10 @@ const app = express();
 app.use(express.json());
 app.use(cors(
     {
-        origin: "*", // ou seu domínio frontend
+        origin: "http://localhost:3000", // ou seu domínio frontend
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
+        credentials: true,
     }));
 
 // Log global de requisições
