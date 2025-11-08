@@ -113,13 +113,6 @@ Prisma.NullTypes = {
  * Enums
  */
 
-exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
-  ReadUncommitted: 'ReadUncommitted',
-  ReadCommitted: 'ReadCommitted',
-  RepeatableRead: 'RepeatableRead',
-  Serializable: 'Serializable'
-});
-
 exports.Prisma.AdminScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
@@ -145,16 +138,13 @@ exports.Prisma.TipoUserScalarFieldEnum = {
 
 exports.Prisma.PropriedadeScalarFieldEnum = {
   id: 'id',
-  nomeProprietario: 'nomeProprietario',
   nomePropriedade: 'nomePropriedade',
+  nomeResponsavel: 'nomeResponsavel',
   latitude: 'latitude',
   longitude: 'longitude',
-  soloId: 'soloId',
-  culturaId: 'culturaId',
+  adminId: 'adminId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
-  adminId: 'adminId'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.PropriedadeCulturaScalarFieldEnum = {
@@ -171,15 +161,12 @@ exports.Prisma.PropriedadeSoloScalarFieldEnum = {
 
 exports.Prisma.HistoricoScalarFieldEnum = {
   id: 'id',
-  descricao: 'descricao',
-  valorSimulacao: 'valorSimulacao',
-  propriedadeId: 'propriedadeId',
   simulacaoId: 'simulacaoId',
-  soloId: 'soloId',
+  observacao: 'observacao',
+  propriedadeId: 'propriedadeId',
   precipitacaoId: 'precipitacaoId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  soloId: 'soloId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.PrecipitacaoScalarFieldEnum = {
@@ -226,15 +213,17 @@ exports.Prisma.EstimativasScalarFieldEnum = {
 exports.Prisma.SimulacaoScalarFieldEnum = {
   id: 'id',
   nomeSimulacao: 'nomeSimulacao',
-  dadosJson: 'dadosJson',
+  ano: 'ano',
   culturaId: 'culturaId',
   soloId: 'soloId',
+  propriedadeId: 'propriedadeId',
+  chuvaAnual: 'chuvaAnual',
+  temperaturaMed: 'temperaturaMed',
+  umidade: 'umidade',
   resultado: 'resultado',
   dataSimulacao: 'dataSimulacao',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
-  propriedadeId: 'propriedadeId'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.CulturaScalarFieldEnum = {
@@ -251,62 +240,9 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull
-};
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
-exports.Prisma.AdminOrderByRelevanceFieldEnum = {
-  nome: 'nome',
-  email: 'email',
-  cpf: 'cpf',
-  senha: 'senha'
-};
-
-exports.Prisma.TipoUserOrderByRelevanceFieldEnum = {
-  tipo: 'tipo',
-  descricao: 'descricao'
-};
-
-exports.Prisma.PropriedadeOrderByRelevanceFieldEnum = {
-  nomeProprietario: 'nomeProprietario',
-  nomePropriedade: 'nomePropriedade'
-};
-
-exports.Prisma.HistoricoOrderByRelevanceFieldEnum = {
-  descricao: 'descricao'
-};
-
-exports.Prisma.SoloOrderByRelevanceFieldEnum = {
-  nomeClasse: 'nomeClasse'
-};
-
-exports.Prisma.EstimativasOrderByRelevanceFieldEnum = {
-  descricao: 'descricao'
-};
-
-exports.Prisma.JsonNullValueFilter = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull,
-  AnyNull: Prisma.AnyNull
-};
-
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
-};
-
-exports.Prisma.SimulacaoOrderByRelevanceFieldEnum = {
-  nomeSimulacao: 'nomeSimulacao'
-};
-
-exports.Prisma.CulturaOrderByRelevanceFieldEnum = {
-  name: 'name'
 };
 
 

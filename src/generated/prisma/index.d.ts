@@ -126,53 +126,6 @@ export class PrismaClient<
   $use(cb: Prisma.Middleware): void
 
 /**
-   * Executes a prepared raw query and returns the number of affected rows.
-   * @example
-   * ```
-   * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
-
-  /**
-   * Executes a raw query and returns the number of affected rows.
-   * Susceptible to SQL injections, see documentation.
-   * @example
-   * ```
-   * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
-
-  /**
-   * Performs a prepared raw query and returns the `SELECT` data.
-   * @example
-   * ```
-   * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
-
-  /**
-   * Performs a raw query and returns the `SELECT` data.
-   * Susceptible to SQL injections, see documentation.
-   * @example
-   * ```
-   * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
-
-
-  /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
    * @example
    * ```
@@ -185,10 +138,24 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P]): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
-  $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
+  $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number }): $Utils.JsPromise<R>
 
+  /**
+   * Executes a raw MongoDB command and returns the result of it.
+   * @example
+   * ```
+   * const user = await prisma.$runCommandRaw({
+   *   aggregate: 'User',
+   *   pipeline: [{ $match: { name: 'Bob' } }, { $project: { email: true, _id: false } }],
+   *   explain: false,
+   * })
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $runCommandRaw(command: Prisma.InputJsonObject): Prisma.PrismaPromise<Prisma.JsonObject>
 
   $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
     extArgs: ExtArgs
@@ -773,7 +740,7 @@ export namespace Prisma {
     }
     meta: {
       modelProps: "admin" | "tipoUser" | "propriedade" | "propriedadeCultura" | "propriedadeSolo" | "historico" | "precipitacao" | "solo" | "estimativas" | "simulacao" | "cultura"
-      txIsolationLevel: Prisma.TransactionIsolationLevel
+      txIsolationLevel: never
     }
     model: {
       Admin: {
@@ -835,6 +802,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.AdminGroupByArgs<ExtArgs>
             result: $Utils.Optional<AdminGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.AdminFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.AdminAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.AdminCountArgs<ExtArgs>
@@ -902,6 +877,14 @@ export namespace Prisma {
             args: Prisma.TipoUserGroupByArgs<ExtArgs>
             result: $Utils.Optional<TipoUserGroupByOutputType>[]
           }
+          findRaw: {
+            args: Prisma.TipoUserFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.TipoUserAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
           count: {
             args: Prisma.TipoUserCountArgs<ExtArgs>
             result: $Utils.Optional<TipoUserCountAggregateOutputType> | number
@@ -967,6 +950,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.PropriedadeGroupByArgs<ExtArgs>
             result: $Utils.Optional<PropriedadeGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.PropriedadeFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.PropriedadeAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.PropriedadeCountArgs<ExtArgs>
@@ -1034,6 +1025,14 @@ export namespace Prisma {
             args: Prisma.PropriedadeCulturaGroupByArgs<ExtArgs>
             result: $Utils.Optional<PropriedadeCulturaGroupByOutputType>[]
           }
+          findRaw: {
+            args: Prisma.PropriedadeCulturaFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.PropriedadeCulturaAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
           count: {
             args: Prisma.PropriedadeCulturaCountArgs<ExtArgs>
             result: $Utils.Optional<PropriedadeCulturaCountAggregateOutputType> | number
@@ -1099,6 +1098,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.PropriedadeSoloGroupByArgs<ExtArgs>
             result: $Utils.Optional<PropriedadeSoloGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.PropriedadeSoloFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.PropriedadeSoloAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.PropriedadeSoloCountArgs<ExtArgs>
@@ -1166,6 +1173,14 @@ export namespace Prisma {
             args: Prisma.HistoricoGroupByArgs<ExtArgs>
             result: $Utils.Optional<HistoricoGroupByOutputType>[]
           }
+          findRaw: {
+            args: Prisma.HistoricoFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.HistoricoAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
           count: {
             args: Prisma.HistoricoCountArgs<ExtArgs>
             result: $Utils.Optional<HistoricoCountAggregateOutputType> | number
@@ -1231,6 +1246,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.PrecipitacaoGroupByArgs<ExtArgs>
             result: $Utils.Optional<PrecipitacaoGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.PrecipitacaoFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.PrecipitacaoAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.PrecipitacaoCountArgs<ExtArgs>
@@ -1298,6 +1321,14 @@ export namespace Prisma {
             args: Prisma.SoloGroupByArgs<ExtArgs>
             result: $Utils.Optional<SoloGroupByOutputType>[]
           }
+          findRaw: {
+            args: Prisma.SoloFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.SoloAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
           count: {
             args: Prisma.SoloCountArgs<ExtArgs>
             result: $Utils.Optional<SoloCountAggregateOutputType> | number
@@ -1363,6 +1394,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.EstimativasGroupByArgs<ExtArgs>
             result: $Utils.Optional<EstimativasGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.EstimativasFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.EstimativasAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.EstimativasCountArgs<ExtArgs>
@@ -1430,6 +1469,14 @@ export namespace Prisma {
             args: Prisma.SimulacaoGroupByArgs<ExtArgs>
             result: $Utils.Optional<SimulacaoGroupByOutputType>[]
           }
+          findRaw: {
+            args: Prisma.SimulacaoFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.SimulacaoAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
           count: {
             args: Prisma.SimulacaoCountArgs<ExtArgs>
             result: $Utils.Optional<SimulacaoCountAggregateOutputType> | number
@@ -1496,6 +1543,14 @@ export namespace Prisma {
             args: Prisma.CulturaGroupByArgs<ExtArgs>
             result: $Utils.Optional<CulturaGroupByOutputType>[]
           }
+          findRaw: {
+            args: Prisma.CulturaFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.CulturaAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
           count: {
             args: Prisma.CulturaCountArgs<ExtArgs>
             result: $Utils.Optional<CulturaCountAggregateOutputType> | number
@@ -1507,21 +1562,9 @@ export namespace Prisma {
     other: {
       payload: any
       operations: {
-        $executeRaw: {
-          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
-          result: any
-        }
-        $executeRawUnsafe: {
-          args: [query: string, ...values: any[]],
-          result: any
-        }
-        $queryRaw: {
-          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
-          result: any
-        }
-        $queryRawUnsafe: {
-          args: [query: string, ...values: any[]],
-          result: any
+        $runCommandRaw: {
+          args: Prisma.InputJsonObject,
+          result: Prisma.JsonObject
         }
       }
     }
@@ -1567,7 +1610,6 @@ export namespace Prisma {
     transactionOptions?: {
       maxWait?: number
       timeout?: number
-      isolationLevel?: Prisma.TransactionIsolationLevel
     }
     /**
      * Global configuration for omitting model fields by default.
@@ -1722,23 +1764,23 @@ export namespace Prisma {
    */
 
   export type PropriedadeCountOutputType = {
-    estimativas: number
+    culturas: number
+    solos: number
     simulacoes: number
-    historicos: number
-    precipitacoes: number
-    propriedadeCultura: number
-    propriedadeSolo: number
+    Historico: number
+    Precipitacao: number
     Solo: number
+    Estimativas: number
   }
 
   export type PropriedadeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    estimativas?: boolean | PropriedadeCountOutputTypeCountEstimativasArgs
+    culturas?: boolean | PropriedadeCountOutputTypeCountCulturasArgs
+    solos?: boolean | PropriedadeCountOutputTypeCountSolosArgs
     simulacoes?: boolean | PropriedadeCountOutputTypeCountSimulacoesArgs
-    historicos?: boolean | PropriedadeCountOutputTypeCountHistoricosArgs
-    precipitacoes?: boolean | PropriedadeCountOutputTypeCountPrecipitacoesArgs
-    propriedadeCultura?: boolean | PropriedadeCountOutputTypeCountPropriedadeCulturaArgs
-    propriedadeSolo?: boolean | PropriedadeCountOutputTypeCountPropriedadeSoloArgs
+    Historico?: boolean | PropriedadeCountOutputTypeCountHistoricoArgs
+    Precipitacao?: boolean | PropriedadeCountOutputTypeCountPrecipitacaoArgs
     Solo?: boolean | PropriedadeCountOutputTypeCountSoloArgs
+    Estimativas?: boolean | PropriedadeCountOutputTypeCountEstimativasArgs
   }
 
   // Custom InputTypes
@@ -1755,8 +1797,15 @@ export namespace Prisma {
   /**
    * PropriedadeCountOutputType without action
    */
-  export type PropriedadeCountOutputTypeCountEstimativasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EstimativasWhereInput
+  export type PropriedadeCountOutputTypeCountCulturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropriedadeCulturaWhereInput
+  }
+
+  /**
+   * PropriedadeCountOutputType without action
+   */
+  export type PropriedadeCountOutputTypeCountSolosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PropriedadeSoloWhereInput
   }
 
   /**
@@ -1769,29 +1818,15 @@ export namespace Prisma {
   /**
    * PropriedadeCountOutputType without action
    */
-  export type PropriedadeCountOutputTypeCountHistoricosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PropriedadeCountOutputTypeCountHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: HistoricoWhereInput
   }
 
   /**
    * PropriedadeCountOutputType without action
    */
-  export type PropriedadeCountOutputTypeCountPrecipitacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PropriedadeCountOutputTypeCountPrecipitacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PrecipitacaoWhereInput
-  }
-
-  /**
-   * PropriedadeCountOutputType without action
-   */
-  export type PropriedadeCountOutputTypeCountPropriedadeCulturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PropriedadeCulturaWhereInput
-  }
-
-  /**
-   * PropriedadeCountOutputType without action
-   */
-  export type PropriedadeCountOutputTypeCountPropriedadeSoloArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PropriedadeSoloWhereInput
   }
 
   /**
@@ -1799,6 +1834,13 @@ export namespace Prisma {
    */
   export type PropriedadeCountOutputTypeCountSoloArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SoloWhereInput
+  }
+
+  /**
+   * PropriedadeCountOutputType without action
+   */
+  export type PropriedadeCountOutputTypeCountEstimativasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EstimativasWhereInput
   }
 
 
@@ -1840,11 +1882,13 @@ export namespace Prisma {
   export type SoloCountOutputType = {
     historico: number
     propriedadeSolo: number
+    Simulacao: number
   }
 
   export type SoloCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     historico?: boolean | SoloCountOutputTypeCountHistoricoArgs
     propriedadeSolo?: boolean | SoloCountOutputTypeCountPropriedadeSoloArgs
+    Simulacao?: boolean | SoloCountOutputTypeCountSimulacaoArgs
   }
 
   // Custom InputTypes
@@ -1872,19 +1916,26 @@ export namespace Prisma {
     where?: PropriedadeSoloWhereInput
   }
 
+  /**
+   * SoloCountOutputType without action
+   */
+  export type SoloCountOutputTypeCountSimulacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SimulacaoWhereInput
+  }
+
 
   /**
    * Count Type SimulacaoCountOutputType
    */
 
   export type SimulacaoCountOutputType = {
-    historico: number
-    estimativas: number
+    historicos: number
+    Estimativas: number
   }
 
   export type SimulacaoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    historico?: boolean | SimulacaoCountOutputTypeCountHistoricoArgs
-    estimativas?: boolean | SimulacaoCountOutputTypeCountEstimativasArgs
+    historicos?: boolean | SimulacaoCountOutputTypeCountHistoricosArgs
+    Estimativas?: boolean | SimulacaoCountOutputTypeCountEstimativasArgs
   }
 
   // Custom InputTypes
@@ -1901,7 +1952,7 @@ export namespace Prisma {
   /**
    * SimulacaoCountOutputType without action
    */
-  export type SimulacaoCountOutputTypeCountHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SimulacaoCountOutputTypeCountHistoricosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: HistoricoWhereInput
   }
 
@@ -1919,10 +1970,12 @@ export namespace Prisma {
 
   export type CulturaCountOutputType = {
     PropriedadeCultura: number
+    Simulacao: number
   }
 
   export type CulturaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     PropriedadeCultura?: boolean | CulturaCountOutputTypeCountPropriedadeCulturaArgs
+    Simulacao?: boolean | CulturaCountOutputTypeCountSimulacaoArgs
   }
 
   // Custom InputTypes
@@ -1943,6 +1996,13 @@ export namespace Prisma {
     where?: PropriedadeCulturaWhereInput
   }
 
+  /**
+   * CulturaCountOutputType without action
+   */
+  export type CulturaCountOutputTypeCountSimulacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SimulacaoWhereInput
+  }
+
 
   /**
    * Models
@@ -1954,24 +2014,12 @@ export namespace Prisma {
 
   export type AggregateAdmin = {
     _count: AdminCountAggregateOutputType | null
-    _avg: AdminAvgAggregateOutputType | null
-    _sum: AdminSumAggregateOutputType | null
     _min: AdminMinAggregateOutputType | null
     _max: AdminMaxAggregateOutputType | null
   }
 
-  export type AdminAvgAggregateOutputType = {
-    id: number | null
-    tipoUserId: number | null
-  }
-
-  export type AdminSumAggregateOutputType = {
-    id: number | null
-    tipoUserId: number | null
-  }
-
   export type AdminMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     nome: string | null
     email: string | null
     cpf: string | null
@@ -1980,11 +2028,11 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    tipoUserId: number | null
+    tipoUserId: string | null
   }
 
   export type AdminMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     nome: string | null
     email: string | null
     cpf: string | null
@@ -1993,7 +2041,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    tipoUserId: number | null
+    tipoUserId: string | null
   }
 
   export type AdminCountAggregateOutputType = {
@@ -2010,16 +2058,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type AdminAvgAggregateInputType = {
-    id?: true
-    tipoUserId?: true
-  }
-
-  export type AdminSumAggregateInputType = {
-    id?: true
-    tipoUserId?: true
-  }
 
   export type AdminMinAggregateInputType = {
     id?: true
@@ -2099,18 +2137,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: AdminAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: AdminSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: AdminMinAggregateInputType
@@ -2141,14 +2167,12 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: AdminCountAggregateInputType | true
-    _avg?: AdminAvgAggregateInputType
-    _sum?: AdminSumAggregateInputType
     _min?: AdminMinAggregateInputType
     _max?: AdminMaxAggregateInputType
   }
 
   export type AdminGroupByOutputType = {
-    id: number
+    id: string
     nome: string
     email: string
     cpf: string
@@ -2157,10 +2181,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date | null
     deletedAt: Date | null
-    tipoUserId: number | null
+    tipoUserId: string | null
     _count: AdminCountAggregateOutputType | null
-    _avg: AdminAvgAggregateOutputType | null
-    _sum: AdminSumAggregateOutputType | null
     _min: AdminMinAggregateOutputType | null
     _max: AdminMaxAggregateOutputType | null
   }
@@ -2222,7 +2244,7 @@ export namespace Prisma {
       propriedade: Prisma.$PropriedadePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       nome: string
       email: string
       cpf: string
@@ -2231,7 +2253,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date | null
       deletedAt: Date | null
-      tipoUserId: number | null
+      tipoUserId: string | null
     }, ExtArgs["result"]["admin"]>
     composites: {}
   }
@@ -2432,6 +2454,29 @@ export namespace Prisma {
      */
     upsert<T extends AdminUpsertArgs>(args: SelectSubset<T, AdminUpsertArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
+    /**
+     * Find zero or more Admins that matches the filter.
+     * @param {AdminFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const admin = await prisma.admin.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: AdminFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Admin.
+     * @param {AdminAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const admin = await prisma.admin.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: AdminAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
 
     /**
      * Count the number of Admins.
@@ -2603,7 +2648,7 @@ export namespace Prisma {
    * Fields of the Admin model
    */
   interface AdminFieldRefs {
-    readonly id: FieldRef<"Admin", 'Int'>
+    readonly id: FieldRef<"Admin", 'String'>
     readonly nome: FieldRef<"Admin", 'String'>
     readonly email: FieldRef<"Admin", 'String'>
     readonly cpf: FieldRef<"Admin", 'String'>
@@ -2612,7 +2657,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Admin", 'DateTime'>
     readonly updatedAt: FieldRef<"Admin", 'DateTime'>
     readonly deletedAt: FieldRef<"Admin", 'DateTime'>
-    readonly tipoUserId: FieldRef<"Admin", 'Int'>
+    readonly tipoUserId: FieldRef<"Admin", 'String'>
   }
     
 
@@ -2842,7 +2887,6 @@ export namespace Prisma {
      * The data used to create many Admins.
      */
     data: AdminCreateManyInput | AdminCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -2956,6 +3000,34 @@ export namespace Prisma {
   }
 
   /**
+   * Admin findRaw
+   */
+  export type AdminFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Admin aggregateRaw
+   */
+  export type AdminAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
    * Admin.tipoUser
    */
   export type Admin$tipoUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3018,22 +3090,12 @@ export namespace Prisma {
 
   export type AggregateTipoUser = {
     _count: TipoUserCountAggregateOutputType | null
-    _avg: TipoUserAvgAggregateOutputType | null
-    _sum: TipoUserSumAggregateOutputType | null
     _min: TipoUserMinAggregateOutputType | null
     _max: TipoUserMaxAggregateOutputType | null
   }
 
-  export type TipoUserAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type TipoUserSumAggregateOutputType = {
-    id: number | null
-  }
-
   export type TipoUserMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     tipo: string | null
     descricao: string | null
     createdAt: Date | null
@@ -3043,7 +3105,7 @@ export namespace Prisma {
   }
 
   export type TipoUserMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     tipo: string | null
     descricao: string | null
     createdAt: Date | null
@@ -3063,14 +3125,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type TipoUserAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type TipoUserSumAggregateInputType = {
-    id?: true
-  }
 
   export type TipoUserMinAggregateInputType = {
     id?: true
@@ -3141,18 +3195,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: TipoUserAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: TipoUserSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: TipoUserMinAggregateInputType
@@ -3183,14 +3225,12 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: TipoUserCountAggregateInputType | true
-    _avg?: TipoUserAvgAggregateInputType
-    _sum?: TipoUserSumAggregateInputType
     _min?: TipoUserMinAggregateInputType
     _max?: TipoUserMaxAggregateInputType
   }
 
   export type TipoUserGroupByOutputType = {
-    id: number
+    id: string
     tipo: string
     descricao: string | null
     createdAt: Date
@@ -3198,8 +3238,6 @@ export namespace Prisma {
     deletedAt: Date | null
     ativado: boolean
     _count: TipoUserCountAggregateOutputType | null
-    _avg: TipoUserAvgAggregateOutputType | null
-    _sum: TipoUserSumAggregateOutputType | null
     _min: TipoUserMinAggregateOutputType | null
     _max: TipoUserMaxAggregateOutputType | null
   }
@@ -3254,7 +3292,7 @@ export namespace Prisma {
       admins: Prisma.$AdminPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       tipo: string
       descricao: string | null
       createdAt: Date
@@ -3461,6 +3499,29 @@ export namespace Prisma {
      */
     upsert<T extends TipoUserUpsertArgs>(args: SelectSubset<T, TipoUserUpsertArgs<ExtArgs>>): Prisma__TipoUserClient<$Result.GetResult<Prisma.$TipoUserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
+    /**
+     * Find zero or more TipoUsers that matches the filter.
+     * @param {TipoUserFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const tipoUser = await prisma.tipoUser.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: TipoUserFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a TipoUser.
+     * @param {TipoUserAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const tipoUser = await prisma.tipoUser.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: TipoUserAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
 
     /**
      * Count the number of TipoUsers.
@@ -3631,7 +3692,7 @@ export namespace Prisma {
    * Fields of the TipoUser model
    */
   interface TipoUserFieldRefs {
-    readonly id: FieldRef<"TipoUser", 'Int'>
+    readonly id: FieldRef<"TipoUser", 'String'>
     readonly tipo: FieldRef<"TipoUser", 'String'>
     readonly descricao: FieldRef<"TipoUser", 'String'>
     readonly createdAt: FieldRef<"TipoUser", 'DateTime'>
@@ -3867,7 +3928,6 @@ export namespace Prisma {
      * The data used to create many TipoUsers.
      */
     data: TipoUserCreateManyInput | TipoUserCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -3981,6 +4041,34 @@ export namespace Prisma {
   }
 
   /**
+   * TipoUser findRaw
+   */
+  export type TipoUserFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * TipoUser aggregateRaw
+   */
+  export type TipoUserAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
    * TipoUser.admins
    */
   export type TipoUser$adminsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4036,125 +4124,91 @@ export namespace Prisma {
   }
 
   export type PropriedadeAvgAggregateOutputType = {
-    id: number | null
     latitude: number | null
     longitude: number | null
-    soloId: number | null
-    culturaId: number | null
-    adminId: number | null
   }
 
   export type PropriedadeSumAggregateOutputType = {
-    id: number | null
     latitude: number | null
     longitude: number | null
-    soloId: number | null
-    culturaId: number | null
-    adminId: number | null
   }
 
   export type PropriedadeMinAggregateOutputType = {
-    id: number | null
-    nomeProprietario: string | null
+    id: string | null
     nomePropriedade: string | null
+    nomeResponsavel: string | null
     latitude: number | null
     longitude: number | null
-    soloId: number | null
-    culturaId: number | null
+    adminId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    deletedAt: Date | null
-    adminId: number | null
   }
 
   export type PropriedadeMaxAggregateOutputType = {
-    id: number | null
-    nomeProprietario: string | null
+    id: string | null
     nomePropriedade: string | null
+    nomeResponsavel: string | null
     latitude: number | null
     longitude: number | null
-    soloId: number | null
-    culturaId: number | null
+    adminId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    deletedAt: Date | null
-    adminId: number | null
   }
 
   export type PropriedadeCountAggregateOutputType = {
     id: number
-    nomeProprietario: number
     nomePropriedade: number
+    nomeResponsavel: number
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
+    adminId: number
     createdAt: number
     updatedAt: number
-    deletedAt: number
-    adminId: number
     _all: number
   }
 
 
   export type PropriedadeAvgAggregateInputType = {
-    id?: true
     latitude?: true
     longitude?: true
-    soloId?: true
-    culturaId?: true
-    adminId?: true
   }
 
   export type PropriedadeSumAggregateInputType = {
-    id?: true
     latitude?: true
     longitude?: true
-    soloId?: true
-    culturaId?: true
-    adminId?: true
   }
 
   export type PropriedadeMinAggregateInputType = {
     id?: true
-    nomeProprietario?: true
     nomePropriedade?: true
+    nomeResponsavel?: true
     latitude?: true
     longitude?: true
-    soloId?: true
-    culturaId?: true
+    adminId?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
-    adminId?: true
   }
 
   export type PropriedadeMaxAggregateInputType = {
     id?: true
-    nomeProprietario?: true
     nomePropriedade?: true
+    nomeResponsavel?: true
     latitude?: true
     longitude?: true
-    soloId?: true
-    culturaId?: true
+    adminId?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
-    adminId?: true
   }
 
   export type PropriedadeCountAggregateInputType = {
     id?: true
-    nomeProprietario?: true
     nomePropriedade?: true
+    nomeResponsavel?: true
     latitude?: true
     longitude?: true
-    soloId?: true
-    culturaId?: true
+    adminId?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
-    adminId?: true
     _all?: true
   }
 
@@ -4245,17 +4299,14 @@ export namespace Prisma {
   }
 
   export type PropriedadeGroupByOutputType = {
-    id: number
-    nomeProprietario: string
+    id: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
+    adminId: string | null
     createdAt: Date
     updatedAt: Date | null
-    deletedAt: Date | null
-    adminId: number | null
     _count: PropriedadeCountAggregateOutputType | null
     _avg: PropriedadeAvgAggregateOutputType | null
     _sum: PropriedadeSumAggregateOutputType | null
@@ -4279,24 +4330,21 @@ export namespace Prisma {
 
   export type PropriedadeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    nomeProprietario?: boolean
     nomePropriedade?: boolean
+    nomeResponsavel?: boolean
     latitude?: boolean
     longitude?: boolean
-    soloId?: boolean
-    culturaId?: boolean
+    adminId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
-    adminId?: boolean
     admin?: boolean | Propriedade$adminArgs<ExtArgs>
-    estimativas?: boolean | Propriedade$estimativasArgs<ExtArgs>
+    culturas?: boolean | Propriedade$culturasArgs<ExtArgs>
+    solos?: boolean | Propriedade$solosArgs<ExtArgs>
     simulacoes?: boolean | Propriedade$simulacoesArgs<ExtArgs>
-    historicos?: boolean | Propriedade$historicosArgs<ExtArgs>
-    precipitacoes?: boolean | Propriedade$precipitacoesArgs<ExtArgs>
-    propriedadeCultura?: boolean | Propriedade$propriedadeCulturaArgs<ExtArgs>
-    propriedadeSolo?: boolean | Propriedade$propriedadeSoloArgs<ExtArgs>
+    Historico?: boolean | Propriedade$HistoricoArgs<ExtArgs>
+    Precipitacao?: boolean | Propriedade$PrecipitacaoArgs<ExtArgs>
     Solo?: boolean | Propriedade$SoloArgs<ExtArgs>
+    Estimativas?: boolean | Propriedade$EstimativasArgs<ExtArgs>
     _count?: boolean | PropriedadeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["propriedade"]>
 
@@ -4304,28 +4352,25 @@ export namespace Prisma {
 
   export type PropriedadeSelectScalar = {
     id?: boolean
-    nomeProprietario?: boolean
     nomePropriedade?: boolean
+    nomeResponsavel?: boolean
     latitude?: boolean
     longitude?: boolean
-    soloId?: boolean
-    culturaId?: boolean
+    adminId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
-    adminId?: boolean
   }
 
-  export type PropriedadeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nomeProprietario" | "nomePropriedade" | "latitude" | "longitude" | "soloId" | "culturaId" | "createdAt" | "updatedAt" | "deletedAt" | "adminId", ExtArgs["result"]["propriedade"]>
+  export type PropriedadeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nomePropriedade" | "nomeResponsavel" | "latitude" | "longitude" | "adminId" | "createdAt" | "updatedAt", ExtArgs["result"]["propriedade"]>
   export type PropriedadeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     admin?: boolean | Propriedade$adminArgs<ExtArgs>
-    estimativas?: boolean | Propriedade$estimativasArgs<ExtArgs>
+    culturas?: boolean | Propriedade$culturasArgs<ExtArgs>
+    solos?: boolean | Propriedade$solosArgs<ExtArgs>
     simulacoes?: boolean | Propriedade$simulacoesArgs<ExtArgs>
-    historicos?: boolean | Propriedade$historicosArgs<ExtArgs>
-    precipitacoes?: boolean | Propriedade$precipitacoesArgs<ExtArgs>
-    propriedadeCultura?: boolean | Propriedade$propriedadeCulturaArgs<ExtArgs>
-    propriedadeSolo?: boolean | Propriedade$propriedadeSoloArgs<ExtArgs>
+    Historico?: boolean | Propriedade$HistoricoArgs<ExtArgs>
+    Precipitacao?: boolean | Propriedade$PrecipitacaoArgs<ExtArgs>
     Solo?: boolean | Propriedade$SoloArgs<ExtArgs>
+    Estimativas?: boolean | Propriedade$EstimativasArgs<ExtArgs>
     _count?: boolean | PropriedadeCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4333,26 +4378,23 @@ export namespace Prisma {
     name: "Propriedade"
     objects: {
       admin: Prisma.$AdminPayload<ExtArgs> | null
-      estimativas: Prisma.$EstimativasPayload<ExtArgs>[]
+      culturas: Prisma.$PropriedadeCulturaPayload<ExtArgs>[]
+      solos: Prisma.$PropriedadeSoloPayload<ExtArgs>[]
       simulacoes: Prisma.$SimulacaoPayload<ExtArgs>[]
-      historicos: Prisma.$HistoricoPayload<ExtArgs>[]
-      precipitacoes: Prisma.$PrecipitacaoPayload<ExtArgs>[]
-      propriedadeCultura: Prisma.$PropriedadeCulturaPayload<ExtArgs>[]
-      propriedadeSolo: Prisma.$PropriedadeSoloPayload<ExtArgs>[]
+      Historico: Prisma.$HistoricoPayload<ExtArgs>[]
+      Precipitacao: Prisma.$PrecipitacaoPayload<ExtArgs>[]
       Solo: Prisma.$SoloPayload<ExtArgs>[]
+      Estimativas: Prisma.$EstimativasPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      nomeProprietario: string
+      id: string
       nomePropriedade: string
+      nomeResponsavel: string
       latitude: number
       longitude: number
-      soloId: number
-      culturaId: number
+      adminId: string | null
       createdAt: Date
       updatedAt: Date | null
-      deletedAt: Date | null
-      adminId: number | null
     }, ExtArgs["result"]["propriedade"]>
     composites: {}
   }
@@ -4553,6 +4595,29 @@ export namespace Prisma {
      */
     upsert<T extends PropriedadeUpsertArgs>(args: SelectSubset<T, PropriedadeUpsertArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
+    /**
+     * Find zero or more Propriedades that matches the filter.
+     * @param {PropriedadeFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const propriedade = await prisma.propriedade.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: PropriedadeFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Propriedade.
+     * @param {PropriedadeAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const propriedade = await prisma.propriedade.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: PropriedadeAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
 
     /**
      * Count the number of Propriedades.
@@ -4694,13 +4759,13 @@ export namespace Prisma {
   export interface Prisma__PropriedadeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     admin<T extends Propriedade$adminArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$adminArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    estimativas<T extends Propriedade$estimativasArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$estimativasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstimativasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    culturas<T extends Propriedade$culturasArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$culturasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    solos<T extends Propriedade$solosArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$solosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     simulacoes<T extends Propriedade$simulacoesArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$simulacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    historicos<T extends Propriedade$historicosArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$historicosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    precipitacoes<T extends Propriedade$precipitacoesArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$precipitacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrecipitacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    propriedadeCultura<T extends Propriedade$propriedadeCulturaArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$propriedadeCulturaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    propriedadeSolo<T extends Propriedade$propriedadeSoloArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$propriedadeSoloArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Historico<T extends Propriedade$HistoricoArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$HistoricoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Precipitacao<T extends Propriedade$PrecipitacaoArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$PrecipitacaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrecipitacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Solo<T extends Propriedade$SoloArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$SoloArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SoloPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Estimativas<T extends Propriedade$EstimativasArgs<ExtArgs> = {}>(args?: Subset<T, Propriedade$EstimativasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstimativasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4730,17 +4795,14 @@ export namespace Prisma {
    * Fields of the Propriedade model
    */
   interface PropriedadeFieldRefs {
-    readonly id: FieldRef<"Propriedade", 'Int'>
-    readonly nomeProprietario: FieldRef<"Propriedade", 'String'>
+    readonly id: FieldRef<"Propriedade", 'String'>
     readonly nomePropriedade: FieldRef<"Propriedade", 'String'>
+    readonly nomeResponsavel: FieldRef<"Propriedade", 'String'>
     readonly latitude: FieldRef<"Propriedade", 'Float'>
     readonly longitude: FieldRef<"Propriedade", 'Float'>
-    readonly soloId: FieldRef<"Propriedade", 'Int'>
-    readonly culturaId: FieldRef<"Propriedade", 'Int'>
+    readonly adminId: FieldRef<"Propriedade", 'String'>
     readonly createdAt: FieldRef<"Propriedade", 'DateTime'>
     readonly updatedAt: FieldRef<"Propriedade", 'DateTime'>
-    readonly deletedAt: FieldRef<"Propriedade", 'DateTime'>
-    readonly adminId: FieldRef<"Propriedade", 'Int'>
   }
     
 
@@ -4970,7 +5032,6 @@ export namespace Prisma {
      * The data used to create many Propriedades.
      */
     data: PropriedadeCreateManyInput | PropriedadeCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -5084,6 +5145,34 @@ export namespace Prisma {
   }
 
   /**
+   * Propriedade findRaw
+   */
+  export type PropriedadeFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Propriedade aggregateRaw
+   */
+  export type PropriedadeAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
    * Propriedade.admin
    */
   export type Propriedade$adminArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5103,27 +5192,51 @@ export namespace Prisma {
   }
 
   /**
-   * Propriedade.estimativas
+   * Propriedade.culturas
    */
-  export type Propriedade$estimativasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Propriedade$culturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Estimativas
+     * Select specific fields to fetch from the PropriedadeCultura
      */
-    select?: EstimativasSelect<ExtArgs> | null
+    select?: PropriedadeCulturaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Estimativas
+     * Omit specific fields from the PropriedadeCultura
      */
-    omit?: EstimativasOmit<ExtArgs> | null
+    omit?: PropriedadeCulturaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EstimativasInclude<ExtArgs> | null
-    where?: EstimativasWhereInput
-    orderBy?: EstimativasOrderByWithRelationInput | EstimativasOrderByWithRelationInput[]
-    cursor?: EstimativasWhereUniqueInput
+    include?: PropriedadeCulturaInclude<ExtArgs> | null
+    where?: PropriedadeCulturaWhereInput
+    orderBy?: PropriedadeCulturaOrderByWithRelationInput | PropriedadeCulturaOrderByWithRelationInput[]
+    cursor?: PropriedadeCulturaWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: EstimativasScalarFieldEnum | EstimativasScalarFieldEnum[]
+    distinct?: PropriedadeCulturaScalarFieldEnum | PropriedadeCulturaScalarFieldEnum[]
+  }
+
+  /**
+   * Propriedade.solos
+   */
+  export type Propriedade$solosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PropriedadeSolo
+     */
+    select?: PropriedadeSoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PropriedadeSolo
+     */
+    omit?: PropriedadeSoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeSoloInclude<ExtArgs> | null
+    where?: PropriedadeSoloWhereInput
+    orderBy?: PropriedadeSoloOrderByWithRelationInput | PropriedadeSoloOrderByWithRelationInput[]
+    cursor?: PropriedadeSoloWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PropriedadeSoloScalarFieldEnum | PropriedadeSoloScalarFieldEnum[]
   }
 
   /**
@@ -5151,9 +5264,9 @@ export namespace Prisma {
   }
 
   /**
-   * Propriedade.historicos
+   * Propriedade.Historico
    */
-  export type Propriedade$historicosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Propriedade$HistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Historico
      */
@@ -5175,9 +5288,9 @@ export namespace Prisma {
   }
 
   /**
-   * Propriedade.precipitacoes
+   * Propriedade.Precipitacao
    */
-  export type Propriedade$precipitacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Propriedade$PrecipitacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Precipitacao
      */
@@ -5196,54 +5309,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PrecipitacaoScalarFieldEnum | PrecipitacaoScalarFieldEnum[]
-  }
-
-  /**
-   * Propriedade.propriedadeCultura
-   */
-  export type Propriedade$propriedadeCulturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PropriedadeCultura
-     */
-    select?: PropriedadeCulturaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PropriedadeCultura
-     */
-    omit?: PropriedadeCulturaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PropriedadeCulturaInclude<ExtArgs> | null
-    where?: PropriedadeCulturaWhereInput
-    orderBy?: PropriedadeCulturaOrderByWithRelationInput | PropriedadeCulturaOrderByWithRelationInput[]
-    cursor?: PropriedadeCulturaWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PropriedadeCulturaScalarFieldEnum | PropriedadeCulturaScalarFieldEnum[]
-  }
-
-  /**
-   * Propriedade.propriedadeSolo
-   */
-  export type Propriedade$propriedadeSoloArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PropriedadeSolo
-     */
-    select?: PropriedadeSoloSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PropriedadeSolo
-     */
-    omit?: PropriedadeSoloOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PropriedadeSoloInclude<ExtArgs> | null
-    where?: PropriedadeSoloWhereInput
-    orderBy?: PropriedadeSoloOrderByWithRelationInput | PropriedadeSoloOrderByWithRelationInput[]
-    cursor?: PropriedadeSoloWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PropriedadeSoloScalarFieldEnum | PropriedadeSoloScalarFieldEnum[]
   }
 
   /**
@@ -5271,6 +5336,30 @@ export namespace Prisma {
   }
 
   /**
+   * Propriedade.Estimativas
+   */
+  export type Propriedade$EstimativasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Estimativas
+     */
+    select?: EstimativasSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Estimativas
+     */
+    omit?: EstimativasOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EstimativasInclude<ExtArgs> | null
+    where?: EstimativasWhereInput
+    orderBy?: EstimativasOrderByWithRelationInput | EstimativasOrderByWithRelationInput[]
+    cursor?: EstimativasWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EstimativasScalarFieldEnum | EstimativasScalarFieldEnum[]
+  }
+
+  /**
    * Propriedade without action
    */
   export type PropriedadeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5295,34 +5384,20 @@ export namespace Prisma {
 
   export type AggregatePropriedadeCultura = {
     _count: PropriedadeCulturaCountAggregateOutputType | null
-    _avg: PropriedadeCulturaAvgAggregateOutputType | null
-    _sum: PropriedadeCulturaSumAggregateOutputType | null
     _min: PropriedadeCulturaMinAggregateOutputType | null
     _max: PropriedadeCulturaMaxAggregateOutputType | null
   }
 
-  export type PropriedadeCulturaAvgAggregateOutputType = {
-    id: number | null
-    propriedadeId: number | null
-    culturaId: number | null
-  }
-
-  export type PropriedadeCulturaSumAggregateOutputType = {
-    id: number | null
-    propriedadeId: number | null
-    culturaId: number | null
-  }
-
   export type PropriedadeCulturaMinAggregateOutputType = {
-    id: number | null
-    propriedadeId: number | null
-    culturaId: number | null
+    id: string | null
+    propriedadeId: string | null
+    culturaId: string | null
   }
 
   export type PropriedadeCulturaMaxAggregateOutputType = {
-    id: number | null
-    propriedadeId: number | null
-    culturaId: number | null
+    id: string | null
+    propriedadeId: string | null
+    culturaId: string | null
   }
 
   export type PropriedadeCulturaCountAggregateOutputType = {
@@ -5332,18 +5407,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type PropriedadeCulturaAvgAggregateInputType = {
-    id?: true
-    propriedadeId?: true
-    culturaId?: true
-  }
-
-  export type PropriedadeCulturaSumAggregateInputType = {
-    id?: true
-    propriedadeId?: true
-    culturaId?: true
-  }
 
   export type PropriedadeCulturaMinAggregateInputType = {
     id?: true
@@ -5402,18 +5465,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: PropriedadeCulturaAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: PropriedadeCulturaSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: PropriedadeCulturaMinAggregateInputType
@@ -5444,19 +5495,15 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: PropriedadeCulturaCountAggregateInputType | true
-    _avg?: PropriedadeCulturaAvgAggregateInputType
-    _sum?: PropriedadeCulturaSumAggregateInputType
     _min?: PropriedadeCulturaMinAggregateInputType
     _max?: PropriedadeCulturaMaxAggregateInputType
   }
 
   export type PropriedadeCulturaGroupByOutputType = {
-    id: number
-    propriedadeId: number
-    culturaId: number
+    id: string
+    propriedadeId: string
+    culturaId: string
     _count: PropriedadeCulturaCountAggregateOutputType | null
-    _avg: PropriedadeCulturaAvgAggregateOutputType | null
-    _sum: PropriedadeCulturaSumAggregateOutputType | null
     _min: PropriedadeCulturaMinAggregateOutputType | null
     _max: PropriedadeCulturaMaxAggregateOutputType | null
   }
@@ -5504,9 +5551,9 @@ export namespace Prisma {
       cultura: Prisma.$CulturaPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      propriedadeId: number
-      culturaId: number
+      id: string
+      propriedadeId: string
+      culturaId: string
     }, ExtArgs["result"]["propriedadeCultura"]>
     composites: {}
   }
@@ -5707,6 +5754,29 @@ export namespace Prisma {
      */
     upsert<T extends PropriedadeCulturaUpsertArgs>(args: SelectSubset<T, PropriedadeCulturaUpsertArgs<ExtArgs>>): Prisma__PropriedadeCulturaClient<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
+    /**
+     * Find zero or more PropriedadeCulturas that matches the filter.
+     * @param {PropriedadeCulturaFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const propriedadeCultura = await prisma.propriedadeCultura.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: PropriedadeCulturaFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a PropriedadeCultura.
+     * @param {PropriedadeCulturaAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const propriedadeCultura = await prisma.propriedadeCultura.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: PropriedadeCulturaAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
 
     /**
      * Count the number of PropriedadeCulturas.
@@ -5878,9 +5948,9 @@ export namespace Prisma {
    * Fields of the PropriedadeCultura model
    */
   interface PropriedadeCulturaFieldRefs {
-    readonly id: FieldRef<"PropriedadeCultura", 'Int'>
-    readonly propriedadeId: FieldRef<"PropriedadeCultura", 'Int'>
-    readonly culturaId: FieldRef<"PropriedadeCultura", 'Int'>
+    readonly id: FieldRef<"PropriedadeCultura", 'String'>
+    readonly propriedadeId: FieldRef<"PropriedadeCultura", 'String'>
+    readonly culturaId: FieldRef<"PropriedadeCultura", 'String'>
   }
     
 
@@ -6110,7 +6180,6 @@ export namespace Prisma {
      * The data used to create many PropriedadeCulturas.
      */
     data: PropriedadeCulturaCreateManyInput | PropriedadeCulturaCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -6224,6 +6293,34 @@ export namespace Prisma {
   }
 
   /**
+   * PropriedadeCultura findRaw
+   */
+  export type PropriedadeCulturaFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * PropriedadeCultura aggregateRaw
+   */
+  export type PropriedadeCulturaAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
    * PropriedadeCultura without action
    */
   export type PropriedadeCulturaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6248,34 +6345,20 @@ export namespace Prisma {
 
   export type AggregatePropriedadeSolo = {
     _count: PropriedadeSoloCountAggregateOutputType | null
-    _avg: PropriedadeSoloAvgAggregateOutputType | null
-    _sum: PropriedadeSoloSumAggregateOutputType | null
     _min: PropriedadeSoloMinAggregateOutputType | null
     _max: PropriedadeSoloMaxAggregateOutputType | null
   }
 
-  export type PropriedadeSoloAvgAggregateOutputType = {
-    id: number | null
-    propriedadeId: number | null
-    soloId: number | null
-  }
-
-  export type PropriedadeSoloSumAggregateOutputType = {
-    id: number | null
-    propriedadeId: number | null
-    soloId: number | null
-  }
-
   export type PropriedadeSoloMinAggregateOutputType = {
-    id: number | null
-    propriedadeId: number | null
-    soloId: number | null
+    id: string | null
+    propriedadeId: string | null
+    soloId: string | null
   }
 
   export type PropriedadeSoloMaxAggregateOutputType = {
-    id: number | null
-    propriedadeId: number | null
-    soloId: number | null
+    id: string | null
+    propriedadeId: string | null
+    soloId: string | null
   }
 
   export type PropriedadeSoloCountAggregateOutputType = {
@@ -6285,18 +6368,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type PropriedadeSoloAvgAggregateInputType = {
-    id?: true
-    propriedadeId?: true
-    soloId?: true
-  }
-
-  export type PropriedadeSoloSumAggregateInputType = {
-    id?: true
-    propriedadeId?: true
-    soloId?: true
-  }
 
   export type PropriedadeSoloMinAggregateInputType = {
     id?: true
@@ -6355,18 +6426,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: PropriedadeSoloAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: PropriedadeSoloSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: PropriedadeSoloMinAggregateInputType
@@ -6397,19 +6456,15 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: PropriedadeSoloCountAggregateInputType | true
-    _avg?: PropriedadeSoloAvgAggregateInputType
-    _sum?: PropriedadeSoloSumAggregateInputType
     _min?: PropriedadeSoloMinAggregateInputType
     _max?: PropriedadeSoloMaxAggregateInputType
   }
 
   export type PropriedadeSoloGroupByOutputType = {
-    id: number
-    propriedadeId: number
-    soloId: number
+    id: string
+    propriedadeId: string
+    soloId: string
     _count: PropriedadeSoloCountAggregateOutputType | null
-    _avg: PropriedadeSoloAvgAggregateOutputType | null
-    _sum: PropriedadeSoloSumAggregateOutputType | null
     _min: PropriedadeSoloMinAggregateOutputType | null
     _max: PropriedadeSoloMaxAggregateOutputType | null
   }
@@ -6457,9 +6512,9 @@ export namespace Prisma {
       solo: Prisma.$SoloPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      propriedadeId: number
-      soloId: number
+      id: string
+      propriedadeId: string
+      soloId: string
     }, ExtArgs["result"]["propriedadeSolo"]>
     composites: {}
   }
@@ -6660,6 +6715,29 @@ export namespace Prisma {
      */
     upsert<T extends PropriedadeSoloUpsertArgs>(args: SelectSubset<T, PropriedadeSoloUpsertArgs<ExtArgs>>): Prisma__PropriedadeSoloClient<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
+    /**
+     * Find zero or more PropriedadeSolos that matches the filter.
+     * @param {PropriedadeSoloFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const propriedadeSolo = await prisma.propriedadeSolo.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: PropriedadeSoloFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a PropriedadeSolo.
+     * @param {PropriedadeSoloAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const propriedadeSolo = await prisma.propriedadeSolo.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: PropriedadeSoloAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
 
     /**
      * Count the number of PropriedadeSolos.
@@ -6831,9 +6909,9 @@ export namespace Prisma {
    * Fields of the PropriedadeSolo model
    */
   interface PropriedadeSoloFieldRefs {
-    readonly id: FieldRef<"PropriedadeSolo", 'Int'>
-    readonly propriedadeId: FieldRef<"PropriedadeSolo", 'Int'>
-    readonly soloId: FieldRef<"PropriedadeSolo", 'Int'>
+    readonly id: FieldRef<"PropriedadeSolo", 'String'>
+    readonly propriedadeId: FieldRef<"PropriedadeSolo", 'String'>
+    readonly soloId: FieldRef<"PropriedadeSolo", 'String'>
   }
     
 
@@ -7063,7 +7141,6 @@ export namespace Prisma {
      * The data used to create many PropriedadeSolos.
      */
     data: PropriedadeSoloCreateManyInput | PropriedadeSoloCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -7177,6 +7254,34 @@ export namespace Prisma {
   }
 
   /**
+   * PropriedadeSolo findRaw
+   */
+  export type PropriedadeSoloFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * PropriedadeSolo aggregateRaw
+   */
+  export type PropriedadeSoloAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
    * PropriedadeSolo without action
    */
   export type PropriedadeSoloDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7201,126 +7306,70 @@ export namespace Prisma {
 
   export type AggregateHistorico = {
     _count: HistoricoCountAggregateOutputType | null
-    _avg: HistoricoAvgAggregateOutputType | null
-    _sum: HistoricoSumAggregateOutputType | null
     _min: HistoricoMinAggregateOutputType | null
     _max: HistoricoMaxAggregateOutputType | null
   }
 
-  export type HistoricoAvgAggregateOutputType = {
-    id: number | null
-    valorSimulacao: number | null
-    propriedadeId: number | null
-    simulacaoId: number | null
-    soloId: number | null
-    precipitacaoId: number | null
-  }
-
-  export type HistoricoSumAggregateOutputType = {
-    id: number | null
-    valorSimulacao: number | null
-    propriedadeId: number | null
-    simulacaoId: number | null
-    soloId: number | null
-    precipitacaoId: number | null
-  }
-
   export type HistoricoMinAggregateOutputType = {
-    id: number | null
-    descricao: string | null
-    valorSimulacao: number | null
-    propriedadeId: number | null
-    simulacaoId: number | null
-    soloId: number | null
-    precipitacaoId: number | null
+    id: string | null
+    simulacaoId: string | null
+    observacao: string | null
+    propriedadeId: string | null
+    precipitacaoId: string | null
+    soloId: string | null
     createdAt: Date | null
-    updatedAt: Date | null
-    deletedAt: Date | null
   }
 
   export type HistoricoMaxAggregateOutputType = {
-    id: number | null
-    descricao: string | null
-    valorSimulacao: number | null
-    propriedadeId: number | null
-    simulacaoId: number | null
-    soloId: number | null
-    precipitacaoId: number | null
+    id: string | null
+    simulacaoId: string | null
+    observacao: string | null
+    propriedadeId: string | null
+    precipitacaoId: string | null
+    soloId: string | null
     createdAt: Date | null
-    updatedAt: Date | null
-    deletedAt: Date | null
   }
 
   export type HistoricoCountAggregateOutputType = {
     id: number
-    descricao: number
-    valorSimulacao: number
-    propriedadeId: number
     simulacaoId: number
-    soloId: number
+    observacao: number
+    propriedadeId: number
     precipitacaoId: number
+    soloId: number
     createdAt: number
-    updatedAt: number
-    deletedAt: number
     _all: number
   }
 
 
-  export type HistoricoAvgAggregateInputType = {
-    id?: true
-    valorSimulacao?: true
-    propriedadeId?: true
-    simulacaoId?: true
-    soloId?: true
-    precipitacaoId?: true
-  }
-
-  export type HistoricoSumAggregateInputType = {
-    id?: true
-    valorSimulacao?: true
-    propriedadeId?: true
-    simulacaoId?: true
-    soloId?: true
-    precipitacaoId?: true
-  }
-
   export type HistoricoMinAggregateInputType = {
     id?: true
-    descricao?: true
-    valorSimulacao?: true
-    propriedadeId?: true
     simulacaoId?: true
-    soloId?: true
+    observacao?: true
+    propriedadeId?: true
     precipitacaoId?: true
+    soloId?: true
     createdAt?: true
-    updatedAt?: true
-    deletedAt?: true
   }
 
   export type HistoricoMaxAggregateInputType = {
     id?: true
-    descricao?: true
-    valorSimulacao?: true
-    propriedadeId?: true
     simulacaoId?: true
-    soloId?: true
+    observacao?: true
+    propriedadeId?: true
     precipitacaoId?: true
+    soloId?: true
     createdAt?: true
-    updatedAt?: true
-    deletedAt?: true
   }
 
   export type HistoricoCountAggregateInputType = {
     id?: true
-    descricao?: true
-    valorSimulacao?: true
-    propriedadeId?: true
     simulacaoId?: true
-    soloId?: true
+    observacao?: true
+    propriedadeId?: true
     precipitacaoId?: true
+    soloId?: true
     createdAt?: true
-    updatedAt?: true
-    deletedAt?: true
     _all?: true
   }
 
@@ -7362,18 +7411,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: HistoricoAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: HistoricoSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: HistoricoMinAggregateInputType
@@ -7404,26 +7441,19 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: HistoricoCountAggregateInputType | true
-    _avg?: HistoricoAvgAggregateInputType
-    _sum?: HistoricoSumAggregateInputType
     _min?: HistoricoMinAggregateInputType
     _max?: HistoricoMaxAggregateInputType
   }
 
   export type HistoricoGroupByOutputType = {
-    id: number
-    descricao: string | null
-    valorSimulacao: number
-    propriedadeId: number
-    simulacaoId: number
-    soloId: number
-    precipitacaoId: number
+    id: string
+    simulacaoId: string
+    observacao: string | null
+    propriedadeId: string | null
+    precipitacaoId: string | null
+    soloId: string | null
     createdAt: Date
-    updatedAt: Date
-    deletedAt: Date | null
     _count: HistoricoCountAggregateOutputType | null
-    _avg: HistoricoAvgAggregateOutputType | null
-    _sum: HistoricoSumAggregateOutputType | null
     _min: HistoricoMinAggregateOutputType | null
     _max: HistoricoMaxAggregateOutputType | null
   }
@@ -7444,63 +7474,54 @@ export namespace Prisma {
 
   export type HistoricoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    descricao?: boolean
-    valorSimulacao?: boolean
-    propriedadeId?: boolean
     simulacaoId?: boolean
-    soloId?: boolean
+    observacao?: boolean
+    propriedadeId?: boolean
     precipitacaoId?: boolean
+    soloId?: boolean
     createdAt?: boolean
-    updatedAt?: boolean
-    deletedAt?: boolean
-    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
     simulacao?: boolean | SimulacaoDefaultArgs<ExtArgs>
-    solo?: boolean | SoloDefaultArgs<ExtArgs>
-    precipitacao?: boolean | PrecipitacaoDefaultArgs<ExtArgs>
+    Propriedade?: boolean | Historico$PropriedadeArgs<ExtArgs>
+    Precipitacao?: boolean | Historico$PrecipitacaoArgs<ExtArgs>
+    Solo?: boolean | Historico$SoloArgs<ExtArgs>
   }, ExtArgs["result"]["historico"]>
 
 
 
   export type HistoricoSelectScalar = {
     id?: boolean
-    descricao?: boolean
-    valorSimulacao?: boolean
-    propriedadeId?: boolean
     simulacaoId?: boolean
-    soloId?: boolean
+    observacao?: boolean
+    propriedadeId?: boolean
     precipitacaoId?: boolean
+    soloId?: boolean
     createdAt?: boolean
-    updatedAt?: boolean
-    deletedAt?: boolean
   }
 
-  export type HistoricoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "descricao" | "valorSimulacao" | "propriedadeId" | "simulacaoId" | "soloId" | "precipitacaoId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["historico"]>
+  export type HistoricoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "simulacaoId" | "observacao" | "propriedadeId" | "precipitacaoId" | "soloId" | "createdAt", ExtArgs["result"]["historico"]>
   export type HistoricoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
     simulacao?: boolean | SimulacaoDefaultArgs<ExtArgs>
-    solo?: boolean | SoloDefaultArgs<ExtArgs>
-    precipitacao?: boolean | PrecipitacaoDefaultArgs<ExtArgs>
+    Propriedade?: boolean | Historico$PropriedadeArgs<ExtArgs>
+    Precipitacao?: boolean | Historico$PrecipitacaoArgs<ExtArgs>
+    Solo?: boolean | Historico$SoloArgs<ExtArgs>
   }
 
   export type $HistoricoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Historico"
     objects: {
-      propriedade: Prisma.$PropriedadePayload<ExtArgs>
       simulacao: Prisma.$SimulacaoPayload<ExtArgs>
-      solo: Prisma.$SoloPayload<ExtArgs>
-      precipitacao: Prisma.$PrecipitacaoPayload<ExtArgs>
+      Propriedade: Prisma.$PropriedadePayload<ExtArgs> | null
+      Precipitacao: Prisma.$PrecipitacaoPayload<ExtArgs> | null
+      Solo: Prisma.$SoloPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      descricao: string | null
-      valorSimulacao: number
-      propriedadeId: number
-      simulacaoId: number
-      soloId: number
-      precipitacaoId: number
+      id: string
+      simulacaoId: string
+      observacao: string | null
+      propriedadeId: string | null
+      precipitacaoId: string | null
+      soloId: string | null
       createdAt: Date
-      updatedAt: Date
-      deletedAt: Date | null
     }, ExtArgs["result"]["historico"]>
     composites: {}
   }
@@ -7701,6 +7722,29 @@ export namespace Prisma {
      */
     upsert<T extends HistoricoUpsertArgs>(args: SelectSubset<T, HistoricoUpsertArgs<ExtArgs>>): Prisma__HistoricoClient<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
+    /**
+     * Find zero or more Historicos that matches the filter.
+     * @param {HistoricoFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const historico = await prisma.historico.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: HistoricoFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Historico.
+     * @param {HistoricoAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const historico = await prisma.historico.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: HistoricoAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
 
     /**
      * Count the number of Historicos.
@@ -7841,10 +7885,10 @@ export namespace Prisma {
    */
   export interface Prisma__HistoricoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    propriedade<T extends PropriedadeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PropriedadeDefaultArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     simulacao<T extends SimulacaoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SimulacaoDefaultArgs<ExtArgs>>): Prisma__SimulacaoClient<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    solo<T extends SoloDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SoloDefaultArgs<ExtArgs>>): Prisma__SoloClient<$Result.GetResult<Prisma.$SoloPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    precipitacao<T extends PrecipitacaoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PrecipitacaoDefaultArgs<ExtArgs>>): Prisma__PrecipitacaoClient<$Result.GetResult<Prisma.$PrecipitacaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Propriedade<T extends Historico$PropriedadeArgs<ExtArgs> = {}>(args?: Subset<T, Historico$PropriedadeArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    Precipitacao<T extends Historico$PrecipitacaoArgs<ExtArgs> = {}>(args?: Subset<T, Historico$PrecipitacaoArgs<ExtArgs>>): Prisma__PrecipitacaoClient<$Result.GetResult<Prisma.$PrecipitacaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    Solo<T extends Historico$SoloArgs<ExtArgs> = {}>(args?: Subset<T, Historico$SoloArgs<ExtArgs>>): Prisma__SoloClient<$Result.GetResult<Prisma.$SoloPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7874,16 +7918,13 @@ export namespace Prisma {
    * Fields of the Historico model
    */
   interface HistoricoFieldRefs {
-    readonly id: FieldRef<"Historico", 'Int'>
-    readonly descricao: FieldRef<"Historico", 'String'>
-    readonly valorSimulacao: FieldRef<"Historico", 'Float'>
-    readonly propriedadeId: FieldRef<"Historico", 'Int'>
-    readonly simulacaoId: FieldRef<"Historico", 'Int'>
-    readonly soloId: FieldRef<"Historico", 'Int'>
-    readonly precipitacaoId: FieldRef<"Historico", 'Int'>
+    readonly id: FieldRef<"Historico", 'String'>
+    readonly simulacaoId: FieldRef<"Historico", 'String'>
+    readonly observacao: FieldRef<"Historico", 'String'>
+    readonly propriedadeId: FieldRef<"Historico", 'String'>
+    readonly precipitacaoId: FieldRef<"Historico", 'String'>
+    readonly soloId: FieldRef<"Historico", 'String'>
     readonly createdAt: FieldRef<"Historico", 'DateTime'>
-    readonly updatedAt: FieldRef<"Historico", 'DateTime'>
-    readonly deletedAt: FieldRef<"Historico", 'DateTime'>
   }
     
 
@@ -8113,7 +8154,6 @@ export namespace Prisma {
      * The data used to create many Historicos.
      */
     data: HistoricoCreateManyInput | HistoricoCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -8227,6 +8267,91 @@ export namespace Prisma {
   }
 
   /**
+   * Historico findRaw
+   */
+  export type HistoricoFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Historico aggregateRaw
+   */
+  export type HistoricoAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Historico.Propriedade
+   */
+  export type Historico$PropriedadeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Propriedade
+     */
+    select?: PropriedadeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Propriedade
+     */
+    omit?: PropriedadeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PropriedadeInclude<ExtArgs> | null
+    where?: PropriedadeWhereInput
+  }
+
+  /**
+   * Historico.Precipitacao
+   */
+  export type Historico$PrecipitacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Precipitacao
+     */
+    select?: PrecipitacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Precipitacao
+     */
+    omit?: PrecipitacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrecipitacaoInclude<ExtArgs> | null
+    where?: PrecipitacaoWhereInput
+  }
+
+  /**
+   * Historico.Solo
+   */
+  export type Historico$SoloArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Solo
+     */
+    select?: SoloSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Solo
+     */
+    omit?: SoloOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SoloInclude<ExtArgs> | null
+    where?: SoloWhereInput
+  }
+
+  /**
    * Historico without action
    */
   export type HistoricoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8258,29 +8383,25 @@ export namespace Prisma {
   }
 
   export type PrecipitacaoAvgAggregateOutputType = {
-    id: number | null
     mmAno: number | null
     chuvas: number | null
     mmDia: number | null
     cvDia: number | null
     mmMes: number | null
     cvMes: number | null
-    propriedadeId: number | null
   }
 
   export type PrecipitacaoSumAggregateOutputType = {
-    id: number | null
     mmAno: number | null
     chuvas: number | null
     mmDia: number | null
     cvDia: number | null
     mmMes: number | null
     cvMes: number | null
-    propriedadeId: number | null
   }
 
   export type PrecipitacaoMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     mmAno: number | null
     chuvas: number | null
     mmDia: number | null
@@ -8290,11 +8411,11 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    propriedadeId: number | null
+    propriedadeId: string | null
   }
 
   export type PrecipitacaoMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     mmAno: number | null
     chuvas: number | null
     mmDia: number | null
@@ -8304,7 +8425,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    propriedadeId: number | null
+    propriedadeId: string | null
   }
 
   export type PrecipitacaoCountAggregateOutputType = {
@@ -8324,25 +8445,21 @@ export namespace Prisma {
 
 
   export type PrecipitacaoAvgAggregateInputType = {
-    id?: true
     mmAno?: true
     chuvas?: true
     mmDia?: true
     cvDia?: true
     mmMes?: true
     cvMes?: true
-    propriedadeId?: true
   }
 
   export type PrecipitacaoSumAggregateInputType = {
-    id?: true
     mmAno?: true
     chuvas?: true
     mmDia?: true
     cvDia?: true
     mmMes?: true
     cvMes?: true
-    propriedadeId?: true
   }
 
   export type PrecipitacaoMinAggregateInputType = {
@@ -8475,7 +8592,7 @@ export namespace Prisma {
   }
 
   export type PrecipitacaoGroupByOutputType = {
-    id: number
+    id: string
     mmAno: number
     chuvas: number
     mmDia: number
@@ -8485,7 +8602,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date | null
     deletedAt: Date | null
-    propriedadeId: number
+    propriedadeId: string
     _count: PrecipitacaoCountAggregateOutputType | null
     _avg: PrecipitacaoAvgAggregateOutputType | null
     _sum: PrecipitacaoSumAggregateOutputType | null
@@ -8554,7 +8671,7 @@ export namespace Prisma {
       historico: Prisma.$HistoricoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       mmAno: number
       chuvas: number
       mmDia: number
@@ -8564,7 +8681,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date | null
       deletedAt: Date | null
-      propriedadeId: number
+      propriedadeId: string
     }, ExtArgs["result"]["precipitacao"]>
     composites: {}
   }
@@ -8765,6 +8882,29 @@ export namespace Prisma {
      */
     upsert<T extends PrecipitacaoUpsertArgs>(args: SelectSubset<T, PrecipitacaoUpsertArgs<ExtArgs>>): Prisma__PrecipitacaoClient<$Result.GetResult<Prisma.$PrecipitacaoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
+    /**
+     * Find zero or more Precipitacaos that matches the filter.
+     * @param {PrecipitacaoFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const precipitacao = await prisma.precipitacao.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: PrecipitacaoFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Precipitacao.
+     * @param {PrecipitacaoAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const precipitacao = await prisma.precipitacao.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: PrecipitacaoAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
 
     /**
      * Count the number of Precipitacaos.
@@ -8936,7 +9076,7 @@ export namespace Prisma {
    * Fields of the Precipitacao model
    */
   interface PrecipitacaoFieldRefs {
-    readonly id: FieldRef<"Precipitacao", 'Int'>
+    readonly id: FieldRef<"Precipitacao", 'String'>
     readonly mmAno: FieldRef<"Precipitacao", 'Float'>
     readonly chuvas: FieldRef<"Precipitacao", 'Float'>
     readonly mmDia: FieldRef<"Precipitacao", 'Float'>
@@ -8946,7 +9086,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Precipitacao", 'DateTime'>
     readonly updatedAt: FieldRef<"Precipitacao", 'DateTime'>
     readonly deletedAt: FieldRef<"Precipitacao", 'DateTime'>
-    readonly propriedadeId: FieldRef<"Precipitacao", 'Int'>
+    readonly propriedadeId: FieldRef<"Precipitacao", 'String'>
   }
     
 
@@ -9176,7 +9316,6 @@ export namespace Prisma {
      * The data used to create many Precipitacaos.
      */
     data: PrecipitacaoCreateManyInput | PrecipitacaoCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -9290,6 +9429,34 @@ export namespace Prisma {
   }
 
   /**
+   * Precipitacao findRaw
+   */
+  export type PrecipitacaoFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Precipitacao aggregateRaw
+   */
+  export type PrecipitacaoAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
    * Precipitacao.historico
    */
   export type Precipitacao$historicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9345,7 +9512,6 @@ export namespace Prisma {
   }
 
   export type SoloAvgAggregateOutputType = {
-    id: number | null
     profundidade: number | null
     fatorRocha: number | null
     condutHidraulicaSaturada: number | null
@@ -9353,11 +9519,9 @@ export namespace Prisma {
     agua0Bar: number | null
     agua13Bar: number | null
     agua15Bar: number | null
-    propriedadeId: number | null
   }
 
   export type SoloSumAggregateOutputType = {
-    id: number | null
     profundidade: number | null
     fatorRocha: number | null
     condutHidraulicaSaturada: number | null
@@ -9365,11 +9529,10 @@ export namespace Prisma {
     agua0Bar: number | null
     agua13Bar: number | null
     agua15Bar: number | null
-    propriedadeId: number | null
   }
 
   export type SoloMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     nomeClasse: string | null
     profundidade: number | null
     fatorRocha: number | null
@@ -9381,11 +9544,11 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    propriedadeId: number | null
+    propriedadeId: string | null
   }
 
   export type SoloMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     nomeClasse: string | null
     profundidade: number | null
     fatorRocha: number | null
@@ -9397,7 +9560,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    propriedadeId: number | null
+    propriedadeId: string | null
   }
 
   export type SoloCountAggregateOutputType = {
@@ -9419,7 +9582,6 @@ export namespace Prisma {
 
 
   export type SoloAvgAggregateInputType = {
-    id?: true
     profundidade?: true
     fatorRocha?: true
     condutHidraulicaSaturada?: true
@@ -9427,11 +9589,9 @@ export namespace Prisma {
     agua0Bar?: true
     agua13Bar?: true
     agua15Bar?: true
-    propriedadeId?: true
   }
 
   export type SoloSumAggregateInputType = {
-    id?: true
     profundidade?: true
     fatorRocha?: true
     condutHidraulicaSaturada?: true
@@ -9439,7 +9599,6 @@ export namespace Prisma {
     agua0Bar?: true
     agua13Bar?: true
     agua15Bar?: true
-    propriedadeId?: true
   }
 
   export type SoloMinAggregateInputType = {
@@ -9578,7 +9737,7 @@ export namespace Prisma {
   }
 
   export type SoloGroupByOutputType = {
-    id: number
+    id: string
     nomeClasse: string
     profundidade: number
     fatorRocha: number
@@ -9590,7 +9749,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date | null
     deletedAt: Date | null
-    propriedadeId: number | null
+    propriedadeId: string | null
     _count: SoloCountAggregateOutputType | null
     _avg: SoloAvgAggregateOutputType | null
     _sum: SoloSumAggregateOutputType | null
@@ -9629,6 +9788,7 @@ export namespace Prisma {
     historico?: boolean | Solo$historicoArgs<ExtArgs>
     propriedadeSolo?: boolean | Solo$propriedadeSoloArgs<ExtArgs>
     Propriedade?: boolean | Solo$PropriedadeArgs<ExtArgs>
+    Simulacao?: boolean | Solo$SimulacaoArgs<ExtArgs>
     _count?: boolean | SoloCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["solo"]>
 
@@ -9655,6 +9815,7 @@ export namespace Prisma {
     historico?: boolean | Solo$historicoArgs<ExtArgs>
     propriedadeSolo?: boolean | Solo$propriedadeSoloArgs<ExtArgs>
     Propriedade?: boolean | Solo$PropriedadeArgs<ExtArgs>
+    Simulacao?: boolean | Solo$SimulacaoArgs<ExtArgs>
     _count?: boolean | SoloCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -9664,9 +9825,10 @@ export namespace Prisma {
       historico: Prisma.$HistoricoPayload<ExtArgs>[]
       propriedadeSolo: Prisma.$PropriedadeSoloPayload<ExtArgs>[]
       Propriedade: Prisma.$PropriedadePayload<ExtArgs> | null
+      Simulacao: Prisma.$SimulacaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       nomeClasse: string
       profundidade: number
       fatorRocha: number
@@ -9678,7 +9840,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date | null
       deletedAt: Date | null
-      propriedadeId: number | null
+      propriedadeId: string | null
     }, ExtArgs["result"]["solo"]>
     composites: {}
   }
@@ -9879,6 +10041,29 @@ export namespace Prisma {
      */
     upsert<T extends SoloUpsertArgs>(args: SelectSubset<T, SoloUpsertArgs<ExtArgs>>): Prisma__SoloClient<$Result.GetResult<Prisma.$SoloPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
+    /**
+     * Find zero or more Solos that matches the filter.
+     * @param {SoloFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const solo = await prisma.solo.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: SoloFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Solo.
+     * @param {SoloAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const solo = await prisma.solo.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: SoloAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
 
     /**
      * Count the number of Solos.
@@ -10022,6 +10207,7 @@ export namespace Prisma {
     historico<T extends Solo$historicoArgs<ExtArgs> = {}>(args?: Subset<T, Solo$historicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     propriedadeSolo<T extends Solo$propriedadeSoloArgs<ExtArgs> = {}>(args?: Subset<T, Solo$propriedadeSoloArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeSoloPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Propriedade<T extends Solo$PropriedadeArgs<ExtArgs> = {}>(args?: Subset<T, Solo$PropriedadeArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    Simulacao<T extends Solo$SimulacaoArgs<ExtArgs> = {}>(args?: Subset<T, Solo$SimulacaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10051,7 +10237,7 @@ export namespace Prisma {
    * Fields of the Solo model
    */
   interface SoloFieldRefs {
-    readonly id: FieldRef<"Solo", 'Int'>
+    readonly id: FieldRef<"Solo", 'String'>
     readonly nomeClasse: FieldRef<"Solo", 'String'>
     readonly profundidade: FieldRef<"Solo", 'Float'>
     readonly fatorRocha: FieldRef<"Solo", 'Float'>
@@ -10063,7 +10249,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Solo", 'DateTime'>
     readonly updatedAt: FieldRef<"Solo", 'DateTime'>
     readonly deletedAt: FieldRef<"Solo", 'DateTime'>
-    readonly propriedadeId: FieldRef<"Solo", 'Int'>
+    readonly propriedadeId: FieldRef<"Solo", 'String'>
   }
     
 
@@ -10293,7 +10479,6 @@ export namespace Prisma {
      * The data used to create many Solos.
      */
     data: SoloCreateManyInput | SoloCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -10407,6 +10592,34 @@ export namespace Prisma {
   }
 
   /**
+   * Solo findRaw
+   */
+  export type SoloFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Solo aggregateRaw
+   */
+  export type SoloAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
    * Solo.historico
    */
   export type Solo$historicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10474,6 +10687,30 @@ export namespace Prisma {
   }
 
   /**
+   * Solo.Simulacao
+   */
+  export type Solo$SimulacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    where?: SimulacaoWhereInput
+    orderBy?: SimulacaoOrderByWithRelationInput | SimulacaoOrderByWithRelationInput[]
+    cursor?: SimulacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SimulacaoScalarFieldEnum | SimulacaoScalarFieldEnum[]
+  }
+
+  /**
    * Solo without action
    */
   export type SoloDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10505,39 +10742,33 @@ export namespace Prisma {
   }
 
   export type EstimativasAvgAggregateOutputType = {
-    id: number | null
     valorTotal: number | null
-    propriedadeId: number | null
-    simulacaoId: number | null
   }
 
   export type EstimativasSumAggregateOutputType = {
-    id: number | null
     valorTotal: number | null
-    propriedadeId: number | null
-    simulacaoId: number | null
   }
 
   export type EstimativasMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     valorTotal: number | null
     descricao: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    propriedadeId: number | null
-    simulacaoId: number | null
+    propriedadeId: string | null
+    simulacaoId: string | null
   }
 
   export type EstimativasMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     valorTotal: number | null
     descricao: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
-    propriedadeId: number | null
-    simulacaoId: number | null
+    propriedadeId: string | null
+    simulacaoId: string | null
   }
 
   export type EstimativasCountAggregateOutputType = {
@@ -10554,17 +10785,11 @@ export namespace Prisma {
 
 
   export type EstimativasAvgAggregateInputType = {
-    id?: true
     valorTotal?: true
-    propriedadeId?: true
-    simulacaoId?: true
   }
 
   export type EstimativasSumAggregateInputType = {
-    id?: true
     valorTotal?: true
-    propriedadeId?: true
-    simulacaoId?: true
   }
 
   export type EstimativasMinAggregateInputType = {
@@ -10688,14 +10913,14 @@ export namespace Prisma {
   }
 
   export type EstimativasGroupByOutputType = {
-    id: number
+    id: string
     valorTotal: number
     descricao: string | null
     createdAt: Date
     updatedAt: Date | null
     deletedAt: Date | null
-    propriedadeId: number
-    simulacaoId: number
+    propriedadeId: string
+    simulacaoId: string
     _count: EstimativasCountAggregateOutputType | null
     _avg: EstimativasAvgAggregateOutputType | null
     _sum: EstimativasSumAggregateOutputType | null
@@ -10756,14 +10981,14 @@ export namespace Prisma {
       propriedade: Prisma.$PropriedadePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       valorTotal: number
       descricao: string | null
       createdAt: Date
       updatedAt: Date | null
       deletedAt: Date | null
-      propriedadeId: number
-      simulacaoId: number
+      propriedadeId: string
+      simulacaoId: string
     }, ExtArgs["result"]["estimativas"]>
     composites: {}
   }
@@ -10964,6 +11189,29 @@ export namespace Prisma {
      */
     upsert<T extends EstimativasUpsertArgs>(args: SelectSubset<T, EstimativasUpsertArgs<ExtArgs>>): Prisma__EstimativasClient<$Result.GetResult<Prisma.$EstimativasPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
+    /**
+     * Find zero or more Estimativas that matches the filter.
+     * @param {EstimativasFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const estimativas = await prisma.estimativas.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: EstimativasFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Estimativas.
+     * @param {EstimativasAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const estimativas = await prisma.estimativas.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: EstimativasAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
 
     /**
      * Count the number of Estimativas.
@@ -11135,14 +11383,14 @@ export namespace Prisma {
    * Fields of the Estimativas model
    */
   interface EstimativasFieldRefs {
-    readonly id: FieldRef<"Estimativas", 'Int'>
+    readonly id: FieldRef<"Estimativas", 'String'>
     readonly valorTotal: FieldRef<"Estimativas", 'Float'>
     readonly descricao: FieldRef<"Estimativas", 'String'>
     readonly createdAt: FieldRef<"Estimativas", 'DateTime'>
     readonly updatedAt: FieldRef<"Estimativas", 'DateTime'>
     readonly deletedAt: FieldRef<"Estimativas", 'DateTime'>
-    readonly propriedadeId: FieldRef<"Estimativas", 'Int'>
-    readonly simulacaoId: FieldRef<"Estimativas", 'Int'>
+    readonly propriedadeId: FieldRef<"Estimativas", 'String'>
+    readonly simulacaoId: FieldRef<"Estimativas", 'String'>
   }
     
 
@@ -11372,7 +11620,6 @@ export namespace Prisma {
      * The data used to create many Estimativas.
      */
     data: EstimativasCreateManyInput | EstimativasCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -11486,6 +11733,34 @@ export namespace Prisma {
   }
 
   /**
+   * Estimativas findRaw
+   */
+  export type EstimativasFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Estimativas aggregateRaw
+   */
+  export type EstimativasAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
    * Estimativas.propriedade
    */
   export type Estimativas$propriedadeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11536,117 +11811,133 @@ export namespace Prisma {
   }
 
   export type SimulacaoAvgAggregateOutputType = {
-    id: number | null
-    culturaId: number | null
-    soloId: number | null
+    ano: number | null
+    chuvaAnual: number | null
+    temperaturaMed: number | null
+    umidade: number | null
     resultado: number | null
-    propriedadeId: number | null
   }
 
   export type SimulacaoSumAggregateOutputType = {
-    id: number | null
-    culturaId: number | null
-    soloId: number | null
+    ano: number | null
+    chuvaAnual: number | null
+    temperaturaMed: number | null
+    umidade: number | null
     resultado: number | null
-    propriedadeId: number | null
   }
 
   export type SimulacaoMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     nomeSimulacao: string | null
-    culturaId: number | null
-    soloId: number | null
+    ano: number | null
+    culturaId: string | null
+    soloId: string | null
+    propriedadeId: string | null
+    chuvaAnual: number | null
+    temperaturaMed: number | null
+    umidade: number | null
     resultado: number | null
     dataSimulacao: Date | null
     createdAt: Date | null
     updatedAt: Date | null
-    deletedAt: Date | null
-    propriedadeId: number | null
   }
 
   export type SimulacaoMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     nomeSimulacao: string | null
-    culturaId: number | null
-    soloId: number | null
+    ano: number | null
+    culturaId: string | null
+    soloId: string | null
+    propriedadeId: string | null
+    chuvaAnual: number | null
+    temperaturaMed: number | null
+    umidade: number | null
     resultado: number | null
     dataSimulacao: Date | null
     createdAt: Date | null
     updatedAt: Date | null
-    deletedAt: Date | null
-    propriedadeId: number | null
   }
 
   export type SimulacaoCountAggregateOutputType = {
     id: number
     nomeSimulacao: number
-    dadosJson: number
+    ano: number
     culturaId: number
     soloId: number
+    propriedadeId: number
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
     resultado: number
     dataSimulacao: number
     createdAt: number
     updatedAt: number
-    deletedAt: number
-    propriedadeId: number
     _all: number
   }
 
 
   export type SimulacaoAvgAggregateInputType = {
-    id?: true
-    culturaId?: true
-    soloId?: true
+    ano?: true
+    chuvaAnual?: true
+    temperaturaMed?: true
+    umidade?: true
     resultado?: true
-    propriedadeId?: true
   }
 
   export type SimulacaoSumAggregateInputType = {
-    id?: true
-    culturaId?: true
-    soloId?: true
+    ano?: true
+    chuvaAnual?: true
+    temperaturaMed?: true
+    umidade?: true
     resultado?: true
-    propriedadeId?: true
   }
 
   export type SimulacaoMinAggregateInputType = {
     id?: true
     nomeSimulacao?: true
+    ano?: true
     culturaId?: true
     soloId?: true
+    propriedadeId?: true
+    chuvaAnual?: true
+    temperaturaMed?: true
+    umidade?: true
     resultado?: true
     dataSimulacao?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
-    propriedadeId?: true
   }
 
   export type SimulacaoMaxAggregateInputType = {
     id?: true
     nomeSimulacao?: true
+    ano?: true
     culturaId?: true
     soloId?: true
+    propriedadeId?: true
+    chuvaAnual?: true
+    temperaturaMed?: true
+    umidade?: true
     resultado?: true
     dataSimulacao?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
-    propriedadeId?: true
   }
 
   export type SimulacaoCountAggregateInputType = {
     id?: true
     nomeSimulacao?: true
-    dadosJson?: true
+    ano?: true
     culturaId?: true
     soloId?: true
+    propriedadeId?: true
+    chuvaAnual?: true
+    temperaturaMed?: true
+    umidade?: true
     resultado?: true
     dataSimulacao?: true
     createdAt?: true
     updatedAt?: true
-    deletedAt?: true
-    propriedadeId?: true
     _all?: true
   }
 
@@ -11737,17 +12028,19 @@ export namespace Prisma {
   }
 
   export type SimulacaoGroupByOutputType = {
-    id: number
+    id: string
     nomeSimulacao: string
-    dadosJson: JsonValue | null
-    culturaId: number
-    soloId: number
-    resultado: number
+    ano: number
+    culturaId: string
+    soloId: string
+    propriedadeId: string
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado: number | null
     dataSimulacao: Date
     createdAt: Date
     updatedAt: Date | null
-    deletedAt: Date | null
-    propriedadeId: number
     _count: SimulacaoCountAggregateOutputType | null
     _avg: SimulacaoAvgAggregateOutputType | null
     _sum: SimulacaoSumAggregateOutputType | null
@@ -11772,18 +12065,22 @@ export namespace Prisma {
   export type SimulacaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nomeSimulacao?: boolean
-    dadosJson?: boolean
+    ano?: boolean
     culturaId?: boolean
     soloId?: boolean
+    propriedadeId?: boolean
+    chuvaAnual?: boolean
+    temperaturaMed?: boolean
+    umidade?: boolean
     resultado?: boolean
     dataSimulacao?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
-    propriedadeId?: boolean
+    cultura?: boolean | CulturaDefaultArgs<ExtArgs>
+    solo?: boolean | SoloDefaultArgs<ExtArgs>
     propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
-    historico?: boolean | Simulacao$historicoArgs<ExtArgs>
-    estimativas?: boolean | Simulacao$estimativasArgs<ExtArgs>
+    historicos?: boolean | Simulacao$historicosArgs<ExtArgs>
+    Estimativas?: boolean | Simulacao$EstimativasArgs<ExtArgs>
     _count?: boolean | SimulacaoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["simulacao"]>
 
@@ -11792,44 +12089,52 @@ export namespace Prisma {
   export type SimulacaoSelectScalar = {
     id?: boolean
     nomeSimulacao?: boolean
-    dadosJson?: boolean
+    ano?: boolean
     culturaId?: boolean
     soloId?: boolean
+    propriedadeId?: boolean
+    chuvaAnual?: boolean
+    temperaturaMed?: boolean
+    umidade?: boolean
     resultado?: boolean
     dataSimulacao?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    deletedAt?: boolean
-    propriedadeId?: boolean
   }
 
-  export type SimulacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nomeSimulacao" | "dadosJson" | "culturaId" | "soloId" | "resultado" | "dataSimulacao" | "createdAt" | "updatedAt" | "deletedAt" | "propriedadeId", ExtArgs["result"]["simulacao"]>
+  export type SimulacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nomeSimulacao" | "ano" | "culturaId" | "soloId" | "propriedadeId" | "chuvaAnual" | "temperaturaMed" | "umidade" | "resultado" | "dataSimulacao" | "createdAt" | "updatedAt", ExtArgs["result"]["simulacao"]>
   export type SimulacaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cultura?: boolean | CulturaDefaultArgs<ExtArgs>
+    solo?: boolean | SoloDefaultArgs<ExtArgs>
     propriedade?: boolean | PropriedadeDefaultArgs<ExtArgs>
-    historico?: boolean | Simulacao$historicoArgs<ExtArgs>
-    estimativas?: boolean | Simulacao$estimativasArgs<ExtArgs>
+    historicos?: boolean | Simulacao$historicosArgs<ExtArgs>
+    Estimativas?: boolean | Simulacao$EstimativasArgs<ExtArgs>
     _count?: boolean | SimulacaoCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $SimulacaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Simulacao"
     objects: {
+      cultura: Prisma.$CulturaPayload<ExtArgs>
+      solo: Prisma.$SoloPayload<ExtArgs>
       propriedade: Prisma.$PropriedadePayload<ExtArgs>
-      historico: Prisma.$HistoricoPayload<ExtArgs>[]
-      estimativas: Prisma.$EstimativasPayload<ExtArgs>[]
+      historicos: Prisma.$HistoricoPayload<ExtArgs>[]
+      Estimativas: Prisma.$EstimativasPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       nomeSimulacao: string
-      dadosJson: Prisma.JsonValue | null
-      culturaId: number
-      soloId: number
-      resultado: number
+      ano: number
+      culturaId: string
+      soloId: string
+      propriedadeId: string
+      chuvaAnual: number
+      temperaturaMed: number
+      umidade: number
+      resultado: number | null
       dataSimulacao: Date
       createdAt: Date
       updatedAt: Date | null
-      deletedAt: Date | null
-      propriedadeId: number
     }, ExtArgs["result"]["simulacao"]>
     composites: {}
   }
@@ -12030,6 +12335,29 @@ export namespace Prisma {
      */
     upsert<T extends SimulacaoUpsertArgs>(args: SelectSubset<T, SimulacaoUpsertArgs<ExtArgs>>): Prisma__SimulacaoClient<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
+    /**
+     * Find zero or more Simulacaos that matches the filter.
+     * @param {SimulacaoFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const simulacao = await prisma.simulacao.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: SimulacaoFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Simulacao.
+     * @param {SimulacaoAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const simulacao = await prisma.simulacao.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: SimulacaoAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
 
     /**
      * Count the number of Simulacaos.
@@ -12170,9 +12498,11 @@ export namespace Prisma {
    */
   export interface Prisma__SimulacaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    cultura<T extends CulturaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CulturaDefaultArgs<ExtArgs>>): Prisma__CulturaClient<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    solo<T extends SoloDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SoloDefaultArgs<ExtArgs>>): Prisma__SoloClient<$Result.GetResult<Prisma.$SoloPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     propriedade<T extends PropriedadeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PropriedadeDefaultArgs<ExtArgs>>): Prisma__PropriedadeClient<$Result.GetResult<Prisma.$PropriedadePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    historico<T extends Simulacao$historicoArgs<ExtArgs> = {}>(args?: Subset<T, Simulacao$historicoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    estimativas<T extends Simulacao$estimativasArgs<ExtArgs> = {}>(args?: Subset<T, Simulacao$estimativasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstimativasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    historicos<T extends Simulacao$historicosArgs<ExtArgs> = {}>(args?: Subset<T, Simulacao$historicosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Estimativas<T extends Simulacao$EstimativasArgs<ExtArgs> = {}>(args?: Subset<T, Simulacao$EstimativasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EstimativasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12202,17 +12532,19 @@ export namespace Prisma {
    * Fields of the Simulacao model
    */
   interface SimulacaoFieldRefs {
-    readonly id: FieldRef<"Simulacao", 'Int'>
+    readonly id: FieldRef<"Simulacao", 'String'>
     readonly nomeSimulacao: FieldRef<"Simulacao", 'String'>
-    readonly dadosJson: FieldRef<"Simulacao", 'Json'>
-    readonly culturaId: FieldRef<"Simulacao", 'Int'>
-    readonly soloId: FieldRef<"Simulacao", 'Int'>
+    readonly ano: FieldRef<"Simulacao", 'Int'>
+    readonly culturaId: FieldRef<"Simulacao", 'String'>
+    readonly soloId: FieldRef<"Simulacao", 'String'>
+    readonly propriedadeId: FieldRef<"Simulacao", 'String'>
+    readonly chuvaAnual: FieldRef<"Simulacao", 'Float'>
+    readonly temperaturaMed: FieldRef<"Simulacao", 'Float'>
+    readonly umidade: FieldRef<"Simulacao", 'Float'>
     readonly resultado: FieldRef<"Simulacao", 'Float'>
     readonly dataSimulacao: FieldRef<"Simulacao", 'DateTime'>
     readonly createdAt: FieldRef<"Simulacao", 'DateTime'>
     readonly updatedAt: FieldRef<"Simulacao", 'DateTime'>
-    readonly deletedAt: FieldRef<"Simulacao", 'DateTime'>
-    readonly propriedadeId: FieldRef<"Simulacao", 'Int'>
   }
     
 
@@ -12442,7 +12774,6 @@ export namespace Prisma {
      * The data used to create many Simulacaos.
      */
     data: SimulacaoCreateManyInput | SimulacaoCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -12556,9 +12887,37 @@ export namespace Prisma {
   }
 
   /**
-   * Simulacao.historico
+   * Simulacao findRaw
    */
-  export type Simulacao$historicoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SimulacaoFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Simulacao aggregateRaw
+   */
+  export type SimulacaoAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Simulacao.historicos
+   */
+  export type Simulacao$historicosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Historico
      */
@@ -12580,9 +12939,9 @@ export namespace Prisma {
   }
 
   /**
-   * Simulacao.estimativas
+   * Simulacao.Estimativas
    */
-  export type Simulacao$estimativasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Simulacao$EstimativasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Estimativas
      */
@@ -12635,17 +12994,15 @@ export namespace Prisma {
   }
 
   export type CulturaAvgAggregateOutputType = {
-    id: number | null
     eua: number | null
   }
 
   export type CulturaSumAggregateOutputType = {
-    id: number | null
     eua: number | null
   }
 
   export type CulturaMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     eua: number | null
     createdAt: Date | null
@@ -12654,7 +13011,7 @@ export namespace Prisma {
   }
 
   export type CulturaMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     eua: number | null
     createdAt: Date | null
@@ -12674,12 +13031,10 @@ export namespace Prisma {
 
 
   export type CulturaAvgAggregateInputType = {
-    id?: true
     eua?: true
   }
 
   export type CulturaSumAggregateInputType = {
-    id?: true
     eua?: true
   }
 
@@ -12798,7 +13153,7 @@ export namespace Prisma {
   }
 
   export type CulturaGroupByOutputType = {
-    id: number
+    id: string
     name: string
     eua: number
     createdAt: Date
@@ -12833,6 +13188,7 @@ export namespace Prisma {
     updatedAt?: boolean
     deletedAt?: boolean
     PropriedadeCultura?: boolean | Cultura$PropriedadeCulturaArgs<ExtArgs>
+    Simulacao?: boolean | Cultura$SimulacaoArgs<ExtArgs>
     _count?: boolean | CulturaCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["cultura"]>
 
@@ -12850,6 +13206,7 @@ export namespace Prisma {
   export type CulturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "eua" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["cultura"]>
   export type CulturaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     PropriedadeCultura?: boolean | Cultura$PropriedadeCulturaArgs<ExtArgs>
+    Simulacao?: boolean | Cultura$SimulacaoArgs<ExtArgs>
     _count?: boolean | CulturaCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -12857,9 +13214,10 @@ export namespace Prisma {
     name: "Cultura"
     objects: {
       PropriedadeCultura: Prisma.$PropriedadeCulturaPayload<ExtArgs>[]
+      Simulacao: Prisma.$SimulacaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       name: string
       eua: number
       createdAt: Date
@@ -13065,6 +13423,29 @@ export namespace Prisma {
      */
     upsert<T extends CulturaUpsertArgs>(args: SelectSubset<T, CulturaUpsertArgs<ExtArgs>>): Prisma__CulturaClient<$Result.GetResult<Prisma.$CulturaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
+    /**
+     * Find zero or more Culturas that matches the filter.
+     * @param {CulturaFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const cultura = await prisma.cultura.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: CulturaFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Cultura.
+     * @param {CulturaAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const cultura = await prisma.cultura.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: CulturaAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
+
 
     /**
      * Count the number of Culturas.
@@ -13206,6 +13587,7 @@ export namespace Prisma {
   export interface Prisma__CulturaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     PropriedadeCultura<T extends Cultura$PropriedadeCulturaArgs<ExtArgs> = {}>(args?: Subset<T, Cultura$PropriedadeCulturaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PropriedadeCulturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Simulacao<T extends Cultura$SimulacaoArgs<ExtArgs> = {}>(args?: Subset<T, Cultura$SimulacaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SimulacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13235,7 +13617,7 @@ export namespace Prisma {
    * Fields of the Cultura model
    */
   interface CulturaFieldRefs {
-    readonly id: FieldRef<"Cultura", 'Int'>
+    readonly id: FieldRef<"Cultura", 'String'>
     readonly name: FieldRef<"Cultura", 'String'>
     readonly eua: FieldRef<"Cultura", 'Float'>
     readonly createdAt: FieldRef<"Cultura", 'DateTime'>
@@ -13470,7 +13852,6 @@ export namespace Prisma {
      * The data used to create many Culturas.
      */
     data: CulturaCreateManyInput | CulturaCreateManyInput[]
-    skipDuplicates?: boolean
   }
 
   /**
@@ -13584,6 +13965,34 @@ export namespace Prisma {
   }
 
   /**
+   * Cultura findRaw
+   */
+  export type CulturaFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Cultura aggregateRaw
+   */
+  export type CulturaAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
    * Cultura.PropriedadeCultura
    */
   export type Cultura$PropriedadeCulturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13608,6 +14017,30 @@ export namespace Prisma {
   }
 
   /**
+   * Cultura.Simulacao
+   */
+  export type Cultura$SimulacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Simulacao
+     */
+    select?: SimulacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Simulacao
+     */
+    omit?: SimulacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SimulacaoInclude<ExtArgs> | null
+    where?: SimulacaoWhereInput
+    orderBy?: SimulacaoOrderByWithRelationInput | SimulacaoOrderByWithRelationInput[]
+    cursor?: SimulacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SimulacaoScalarFieldEnum | SimulacaoScalarFieldEnum[]
+  }
+
+  /**
    * Cultura without action
    */
   export type CulturaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13629,16 +14062,6 @@ export namespace Prisma {
   /**
    * Enums
    */
-
-  export const TransactionIsolationLevel: {
-    ReadUncommitted: 'ReadUncommitted',
-    ReadCommitted: 'ReadCommitted',
-    RepeatableRead: 'RepeatableRead',
-    Serializable: 'Serializable'
-  };
-
-  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
 
   export const AdminScalarFieldEnum: {
     id: 'id',
@@ -13671,16 +14094,13 @@ export namespace Prisma {
 
   export const PropriedadeScalarFieldEnum: {
     id: 'id',
-    nomeProprietario: 'nomeProprietario',
     nomePropriedade: 'nomePropriedade',
+    nomeResponsavel: 'nomeResponsavel',
     latitude: 'latitude',
     longitude: 'longitude',
-    soloId: 'soloId',
-    culturaId: 'culturaId',
+    adminId: 'adminId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt',
-    adminId: 'adminId'
+    updatedAt: 'updatedAt'
   };
 
   export type PropriedadeScalarFieldEnum = (typeof PropriedadeScalarFieldEnum)[keyof typeof PropriedadeScalarFieldEnum]
@@ -13706,15 +14126,12 @@ export namespace Prisma {
 
   export const HistoricoScalarFieldEnum: {
     id: 'id',
-    descricao: 'descricao',
-    valorSimulacao: 'valorSimulacao',
-    propriedadeId: 'propriedadeId',
     simulacaoId: 'simulacaoId',
-    soloId: 'soloId',
+    observacao: 'observacao',
+    propriedadeId: 'propriedadeId',
     precipitacaoId: 'precipitacaoId',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt'
+    soloId: 'soloId',
+    createdAt: 'createdAt'
   };
 
   export type HistoricoScalarFieldEnum = (typeof HistoricoScalarFieldEnum)[keyof typeof HistoricoScalarFieldEnum]
@@ -13773,15 +14190,17 @@ export namespace Prisma {
   export const SimulacaoScalarFieldEnum: {
     id: 'id',
     nomeSimulacao: 'nomeSimulacao',
-    dadosJson: 'dadosJson',
+    ano: 'ano',
     culturaId: 'culturaId',
     soloId: 'soloId',
+    propriedadeId: 'propriedadeId',
+    chuvaAnual: 'chuvaAnual',
+    temperaturaMed: 'temperaturaMed',
+    umidade: 'umidade',
     resultado: 'resultado',
     dataSimulacao: 'dataSimulacao',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt',
-    propriedadeId: 'propriedadeId'
+    updatedAt: 'updatedAt'
   };
 
   export type SimulacaoScalarFieldEnum = (typeof SimulacaoScalarFieldEnum)[keyof typeof SimulacaoScalarFieldEnum]
@@ -13807,78 +14226,6 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const NullableJsonNullValueInput: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull
-  };
-
-  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-  export const AdminOrderByRelevanceFieldEnum: {
-    nome: 'nome',
-    email: 'email',
-    cpf: 'cpf',
-    senha: 'senha'
-  };
-
-  export type AdminOrderByRelevanceFieldEnum = (typeof AdminOrderByRelevanceFieldEnum)[keyof typeof AdminOrderByRelevanceFieldEnum]
-
-
-  export const TipoUserOrderByRelevanceFieldEnum: {
-    tipo: 'tipo',
-    descricao: 'descricao'
-  };
-
-  export type TipoUserOrderByRelevanceFieldEnum = (typeof TipoUserOrderByRelevanceFieldEnum)[keyof typeof TipoUserOrderByRelevanceFieldEnum]
-
-
-  export const PropriedadeOrderByRelevanceFieldEnum: {
-    nomeProprietario: 'nomeProprietario',
-    nomePropriedade: 'nomePropriedade'
-  };
-
-  export type PropriedadeOrderByRelevanceFieldEnum = (typeof PropriedadeOrderByRelevanceFieldEnum)[keyof typeof PropriedadeOrderByRelevanceFieldEnum]
-
-
-  export const HistoricoOrderByRelevanceFieldEnum: {
-    descricao: 'descricao'
-  };
-
-  export type HistoricoOrderByRelevanceFieldEnum = (typeof HistoricoOrderByRelevanceFieldEnum)[keyof typeof HistoricoOrderByRelevanceFieldEnum]
-
-
-  export const SoloOrderByRelevanceFieldEnum: {
-    nomeClasse: 'nomeClasse'
-  };
-
-  export type SoloOrderByRelevanceFieldEnum = (typeof SoloOrderByRelevanceFieldEnum)[keyof typeof SoloOrderByRelevanceFieldEnum]
-
-
-  export const EstimativasOrderByRelevanceFieldEnum: {
-    descricao: 'descricao'
-  };
-
-  export type EstimativasOrderByRelevanceFieldEnum = (typeof EstimativasOrderByRelevanceFieldEnum)[keyof typeof EstimativasOrderByRelevanceFieldEnum]
-
-
-  export const JsonNullValueFilter: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull,
-    AnyNull: typeof AnyNull
-  };
-
-  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -13887,36 +14234,22 @@ export namespace Prisma {
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-  export const SimulacaoOrderByRelevanceFieldEnum: {
-    nomeSimulacao: 'nomeSimulacao'
-  };
-
-  export type SimulacaoOrderByRelevanceFieldEnum = (typeof SimulacaoOrderByRelevanceFieldEnum)[keyof typeof SimulacaoOrderByRelevanceFieldEnum]
-
-
-  export const CulturaOrderByRelevanceFieldEnum: {
-    name: 'name'
-  };
-
-  export type CulturaOrderByRelevanceFieldEnum = (typeof CulturaOrderByRelevanceFieldEnum)[keyof typeof CulturaOrderByRelevanceFieldEnum]
-
-
   /**
    * Field references
    */
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'String'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
     
 
 
   /**
-   * Reference to a field of type 'String'
+   * Reference to a field of type 'String[]'
    */
-  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
     
 
 
@@ -13935,6 +14268,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -13942,16 +14282,23 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Json'
+   * Reference to a field of type 'Float[]'
    */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
   /**
-   * Reference to a field of type 'QueryMode'
+   * Reference to a field of type 'Int'
    */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
   /**
    * Deep Input Types
@@ -13962,7 +14309,7 @@ export namespace Prisma {
     AND?: AdminWhereInput | AdminWhereInput[]
     OR?: AdminWhereInput[]
     NOT?: AdminWhereInput | AdminWhereInput[]
-    id?: IntFilter<"Admin"> | number
+    id?: StringFilter<"Admin"> | string
     nome?: StringFilter<"Admin"> | string
     email?: StringFilter<"Admin"> | string
     cpf?: StringFilter<"Admin"> | string
@@ -13971,7 +14318,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Admin"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Admin"> | Date | string | null
-    tipoUserId?: IntNullableFilter<"Admin"> | number | null
+    tipoUserId?: StringNullableFilter<"Admin"> | string | null
     tipoUser?: XOR<TipoUserNullableScalarRelationFilter, TipoUserWhereInput> | null
     propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
   }
@@ -13984,16 +14331,15 @@ export namespace Prisma {
     senha?: SortOrder
     ativado?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
-    tipoUserId?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    tipoUserId?: SortOrder
     tipoUser?: TipoUserOrderByWithRelationInput
     propriedade?: PropriedadeOrderByWithRelationInput
-    _relevance?: AdminOrderByRelevanceInput
   }
 
   export type AdminWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     email?: string
     cpf?: string
     AND?: AdminWhereInput | AdminWhereInput[]
@@ -14005,7 +14351,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Admin"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Admin"> | Date | string | null
-    tipoUserId?: IntNullableFilter<"Admin"> | number | null
+    tipoUserId?: StringNullableFilter<"Admin"> | string | null
     tipoUser?: XOR<TipoUserNullableScalarRelationFilter, TipoUserWhereInput> | null
     propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
   }, "id" | "email" | "cpf">
@@ -14018,21 +14364,19 @@ export namespace Prisma {
     senha?: SortOrder
     ativado?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
-    tipoUserId?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    tipoUserId?: SortOrder
     _count?: AdminCountOrderByAggregateInput
-    _avg?: AdminAvgOrderByAggregateInput
     _max?: AdminMaxOrderByAggregateInput
     _min?: AdminMinOrderByAggregateInput
-    _sum?: AdminSumOrderByAggregateInput
   }
 
   export type AdminScalarWhereWithAggregatesInput = {
     AND?: AdminScalarWhereWithAggregatesInput | AdminScalarWhereWithAggregatesInput[]
     OR?: AdminScalarWhereWithAggregatesInput[]
     NOT?: AdminScalarWhereWithAggregatesInput | AdminScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Admin"> | number
+    id?: StringWithAggregatesFilter<"Admin"> | string
     nome?: StringWithAggregatesFilter<"Admin"> | string
     email?: StringWithAggregatesFilter<"Admin"> | string
     cpf?: StringWithAggregatesFilter<"Admin"> | string
@@ -14041,14 +14385,14 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Admin"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Admin"> | Date | string | null
-    tipoUserId?: IntNullableWithAggregatesFilter<"Admin"> | number | null
+    tipoUserId?: StringNullableWithAggregatesFilter<"Admin"> | string | null
   }
 
   export type TipoUserWhereInput = {
     AND?: TipoUserWhereInput | TipoUserWhereInput[]
     OR?: TipoUserWhereInput[]
     NOT?: TipoUserWhereInput | TipoUserWhereInput[]
-    id?: IntFilter<"TipoUser"> | number
+    id?: StringFilter<"TipoUser"> | string
     tipo?: StringFilter<"TipoUser"> | string
     descricao?: StringNullableFilter<"TipoUser"> | string | null
     createdAt?: DateTimeFilter<"TipoUser"> | Date | string
@@ -14061,17 +14405,16 @@ export namespace Prisma {
   export type TipoUserOrderByWithRelationInput = {
     id?: SortOrder
     tipo?: SortOrder
-    descricao?: SortOrderInput | SortOrder
+    descricao?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
     ativado?: SortOrder
     admins?: AdminOrderByRelationAggregateInput
-    _relevance?: TipoUserOrderByRelevanceInput
   }
 
   export type TipoUserWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: TipoUserWhereInput | TipoUserWhereInput[]
     OR?: TipoUserWhereInput[]
     NOT?: TipoUserWhereInput | TipoUserWhereInput[]
@@ -14087,23 +14430,21 @@ export namespace Prisma {
   export type TipoUserOrderByWithAggregationInput = {
     id?: SortOrder
     tipo?: SortOrder
-    descricao?: SortOrderInput | SortOrder
+    descricao?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
     ativado?: SortOrder
     _count?: TipoUserCountOrderByAggregateInput
-    _avg?: TipoUserAvgOrderByAggregateInput
     _max?: TipoUserMaxOrderByAggregateInput
     _min?: TipoUserMinOrderByAggregateInput
-    _sum?: TipoUserSumOrderByAggregateInput
   }
 
   export type TipoUserScalarWhereWithAggregatesInput = {
     AND?: TipoUserScalarWhereWithAggregatesInput | TipoUserScalarWhereWithAggregatesInput[]
     OR?: TipoUserScalarWhereWithAggregatesInput[]
     NOT?: TipoUserScalarWhereWithAggregatesInput | TipoUserScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"TipoUser"> | number
+    id?: StringWithAggregatesFilter<"TipoUser"> | string
     tipo?: StringWithAggregatesFilter<"TipoUser"> | string
     descricao?: StringNullableWithAggregatesFilter<"TipoUser"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"TipoUser"> | Date | string
@@ -14116,87 +14457,74 @@ export namespace Prisma {
     AND?: PropriedadeWhereInput | PropriedadeWhereInput[]
     OR?: PropriedadeWhereInput[]
     NOT?: PropriedadeWhereInput | PropriedadeWhereInput[]
-    id?: IntFilter<"Propriedade"> | number
-    nomeProprietario?: StringFilter<"Propriedade"> | string
+    id?: StringFilter<"Propriedade"> | string
     nomePropriedade?: StringFilter<"Propriedade"> | string
+    nomeResponsavel?: StringFilter<"Propriedade"> | string
     latitude?: FloatFilter<"Propriedade"> | number
     longitude?: FloatFilter<"Propriedade"> | number
-    soloId?: IntFilter<"Propriedade"> | number
-    culturaId?: IntFilter<"Propriedade"> | number
+    adminId?: StringNullableFilter<"Propriedade"> | string | null
     createdAt?: DateTimeFilter<"Propriedade"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
-    deletedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
-    adminId?: IntNullableFilter<"Propriedade"> | number | null
     admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
-    estimativas?: EstimativasListRelationFilter
+    culturas?: PropriedadeCulturaListRelationFilter
+    solos?: PropriedadeSoloListRelationFilter
     simulacoes?: SimulacaoListRelationFilter
-    historicos?: HistoricoListRelationFilter
-    precipitacoes?: PrecipitacaoListRelationFilter
-    propriedadeCultura?: PropriedadeCulturaListRelationFilter
-    propriedadeSolo?: PropriedadeSoloListRelationFilter
+    Historico?: HistoricoListRelationFilter
+    Precipitacao?: PrecipitacaoListRelationFilter
     Solo?: SoloListRelationFilter
+    Estimativas?: EstimativasListRelationFilter
   }
 
   export type PropriedadeOrderByWithRelationInput = {
     id?: SortOrder
-    nomeProprietario?: SortOrder
     nomePropriedade?: SortOrder
+    nomeResponsavel?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    soloId?: SortOrder
-    culturaId?: SortOrder
+    adminId?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
-    adminId?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     admin?: AdminOrderByWithRelationInput
-    estimativas?: EstimativasOrderByRelationAggregateInput
+    culturas?: PropriedadeCulturaOrderByRelationAggregateInput
+    solos?: PropriedadeSoloOrderByRelationAggregateInput
     simulacoes?: SimulacaoOrderByRelationAggregateInput
-    historicos?: HistoricoOrderByRelationAggregateInput
-    precipitacoes?: PrecipitacaoOrderByRelationAggregateInput
-    propriedadeCultura?: PropriedadeCulturaOrderByRelationAggregateInput
-    propriedadeSolo?: PropriedadeSoloOrderByRelationAggregateInput
+    Historico?: HistoricoOrderByRelationAggregateInput
+    Precipitacao?: PrecipitacaoOrderByRelationAggregateInput
     Solo?: SoloOrderByRelationAggregateInput
-    _relevance?: PropriedadeOrderByRelevanceInput
+    Estimativas?: EstimativasOrderByRelationAggregateInput
   }
 
   export type PropriedadeWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    adminId?: number
+    id?: string
+    adminId?: string
     AND?: PropriedadeWhereInput | PropriedadeWhereInput[]
     OR?: PropriedadeWhereInput[]
     NOT?: PropriedadeWhereInput | PropriedadeWhereInput[]
-    nomeProprietario?: StringFilter<"Propriedade"> | string
     nomePropriedade?: StringFilter<"Propriedade"> | string
+    nomeResponsavel?: StringFilter<"Propriedade"> | string
     latitude?: FloatFilter<"Propriedade"> | number
     longitude?: FloatFilter<"Propriedade"> | number
-    soloId?: IntFilter<"Propriedade"> | number
-    culturaId?: IntFilter<"Propriedade"> | number
     createdAt?: DateTimeFilter<"Propriedade"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
-    deletedAt?: DateTimeNullableFilter<"Propriedade"> | Date | string | null
     admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
-    estimativas?: EstimativasListRelationFilter
+    culturas?: PropriedadeCulturaListRelationFilter
+    solos?: PropriedadeSoloListRelationFilter
     simulacoes?: SimulacaoListRelationFilter
-    historicos?: HistoricoListRelationFilter
-    precipitacoes?: PrecipitacaoListRelationFilter
-    propriedadeCultura?: PropriedadeCulturaListRelationFilter
-    propriedadeSolo?: PropriedadeSoloListRelationFilter
+    Historico?: HistoricoListRelationFilter
+    Precipitacao?: PrecipitacaoListRelationFilter
     Solo?: SoloListRelationFilter
+    Estimativas?: EstimativasListRelationFilter
   }, "id" | "adminId">
 
   export type PropriedadeOrderByWithAggregationInput = {
     id?: SortOrder
-    nomeProprietario?: SortOrder
     nomePropriedade?: SortOrder
+    nomeResponsavel?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    soloId?: SortOrder
-    culturaId?: SortOrder
+    adminId?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
-    adminId?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     _count?: PropriedadeCountOrderByAggregateInput
     _avg?: PropriedadeAvgOrderByAggregateInput
     _max?: PropriedadeMaxOrderByAggregateInput
@@ -14208,26 +14536,23 @@ export namespace Prisma {
     AND?: PropriedadeScalarWhereWithAggregatesInput | PropriedadeScalarWhereWithAggregatesInput[]
     OR?: PropriedadeScalarWhereWithAggregatesInput[]
     NOT?: PropriedadeScalarWhereWithAggregatesInput | PropriedadeScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Propriedade"> | number
-    nomeProprietario?: StringWithAggregatesFilter<"Propriedade"> | string
+    id?: StringWithAggregatesFilter<"Propriedade"> | string
     nomePropriedade?: StringWithAggregatesFilter<"Propriedade"> | string
+    nomeResponsavel?: StringWithAggregatesFilter<"Propriedade"> | string
     latitude?: FloatWithAggregatesFilter<"Propriedade"> | number
     longitude?: FloatWithAggregatesFilter<"Propriedade"> | number
-    soloId?: IntWithAggregatesFilter<"Propriedade"> | number
-    culturaId?: IntWithAggregatesFilter<"Propriedade"> | number
+    adminId?: StringNullableWithAggregatesFilter<"Propriedade"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Propriedade"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Propriedade"> | Date | string | null
-    deletedAt?: DateTimeNullableWithAggregatesFilter<"Propriedade"> | Date | string | null
-    adminId?: IntNullableWithAggregatesFilter<"Propriedade"> | number | null
   }
 
   export type PropriedadeCulturaWhereInput = {
     AND?: PropriedadeCulturaWhereInput | PropriedadeCulturaWhereInput[]
     OR?: PropriedadeCulturaWhereInput[]
     NOT?: PropriedadeCulturaWhereInput | PropriedadeCulturaWhereInput[]
-    id?: IntFilter<"PropriedadeCultura"> | number
-    propriedadeId?: IntFilter<"PropriedadeCultura"> | number
-    culturaId?: IntFilter<"PropriedadeCultura"> | number
+    id?: StringFilter<"PropriedadeCultura"> | string
+    propriedadeId?: StringFilter<"PropriedadeCultura"> | string
+    culturaId?: StringFilter<"PropriedadeCultura"> | string
     propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
     cultura?: XOR<CulturaScalarRelationFilter, CulturaWhereInput>
   }
@@ -14241,13 +14566,13 @@ export namespace Prisma {
   }
 
   export type PropriedadeCulturaWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     propriedadeId_culturaId?: PropriedadeCulturaPropriedadeIdCulturaIdCompoundUniqueInput
     AND?: PropriedadeCulturaWhereInput | PropriedadeCulturaWhereInput[]
     OR?: PropriedadeCulturaWhereInput[]
     NOT?: PropriedadeCulturaWhereInput | PropriedadeCulturaWhereInput[]
-    propriedadeId?: IntFilter<"PropriedadeCultura"> | number
-    culturaId?: IntFilter<"PropriedadeCultura"> | number
+    propriedadeId?: StringFilter<"PropriedadeCultura"> | string
+    culturaId?: StringFilter<"PropriedadeCultura"> | string
     propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
     cultura?: XOR<CulturaScalarRelationFilter, CulturaWhereInput>
   }, "id" | "propriedadeId_culturaId">
@@ -14257,28 +14582,26 @@ export namespace Prisma {
     propriedadeId?: SortOrder
     culturaId?: SortOrder
     _count?: PropriedadeCulturaCountOrderByAggregateInput
-    _avg?: PropriedadeCulturaAvgOrderByAggregateInput
     _max?: PropriedadeCulturaMaxOrderByAggregateInput
     _min?: PropriedadeCulturaMinOrderByAggregateInput
-    _sum?: PropriedadeCulturaSumOrderByAggregateInput
   }
 
   export type PropriedadeCulturaScalarWhereWithAggregatesInput = {
     AND?: PropriedadeCulturaScalarWhereWithAggregatesInput | PropriedadeCulturaScalarWhereWithAggregatesInput[]
     OR?: PropriedadeCulturaScalarWhereWithAggregatesInput[]
     NOT?: PropriedadeCulturaScalarWhereWithAggregatesInput | PropriedadeCulturaScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"PropriedadeCultura"> | number
-    propriedadeId?: IntWithAggregatesFilter<"PropriedadeCultura"> | number
-    culturaId?: IntWithAggregatesFilter<"PropriedadeCultura"> | number
+    id?: StringWithAggregatesFilter<"PropriedadeCultura"> | string
+    propriedadeId?: StringWithAggregatesFilter<"PropriedadeCultura"> | string
+    culturaId?: StringWithAggregatesFilter<"PropriedadeCultura"> | string
   }
 
   export type PropriedadeSoloWhereInput = {
     AND?: PropriedadeSoloWhereInput | PropriedadeSoloWhereInput[]
     OR?: PropriedadeSoloWhereInput[]
     NOT?: PropriedadeSoloWhereInput | PropriedadeSoloWhereInput[]
-    id?: IntFilter<"PropriedadeSolo"> | number
-    propriedadeId?: IntFilter<"PropriedadeSolo"> | number
-    soloId?: IntFilter<"PropriedadeSolo"> | number
+    id?: StringFilter<"PropriedadeSolo"> | string
+    propriedadeId?: StringFilter<"PropriedadeSolo"> | string
+    soloId?: StringFilter<"PropriedadeSolo"> | string
     propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
     solo?: XOR<SoloScalarRelationFilter, SoloWhereInput>
   }
@@ -14292,13 +14615,13 @@ export namespace Prisma {
   }
 
   export type PropriedadeSoloWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     propriedadeId_soloId?: PropriedadeSoloPropriedadeIdSoloIdCompoundUniqueInput
     AND?: PropriedadeSoloWhereInput | PropriedadeSoloWhereInput[]
     OR?: PropriedadeSoloWhereInput[]
     NOT?: PropriedadeSoloWhereInput | PropriedadeSoloWhereInput[]
-    propriedadeId?: IntFilter<"PropriedadeSolo"> | number
-    soloId?: IntFilter<"PropriedadeSolo"> | number
+    propriedadeId?: StringFilter<"PropriedadeSolo"> | string
+    soloId?: StringFilter<"PropriedadeSolo"> | string
     propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
     solo?: XOR<SoloScalarRelationFilter, SoloWhereInput>
   }, "id" | "propriedadeId_soloId">
@@ -14308,118 +14631,98 @@ export namespace Prisma {
     propriedadeId?: SortOrder
     soloId?: SortOrder
     _count?: PropriedadeSoloCountOrderByAggregateInput
-    _avg?: PropriedadeSoloAvgOrderByAggregateInput
     _max?: PropriedadeSoloMaxOrderByAggregateInput
     _min?: PropriedadeSoloMinOrderByAggregateInput
-    _sum?: PropriedadeSoloSumOrderByAggregateInput
   }
 
   export type PropriedadeSoloScalarWhereWithAggregatesInput = {
     AND?: PropriedadeSoloScalarWhereWithAggregatesInput | PropriedadeSoloScalarWhereWithAggregatesInput[]
     OR?: PropriedadeSoloScalarWhereWithAggregatesInput[]
     NOT?: PropriedadeSoloScalarWhereWithAggregatesInput | PropriedadeSoloScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"PropriedadeSolo"> | number
-    propriedadeId?: IntWithAggregatesFilter<"PropriedadeSolo"> | number
-    soloId?: IntWithAggregatesFilter<"PropriedadeSolo"> | number
+    id?: StringWithAggregatesFilter<"PropriedadeSolo"> | string
+    propriedadeId?: StringWithAggregatesFilter<"PropriedadeSolo"> | string
+    soloId?: StringWithAggregatesFilter<"PropriedadeSolo"> | string
   }
 
   export type HistoricoWhereInput = {
     AND?: HistoricoWhereInput | HistoricoWhereInput[]
     OR?: HistoricoWhereInput[]
     NOT?: HistoricoWhereInput | HistoricoWhereInput[]
-    id?: IntFilter<"Historico"> | number
-    descricao?: StringNullableFilter<"Historico"> | string | null
-    valorSimulacao?: FloatFilter<"Historico"> | number
-    propriedadeId?: IntFilter<"Historico"> | number
-    simulacaoId?: IntFilter<"Historico"> | number
-    soloId?: IntFilter<"Historico"> | number
-    precipitacaoId?: IntFilter<"Historico"> | number
+    id?: StringFilter<"Historico"> | string
+    simulacaoId?: StringFilter<"Historico"> | string
+    observacao?: StringNullableFilter<"Historico"> | string | null
+    propriedadeId?: StringNullableFilter<"Historico"> | string | null
+    precipitacaoId?: StringNullableFilter<"Historico"> | string | null
+    soloId?: StringNullableFilter<"Historico"> | string | null
     createdAt?: DateTimeFilter<"Historico"> | Date | string
-    updatedAt?: DateTimeFilter<"Historico"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"Historico"> | Date | string | null
-    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
     simulacao?: XOR<SimulacaoScalarRelationFilter, SimulacaoWhereInput>
-    solo?: XOR<SoloScalarRelationFilter, SoloWhereInput>
-    precipitacao?: XOR<PrecipitacaoScalarRelationFilter, PrecipitacaoWhereInput>
+    Propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
+    Precipitacao?: XOR<PrecipitacaoNullableScalarRelationFilter, PrecipitacaoWhereInput> | null
+    Solo?: XOR<SoloNullableScalarRelationFilter, SoloWhereInput> | null
   }
 
   export type HistoricoOrderByWithRelationInput = {
     id?: SortOrder
-    descricao?: SortOrderInput | SortOrder
-    valorSimulacao?: SortOrder
-    propriedadeId?: SortOrder
     simulacaoId?: SortOrder
-    soloId?: SortOrder
+    observacao?: SortOrder
+    propriedadeId?: SortOrder
     precipitacaoId?: SortOrder
+    soloId?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
-    deletedAt?: SortOrderInput | SortOrder
-    propriedade?: PropriedadeOrderByWithRelationInput
     simulacao?: SimulacaoOrderByWithRelationInput
-    solo?: SoloOrderByWithRelationInput
-    precipitacao?: PrecipitacaoOrderByWithRelationInput
-    _relevance?: HistoricoOrderByRelevanceInput
+    Propriedade?: PropriedadeOrderByWithRelationInput
+    Precipitacao?: PrecipitacaoOrderByWithRelationInput
+    Solo?: SoloOrderByWithRelationInput
   }
 
   export type HistoricoWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: HistoricoWhereInput | HistoricoWhereInput[]
     OR?: HistoricoWhereInput[]
     NOT?: HistoricoWhereInput | HistoricoWhereInput[]
-    descricao?: StringNullableFilter<"Historico"> | string | null
-    valorSimulacao?: FloatFilter<"Historico"> | number
-    propriedadeId?: IntFilter<"Historico"> | number
-    simulacaoId?: IntFilter<"Historico"> | number
-    soloId?: IntFilter<"Historico"> | number
-    precipitacaoId?: IntFilter<"Historico"> | number
+    simulacaoId?: StringFilter<"Historico"> | string
+    observacao?: StringNullableFilter<"Historico"> | string | null
+    propriedadeId?: StringNullableFilter<"Historico"> | string | null
+    precipitacaoId?: StringNullableFilter<"Historico"> | string | null
+    soloId?: StringNullableFilter<"Historico"> | string | null
     createdAt?: DateTimeFilter<"Historico"> | Date | string
-    updatedAt?: DateTimeFilter<"Historico"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"Historico"> | Date | string | null
-    propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
     simulacao?: XOR<SimulacaoScalarRelationFilter, SimulacaoWhereInput>
-    solo?: XOR<SoloScalarRelationFilter, SoloWhereInput>
-    precipitacao?: XOR<PrecipitacaoScalarRelationFilter, PrecipitacaoWhereInput>
+    Propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
+    Precipitacao?: XOR<PrecipitacaoNullableScalarRelationFilter, PrecipitacaoWhereInput> | null
+    Solo?: XOR<SoloNullableScalarRelationFilter, SoloWhereInput> | null
   }, "id">
 
   export type HistoricoOrderByWithAggregationInput = {
     id?: SortOrder
-    descricao?: SortOrderInput | SortOrder
-    valorSimulacao?: SortOrder
-    propriedadeId?: SortOrder
     simulacaoId?: SortOrder
-    soloId?: SortOrder
+    observacao?: SortOrder
+    propriedadeId?: SortOrder
     precipitacaoId?: SortOrder
+    soloId?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
-    deletedAt?: SortOrderInput | SortOrder
     _count?: HistoricoCountOrderByAggregateInput
-    _avg?: HistoricoAvgOrderByAggregateInput
     _max?: HistoricoMaxOrderByAggregateInput
     _min?: HistoricoMinOrderByAggregateInput
-    _sum?: HistoricoSumOrderByAggregateInput
   }
 
   export type HistoricoScalarWhereWithAggregatesInput = {
     AND?: HistoricoScalarWhereWithAggregatesInput | HistoricoScalarWhereWithAggregatesInput[]
     OR?: HistoricoScalarWhereWithAggregatesInput[]
     NOT?: HistoricoScalarWhereWithAggregatesInput | HistoricoScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Historico"> | number
-    descricao?: StringNullableWithAggregatesFilter<"Historico"> | string | null
-    valorSimulacao?: FloatWithAggregatesFilter<"Historico"> | number
-    propriedadeId?: IntWithAggregatesFilter<"Historico"> | number
-    simulacaoId?: IntWithAggregatesFilter<"Historico"> | number
-    soloId?: IntWithAggregatesFilter<"Historico"> | number
-    precipitacaoId?: IntWithAggregatesFilter<"Historico"> | number
+    id?: StringWithAggregatesFilter<"Historico"> | string
+    simulacaoId?: StringWithAggregatesFilter<"Historico"> | string
+    observacao?: StringNullableWithAggregatesFilter<"Historico"> | string | null
+    propriedadeId?: StringNullableWithAggregatesFilter<"Historico"> | string | null
+    precipitacaoId?: StringNullableWithAggregatesFilter<"Historico"> | string | null
+    soloId?: StringNullableWithAggregatesFilter<"Historico"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Historico"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Historico"> | Date | string
-    deletedAt?: DateTimeNullableWithAggregatesFilter<"Historico"> | Date | string | null
   }
 
   export type PrecipitacaoWhereInput = {
     AND?: PrecipitacaoWhereInput | PrecipitacaoWhereInput[]
     OR?: PrecipitacaoWhereInput[]
     NOT?: PrecipitacaoWhereInput | PrecipitacaoWhereInput[]
-    id?: IntFilter<"Precipitacao"> | number
+    id?: StringFilter<"Precipitacao"> | string
     mmAno?: FloatFilter<"Precipitacao"> | number
     chuvas?: FloatFilter<"Precipitacao"> | number
     mmDia?: FloatFilter<"Precipitacao"> | number
@@ -14429,7 +14732,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Precipitacao"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
-    propriedadeId?: IntFilter<"Precipitacao"> | number
+    propriedadeId?: StringFilter<"Precipitacao"> | string
     propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
     historico?: HistoricoListRelationFilter
   }
@@ -14443,15 +14746,15 @@ export namespace Prisma {
     mmMes?: SortOrder
     cvMes?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
     propriedadeId?: SortOrder
     propriedade?: PropriedadeOrderByWithRelationInput
     historico?: HistoricoOrderByRelationAggregateInput
   }
 
   export type PrecipitacaoWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: PrecipitacaoWhereInput | PrecipitacaoWhereInput[]
     OR?: PrecipitacaoWhereInput[]
     NOT?: PrecipitacaoWhereInput | PrecipitacaoWhereInput[]
@@ -14464,7 +14767,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Precipitacao"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
-    propriedadeId?: IntFilter<"Precipitacao"> | number
+    propriedadeId?: StringFilter<"Precipitacao"> | string
     propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
     historico?: HistoricoListRelationFilter
   }, "id">
@@ -14478,8 +14781,8 @@ export namespace Prisma {
     mmMes?: SortOrder
     cvMes?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
     propriedadeId?: SortOrder
     _count?: PrecipitacaoCountOrderByAggregateInput
     _avg?: PrecipitacaoAvgOrderByAggregateInput
@@ -14492,7 +14795,7 @@ export namespace Prisma {
     AND?: PrecipitacaoScalarWhereWithAggregatesInput | PrecipitacaoScalarWhereWithAggregatesInput[]
     OR?: PrecipitacaoScalarWhereWithAggregatesInput[]
     NOT?: PrecipitacaoScalarWhereWithAggregatesInput | PrecipitacaoScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Precipitacao"> | number
+    id?: StringWithAggregatesFilter<"Precipitacao"> | string
     mmAno?: FloatWithAggregatesFilter<"Precipitacao"> | number
     chuvas?: FloatWithAggregatesFilter<"Precipitacao"> | number
     mmDia?: FloatWithAggregatesFilter<"Precipitacao"> | number
@@ -14502,14 +14805,14 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Precipitacao"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Precipitacao"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Precipitacao"> | Date | string | null
-    propriedadeId?: IntWithAggregatesFilter<"Precipitacao"> | number
+    propriedadeId?: StringWithAggregatesFilter<"Precipitacao"> | string
   }
 
   export type SoloWhereInput = {
     AND?: SoloWhereInput | SoloWhereInput[]
     OR?: SoloWhereInput[]
     NOT?: SoloWhereInput | SoloWhereInput[]
-    id?: IntFilter<"Solo"> | number
+    id?: StringFilter<"Solo"> | string
     nomeClasse?: StringFilter<"Solo"> | string
     profundidade?: FloatFilter<"Solo"> | number
     fatorRocha?: FloatFilter<"Solo"> | number
@@ -14521,10 +14824,11 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Solo"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
-    propriedadeId?: IntNullableFilter<"Solo"> | number | null
+    propriedadeId?: StringNullableFilter<"Solo"> | string | null
     historico?: HistoricoListRelationFilter
     propriedadeSolo?: PropriedadeSoloListRelationFilter
     Propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
+    Simulacao?: SimulacaoListRelationFilter
   }
 
   export type SoloOrderByWithRelationInput = {
@@ -14538,17 +14842,17 @@ export namespace Prisma {
     agua13Bar?: SortOrder
     agua15Bar?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
-    propriedadeId?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    propriedadeId?: SortOrder
     historico?: HistoricoOrderByRelationAggregateInput
     propriedadeSolo?: PropriedadeSoloOrderByRelationAggregateInput
     Propriedade?: PropriedadeOrderByWithRelationInput
-    _relevance?: SoloOrderByRelevanceInput
+    Simulacao?: SimulacaoOrderByRelationAggregateInput
   }
 
   export type SoloWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: SoloWhereInput | SoloWhereInput[]
     OR?: SoloWhereInput[]
     NOT?: SoloWhereInput | SoloWhereInput[]
@@ -14563,10 +14867,11 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Solo"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
-    propriedadeId?: IntNullableFilter<"Solo"> | number | null
+    propriedadeId?: StringNullableFilter<"Solo"> | string | null
     historico?: HistoricoListRelationFilter
     propriedadeSolo?: PropriedadeSoloListRelationFilter
     Propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
+    Simulacao?: SimulacaoListRelationFilter
   }, "id">
 
   export type SoloOrderByWithAggregationInput = {
@@ -14580,9 +14885,9 @@ export namespace Prisma {
     agua13Bar?: SortOrder
     agua15Bar?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
-    propriedadeId?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    propriedadeId?: SortOrder
     _count?: SoloCountOrderByAggregateInput
     _avg?: SoloAvgOrderByAggregateInput
     _max?: SoloMaxOrderByAggregateInput
@@ -14594,7 +14899,7 @@ export namespace Prisma {
     AND?: SoloScalarWhereWithAggregatesInput | SoloScalarWhereWithAggregatesInput[]
     OR?: SoloScalarWhereWithAggregatesInput[]
     NOT?: SoloScalarWhereWithAggregatesInput | SoloScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Solo"> | number
+    id?: StringWithAggregatesFilter<"Solo"> | string
     nomeClasse?: StringWithAggregatesFilter<"Solo"> | string
     profundidade?: FloatWithAggregatesFilter<"Solo"> | number
     fatorRocha?: FloatWithAggregatesFilter<"Solo"> | number
@@ -14606,21 +14911,21 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Solo"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Solo"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Solo"> | Date | string | null
-    propriedadeId?: IntNullableWithAggregatesFilter<"Solo"> | number | null
+    propriedadeId?: StringNullableWithAggregatesFilter<"Solo"> | string | null
   }
 
   export type EstimativasWhereInput = {
     AND?: EstimativasWhereInput | EstimativasWhereInput[]
     OR?: EstimativasWhereInput[]
     NOT?: EstimativasWhereInput | EstimativasWhereInput[]
-    id?: IntFilter<"Estimativas"> | number
+    id?: StringFilter<"Estimativas"> | string
     valorTotal?: FloatFilter<"Estimativas"> | number
     descricao?: StringNullableFilter<"Estimativas"> | string | null
     createdAt?: DateTimeFilter<"Estimativas"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
-    propriedadeId?: IntFilter<"Estimativas"> | number
-    simulacaoId?: IntFilter<"Estimativas"> | number
+    propriedadeId?: StringFilter<"Estimativas"> | string
+    simulacaoId?: StringFilter<"Estimativas"> | string
     simulacao?: XOR<SimulacaoScalarRelationFilter, SimulacaoWhereInput>
     propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
   }
@@ -14628,19 +14933,18 @@ export namespace Prisma {
   export type EstimativasOrderByWithRelationInput = {
     id?: SortOrder
     valorTotal?: SortOrder
-    descricao?: SortOrderInput | SortOrder
+    descricao?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
     propriedadeId?: SortOrder
     simulacaoId?: SortOrder
     simulacao?: SimulacaoOrderByWithRelationInput
     propriedade?: PropriedadeOrderByWithRelationInput
-    _relevance?: EstimativasOrderByRelevanceInput
   }
 
   export type EstimativasWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: EstimativasWhereInput | EstimativasWhereInput[]
     OR?: EstimativasWhereInput[]
     NOT?: EstimativasWhereInput | EstimativasWhereInput[]
@@ -14649,8 +14953,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Estimativas"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
-    propriedadeId?: IntFilter<"Estimativas"> | number
-    simulacaoId?: IntFilter<"Estimativas"> | number
+    propriedadeId?: StringFilter<"Estimativas"> | string
+    simulacaoId?: StringFilter<"Estimativas"> | string
     simulacao?: XOR<SimulacaoScalarRelationFilter, SimulacaoWhereInput>
     propriedade?: XOR<PropriedadeNullableScalarRelationFilter, PropriedadeWhereInput> | null
   }, "id">
@@ -14658,10 +14962,10 @@ export namespace Prisma {
   export type EstimativasOrderByWithAggregationInput = {
     id?: SortOrder
     valorTotal?: SortOrder
-    descricao?: SortOrderInput | SortOrder
+    descricao?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
     propriedadeId?: SortOrder
     simulacaoId?: SortOrder
     _count?: EstimativasCountOrderByAggregateInput
@@ -14675,86 +14979,99 @@ export namespace Prisma {
     AND?: EstimativasScalarWhereWithAggregatesInput | EstimativasScalarWhereWithAggregatesInput[]
     OR?: EstimativasScalarWhereWithAggregatesInput[]
     NOT?: EstimativasScalarWhereWithAggregatesInput | EstimativasScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Estimativas"> | number
+    id?: StringWithAggregatesFilter<"Estimativas"> | string
     valorTotal?: FloatWithAggregatesFilter<"Estimativas"> | number
     descricao?: StringNullableWithAggregatesFilter<"Estimativas"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Estimativas"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Estimativas"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Estimativas"> | Date | string | null
-    propriedadeId?: IntWithAggregatesFilter<"Estimativas"> | number
-    simulacaoId?: IntWithAggregatesFilter<"Estimativas"> | number
+    propriedadeId?: StringWithAggregatesFilter<"Estimativas"> | string
+    simulacaoId?: StringWithAggregatesFilter<"Estimativas"> | string
   }
 
   export type SimulacaoWhereInput = {
     AND?: SimulacaoWhereInput | SimulacaoWhereInput[]
     OR?: SimulacaoWhereInput[]
     NOT?: SimulacaoWhereInput | SimulacaoWhereInput[]
-    id?: IntFilter<"Simulacao"> | number
+    id?: StringFilter<"Simulacao"> | string
     nomeSimulacao?: StringFilter<"Simulacao"> | string
-    dadosJson?: JsonNullableFilter<"Simulacao">
-    culturaId?: IntFilter<"Simulacao"> | number
-    soloId?: IntFilter<"Simulacao"> | number
-    resultado?: FloatFilter<"Simulacao"> | number
+    ano?: IntFilter<"Simulacao"> | number
+    culturaId?: StringFilter<"Simulacao"> | string
+    soloId?: StringFilter<"Simulacao"> | string
+    propriedadeId?: StringFilter<"Simulacao"> | string
+    chuvaAnual?: FloatFilter<"Simulacao"> | number
+    temperaturaMed?: FloatFilter<"Simulacao"> | number
+    umidade?: FloatFilter<"Simulacao"> | number
+    resultado?: FloatNullableFilter<"Simulacao"> | number | null
     dataSimulacao?: DateTimeFilter<"Simulacao"> | Date | string
     createdAt?: DateTimeFilter<"Simulacao"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
-    deletedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
-    propriedadeId?: IntFilter<"Simulacao"> | number
+    cultura?: XOR<CulturaScalarRelationFilter, CulturaWhereInput>
+    solo?: XOR<SoloScalarRelationFilter, SoloWhereInput>
     propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
-    historico?: HistoricoListRelationFilter
-    estimativas?: EstimativasListRelationFilter
+    historicos?: HistoricoListRelationFilter
+    Estimativas?: EstimativasListRelationFilter
   }
 
   export type SimulacaoOrderByWithRelationInput = {
     id?: SortOrder
     nomeSimulacao?: SortOrder
-    dadosJson?: SortOrderInput | SortOrder
+    ano?: SortOrder
     culturaId?: SortOrder
     soloId?: SortOrder
+    propriedadeId?: SortOrder
+    chuvaAnual?: SortOrder
+    temperaturaMed?: SortOrder
+    umidade?: SortOrder
     resultado?: SortOrder
     dataSimulacao?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
-    propriedadeId?: SortOrder
+    updatedAt?: SortOrder
+    cultura?: CulturaOrderByWithRelationInput
+    solo?: SoloOrderByWithRelationInput
     propriedade?: PropriedadeOrderByWithRelationInput
-    historico?: HistoricoOrderByRelationAggregateInput
-    estimativas?: EstimativasOrderByRelationAggregateInput
-    _relevance?: SimulacaoOrderByRelevanceInput
+    historicos?: HistoricoOrderByRelationAggregateInput
+    Estimativas?: EstimativasOrderByRelationAggregateInput
   }
 
   export type SimulacaoWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: SimulacaoWhereInput | SimulacaoWhereInput[]
     OR?: SimulacaoWhereInput[]
     NOT?: SimulacaoWhereInput | SimulacaoWhereInput[]
     nomeSimulacao?: StringFilter<"Simulacao"> | string
-    dadosJson?: JsonNullableFilter<"Simulacao">
-    culturaId?: IntFilter<"Simulacao"> | number
-    soloId?: IntFilter<"Simulacao"> | number
-    resultado?: FloatFilter<"Simulacao"> | number
+    ano?: IntFilter<"Simulacao"> | number
+    culturaId?: StringFilter<"Simulacao"> | string
+    soloId?: StringFilter<"Simulacao"> | string
+    propriedadeId?: StringFilter<"Simulacao"> | string
+    chuvaAnual?: FloatFilter<"Simulacao"> | number
+    temperaturaMed?: FloatFilter<"Simulacao"> | number
+    umidade?: FloatFilter<"Simulacao"> | number
+    resultado?: FloatNullableFilter<"Simulacao"> | number | null
     dataSimulacao?: DateTimeFilter<"Simulacao"> | Date | string
     createdAt?: DateTimeFilter<"Simulacao"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
-    deletedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
-    propriedadeId?: IntFilter<"Simulacao"> | number
+    cultura?: XOR<CulturaScalarRelationFilter, CulturaWhereInput>
+    solo?: XOR<SoloScalarRelationFilter, SoloWhereInput>
     propriedade?: XOR<PropriedadeScalarRelationFilter, PropriedadeWhereInput>
-    historico?: HistoricoListRelationFilter
-    estimativas?: EstimativasListRelationFilter
+    historicos?: HistoricoListRelationFilter
+    Estimativas?: EstimativasListRelationFilter
   }, "id">
 
   export type SimulacaoOrderByWithAggregationInput = {
     id?: SortOrder
     nomeSimulacao?: SortOrder
-    dadosJson?: SortOrderInput | SortOrder
+    ano?: SortOrder
     culturaId?: SortOrder
     soloId?: SortOrder
+    propriedadeId?: SortOrder
+    chuvaAnual?: SortOrder
+    temperaturaMed?: SortOrder
+    umidade?: SortOrder
     resultado?: SortOrder
     dataSimulacao?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
-    propriedadeId?: SortOrder
+    updatedAt?: SortOrder
     _count?: SimulacaoCountOrderByAggregateInput
     _avg?: SimulacaoAvgOrderByAggregateInput
     _max?: SimulacaoMaxOrderByAggregateInput
@@ -14766,30 +15083,33 @@ export namespace Prisma {
     AND?: SimulacaoScalarWhereWithAggregatesInput | SimulacaoScalarWhereWithAggregatesInput[]
     OR?: SimulacaoScalarWhereWithAggregatesInput[]
     NOT?: SimulacaoScalarWhereWithAggregatesInput | SimulacaoScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Simulacao"> | number
+    id?: StringWithAggregatesFilter<"Simulacao"> | string
     nomeSimulacao?: StringWithAggregatesFilter<"Simulacao"> | string
-    dadosJson?: JsonNullableWithAggregatesFilter<"Simulacao">
-    culturaId?: IntWithAggregatesFilter<"Simulacao"> | number
-    soloId?: IntWithAggregatesFilter<"Simulacao"> | number
-    resultado?: FloatWithAggregatesFilter<"Simulacao"> | number
+    ano?: IntWithAggregatesFilter<"Simulacao"> | number
+    culturaId?: StringWithAggregatesFilter<"Simulacao"> | string
+    soloId?: StringWithAggregatesFilter<"Simulacao"> | string
+    propriedadeId?: StringWithAggregatesFilter<"Simulacao"> | string
+    chuvaAnual?: FloatWithAggregatesFilter<"Simulacao"> | number
+    temperaturaMed?: FloatWithAggregatesFilter<"Simulacao"> | number
+    umidade?: FloatWithAggregatesFilter<"Simulacao"> | number
+    resultado?: FloatNullableWithAggregatesFilter<"Simulacao"> | number | null
     dataSimulacao?: DateTimeWithAggregatesFilter<"Simulacao"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Simulacao"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Simulacao"> | Date | string | null
-    deletedAt?: DateTimeNullableWithAggregatesFilter<"Simulacao"> | Date | string | null
-    propriedadeId?: IntWithAggregatesFilter<"Simulacao"> | number
   }
 
   export type CulturaWhereInput = {
     AND?: CulturaWhereInput | CulturaWhereInput[]
     OR?: CulturaWhereInput[]
     NOT?: CulturaWhereInput | CulturaWhereInput[]
-    id?: IntFilter<"Cultura"> | number
+    id?: StringFilter<"Cultura"> | string
     name?: StringFilter<"Cultura"> | string
     eua?: FloatFilter<"Cultura"> | number
     createdAt?: DateTimeFilter<"Cultura"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Cultura"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Cultura"> | Date | string | null
     PropriedadeCultura?: PropriedadeCulturaListRelationFilter
+    Simulacao?: SimulacaoListRelationFilter
   }
 
   export type CulturaOrderByWithRelationInput = {
@@ -14797,14 +15117,14 @@ export namespace Prisma {
     name?: SortOrder
     eua?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
     PropriedadeCultura?: PropriedadeCulturaOrderByRelationAggregateInput
-    _relevance?: CulturaOrderByRelevanceInput
+    Simulacao?: SimulacaoOrderByRelationAggregateInput
   }
 
   export type CulturaWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: CulturaWhereInput | CulturaWhereInput[]
     OR?: CulturaWhereInput[]
     NOT?: CulturaWhereInput | CulturaWhereInput[]
@@ -14814,6 +15134,7 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableFilter<"Cultura"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Cultura"> | Date | string | null
     PropriedadeCultura?: PropriedadeCulturaListRelationFilter
+    Simulacao?: SimulacaoListRelationFilter
   }, "id">
 
   export type CulturaOrderByWithAggregationInput = {
@@ -14821,8 +15142,8 @@ export namespace Prisma {
     name?: SortOrder
     eua?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrderInput | SortOrder
-    deletedAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
     _count?: CulturaCountOrderByAggregateInput
     _avg?: CulturaAvgOrderByAggregateInput
     _max?: CulturaMaxOrderByAggregateInput
@@ -14834,7 +15155,7 @@ export namespace Prisma {
     AND?: CulturaScalarWhereWithAggregatesInput | CulturaScalarWhereWithAggregatesInput[]
     OR?: CulturaScalarWhereWithAggregatesInput[]
     NOT?: CulturaScalarWhereWithAggregatesInput | CulturaScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Cultura"> | number
+    id?: StringWithAggregatesFilter<"Cultura"> | string
     name?: StringWithAggregatesFilter<"Cultura"> | string
     eua?: FloatWithAggregatesFilter<"Cultura"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Cultura"> | Date | string
@@ -14843,6 +15164,7 @@ export namespace Prisma {
   }
 
   export type AdminCreateInput = {
+    id?: string
     nome: string
     email: string
     cpf: string
@@ -14856,7 +15178,7 @@ export namespace Prisma {
   }
 
   export type AdminUncheckedCreateInput = {
-    id?: number
+    id?: string
     nome: string
     email: string
     cpf: string
@@ -14865,7 +15187,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    tipoUserId?: number | null
+    tipoUserId?: string | null
     propriedade?: PropriedadeUncheckedCreateNestedOneWithoutAdminInput
   }
 
@@ -14883,7 +15205,6 @@ export namespace Prisma {
   }
 
   export type AdminUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     cpf?: StringFieldUpdateOperationsInput | string
@@ -14892,12 +15213,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tipoUserId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoUserId?: NullableStringFieldUpdateOperationsInput | string | null
     propriedade?: PropriedadeUncheckedUpdateOneWithoutAdminNestedInput
   }
 
   export type AdminCreateManyInput = {
-    id?: number
+    id?: string
     nome: string
     email: string
     cpf: string
@@ -14906,7 +15227,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    tipoUserId?: number | null
+    tipoUserId?: string | null
   }
 
   export type AdminUpdateManyMutationInput = {
@@ -14921,7 +15242,6 @@ export namespace Prisma {
   }
 
   export type AdminUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     cpf?: StringFieldUpdateOperationsInput | string
@@ -14930,10 +15250,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tipoUserId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TipoUserCreateInput = {
+    id?: string
     tipo: string
     descricao?: string | null
     createdAt?: Date | string
@@ -14944,7 +15265,7 @@ export namespace Prisma {
   }
 
   export type TipoUserUncheckedCreateInput = {
-    id?: number
+    id?: string
     tipo: string
     descricao?: string | null
     createdAt?: Date | string
@@ -14965,7 +15286,6 @@ export namespace Prisma {
   }
 
   export type TipoUserUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
     tipo?: StringFieldUpdateOperationsInput | string
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14976,7 +15296,7 @@ export namespace Prisma {
   }
 
   export type TipoUserCreateManyInput = {
-    id?: number
+    id?: string
     tipo: string
     descricao?: string | null
     createdAt?: Date | string
@@ -14995,7 +15315,6 @@ export namespace Prisma {
   }
 
   export type TipoUserUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
     tipo?: StringFieldUpdateOperationsInput | string
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15005,153 +15324,131 @@ export namespace Prisma {
   }
 
   export type PropriedadeCreateInput = {
-    nomeProprietario: string
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
-    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateInput = {
-    id?: number
-    nomeProprietario: string
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
+    adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    adminId?: number | null
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUpdateInput = {
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
-    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    adminId?: NullableIntFieldUpdateOperationsInput | number | null
-    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeCreateManyInput = {
-    id?: number
-    nomeProprietario: string
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
+    adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    adminId?: number | null
   }
 
   export type PropriedadeUpdateManyMutationInput = {
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PropriedadeUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    adminId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type PropriedadeCulturaCreateInput = {
-    propriedade: PropriedadeCreateNestedOneWithoutPropriedadeCulturaInput
+    id?: string
+    propriedade: PropriedadeCreateNestedOneWithoutCulturasInput
     cultura: CulturaCreateNestedOneWithoutPropriedadeCulturaInput
   }
 
   export type PropriedadeCulturaUncheckedCreateInput = {
-    id?: number
-    propriedadeId: number
-    culturaId: number
+    id?: string
+    propriedadeId: string
+    culturaId: string
   }
 
   export type PropriedadeCulturaUpdateInput = {
-    propriedade?: PropriedadeUpdateOneRequiredWithoutPropriedadeCulturaNestedInput
+    propriedade?: PropriedadeUpdateOneRequiredWithoutCulturasNestedInput
     cultura?: CulturaUpdateOneRequiredWithoutPropriedadeCulturaNestedInput
   }
 
   export type PropriedadeCulturaUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    culturaId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PropriedadeCulturaCreateManyInput = {
-    id?: number
-    propriedadeId: number
-    culturaId: number
+    id?: string
+    propriedadeId: string
+    culturaId: string
   }
 
   export type PropriedadeCulturaUpdateManyMutationInput = {
@@ -15159,37 +15456,36 @@ export namespace Prisma {
   }
 
   export type PropriedadeCulturaUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    culturaId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PropriedadeSoloCreateInput = {
-    propriedade: PropriedadeCreateNestedOneWithoutPropriedadeSoloInput
+    id?: string
+    propriedade: PropriedadeCreateNestedOneWithoutSolosInput
     solo: SoloCreateNestedOneWithoutPropriedadeSoloInput
   }
 
   export type PropriedadeSoloUncheckedCreateInput = {
-    id?: number
-    propriedadeId: number
-    soloId: number
+    id?: string
+    propriedadeId: string
+    soloId: string
   }
 
   export type PropriedadeSoloUpdateInput = {
-    propriedade?: PropriedadeUpdateOneRequiredWithoutPropriedadeSoloNestedInput
+    propriedade?: PropriedadeUpdateOneRequiredWithoutSolosNestedInput
     solo?: SoloUpdateOneRequiredWithoutPropriedadeSoloNestedInput
   }
 
   export type PropriedadeSoloUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    soloId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PropriedadeSoloCreateManyInput = {
-    id?: number
-    propriedadeId: number
-    soloId: number
+    id?: string
+    propriedadeId: string
+    soloId: string
   }
 
   export type PropriedadeSoloUpdateManyMutationInput = {
@@ -15197,96 +15493,74 @@ export namespace Prisma {
   }
 
   export type PropriedadeSoloUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    soloId?: StringFieldUpdateOperationsInput | string
   }
 
   export type HistoricoCreateInput = {
-    descricao?: string | null
-    valorSimulacao: number
+    id?: string
+    observacao?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    propriedade: PropriedadeCreateNestedOneWithoutHistoricosInput
-    simulacao: SimulacaoCreateNestedOneWithoutHistoricoInput
-    solo: SoloCreateNestedOneWithoutHistoricoInput
-    precipitacao: PrecipitacaoCreateNestedOneWithoutHistoricoInput
+    simulacao: SimulacaoCreateNestedOneWithoutHistoricosInput
+    Propriedade?: PropriedadeCreateNestedOneWithoutHistoricoInput
+    Precipitacao?: PrecipitacaoCreateNestedOneWithoutHistoricoInput
+    Solo?: SoloCreateNestedOneWithoutHistoricoInput
   }
 
   export type HistoricoUncheckedCreateInput = {
-    id?: number
-    descricao?: string | null
-    valorSimulacao: number
-    propriedadeId: number
-    simulacaoId: number
-    soloId: number
-    precipitacaoId: number
+    id?: string
+    simulacaoId: string
+    observacao?: string | null
+    propriedadeId?: string | null
+    precipitacaoId?: string | null
+    soloId?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type HistoricoUpdateInput = {
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedade?: PropriedadeUpdateOneRequiredWithoutHistoricosNestedInput
-    simulacao?: SimulacaoUpdateOneRequiredWithoutHistoricoNestedInput
-    solo?: SoloUpdateOneRequiredWithoutHistoricoNestedInput
-    precipitacao?: PrecipitacaoUpdateOneRequiredWithoutHistoricoNestedInput
+    simulacao?: SimulacaoUpdateOneRequiredWithoutHistoricosNestedInput
+    Propriedade?: PropriedadeUpdateOneWithoutHistoricoNestedInput
+    Precipitacao?: PrecipitacaoUpdateOneWithoutHistoricoNestedInput
+    Solo?: SoloUpdateOneWithoutHistoricoNestedInput
   }
 
   export type HistoricoUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    simulacaoId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    precipitacaoId?: IntFieldUpdateOperationsInput | number
+    simulacaoId?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
+    precipitacaoId?: NullableStringFieldUpdateOperationsInput | string | null
+    soloId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type HistoricoCreateManyInput = {
-    id?: number
-    descricao?: string | null
-    valorSimulacao: number
-    propriedadeId: number
-    simulacaoId: number
-    soloId: number
-    precipitacaoId: number
+    id?: string
+    simulacaoId: string
+    observacao?: string | null
+    propriedadeId?: string | null
+    precipitacaoId?: string | null
+    soloId?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type HistoricoUpdateManyMutationInput = {
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type HistoricoUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    simulacaoId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    precipitacaoId?: IntFieldUpdateOperationsInput | number
+    simulacaoId?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
+    precipitacaoId?: NullableStringFieldUpdateOperationsInput | string | null
+    soloId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PrecipitacaoCreateInput = {
+    id?: string
     mmAno: number
     chuvas: number
     mmDia: number
@@ -15296,12 +15570,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedade: PropriedadeCreateNestedOneWithoutPrecipitacoesInput
+    propriedade: PropriedadeCreateNestedOneWithoutPrecipitacaoInput
     historico?: HistoricoCreateNestedManyWithoutPrecipitacaoInput
   }
 
   export type PrecipitacaoUncheckedCreateInput = {
-    id?: number
+    id?: string
     mmAno: number
     chuvas: number
     mmDia: number
@@ -15311,7 +15585,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedadeId: number
+    propriedadeId: string
     historico?: HistoricoUncheckedCreateNestedManyWithoutPrecipitacaoInput
   }
 
@@ -15325,12 +15599,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedade?: PropriedadeUpdateOneRequiredWithoutPrecipitacoesNestedInput
+    propriedade?: PropriedadeUpdateOneRequiredWithoutPrecipitacaoNestedInput
     historico?: HistoricoUpdateManyWithoutPrecipitacaoNestedInput
   }
 
   export type PrecipitacaoUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
     mmAno?: FloatFieldUpdateOperationsInput | number
     chuvas?: FloatFieldUpdateOperationsInput | number
     mmDia?: FloatFieldUpdateOperationsInput | number
@@ -15340,12 +15613,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
     historico?: HistoricoUncheckedUpdateManyWithoutPrecipitacaoNestedInput
   }
 
   export type PrecipitacaoCreateManyInput = {
-    id?: number
+    id?: string
     mmAno: number
     chuvas: number
     mmDia: number
@@ -15355,7 +15628,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedadeId: number
+    propriedadeId: string
   }
 
   export type PrecipitacaoUpdateManyMutationInput = {
@@ -15371,7 +15644,6 @@ export namespace Prisma {
   }
 
   export type PrecipitacaoUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
     mmAno?: FloatFieldUpdateOperationsInput | number
     chuvas?: FloatFieldUpdateOperationsInput | number
     mmDia?: FloatFieldUpdateOperationsInput | number
@@ -15381,10 +15653,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SoloCreateInput = {
+    id?: string
     nomeClasse: string
     profundidade: number
     fatorRocha: number
@@ -15399,10 +15672,11 @@ export namespace Prisma {
     historico?: HistoricoCreateNestedManyWithoutSoloInput
     propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutSoloInput
     Propriedade?: PropriedadeCreateNestedOneWithoutSoloInput
+    Simulacao?: SimulacaoCreateNestedManyWithoutSoloInput
   }
 
   export type SoloUncheckedCreateInput = {
-    id?: number
+    id?: string
     nomeClasse: string
     profundidade: number
     fatorRocha: number
@@ -15414,9 +15688,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedadeId?: number | null
+    propriedadeId?: string | null
     historico?: HistoricoUncheckedCreateNestedManyWithoutSoloInput
     propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutSoloInput
+    Simulacao?: SimulacaoUncheckedCreateNestedManyWithoutSoloInput
   }
 
   export type SoloUpdateInput = {
@@ -15434,10 +15709,10 @@ export namespace Prisma {
     historico?: HistoricoUpdateManyWithoutSoloNestedInput
     propriedadeSolo?: PropriedadeSoloUpdateManyWithoutSoloNestedInput
     Propriedade?: PropriedadeUpdateOneWithoutSoloNestedInput
+    Simulacao?: SimulacaoUpdateManyWithoutSoloNestedInput
   }
 
   export type SoloUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
@@ -15449,13 +15724,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: NullableIntFieldUpdateOperationsInput | number | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
     historico?: HistoricoUncheckedUpdateManyWithoutSoloNestedInput
     propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutSoloNestedInput
+    Simulacao?: SimulacaoUncheckedUpdateManyWithoutSoloNestedInput
   }
 
   export type SoloCreateManyInput = {
-    id?: number
+    id?: string
     nomeClasse: string
     profundidade: number
     fatorRocha: number
@@ -15467,7 +15743,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedadeId?: number | null
+    propriedadeId?: string | null
   }
 
   export type SoloUpdateManyMutationInput = {
@@ -15485,7 +15761,6 @@ export namespace Prisma {
   }
 
   export type SoloUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
@@ -15497,10 +15772,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: NullableIntFieldUpdateOperationsInput | number | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EstimativasCreateInput = {
+    id?: string
     valorTotal: number
     descricao?: string | null
     createdAt?: Date | string
@@ -15511,14 +15787,14 @@ export namespace Prisma {
   }
 
   export type EstimativasUncheckedCreateInput = {
-    id?: number
+    id?: string
     valorTotal: number
     descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedadeId: number
-    simulacaoId: number
+    propriedadeId: string
+    simulacaoId: string
   }
 
   export type EstimativasUpdateInput = {
@@ -15532,25 +15808,24 @@ export namespace Prisma {
   }
 
   export type EstimativasUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
     valorTotal?: FloatFieldUpdateOperationsInput | number
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    simulacaoId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    simulacaoId?: StringFieldUpdateOperationsInput | string
   }
 
   export type EstimativasCreateManyInput = {
-    id?: number
+    id?: string
     valorTotal: number
     descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedadeId: number
-    simulacaoId: number
+    propriedadeId: string
+    simulacaoId: string
   }
 
   export type EstimativasUpdateManyMutationInput = {
@@ -15562,135 +15837,148 @@ export namespace Prisma {
   }
 
   export type EstimativasUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
     valorTotal?: FloatFieldUpdateOperationsInput | number
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    simulacaoId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    simulacaoId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SimulacaoCreateInput = {
+    id?: string
     nomeSimulacao: string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId: number
-    soloId: number
-    resultado: number
-    dataSimulacao: Date | string
+    ano: number
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
+    cultura: CulturaCreateNestedOneWithoutSimulacaoInput
+    solo: SoloCreateNestedOneWithoutSimulacaoInput
     propriedade: PropriedadeCreateNestedOneWithoutSimulacoesInput
-    historico?: HistoricoCreateNestedManyWithoutSimulacaoInput
-    estimativas?: EstimativasCreateNestedManyWithoutSimulacaoInput
+    historicos?: HistoricoCreateNestedManyWithoutSimulacaoInput
+    Estimativas?: EstimativasCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoUncheckedCreateInput = {
-    id?: number
+    id?: string
     nomeSimulacao: string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId: number
-    soloId: number
-    resultado: number
-    dataSimulacao: Date | string
+    ano: number
+    culturaId: string
+    soloId: string
+    propriedadeId: string
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    propriedadeId: number
-    historico?: HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoUpdateInput = {
     nomeSimulacao?: StringFieldUpdateOperationsInput | string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    resultado?: FloatFieldUpdateOperationsInput | number
+    ano?: IntFieldUpdateOperationsInput | number
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cultura?: CulturaUpdateOneRequiredWithoutSimulacaoNestedInput
+    solo?: SoloUpdateOneRequiredWithoutSimulacaoNestedInput
     propriedade?: PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput
-    historico?: HistoricoUpdateManyWithoutSimulacaoNestedInput
-    estimativas?: EstimativasUpdateManyWithoutSimulacaoNestedInput
+    historicos?: HistoricoUpdateManyWithoutSimulacaoNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type SimulacaoUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nomeSimulacao?: StringFieldUpdateOperationsInput | string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    resultado?: FloatFieldUpdateOperationsInput | number
+    ano?: IntFieldUpdateOperationsInput | number
+    culturaId?: StringFieldUpdateOperationsInput | string
+    soloId?: StringFieldUpdateOperationsInput | string
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    historico?: HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput
-    estimativas?: EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput
+    historicos?: HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type SimulacaoCreateManyInput = {
-    id?: number
+    id?: string
     nomeSimulacao: string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId: number
-    soloId: number
-    resultado: number
-    dataSimulacao: Date | string
+    ano: number
+    culturaId: string
+    soloId: string
+    propriedadeId: string
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    propriedadeId: number
   }
 
   export type SimulacaoUpdateManyMutationInput = {
     nomeSimulacao?: StringFieldUpdateOperationsInput | string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    resultado?: FloatFieldUpdateOperationsInput | number
+    ano?: IntFieldUpdateOperationsInput | number
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SimulacaoUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nomeSimulacao?: StringFieldUpdateOperationsInput | string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    resultado?: FloatFieldUpdateOperationsInput | number
+    ano?: IntFieldUpdateOperationsInput | number
+    culturaId?: StringFieldUpdateOperationsInput | string
+    soloId?: StringFieldUpdateOperationsInput | string
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: IntFieldUpdateOperationsInput | number
   }
 
   export type CulturaCreateInput = {
+    id?: string
     name: string
     eua: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     PropriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutCulturaInput
+    Simulacao?: SimulacaoCreateNestedManyWithoutCulturaInput
   }
 
   export type CulturaUncheckedCreateInput = {
-    id?: number
+    id?: string
     name: string
     eua: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     PropriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutCulturaInput
+    Simulacao?: SimulacaoUncheckedCreateNestedManyWithoutCulturaInput
   }
 
   export type CulturaUpdateInput = {
@@ -15700,20 +15988,21 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     PropriedadeCultura?: PropriedadeCulturaUpdateManyWithoutCulturaNestedInput
+    Simulacao?: SimulacaoUpdateManyWithoutCulturaNestedInput
   }
 
   export type CulturaUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     eua?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     PropriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutCulturaNestedInput
+    Simulacao?: SimulacaoUncheckedUpdateManyWithoutCulturaNestedInput
   }
 
   export type CulturaCreateManyInput = {
-    id?: number
+    id?: string
     name: string
     eua: number
     createdAt?: Date | string
@@ -15730,7 +16019,6 @@ export namespace Prisma {
   }
 
   export type CulturaUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     eua?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15738,21 +16026,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -15760,7 +16037,7 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
+    mode?: QueryMode
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
@@ -15771,8 +16048,8 @@ export namespace Prisma {
 
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -15782,24 +16059,30 @@ export namespace Prisma {
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    isSet?: boolean
   }
 
   export type TipoUserNullableScalarRelationFilter = {
@@ -15812,17 +16095,6 @@ export namespace Prisma {
     isNot?: PropriedadeWhereInput | null
   }
 
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
-  export type AdminOrderByRelevanceInput = {
-    fields: AdminOrderByRelevanceFieldEnum | AdminOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
   export type AdminCountOrderByAggregateInput = {
     id?: SortOrder
     nome?: SortOrder
@@ -15833,11 +16105,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    tipoUserId?: SortOrder
-  }
-
-  export type AdminAvgOrderByAggregateInput = {
-    id?: SortOrder
     tipoUserId?: SortOrder
   }
 
@@ -15867,31 +16134,10 @@ export namespace Prisma {
     tipoUserId?: SortOrder
   }
 
-  export type AdminSumOrderByAggregateInput = {
-    id?: SortOrder
-    tipoUserId?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -15899,7 +16145,7 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
+    mode?: QueryMode
     not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
@@ -15916,8 +16162,8 @@ export namespace Prisma {
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -15930,8 +16176,8 @@ export namespace Prisma {
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -15940,28 +16186,13 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type StringNullableFilter<$PrismaModel = never> = {
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -15969,8 +16200,12 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type AdminListRelationFilter = {
@@ -15983,12 +16218,6 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type TipoUserOrderByRelevanceInput = {
-    fields: TipoUserOrderByRelevanceFieldEnum | TipoUserOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
   export type TipoUserCountOrderByAggregateInput = {
     id?: SortOrder
     tipo?: SortOrder
@@ -15997,10 +16226,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     ativado?: SortOrder
-  }
-
-  export type TipoUserAvgOrderByAggregateInput = {
-    id?: SortOrder
   }
 
   export type TipoUserMaxOrderByAggregateInput = {
@@ -16023,32 +16248,10 @@ export namespace Prisma {
     ativado?: SortOrder
   }
 
-  export type TipoUserSumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
@@ -16061,10 +16264,16 @@ export namespace Prisma {
     isNot?: AdminWhereInput | null
   }
 
-  export type EstimativasListRelationFilter = {
-    every?: EstimativasWhereInput
-    some?: EstimativasWhereInput
-    none?: EstimativasWhereInput
+  export type PropriedadeCulturaListRelationFilter = {
+    every?: PropriedadeCulturaWhereInput
+    some?: PropriedadeCulturaWhereInput
+    none?: PropriedadeCulturaWhereInput
+  }
+
+  export type PropriedadeSoloListRelationFilter = {
+    every?: PropriedadeSoloWhereInput
+    some?: PropriedadeSoloWhereInput
+    none?: PropriedadeSoloWhereInput
   }
 
   export type SimulacaoListRelationFilter = {
@@ -16085,25 +16294,23 @@ export namespace Prisma {
     none?: PrecipitacaoWhereInput
   }
 
-  export type PropriedadeCulturaListRelationFilter = {
-    every?: PropriedadeCulturaWhereInput
-    some?: PropriedadeCulturaWhereInput
-    none?: PropriedadeCulturaWhereInput
-  }
-
-  export type PropriedadeSoloListRelationFilter = {
-    every?: PropriedadeSoloWhereInput
-    some?: PropriedadeSoloWhereInput
-    none?: PropriedadeSoloWhereInput
-  }
-
   export type SoloListRelationFilter = {
     every?: SoloWhereInput
     some?: SoloWhereInput
     none?: SoloWhereInput
   }
 
-  export type EstimativasOrderByRelationAggregateInput = {
+  export type EstimativasListRelationFilter = {
+    every?: EstimativasWhereInput
+    some?: EstimativasWhereInput
+    none?: EstimativasWhereInput
+  }
+
+  export type PropriedadeCulturaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PropriedadeSoloOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16119,88 +16326,61 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type PropriedadeCulturaOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type PropriedadeSoloOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type SoloOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type PropriedadeOrderByRelevanceInput = {
-    fields: PropriedadeOrderByRelevanceFieldEnum | PropriedadeOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
+  export type EstimativasOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type PropriedadeCountOrderByAggregateInput = {
     id?: SortOrder
-    nomeProprietario?: SortOrder
     nomePropriedade?: SortOrder
+    nomeResponsavel?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    soloId?: SortOrder
-    culturaId?: SortOrder
+    adminId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
-    adminId?: SortOrder
   }
 
   export type PropriedadeAvgOrderByAggregateInput = {
-    id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    soloId?: SortOrder
-    culturaId?: SortOrder
-    adminId?: SortOrder
   }
 
   export type PropriedadeMaxOrderByAggregateInput = {
     id?: SortOrder
-    nomeProprietario?: SortOrder
     nomePropriedade?: SortOrder
+    nomeResponsavel?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    soloId?: SortOrder
-    culturaId?: SortOrder
+    adminId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
-    adminId?: SortOrder
   }
 
   export type PropriedadeMinOrderByAggregateInput = {
     id?: SortOrder
-    nomeProprietario?: SortOrder
     nomePropriedade?: SortOrder
+    nomeResponsavel?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    soloId?: SortOrder
-    culturaId?: SortOrder
+    adminId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
-    adminId?: SortOrder
   }
 
   export type PropriedadeSumOrderByAggregateInput = {
-    id?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
-    soloId?: SortOrder
-    culturaId?: SortOrder
-    adminId?: SortOrder
   }
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
@@ -16224,17 +16404,11 @@ export namespace Prisma {
   }
 
   export type PropriedadeCulturaPropriedadeIdCulturaIdCompoundUniqueInput = {
-    propriedadeId: number
-    culturaId: number
+    propriedadeId: string
+    culturaId: string
   }
 
   export type PropriedadeCulturaCountOrderByAggregateInput = {
-    id?: SortOrder
-    propriedadeId?: SortOrder
-    culturaId?: SortOrder
-  }
-
-  export type PropriedadeCulturaAvgOrderByAggregateInput = {
     id?: SortOrder
     propriedadeId?: SortOrder
     culturaId?: SortOrder
@@ -16252,29 +16426,17 @@ export namespace Prisma {
     culturaId?: SortOrder
   }
 
-  export type PropriedadeCulturaSumOrderByAggregateInput = {
-    id?: SortOrder
-    propriedadeId?: SortOrder
-    culturaId?: SortOrder
-  }
-
   export type SoloScalarRelationFilter = {
     is?: SoloWhereInput
     isNot?: SoloWhereInput
   }
 
   export type PropriedadeSoloPropriedadeIdSoloIdCompoundUniqueInput = {
-    propriedadeId: number
-    soloId: number
+    propriedadeId: string
+    soloId: string
   }
 
   export type PropriedadeSoloCountOrderByAggregateInput = {
-    id?: SortOrder
-    propriedadeId?: SortOrder
-    soloId?: SortOrder
-  }
-
-  export type PropriedadeSoloAvgOrderByAggregateInput = {
     id?: SortOrder
     propriedadeId?: SortOrder
     soloId?: SortOrder
@@ -16292,83 +16454,49 @@ export namespace Prisma {
     soloId?: SortOrder
   }
 
-  export type PropriedadeSoloSumOrderByAggregateInput = {
-    id?: SortOrder
-    propriedadeId?: SortOrder
-    soloId?: SortOrder
-  }
-
   export type SimulacaoScalarRelationFilter = {
     is?: SimulacaoWhereInput
     isNot?: SimulacaoWhereInput
   }
 
-  export type PrecipitacaoScalarRelationFilter = {
-    is?: PrecipitacaoWhereInput
-    isNot?: PrecipitacaoWhereInput
+  export type PrecipitacaoNullableScalarRelationFilter = {
+    is?: PrecipitacaoWhereInput | null
+    isNot?: PrecipitacaoWhereInput | null
   }
 
-  export type HistoricoOrderByRelevanceInput = {
-    fields: HistoricoOrderByRelevanceFieldEnum | HistoricoOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
+  export type SoloNullableScalarRelationFilter = {
+    is?: SoloWhereInput | null
+    isNot?: SoloWhereInput | null
   }
 
   export type HistoricoCountOrderByAggregateInput = {
     id?: SortOrder
-    descricao?: SortOrder
-    valorSimulacao?: SortOrder
-    propriedadeId?: SortOrder
     simulacaoId?: SortOrder
-    soloId?: SortOrder
+    observacao?: SortOrder
+    propriedadeId?: SortOrder
     precipitacaoId?: SortOrder
+    soloId?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
-    deletedAt?: SortOrder
-  }
-
-  export type HistoricoAvgOrderByAggregateInput = {
-    id?: SortOrder
-    valorSimulacao?: SortOrder
-    propriedadeId?: SortOrder
-    simulacaoId?: SortOrder
-    soloId?: SortOrder
-    precipitacaoId?: SortOrder
   }
 
   export type HistoricoMaxOrderByAggregateInput = {
     id?: SortOrder
-    descricao?: SortOrder
-    valorSimulacao?: SortOrder
-    propriedadeId?: SortOrder
     simulacaoId?: SortOrder
-    soloId?: SortOrder
+    observacao?: SortOrder
+    propriedadeId?: SortOrder
     precipitacaoId?: SortOrder
+    soloId?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
-    deletedAt?: SortOrder
   }
 
   export type HistoricoMinOrderByAggregateInput = {
     id?: SortOrder
-    descricao?: SortOrder
-    valorSimulacao?: SortOrder
-    propriedadeId?: SortOrder
     simulacaoId?: SortOrder
-    soloId?: SortOrder
+    observacao?: SortOrder
+    propriedadeId?: SortOrder
     precipitacaoId?: SortOrder
+    soloId?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
-    deletedAt?: SortOrder
-  }
-
-  export type HistoricoSumOrderByAggregateInput = {
-    id?: SortOrder
-    valorSimulacao?: SortOrder
-    propriedadeId?: SortOrder
-    simulacaoId?: SortOrder
-    soloId?: SortOrder
-    precipitacaoId?: SortOrder
   }
 
   export type PrecipitacaoCountOrderByAggregateInput = {
@@ -16386,14 +16514,12 @@ export namespace Prisma {
   }
 
   export type PrecipitacaoAvgOrderByAggregateInput = {
-    id?: SortOrder
     mmAno?: SortOrder
     chuvas?: SortOrder
     mmDia?: SortOrder
     cvDia?: SortOrder
     mmMes?: SortOrder
     cvMes?: SortOrder
-    propriedadeId?: SortOrder
   }
 
   export type PrecipitacaoMaxOrderByAggregateInput = {
@@ -16425,20 +16551,12 @@ export namespace Prisma {
   }
 
   export type PrecipitacaoSumOrderByAggregateInput = {
-    id?: SortOrder
     mmAno?: SortOrder
     chuvas?: SortOrder
     mmDia?: SortOrder
     cvDia?: SortOrder
     mmMes?: SortOrder
     cvMes?: SortOrder
-    propriedadeId?: SortOrder
-  }
-
-  export type SoloOrderByRelevanceInput = {
-    fields: SoloOrderByRelevanceFieldEnum | SoloOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
   }
 
   export type SoloCountOrderByAggregateInput = {
@@ -16458,7 +16576,6 @@ export namespace Prisma {
   }
 
   export type SoloAvgOrderByAggregateInput = {
-    id?: SortOrder
     profundidade?: SortOrder
     fatorRocha?: SortOrder
     condutHidraulicaSaturada?: SortOrder
@@ -16466,7 +16583,6 @@ export namespace Prisma {
     agua0Bar?: SortOrder
     agua13Bar?: SortOrder
     agua15Bar?: SortOrder
-    propriedadeId?: SortOrder
   }
 
   export type SoloMaxOrderByAggregateInput = {
@@ -16502,7 +16618,6 @@ export namespace Prisma {
   }
 
   export type SoloSumOrderByAggregateInput = {
-    id?: SortOrder
     profundidade?: SortOrder
     fatorRocha?: SortOrder
     condutHidraulicaSaturada?: SortOrder
@@ -16510,13 +16625,6 @@ export namespace Prisma {
     agua0Bar?: SortOrder
     agua13Bar?: SortOrder
     agua15Bar?: SortOrder
-    propriedadeId?: SortOrder
-  }
-
-  export type EstimativasOrderByRelevanceInput = {
-    fields: EstimativasOrderByRelevanceFieldEnum | EstimativasOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
   }
 
   export type EstimativasCountOrderByAggregateInput = {
@@ -16531,10 +16639,7 @@ export namespace Prisma {
   }
 
   export type EstimativasAvgOrderByAggregateInput = {
-    id?: SortOrder
     valorTotal?: SortOrder
-    propriedadeId?: SortOrder
-    simulacaoId?: SortOrder
   }
 
   export type EstimativasMaxOrderByAggregateInput = {
@@ -16560,127 +16665,127 @@ export namespace Prisma {
   }
 
   export type EstimativasSumOrderByAggregateInput = {
-    id?: SortOrder
     valorTotal?: SortOrder
-    propriedadeId?: SortOrder
-    simulacaoId?: SortOrder
-  }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type SimulacaoOrderByRelevanceInput = {
-    fields: SimulacaoOrderByRelevanceFieldEnum | SimulacaoOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+    isSet?: boolean
   }
 
   export type SimulacaoCountOrderByAggregateInput = {
     id?: SortOrder
     nomeSimulacao?: SortOrder
-    dadosJson?: SortOrder
+    ano?: SortOrder
     culturaId?: SortOrder
     soloId?: SortOrder
+    propriedadeId?: SortOrder
+    chuvaAnual?: SortOrder
+    temperaturaMed?: SortOrder
+    umidade?: SortOrder
     resultado?: SortOrder
     dataSimulacao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
-    propriedadeId?: SortOrder
   }
 
   export type SimulacaoAvgOrderByAggregateInput = {
-    id?: SortOrder
-    culturaId?: SortOrder
-    soloId?: SortOrder
+    ano?: SortOrder
+    chuvaAnual?: SortOrder
+    temperaturaMed?: SortOrder
+    umidade?: SortOrder
     resultado?: SortOrder
-    propriedadeId?: SortOrder
   }
 
   export type SimulacaoMaxOrderByAggregateInput = {
     id?: SortOrder
     nomeSimulacao?: SortOrder
+    ano?: SortOrder
     culturaId?: SortOrder
     soloId?: SortOrder
+    propriedadeId?: SortOrder
+    chuvaAnual?: SortOrder
+    temperaturaMed?: SortOrder
+    umidade?: SortOrder
     resultado?: SortOrder
     dataSimulacao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
-    propriedadeId?: SortOrder
   }
 
   export type SimulacaoMinOrderByAggregateInput = {
     id?: SortOrder
     nomeSimulacao?: SortOrder
+    ano?: SortOrder
     culturaId?: SortOrder
     soloId?: SortOrder
+    propriedadeId?: SortOrder
+    chuvaAnual?: SortOrder
+    temperaturaMed?: SortOrder
+    umidade?: SortOrder
     resultado?: SortOrder
     dataSimulacao?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
-    propriedadeId?: SortOrder
   }
 
   export type SimulacaoSumOrderByAggregateInput = {
-    id?: SortOrder
-    culturaId?: SortOrder
-    soloId?: SortOrder
+    ano?: SortOrder
+    chuvaAnual?: SortOrder
+    temperaturaMed?: SortOrder
+    umidade?: SortOrder
     resultado?: SortOrder
-    propriedadeId?: SortOrder
   }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
-
-  export type CulturaOrderByRelevanceInput = {
-    fields: CulturaOrderByRelevanceFieldEnum | CulturaOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type CulturaCountOrderByAggregateInput = {
@@ -16693,7 +16798,6 @@ export namespace Prisma {
   }
 
   export type CulturaAvgOrderByAggregateInput = {
-    id?: SortOrder
     eua?: SortOrder
   }
 
@@ -16716,7 +16820,6 @@ export namespace Prisma {
   }
 
   export type CulturaSumOrderByAggregateInput = {
-    id?: SortOrder
     eua?: SortOrder
   }
 
@@ -16752,13 +16855,14 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+    unset?: boolean
   }
 
   export type TipoUserUpdateOneWithoutAdminsNestedInput = {
     create?: XOR<TipoUserCreateWithoutAdminsInput, TipoUserUncheckedCreateWithoutAdminsInput>
     connectOrCreate?: TipoUserCreateOrConnectWithoutAdminsInput
     upsert?: TipoUserUpsertWithoutAdminsInput
-    disconnect?: TipoUserWhereInput | boolean
+    disconnect?: boolean
     delete?: TipoUserWhereInput | boolean
     connect?: TipoUserWhereUniqueInput
     update?: XOR<XOR<TipoUserUpdateToOneWithWhereWithoutAdminsInput, TipoUserUpdateWithoutAdminsInput>, TipoUserUncheckedUpdateWithoutAdminsInput>
@@ -16774,20 +16878,9 @@ export namespace Prisma {
     update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutAdminInput, PropriedadeUpdateWithoutAdminInput>, PropriedadeUncheckedUpdateWithoutAdminInput>
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+    unset?: boolean
   }
 
   export type PropriedadeUncheckedUpdateOneWithoutAdminNestedInput = {
@@ -16812,10 +16905,6 @@ export namespace Prisma {
     connectOrCreate?: AdminCreateOrConnectWithoutTipoUserInput | AdminCreateOrConnectWithoutTipoUserInput[]
     createMany?: AdminCreateManyTipoUserInputEnvelope
     connect?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type AdminUpdateManyWithoutTipoUserNestedInput = {
@@ -16852,11 +16941,18 @@ export namespace Prisma {
     connect?: AdminWhereUniqueInput
   }
 
-  export type EstimativasCreateNestedManyWithoutPropriedadeInput = {
-    create?: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput> | EstimativasCreateWithoutPropriedadeInput[] | EstimativasUncheckedCreateWithoutPropriedadeInput[]
-    connectOrCreate?: EstimativasCreateOrConnectWithoutPropriedadeInput | EstimativasCreateOrConnectWithoutPropriedadeInput[]
-    createMany?: EstimativasCreateManyPropriedadeInputEnvelope
-    connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+  export type PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+  }
+
+  export type PropriedadeSoloCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
   }
 
   export type SimulacaoCreateNestedManyWithoutPropriedadeInput = {
@@ -16880,20 +16976,6 @@ export namespace Prisma {
     connect?: PrecipitacaoWhereUniqueInput | PrecipitacaoWhereUniqueInput[]
   }
 
-  export type PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput = {
-    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
-    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
-    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
-    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
-  }
-
-  export type PropriedadeSoloCreateNestedManyWithoutPropriedadeInput = {
-    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
-    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
-    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
-    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
-  }
-
   export type SoloCreateNestedManyWithoutPropriedadeInput = {
     create?: XOR<SoloCreateWithoutPropriedadeInput, SoloUncheckedCreateWithoutPropriedadeInput> | SoloCreateWithoutPropriedadeInput[] | SoloUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: SoloCreateOrConnectWithoutPropriedadeInput | SoloCreateOrConnectWithoutPropriedadeInput[]
@@ -16901,11 +16983,25 @@ export namespace Prisma {
     connect?: SoloWhereUniqueInput | SoloWhereUniqueInput[]
   }
 
-  export type EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput = {
+  export type EstimativasCreateNestedManyWithoutPropriedadeInput = {
     create?: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput> | EstimativasCreateWithoutPropriedadeInput[] | EstimativasUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: EstimativasCreateOrConnectWithoutPropriedadeInput | EstimativasCreateOrConnectWithoutPropriedadeInput[]
     createMany?: EstimativasCreateManyPropriedadeInputEnvelope
     connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+  }
+
+  export type PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+  }
+
+  export type PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
   }
 
   export type SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput = {
@@ -16929,25 +17025,18 @@ export namespace Prisma {
     connect?: PrecipitacaoWhereUniqueInput | PrecipitacaoWhereUniqueInput[]
   }
 
-  export type PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput = {
-    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
-    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
-    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
-    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
-  }
-
-  export type PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput = {
-    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
-    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
-    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
-    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
-  }
-
   export type SoloUncheckedCreateNestedManyWithoutPropriedadeInput = {
     create?: XOR<SoloCreateWithoutPropriedadeInput, SoloUncheckedCreateWithoutPropriedadeInput> | SoloCreateWithoutPropriedadeInput[] | SoloUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: SoloCreateOrConnectWithoutPropriedadeInput | SoloCreateOrConnectWithoutPropriedadeInput[]
     createMany?: SoloCreateManyPropriedadeInputEnvelope
     connect?: SoloWhereUniqueInput | SoloWhereUniqueInput[]
+  }
+
+  export type EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput = {
+    create?: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput> | EstimativasCreateWithoutPropriedadeInput[] | EstimativasUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: EstimativasCreateOrConnectWithoutPropriedadeInput | EstimativasCreateOrConnectWithoutPropriedadeInput[]
+    createMany?: EstimativasCreateManyPropriedadeInputEnvelope
+    connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -16962,24 +17051,38 @@ export namespace Prisma {
     create?: XOR<AdminCreateWithoutPropriedadeInput, AdminUncheckedCreateWithoutPropriedadeInput>
     connectOrCreate?: AdminCreateOrConnectWithoutPropriedadeInput
     upsert?: AdminUpsertWithoutPropriedadeInput
-    disconnect?: AdminWhereInput | boolean
+    disconnect?: boolean
     delete?: AdminWhereInput | boolean
     connect?: AdminWhereUniqueInput
     update?: XOR<XOR<AdminUpdateToOneWithWhereWithoutPropriedadeInput, AdminUpdateWithoutPropriedadeInput>, AdminUncheckedUpdateWithoutPropriedadeInput>
   }
 
-  export type EstimativasUpdateManyWithoutPropriedadeNestedInput = {
-    create?: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput> | EstimativasCreateWithoutPropriedadeInput[] | EstimativasUncheckedCreateWithoutPropriedadeInput[]
-    connectOrCreate?: EstimativasCreateOrConnectWithoutPropriedadeInput | EstimativasCreateOrConnectWithoutPropriedadeInput[]
-    upsert?: EstimativasUpsertWithWhereUniqueWithoutPropriedadeInput | EstimativasUpsertWithWhereUniqueWithoutPropriedadeInput[]
-    createMany?: EstimativasCreateManyPropriedadeInputEnvelope
-    set?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
-    disconnect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
-    delete?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
-    connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
-    update?: EstimativasUpdateWithWhereUniqueWithoutPropriedadeInput | EstimativasUpdateWithWhereUniqueWithoutPropriedadeInput[]
-    updateMany?: EstimativasUpdateManyWithWhereWithoutPropriedadeInput | EstimativasUpdateManyWithWhereWithoutPropriedadeInput[]
-    deleteMany?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
+  export type PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
+    set?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    disconnect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    delete?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    update?: PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
+  }
+
+  export type PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
+    set?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    disconnect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    delete?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    update?: PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
   }
 
   export type SimulacaoUpdateManyWithoutPropriedadeNestedInput = {
@@ -17024,34 +17127,6 @@ export namespace Prisma {
     deleteMany?: PrecipitacaoScalarWhereInput | PrecipitacaoScalarWhereInput[]
   }
 
-  export type PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput = {
-    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
-    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
-    upsert?: PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput[]
-    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
-    set?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
-    disconnect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
-    delete?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
-    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
-    update?: PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput[]
-    updateMany?: PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput[]
-    deleteMany?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
-  }
-
-  export type PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput = {
-    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
-    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
-    upsert?: PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput[]
-    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
-    set?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
-    disconnect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
-    delete?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
-    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
-    update?: PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput[]
-    updateMany?: PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput[]
-    deleteMany?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
-  }
-
   export type SoloUpdateManyWithoutPropriedadeNestedInput = {
     create?: XOR<SoloCreateWithoutPropriedadeInput, SoloUncheckedCreateWithoutPropriedadeInput> | SoloCreateWithoutPropriedadeInput[] | SoloUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: SoloCreateOrConnectWithoutPropriedadeInput | SoloCreateOrConnectWithoutPropriedadeInput[]
@@ -17066,7 +17141,7 @@ export namespace Prisma {
     deleteMany?: SoloScalarWhereInput | SoloScalarWhereInput[]
   }
 
-  export type EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput = {
+  export type EstimativasUpdateManyWithoutPropriedadeNestedInput = {
     create?: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput> | EstimativasCreateWithoutPropriedadeInput[] | EstimativasUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: EstimativasCreateOrConnectWithoutPropriedadeInput | EstimativasCreateOrConnectWithoutPropriedadeInput[]
     upsert?: EstimativasUpsertWithWhereUniqueWithoutPropriedadeInput | EstimativasUpsertWithWhereUniqueWithoutPropriedadeInput[]
@@ -17078,6 +17153,34 @@ export namespace Prisma {
     update?: EstimativasUpdateWithWhereUniqueWithoutPropriedadeInput | EstimativasUpdateWithWhereUniqueWithoutPropriedadeInput[]
     updateMany?: EstimativasUpdateManyWithWhereWithoutPropriedadeInput | EstimativasUpdateManyWithWhereWithoutPropriedadeInput[]
     deleteMany?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
+  }
+
+  export type PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
+    set?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    disconnect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    delete?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+    update?: PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
+  }
+
+  export type PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
+    set?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    disconnect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    delete?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+    update?: PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
   }
 
   export type SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput = {
@@ -17122,34 +17225,6 @@ export namespace Prisma {
     deleteMany?: PrecipitacaoScalarWhereInput | PrecipitacaoScalarWhereInput[]
   }
 
-  export type PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput = {
-    create?: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput> | PropriedadeCulturaCreateWithoutPropriedadeInput[] | PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput[]
-    connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput | PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput[]
-    upsert?: PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput[]
-    createMany?: PropriedadeCulturaCreateManyPropriedadeInputEnvelope
-    set?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
-    disconnect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
-    delete?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
-    connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
-    update?: PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeCulturaUpdateWithWhereUniqueWithoutPropriedadeInput[]
-    updateMany?: PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeCulturaUpdateManyWithWhereWithoutPropriedadeInput[]
-    deleteMany?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
-  }
-
-  export type PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput = {
-    create?: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput> | PropriedadeSoloCreateWithoutPropriedadeInput[] | PropriedadeSoloUncheckedCreateWithoutPropriedadeInput[]
-    connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutPropriedadeInput | PropriedadeSoloCreateOrConnectWithoutPropriedadeInput[]
-    upsert?: PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput[]
-    createMany?: PropriedadeSoloCreateManyPropriedadeInputEnvelope
-    set?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
-    disconnect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
-    delete?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
-    connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
-    update?: PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput | PropriedadeSoloUpdateWithWhereUniqueWithoutPropriedadeInput[]
-    updateMany?: PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput | PropriedadeSoloUpdateManyWithWhereWithoutPropriedadeInput[]
-    deleteMany?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
-  }
-
   export type SoloUncheckedUpdateManyWithoutPropriedadeNestedInput = {
     create?: XOR<SoloCreateWithoutPropriedadeInput, SoloUncheckedCreateWithoutPropriedadeInput> | SoloCreateWithoutPropriedadeInput[] | SoloUncheckedCreateWithoutPropriedadeInput[]
     connectOrCreate?: SoloCreateOrConnectWithoutPropriedadeInput | SoloCreateOrConnectWithoutPropriedadeInput[]
@@ -17164,9 +17239,23 @@ export namespace Prisma {
     deleteMany?: SoloScalarWhereInput | SoloScalarWhereInput[]
   }
 
-  export type PropriedadeCreateNestedOneWithoutPropriedadeCulturaInput = {
-    create?: XOR<PropriedadeCreateWithoutPropriedadeCulturaInput, PropriedadeUncheckedCreateWithoutPropriedadeCulturaInput>
-    connectOrCreate?: PropriedadeCreateOrConnectWithoutPropriedadeCulturaInput
+  export type EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput = {
+    create?: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput> | EstimativasCreateWithoutPropriedadeInput[] | EstimativasUncheckedCreateWithoutPropriedadeInput[]
+    connectOrCreate?: EstimativasCreateOrConnectWithoutPropriedadeInput | EstimativasCreateOrConnectWithoutPropriedadeInput[]
+    upsert?: EstimativasUpsertWithWhereUniqueWithoutPropriedadeInput | EstimativasUpsertWithWhereUniqueWithoutPropriedadeInput[]
+    createMany?: EstimativasCreateManyPropriedadeInputEnvelope
+    set?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    disconnect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    delete?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+    update?: EstimativasUpdateWithWhereUniqueWithoutPropriedadeInput | EstimativasUpdateWithWhereUniqueWithoutPropriedadeInput[]
+    updateMany?: EstimativasUpdateManyWithWhereWithoutPropriedadeInput | EstimativasUpdateManyWithWhereWithoutPropriedadeInput[]
+    deleteMany?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
+  }
+
+  export type PropriedadeCreateNestedOneWithoutCulturasInput = {
+    create?: XOR<PropriedadeCreateWithoutCulturasInput, PropriedadeUncheckedCreateWithoutCulturasInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutCulturasInput
     connect?: PropriedadeWhereUniqueInput
   }
 
@@ -17176,12 +17265,12 @@ export namespace Prisma {
     connect?: CulturaWhereUniqueInput
   }
 
-  export type PropriedadeUpdateOneRequiredWithoutPropriedadeCulturaNestedInput = {
-    create?: XOR<PropriedadeCreateWithoutPropriedadeCulturaInput, PropriedadeUncheckedCreateWithoutPropriedadeCulturaInput>
-    connectOrCreate?: PropriedadeCreateOrConnectWithoutPropriedadeCulturaInput
-    upsert?: PropriedadeUpsertWithoutPropriedadeCulturaInput
+  export type PropriedadeUpdateOneRequiredWithoutCulturasNestedInput = {
+    create?: XOR<PropriedadeCreateWithoutCulturasInput, PropriedadeUncheckedCreateWithoutCulturasInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutCulturasInput
+    upsert?: PropriedadeUpsertWithoutCulturasInput
     connect?: PropriedadeWhereUniqueInput
-    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutPropriedadeCulturaInput, PropriedadeUpdateWithoutPropriedadeCulturaInput>, PropriedadeUncheckedUpdateWithoutPropriedadeCulturaInput>
+    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutCulturasInput, PropriedadeUpdateWithoutCulturasInput>, PropriedadeUncheckedUpdateWithoutCulturasInput>
   }
 
   export type CulturaUpdateOneRequiredWithoutPropriedadeCulturaNestedInput = {
@@ -17192,9 +17281,9 @@ export namespace Prisma {
     update?: XOR<XOR<CulturaUpdateToOneWithWhereWithoutPropriedadeCulturaInput, CulturaUpdateWithoutPropriedadeCulturaInput>, CulturaUncheckedUpdateWithoutPropriedadeCulturaInput>
   }
 
-  export type PropriedadeCreateNestedOneWithoutPropriedadeSoloInput = {
-    create?: XOR<PropriedadeCreateWithoutPropriedadeSoloInput, PropriedadeUncheckedCreateWithoutPropriedadeSoloInput>
-    connectOrCreate?: PropriedadeCreateOrConnectWithoutPropriedadeSoloInput
+  export type PropriedadeCreateNestedOneWithoutSolosInput = {
+    create?: XOR<PropriedadeCreateWithoutSolosInput, PropriedadeUncheckedCreateWithoutSolosInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutSolosInput
     connect?: PropriedadeWhereUniqueInput
   }
 
@@ -17204,12 +17293,12 @@ export namespace Prisma {
     connect?: SoloWhereUniqueInput
   }
 
-  export type PropriedadeUpdateOneRequiredWithoutPropriedadeSoloNestedInput = {
-    create?: XOR<PropriedadeCreateWithoutPropriedadeSoloInput, PropriedadeUncheckedCreateWithoutPropriedadeSoloInput>
-    connectOrCreate?: PropriedadeCreateOrConnectWithoutPropriedadeSoloInput
-    upsert?: PropriedadeUpsertWithoutPropriedadeSoloInput
+  export type PropriedadeUpdateOneRequiredWithoutSolosNestedInput = {
+    create?: XOR<PropriedadeCreateWithoutSolosInput, PropriedadeUncheckedCreateWithoutSolosInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutSolosInput
+    upsert?: PropriedadeUpsertWithoutSolosInput
     connect?: PropriedadeWhereUniqueInput
-    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutPropriedadeSoloInput, PropriedadeUpdateWithoutPropriedadeSoloInput>, PropriedadeUncheckedUpdateWithoutPropriedadeSoloInput>
+    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutSolosInput, PropriedadeUpdateWithoutSolosInput>, PropriedadeUncheckedUpdateWithoutSolosInput>
   }
 
   export type SoloUpdateOneRequiredWithoutPropriedadeSoloNestedInput = {
@@ -17220,22 +17309,16 @@ export namespace Prisma {
     update?: XOR<XOR<SoloUpdateToOneWithWhereWithoutPropriedadeSoloInput, SoloUpdateWithoutPropriedadeSoloInput>, SoloUncheckedUpdateWithoutPropriedadeSoloInput>
   }
 
-  export type PropriedadeCreateNestedOneWithoutHistoricosInput = {
-    create?: XOR<PropriedadeCreateWithoutHistoricosInput, PropriedadeUncheckedCreateWithoutHistoricosInput>
-    connectOrCreate?: PropriedadeCreateOrConnectWithoutHistoricosInput
-    connect?: PropriedadeWhereUniqueInput
-  }
-
-  export type SimulacaoCreateNestedOneWithoutHistoricoInput = {
-    create?: XOR<SimulacaoCreateWithoutHistoricoInput, SimulacaoUncheckedCreateWithoutHistoricoInput>
-    connectOrCreate?: SimulacaoCreateOrConnectWithoutHistoricoInput
+  export type SimulacaoCreateNestedOneWithoutHistoricosInput = {
+    create?: XOR<SimulacaoCreateWithoutHistoricosInput, SimulacaoUncheckedCreateWithoutHistoricosInput>
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutHistoricosInput
     connect?: SimulacaoWhereUniqueInput
   }
 
-  export type SoloCreateNestedOneWithoutHistoricoInput = {
-    create?: XOR<SoloCreateWithoutHistoricoInput, SoloUncheckedCreateWithoutHistoricoInput>
-    connectOrCreate?: SoloCreateOrConnectWithoutHistoricoInput
-    connect?: SoloWhereUniqueInput
+  export type PropriedadeCreateNestedOneWithoutHistoricoInput = {
+    create?: XOR<PropriedadeCreateWithoutHistoricoInput, PropriedadeUncheckedCreateWithoutHistoricoInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutHistoricoInput
+    connect?: PropriedadeWhereUniqueInput
   }
 
   export type PrecipitacaoCreateNestedOneWithoutHistoricoInput = {
@@ -17244,41 +17327,53 @@ export namespace Prisma {
     connect?: PrecipitacaoWhereUniqueInput
   }
 
-  export type PropriedadeUpdateOneRequiredWithoutHistoricosNestedInput = {
-    create?: XOR<PropriedadeCreateWithoutHistoricosInput, PropriedadeUncheckedCreateWithoutHistoricosInput>
-    connectOrCreate?: PropriedadeCreateOrConnectWithoutHistoricosInput
-    upsert?: PropriedadeUpsertWithoutHistoricosInput
-    connect?: PropriedadeWhereUniqueInput
-    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutHistoricosInput, PropriedadeUpdateWithoutHistoricosInput>, PropriedadeUncheckedUpdateWithoutHistoricosInput>
-  }
-
-  export type SimulacaoUpdateOneRequiredWithoutHistoricoNestedInput = {
-    create?: XOR<SimulacaoCreateWithoutHistoricoInput, SimulacaoUncheckedCreateWithoutHistoricoInput>
-    connectOrCreate?: SimulacaoCreateOrConnectWithoutHistoricoInput
-    upsert?: SimulacaoUpsertWithoutHistoricoInput
-    connect?: SimulacaoWhereUniqueInput
-    update?: XOR<XOR<SimulacaoUpdateToOneWithWhereWithoutHistoricoInput, SimulacaoUpdateWithoutHistoricoInput>, SimulacaoUncheckedUpdateWithoutHistoricoInput>
-  }
-
-  export type SoloUpdateOneRequiredWithoutHistoricoNestedInput = {
+  export type SoloCreateNestedOneWithoutHistoricoInput = {
     create?: XOR<SoloCreateWithoutHistoricoInput, SoloUncheckedCreateWithoutHistoricoInput>
     connectOrCreate?: SoloCreateOrConnectWithoutHistoricoInput
-    upsert?: SoloUpsertWithoutHistoricoInput
     connect?: SoloWhereUniqueInput
-    update?: XOR<XOR<SoloUpdateToOneWithWhereWithoutHistoricoInput, SoloUpdateWithoutHistoricoInput>, SoloUncheckedUpdateWithoutHistoricoInput>
   }
 
-  export type PrecipitacaoUpdateOneRequiredWithoutHistoricoNestedInput = {
+  export type SimulacaoUpdateOneRequiredWithoutHistoricosNestedInput = {
+    create?: XOR<SimulacaoCreateWithoutHistoricosInput, SimulacaoUncheckedCreateWithoutHistoricosInput>
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutHistoricosInput
+    upsert?: SimulacaoUpsertWithoutHistoricosInput
+    connect?: SimulacaoWhereUniqueInput
+    update?: XOR<XOR<SimulacaoUpdateToOneWithWhereWithoutHistoricosInput, SimulacaoUpdateWithoutHistoricosInput>, SimulacaoUncheckedUpdateWithoutHistoricosInput>
+  }
+
+  export type PropriedadeUpdateOneWithoutHistoricoNestedInput = {
+    create?: XOR<PropriedadeCreateWithoutHistoricoInput, PropriedadeUncheckedCreateWithoutHistoricoInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutHistoricoInput
+    upsert?: PropriedadeUpsertWithoutHistoricoInput
+    disconnect?: boolean
+    delete?: PropriedadeWhereInput | boolean
+    connect?: PropriedadeWhereUniqueInput
+    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutHistoricoInput, PropriedadeUpdateWithoutHistoricoInput>, PropriedadeUncheckedUpdateWithoutHistoricoInput>
+  }
+
+  export type PrecipitacaoUpdateOneWithoutHistoricoNestedInput = {
     create?: XOR<PrecipitacaoCreateWithoutHistoricoInput, PrecipitacaoUncheckedCreateWithoutHistoricoInput>
     connectOrCreate?: PrecipitacaoCreateOrConnectWithoutHistoricoInput
     upsert?: PrecipitacaoUpsertWithoutHistoricoInput
+    disconnect?: boolean
+    delete?: PrecipitacaoWhereInput | boolean
     connect?: PrecipitacaoWhereUniqueInput
     update?: XOR<XOR<PrecipitacaoUpdateToOneWithWhereWithoutHistoricoInput, PrecipitacaoUpdateWithoutHistoricoInput>, PrecipitacaoUncheckedUpdateWithoutHistoricoInput>
   }
 
-  export type PropriedadeCreateNestedOneWithoutPrecipitacoesInput = {
-    create?: XOR<PropriedadeCreateWithoutPrecipitacoesInput, PropriedadeUncheckedCreateWithoutPrecipitacoesInput>
-    connectOrCreate?: PropriedadeCreateOrConnectWithoutPrecipitacoesInput
+  export type SoloUpdateOneWithoutHistoricoNestedInput = {
+    create?: XOR<SoloCreateWithoutHistoricoInput, SoloUncheckedCreateWithoutHistoricoInput>
+    connectOrCreate?: SoloCreateOrConnectWithoutHistoricoInput
+    upsert?: SoloUpsertWithoutHistoricoInput
+    disconnect?: boolean
+    delete?: SoloWhereInput | boolean
+    connect?: SoloWhereUniqueInput
+    update?: XOR<XOR<SoloUpdateToOneWithWhereWithoutHistoricoInput, SoloUpdateWithoutHistoricoInput>, SoloUncheckedUpdateWithoutHistoricoInput>
+  }
+
+  export type PropriedadeCreateNestedOneWithoutPrecipitacaoInput = {
+    create?: XOR<PropriedadeCreateWithoutPrecipitacaoInput, PropriedadeUncheckedCreateWithoutPrecipitacaoInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutPrecipitacaoInput
     connect?: PropriedadeWhereUniqueInput
   }
 
@@ -17296,12 +17391,12 @@ export namespace Prisma {
     connect?: HistoricoWhereUniqueInput | HistoricoWhereUniqueInput[]
   }
 
-  export type PropriedadeUpdateOneRequiredWithoutPrecipitacoesNestedInput = {
-    create?: XOR<PropriedadeCreateWithoutPrecipitacoesInput, PropriedadeUncheckedCreateWithoutPrecipitacoesInput>
-    connectOrCreate?: PropriedadeCreateOrConnectWithoutPrecipitacoesInput
-    upsert?: PropriedadeUpsertWithoutPrecipitacoesInput
+  export type PropriedadeUpdateOneRequiredWithoutPrecipitacaoNestedInput = {
+    create?: XOR<PropriedadeCreateWithoutPrecipitacaoInput, PropriedadeUncheckedCreateWithoutPrecipitacaoInput>
+    connectOrCreate?: PropriedadeCreateOrConnectWithoutPrecipitacaoInput
+    upsert?: PropriedadeUpsertWithoutPrecipitacaoInput
     connect?: PropriedadeWhereUniqueInput
-    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutPrecipitacoesInput, PropriedadeUpdateWithoutPrecipitacoesInput>, PropriedadeUncheckedUpdateWithoutPrecipitacoesInput>
+    update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutPrecipitacaoInput, PropriedadeUpdateWithoutPrecipitacaoInput>, PropriedadeUncheckedUpdateWithoutPrecipitacaoInput>
   }
 
   export type HistoricoUpdateManyWithoutPrecipitacaoNestedInput = {
@@ -17352,6 +17447,13 @@ export namespace Prisma {
     connect?: PropriedadeWhereUniqueInput
   }
 
+  export type SimulacaoCreateNestedManyWithoutSoloInput = {
+    create?: XOR<SimulacaoCreateWithoutSoloInput, SimulacaoUncheckedCreateWithoutSoloInput> | SimulacaoCreateWithoutSoloInput[] | SimulacaoUncheckedCreateWithoutSoloInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutSoloInput | SimulacaoCreateOrConnectWithoutSoloInput[]
+    createMany?: SimulacaoCreateManySoloInputEnvelope
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+  }
+
   export type HistoricoUncheckedCreateNestedManyWithoutSoloInput = {
     create?: XOR<HistoricoCreateWithoutSoloInput, HistoricoUncheckedCreateWithoutSoloInput> | HistoricoCreateWithoutSoloInput[] | HistoricoUncheckedCreateWithoutSoloInput[]
     connectOrCreate?: HistoricoCreateOrConnectWithoutSoloInput | HistoricoCreateOrConnectWithoutSoloInput[]
@@ -17364,6 +17466,13 @@ export namespace Prisma {
     connectOrCreate?: PropriedadeSoloCreateOrConnectWithoutSoloInput | PropriedadeSoloCreateOrConnectWithoutSoloInput[]
     createMany?: PropriedadeSoloCreateManySoloInputEnvelope
     connect?: PropriedadeSoloWhereUniqueInput | PropriedadeSoloWhereUniqueInput[]
+  }
+
+  export type SimulacaoUncheckedCreateNestedManyWithoutSoloInput = {
+    create?: XOR<SimulacaoCreateWithoutSoloInput, SimulacaoUncheckedCreateWithoutSoloInput> | SimulacaoCreateWithoutSoloInput[] | SimulacaoUncheckedCreateWithoutSoloInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutSoloInput | SimulacaoCreateOrConnectWithoutSoloInput[]
+    createMany?: SimulacaoCreateManySoloInputEnvelope
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
   }
 
   export type HistoricoUpdateManyWithoutSoloNestedInput = {
@@ -17398,10 +17507,24 @@ export namespace Prisma {
     create?: XOR<PropriedadeCreateWithoutSoloInput, PropriedadeUncheckedCreateWithoutSoloInput>
     connectOrCreate?: PropriedadeCreateOrConnectWithoutSoloInput
     upsert?: PropriedadeUpsertWithoutSoloInput
-    disconnect?: PropriedadeWhereInput | boolean
+    disconnect?: boolean
     delete?: PropriedadeWhereInput | boolean
     connect?: PropriedadeWhereUniqueInput
     update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutSoloInput, PropriedadeUpdateWithoutSoloInput>, PropriedadeUncheckedUpdateWithoutSoloInput>
+  }
+
+  export type SimulacaoUpdateManyWithoutSoloNestedInput = {
+    create?: XOR<SimulacaoCreateWithoutSoloInput, SimulacaoUncheckedCreateWithoutSoloInput> | SimulacaoCreateWithoutSoloInput[] | SimulacaoUncheckedCreateWithoutSoloInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutSoloInput | SimulacaoCreateOrConnectWithoutSoloInput[]
+    upsert?: SimulacaoUpsertWithWhereUniqueWithoutSoloInput | SimulacaoUpsertWithWhereUniqueWithoutSoloInput[]
+    createMany?: SimulacaoCreateManySoloInputEnvelope
+    set?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    disconnect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    delete?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    update?: SimulacaoUpdateWithWhereUniqueWithoutSoloInput | SimulacaoUpdateWithWhereUniqueWithoutSoloInput[]
+    updateMany?: SimulacaoUpdateManyWithWhereWithoutSoloInput | SimulacaoUpdateManyWithWhereWithoutSoloInput[]
+    deleteMany?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
   }
 
   export type HistoricoUncheckedUpdateManyWithoutSoloNestedInput = {
@@ -17432,6 +17555,20 @@ export namespace Prisma {
     deleteMany?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
   }
 
+  export type SimulacaoUncheckedUpdateManyWithoutSoloNestedInput = {
+    create?: XOR<SimulacaoCreateWithoutSoloInput, SimulacaoUncheckedCreateWithoutSoloInput> | SimulacaoCreateWithoutSoloInput[] | SimulacaoUncheckedCreateWithoutSoloInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutSoloInput | SimulacaoCreateOrConnectWithoutSoloInput[]
+    upsert?: SimulacaoUpsertWithWhereUniqueWithoutSoloInput | SimulacaoUpsertWithWhereUniqueWithoutSoloInput[]
+    createMany?: SimulacaoCreateManySoloInputEnvelope
+    set?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    disconnect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    delete?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    update?: SimulacaoUpdateWithWhereUniqueWithoutSoloInput | SimulacaoUpdateWithWhereUniqueWithoutSoloInput[]
+    updateMany?: SimulacaoUpdateManyWithWhereWithoutSoloInput | SimulacaoUpdateManyWithWhereWithoutSoloInput[]
+    deleteMany?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
+  }
+
   export type SimulacaoCreateNestedOneWithoutEstimativasInput = {
     create?: XOR<SimulacaoCreateWithoutEstimativasInput, SimulacaoUncheckedCreateWithoutEstimativasInput>
     connectOrCreate?: SimulacaoCreateOrConnectWithoutEstimativasInput
@@ -17456,10 +17593,22 @@ export namespace Prisma {
     create?: XOR<PropriedadeCreateWithoutEstimativasInput, PropriedadeUncheckedCreateWithoutEstimativasInput>
     connectOrCreate?: PropriedadeCreateOrConnectWithoutEstimativasInput
     upsert?: PropriedadeUpsertWithoutEstimativasInput
-    disconnect?: PropriedadeWhereInput | boolean
+    disconnect?: boolean
     delete?: PropriedadeWhereInput | boolean
     connect?: PropriedadeWhereUniqueInput
     update?: XOR<XOR<PropriedadeUpdateToOneWithWhereWithoutEstimativasInput, PropriedadeUpdateWithoutEstimativasInput>, PropriedadeUncheckedUpdateWithoutEstimativasInput>
+  }
+
+  export type CulturaCreateNestedOneWithoutSimulacaoInput = {
+    create?: XOR<CulturaCreateWithoutSimulacaoInput, CulturaUncheckedCreateWithoutSimulacaoInput>
+    connectOrCreate?: CulturaCreateOrConnectWithoutSimulacaoInput
+    connect?: CulturaWhereUniqueInput
+  }
+
+  export type SoloCreateNestedOneWithoutSimulacaoInput = {
+    create?: XOR<SoloCreateWithoutSimulacaoInput, SoloUncheckedCreateWithoutSimulacaoInput>
+    connectOrCreate?: SoloCreateOrConnectWithoutSimulacaoInput
+    connect?: SoloWhereUniqueInput
   }
 
   export type PropriedadeCreateNestedOneWithoutSimulacoesInput = {
@@ -17494,6 +17643,39 @@ export namespace Prisma {
     connectOrCreate?: EstimativasCreateOrConnectWithoutSimulacaoInput | EstimativasCreateOrConnectWithoutSimulacaoInput[]
     createMany?: EstimativasCreateManySimulacaoInputEnvelope
     connect?: EstimativasWhereUniqueInput | EstimativasWhereUniqueInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+    unset?: boolean
+  }
+
+  export type CulturaUpdateOneRequiredWithoutSimulacaoNestedInput = {
+    create?: XOR<CulturaCreateWithoutSimulacaoInput, CulturaUncheckedCreateWithoutSimulacaoInput>
+    connectOrCreate?: CulturaCreateOrConnectWithoutSimulacaoInput
+    upsert?: CulturaUpsertWithoutSimulacaoInput
+    connect?: CulturaWhereUniqueInput
+    update?: XOR<XOR<CulturaUpdateToOneWithWhereWithoutSimulacaoInput, CulturaUpdateWithoutSimulacaoInput>, CulturaUncheckedUpdateWithoutSimulacaoInput>
+  }
+
+  export type SoloUpdateOneRequiredWithoutSimulacaoNestedInput = {
+    create?: XOR<SoloCreateWithoutSimulacaoInput, SoloUncheckedCreateWithoutSimulacaoInput>
+    connectOrCreate?: SoloCreateOrConnectWithoutSimulacaoInput
+    upsert?: SoloUpsertWithoutSimulacaoInput
+    connect?: SoloWhereUniqueInput
+    update?: XOR<XOR<SoloUpdateToOneWithWhereWithoutSimulacaoInput, SoloUpdateWithoutSimulacaoInput>, SoloUncheckedUpdateWithoutSimulacaoInput>
   }
 
   export type PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput = {
@@ -17567,11 +17749,25 @@ export namespace Prisma {
     connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
   }
 
+  export type SimulacaoCreateNestedManyWithoutCulturaInput = {
+    create?: XOR<SimulacaoCreateWithoutCulturaInput, SimulacaoUncheckedCreateWithoutCulturaInput> | SimulacaoCreateWithoutCulturaInput[] | SimulacaoUncheckedCreateWithoutCulturaInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutCulturaInput | SimulacaoCreateOrConnectWithoutCulturaInput[]
+    createMany?: SimulacaoCreateManyCulturaInputEnvelope
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+  }
+
   export type PropriedadeCulturaUncheckedCreateNestedManyWithoutCulturaInput = {
     create?: XOR<PropriedadeCulturaCreateWithoutCulturaInput, PropriedadeCulturaUncheckedCreateWithoutCulturaInput> | PropriedadeCulturaCreateWithoutCulturaInput[] | PropriedadeCulturaUncheckedCreateWithoutCulturaInput[]
     connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutCulturaInput | PropriedadeCulturaCreateOrConnectWithoutCulturaInput[]
     createMany?: PropriedadeCulturaCreateManyCulturaInputEnvelope
     connect?: PropriedadeCulturaWhereUniqueInput | PropriedadeCulturaWhereUniqueInput[]
+  }
+
+  export type SimulacaoUncheckedCreateNestedManyWithoutCulturaInput = {
+    create?: XOR<SimulacaoCreateWithoutCulturaInput, SimulacaoUncheckedCreateWithoutCulturaInput> | SimulacaoCreateWithoutCulturaInput[] | SimulacaoUncheckedCreateWithoutCulturaInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutCulturaInput | SimulacaoCreateOrConnectWithoutCulturaInput[]
+    createMany?: SimulacaoCreateManyCulturaInputEnvelope
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
   }
 
   export type PropriedadeCulturaUpdateManyWithoutCulturaNestedInput = {
@@ -17588,6 +17784,20 @@ export namespace Prisma {
     deleteMany?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
   }
 
+  export type SimulacaoUpdateManyWithoutCulturaNestedInput = {
+    create?: XOR<SimulacaoCreateWithoutCulturaInput, SimulacaoUncheckedCreateWithoutCulturaInput> | SimulacaoCreateWithoutCulturaInput[] | SimulacaoUncheckedCreateWithoutCulturaInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutCulturaInput | SimulacaoCreateOrConnectWithoutCulturaInput[]
+    upsert?: SimulacaoUpsertWithWhereUniqueWithoutCulturaInput | SimulacaoUpsertWithWhereUniqueWithoutCulturaInput[]
+    createMany?: SimulacaoCreateManyCulturaInputEnvelope
+    set?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    disconnect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    delete?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    update?: SimulacaoUpdateWithWhereUniqueWithoutCulturaInput | SimulacaoUpdateWithWhereUniqueWithoutCulturaInput[]
+    updateMany?: SimulacaoUpdateManyWithWhereWithoutCulturaInput | SimulacaoUpdateManyWithWhereWithoutCulturaInput[]
+    deleteMany?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
+  }
+
   export type PropriedadeCulturaUncheckedUpdateManyWithoutCulturaNestedInput = {
     create?: XOR<PropriedadeCulturaCreateWithoutCulturaInput, PropriedadeCulturaUncheckedCreateWithoutCulturaInput> | PropriedadeCulturaCreateWithoutCulturaInput[] | PropriedadeCulturaUncheckedCreateWithoutCulturaInput[]
     connectOrCreate?: PropriedadeCulturaCreateOrConnectWithoutCulturaInput | PropriedadeCulturaCreateOrConnectWithoutCulturaInput[]
@@ -17602,21 +17812,24 @@ export namespace Prisma {
     deleteMany?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+  export type SimulacaoUncheckedUpdateManyWithoutCulturaNestedInput = {
+    create?: XOR<SimulacaoCreateWithoutCulturaInput, SimulacaoUncheckedCreateWithoutCulturaInput> | SimulacaoCreateWithoutCulturaInput[] | SimulacaoUncheckedCreateWithoutCulturaInput[]
+    connectOrCreate?: SimulacaoCreateOrConnectWithoutCulturaInput | SimulacaoCreateOrConnectWithoutCulturaInput[]
+    upsert?: SimulacaoUpsertWithWhereUniqueWithoutCulturaInput | SimulacaoUpsertWithWhereUniqueWithoutCulturaInput[]
+    createMany?: SimulacaoCreateManyCulturaInputEnvelope
+    set?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    disconnect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    delete?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    connect?: SimulacaoWhereUniqueInput | SimulacaoWhereUniqueInput[]
+    update?: SimulacaoUpdateWithWhereUniqueWithoutCulturaInput | SimulacaoUpdateWithWhereUniqueWithoutCulturaInput[]
+    updateMany?: SimulacaoUpdateManyWithWhereWithoutCulturaInput | SimulacaoUpdateManyWithWhereWithoutCulturaInput[]
+    deleteMany?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -17624,7 +17837,6 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
@@ -17635,8 +17847,8 @@ export namespace Prisma {
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -17646,57 +17858,20 @@ export namespace Prisma {
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -17704,11 +17879,36 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    isSet?: boolean
+  }
+
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -17721,8 +17921,8 @@ export namespace Prisma {
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -17735,8 +17935,8 @@ export namespace Prisma {
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -17745,54 +17945,25 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    isSet?: boolean
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -17800,17 +17971,28 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
     not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
@@ -17822,31 +18004,54 @@ export namespace Prisma {
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
   }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+    isSet?: boolean
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type TipoUserCreateWithoutAdminsInput = {
+    id?: string
     tipo: string
     descricao?: string | null
     createdAt?: Date | string
@@ -17856,7 +18061,7 @@ export namespace Prisma {
   }
 
   export type TipoUserUncheckedCreateWithoutAdminsInput = {
-    id?: number
+    id?: string
     tipo: string
     descricao?: string | null
     createdAt?: Date | string
@@ -17871,42 +18076,37 @@ export namespace Prisma {
   }
 
   export type PropriedadeCreateWithoutAdminInput = {
-    nomeProprietario: string
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutAdminInput = {
-    id?: number
-    nomeProprietario: string
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutAdminInput = {
@@ -17935,7 +18135,6 @@ export namespace Prisma {
   }
 
   export type TipoUserUncheckedUpdateWithoutAdminsInput = {
-    id?: IntFieldUpdateOperationsInput | number
     tipo?: StringFieldUpdateOperationsInput | string
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17956,45 +18155,39 @@ export namespace Prisma {
   }
 
   export type PropriedadeUpdateWithoutAdminInput = {
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutAdminInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type AdminCreateWithoutTipoUserInput = {
+    id?: string
     nome: string
     email: string
     cpf: string
@@ -18007,7 +18200,7 @@ export namespace Prisma {
   }
 
   export type AdminUncheckedCreateWithoutTipoUserInput = {
-    id?: number
+    id?: string
     nome: string
     email: string
     cpf: string
@@ -18026,7 +18219,6 @@ export namespace Prisma {
 
   export type AdminCreateManyTipoUserInputEnvelope = {
     data: AdminCreateManyTipoUserInput | AdminCreateManyTipoUserInput[]
-    skipDuplicates?: boolean
   }
 
   export type AdminUpsertWithWhereUniqueWithoutTipoUserInput = {
@@ -18049,7 +18241,7 @@ export namespace Prisma {
     AND?: AdminScalarWhereInput | AdminScalarWhereInput[]
     OR?: AdminScalarWhereInput[]
     NOT?: AdminScalarWhereInput | AdminScalarWhereInput[]
-    id?: IntFilter<"Admin"> | number
+    id?: StringFilter<"Admin"> | string
     nome?: StringFilter<"Admin"> | string
     email?: StringFilter<"Admin"> | string
     cpf?: StringFilter<"Admin"> | string
@@ -18058,10 +18250,11 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Admin"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Admin"> | Date | string | null
-    tipoUserId?: IntNullableFilter<"Admin"> | number | null
+    tipoUserId?: StringNullableFilter<"Admin"> | string | null
   }
 
   export type AdminCreateWithoutPropriedadeInput = {
+    id?: string
     nome: string
     email: string
     cpf: string
@@ -18074,7 +18267,7 @@ export namespace Prisma {
   }
 
   export type AdminUncheckedCreateWithoutPropriedadeInput = {
-    id?: number
+    id?: string
     nome: string
     email: string
     cpf: string
@@ -18083,7 +18276,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    tipoUserId?: number | null
+    tipoUserId?: string | null
   }
 
   export type AdminCreateOrConnectWithoutPropriedadeInput = {
@@ -18091,62 +18284,76 @@ export namespace Prisma {
     create: XOR<AdminCreateWithoutPropriedadeInput, AdminUncheckedCreateWithoutPropriedadeInput>
   }
 
-  export type EstimativasCreateWithoutPropriedadeInput = {
-    valorTotal: number
-    descricao?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    simulacao: SimulacaoCreateNestedOneWithoutEstimativasInput
+  export type PropriedadeCulturaCreateWithoutPropriedadeInput = {
+    id?: string
+    cultura: CulturaCreateNestedOneWithoutPropriedadeCulturaInput
   }
 
-  export type EstimativasUncheckedCreateWithoutPropriedadeInput = {
-    id?: number
-    valorTotal: number
-    descricao?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    simulacaoId: number
+  export type PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput = {
+    id?: string
+    culturaId: string
   }
 
-  export type EstimativasCreateOrConnectWithoutPropriedadeInput = {
-    where: EstimativasWhereUniqueInput
-    create: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput>
+  export type PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput = {
+    where: PropriedadeCulturaWhereUniqueInput
+    create: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput>
   }
 
-  export type EstimativasCreateManyPropriedadeInputEnvelope = {
-    data: EstimativasCreateManyPropriedadeInput | EstimativasCreateManyPropriedadeInput[]
-    skipDuplicates?: boolean
+  export type PropriedadeCulturaCreateManyPropriedadeInputEnvelope = {
+    data: PropriedadeCulturaCreateManyPropriedadeInput | PropriedadeCulturaCreateManyPropriedadeInput[]
+  }
+
+  export type PropriedadeSoloCreateWithoutPropriedadeInput = {
+    id?: string
+    solo: SoloCreateNestedOneWithoutPropriedadeSoloInput
+  }
+
+  export type PropriedadeSoloUncheckedCreateWithoutPropriedadeInput = {
+    id?: string
+    soloId: string
+  }
+
+  export type PropriedadeSoloCreateOrConnectWithoutPropriedadeInput = {
+    where: PropriedadeSoloWhereUniqueInput
+    create: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type PropriedadeSoloCreateManyPropriedadeInputEnvelope = {
+    data: PropriedadeSoloCreateManyPropriedadeInput | PropriedadeSoloCreateManyPropriedadeInput[]
   }
 
   export type SimulacaoCreateWithoutPropriedadeInput = {
+    id?: string
     nomeSimulacao: string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId: number
-    soloId: number
-    resultado: number
-    dataSimulacao: Date | string
+    ano: number
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    historico?: HistoricoCreateNestedManyWithoutSimulacaoInput
-    estimativas?: EstimativasCreateNestedManyWithoutSimulacaoInput
+    cultura: CulturaCreateNestedOneWithoutSimulacaoInput
+    solo: SoloCreateNestedOneWithoutSimulacaoInput
+    historicos?: HistoricoCreateNestedManyWithoutSimulacaoInput
+    Estimativas?: EstimativasCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoUncheckedCreateWithoutPropriedadeInput = {
-    id?: number
+    id?: string
     nomeSimulacao: string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId: number
-    soloId: number
-    resultado: number
-    dataSimulacao: Date | string
+    ano: number
+    culturaId: string
+    soloId: string
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    historico?: HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoCreateOrConnectWithoutPropriedadeInput = {
@@ -18156,30 +18363,24 @@ export namespace Prisma {
 
   export type SimulacaoCreateManyPropriedadeInputEnvelope = {
     data: SimulacaoCreateManyPropriedadeInput | SimulacaoCreateManyPropriedadeInput[]
-    skipDuplicates?: boolean
   }
 
   export type HistoricoCreateWithoutPropriedadeInput = {
-    descricao?: string | null
-    valorSimulacao: number
+    id?: string
+    observacao?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    simulacao: SimulacaoCreateNestedOneWithoutHistoricoInput
-    solo: SoloCreateNestedOneWithoutHistoricoInput
-    precipitacao: PrecipitacaoCreateNestedOneWithoutHistoricoInput
+    simulacao: SimulacaoCreateNestedOneWithoutHistoricosInput
+    Precipitacao?: PrecipitacaoCreateNestedOneWithoutHistoricoInput
+    Solo?: SoloCreateNestedOneWithoutHistoricoInput
   }
 
   export type HistoricoUncheckedCreateWithoutPropriedadeInput = {
-    id?: number
-    descricao?: string | null
-    valorSimulacao: number
-    simulacaoId: number
-    soloId: number
-    precipitacaoId: number
+    id?: string
+    simulacaoId: string
+    observacao?: string | null
+    precipitacaoId?: string | null
+    soloId?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type HistoricoCreateOrConnectWithoutPropriedadeInput = {
@@ -18189,10 +18390,10 @@ export namespace Prisma {
 
   export type HistoricoCreateManyPropriedadeInputEnvelope = {
     data: HistoricoCreateManyPropriedadeInput | HistoricoCreateManyPropriedadeInput[]
-    skipDuplicates?: boolean
   }
 
   export type PrecipitacaoCreateWithoutPropriedadeInput = {
+    id?: string
     mmAno: number
     chuvas: number
     mmDia: number
@@ -18206,7 +18407,7 @@ export namespace Prisma {
   }
 
   export type PrecipitacaoUncheckedCreateWithoutPropriedadeInput = {
-    id?: number
+    id?: string
     mmAno: number
     chuvas: number
     mmDia: number
@@ -18226,48 +18427,10 @@ export namespace Prisma {
 
   export type PrecipitacaoCreateManyPropriedadeInputEnvelope = {
     data: PrecipitacaoCreateManyPropriedadeInput | PrecipitacaoCreateManyPropriedadeInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type PropriedadeCulturaCreateWithoutPropriedadeInput = {
-    cultura: CulturaCreateNestedOneWithoutPropriedadeCulturaInput
-  }
-
-  export type PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput = {
-    id?: number
-    culturaId: number
-  }
-
-  export type PropriedadeCulturaCreateOrConnectWithoutPropriedadeInput = {
-    where: PropriedadeCulturaWhereUniqueInput
-    create: XOR<PropriedadeCulturaCreateWithoutPropriedadeInput, PropriedadeCulturaUncheckedCreateWithoutPropriedadeInput>
-  }
-
-  export type PropriedadeCulturaCreateManyPropriedadeInputEnvelope = {
-    data: PropriedadeCulturaCreateManyPropriedadeInput | PropriedadeCulturaCreateManyPropriedadeInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type PropriedadeSoloCreateWithoutPropriedadeInput = {
-    solo: SoloCreateNestedOneWithoutPropriedadeSoloInput
-  }
-
-  export type PropriedadeSoloUncheckedCreateWithoutPropriedadeInput = {
-    id?: number
-    soloId: number
-  }
-
-  export type PropriedadeSoloCreateOrConnectWithoutPropriedadeInput = {
-    where: PropriedadeSoloWhereUniqueInput
-    create: XOR<PropriedadeSoloCreateWithoutPropriedadeInput, PropriedadeSoloUncheckedCreateWithoutPropriedadeInput>
-  }
-
-  export type PropriedadeSoloCreateManyPropriedadeInputEnvelope = {
-    data: PropriedadeSoloCreateManyPropriedadeInput | PropriedadeSoloCreateManyPropriedadeInput[]
-    skipDuplicates?: boolean
   }
 
   export type SoloCreateWithoutPropriedadeInput = {
+    id?: string
     nomeClasse: string
     profundidade: number
     fatorRocha: number
@@ -18281,10 +18444,11 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     historico?: HistoricoCreateNestedManyWithoutSoloInput
     propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutSoloInput
+    Simulacao?: SimulacaoCreateNestedManyWithoutSoloInput
   }
 
   export type SoloUncheckedCreateWithoutPropriedadeInput = {
-    id?: number
+    id?: string
     nomeClasse: string
     profundidade: number
     fatorRocha: number
@@ -18298,6 +18462,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     historico?: HistoricoUncheckedCreateNestedManyWithoutSoloInput
     propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutSoloInput
+    Simulacao?: SimulacaoUncheckedCreateNestedManyWithoutSoloInput
   }
 
   export type SoloCreateOrConnectWithoutPropriedadeInput = {
@@ -18307,7 +18472,35 @@ export namespace Prisma {
 
   export type SoloCreateManyPropriedadeInputEnvelope = {
     data: SoloCreateManyPropriedadeInput | SoloCreateManyPropriedadeInput[]
-    skipDuplicates?: boolean
+  }
+
+  export type EstimativasCreateWithoutPropriedadeInput = {
+    id?: string
+    valorTotal: number
+    descricao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    simulacao: SimulacaoCreateNestedOneWithoutEstimativasInput
+  }
+
+  export type EstimativasUncheckedCreateWithoutPropriedadeInput = {
+    id?: string
+    valorTotal: number
+    descricao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    simulacaoId: string
+  }
+
+  export type EstimativasCreateOrConnectWithoutPropriedadeInput = {
+    where: EstimativasWhereUniqueInput
+    create: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type EstimativasCreateManyPropriedadeInputEnvelope = {
+    data: EstimativasCreateManyPropriedadeInput | EstimativasCreateManyPropriedadeInput[]
   }
 
   export type AdminUpsertWithoutPropriedadeInput = {
@@ -18334,7 +18527,6 @@ export namespace Prisma {
   }
 
   export type AdminUncheckedUpdateWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     cpf?: StringFieldUpdateOperationsInput | string
@@ -18343,135 +18535,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tipoUserId?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type EstimativasUpsertWithWhereUniqueWithoutPropriedadeInput = {
-    where: EstimativasWhereUniqueInput
-    update: XOR<EstimativasUpdateWithoutPropriedadeInput, EstimativasUncheckedUpdateWithoutPropriedadeInput>
-    create: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput>
-  }
-
-  export type EstimativasUpdateWithWhereUniqueWithoutPropriedadeInput = {
-    where: EstimativasWhereUniqueInput
-    data: XOR<EstimativasUpdateWithoutPropriedadeInput, EstimativasUncheckedUpdateWithoutPropriedadeInput>
-  }
-
-  export type EstimativasUpdateManyWithWhereWithoutPropriedadeInput = {
-    where: EstimativasScalarWhereInput
-    data: XOR<EstimativasUpdateManyMutationInput, EstimativasUncheckedUpdateManyWithoutPropriedadeInput>
-  }
-
-  export type EstimativasScalarWhereInput = {
-    AND?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
-    OR?: EstimativasScalarWhereInput[]
-    NOT?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
-    id?: IntFilter<"Estimativas"> | number
-    valorTotal?: FloatFilter<"Estimativas"> | number
-    descricao?: StringNullableFilter<"Estimativas"> | string | null
-    createdAt?: DateTimeFilter<"Estimativas"> | Date | string
-    updatedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
-    deletedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
-    propriedadeId?: IntFilter<"Estimativas"> | number
-    simulacaoId?: IntFilter<"Estimativas"> | number
-  }
-
-  export type SimulacaoUpsertWithWhereUniqueWithoutPropriedadeInput = {
-    where: SimulacaoWhereUniqueInput
-    update: XOR<SimulacaoUpdateWithoutPropriedadeInput, SimulacaoUncheckedUpdateWithoutPropriedadeInput>
-    create: XOR<SimulacaoCreateWithoutPropriedadeInput, SimulacaoUncheckedCreateWithoutPropriedadeInput>
-  }
-
-  export type SimulacaoUpdateWithWhereUniqueWithoutPropriedadeInput = {
-    where: SimulacaoWhereUniqueInput
-    data: XOR<SimulacaoUpdateWithoutPropriedadeInput, SimulacaoUncheckedUpdateWithoutPropriedadeInput>
-  }
-
-  export type SimulacaoUpdateManyWithWhereWithoutPropriedadeInput = {
-    where: SimulacaoScalarWhereInput
-    data: XOR<SimulacaoUpdateManyMutationInput, SimulacaoUncheckedUpdateManyWithoutPropriedadeInput>
-  }
-
-  export type SimulacaoScalarWhereInput = {
-    AND?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
-    OR?: SimulacaoScalarWhereInput[]
-    NOT?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
-    id?: IntFilter<"Simulacao"> | number
-    nomeSimulacao?: StringFilter<"Simulacao"> | string
-    dadosJson?: JsonNullableFilter<"Simulacao">
-    culturaId?: IntFilter<"Simulacao"> | number
-    soloId?: IntFilter<"Simulacao"> | number
-    resultado?: FloatFilter<"Simulacao"> | number
-    dataSimulacao?: DateTimeFilter<"Simulacao"> | Date | string
-    createdAt?: DateTimeFilter<"Simulacao"> | Date | string
-    updatedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
-    deletedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
-    propriedadeId?: IntFilter<"Simulacao"> | number
-  }
-
-  export type HistoricoUpsertWithWhereUniqueWithoutPropriedadeInput = {
-    where: HistoricoWhereUniqueInput
-    update: XOR<HistoricoUpdateWithoutPropriedadeInput, HistoricoUncheckedUpdateWithoutPropriedadeInput>
-    create: XOR<HistoricoCreateWithoutPropriedadeInput, HistoricoUncheckedCreateWithoutPropriedadeInput>
-  }
-
-  export type HistoricoUpdateWithWhereUniqueWithoutPropriedadeInput = {
-    where: HistoricoWhereUniqueInput
-    data: XOR<HistoricoUpdateWithoutPropriedadeInput, HistoricoUncheckedUpdateWithoutPropriedadeInput>
-  }
-
-  export type HistoricoUpdateManyWithWhereWithoutPropriedadeInput = {
-    where: HistoricoScalarWhereInput
-    data: XOR<HistoricoUpdateManyMutationInput, HistoricoUncheckedUpdateManyWithoutPropriedadeInput>
-  }
-
-  export type HistoricoScalarWhereInput = {
-    AND?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
-    OR?: HistoricoScalarWhereInput[]
-    NOT?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
-    id?: IntFilter<"Historico"> | number
-    descricao?: StringNullableFilter<"Historico"> | string | null
-    valorSimulacao?: FloatFilter<"Historico"> | number
-    propriedadeId?: IntFilter<"Historico"> | number
-    simulacaoId?: IntFilter<"Historico"> | number
-    soloId?: IntFilter<"Historico"> | number
-    precipitacaoId?: IntFilter<"Historico"> | number
-    createdAt?: DateTimeFilter<"Historico"> | Date | string
-    updatedAt?: DateTimeFilter<"Historico"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"Historico"> | Date | string | null
-  }
-
-  export type PrecipitacaoUpsertWithWhereUniqueWithoutPropriedadeInput = {
-    where: PrecipitacaoWhereUniqueInput
-    update: XOR<PrecipitacaoUpdateWithoutPropriedadeInput, PrecipitacaoUncheckedUpdateWithoutPropriedadeInput>
-    create: XOR<PrecipitacaoCreateWithoutPropriedadeInput, PrecipitacaoUncheckedCreateWithoutPropriedadeInput>
-  }
-
-  export type PrecipitacaoUpdateWithWhereUniqueWithoutPropriedadeInput = {
-    where: PrecipitacaoWhereUniqueInput
-    data: XOR<PrecipitacaoUpdateWithoutPropriedadeInput, PrecipitacaoUncheckedUpdateWithoutPropriedadeInput>
-  }
-
-  export type PrecipitacaoUpdateManyWithWhereWithoutPropriedadeInput = {
-    where: PrecipitacaoScalarWhereInput
-    data: XOR<PrecipitacaoUpdateManyMutationInput, PrecipitacaoUncheckedUpdateManyWithoutPropriedadeInput>
-  }
-
-  export type PrecipitacaoScalarWhereInput = {
-    AND?: PrecipitacaoScalarWhereInput | PrecipitacaoScalarWhereInput[]
-    OR?: PrecipitacaoScalarWhereInput[]
-    NOT?: PrecipitacaoScalarWhereInput | PrecipitacaoScalarWhereInput[]
-    id?: IntFilter<"Precipitacao"> | number
-    mmAno?: FloatFilter<"Precipitacao"> | number
-    chuvas?: FloatFilter<"Precipitacao"> | number
-    mmDia?: FloatFilter<"Precipitacao"> | number
-    cvDia?: FloatFilter<"Precipitacao"> | number
-    mmMes?: FloatFilter<"Precipitacao"> | number
-    cvMes?: FloatFilter<"Precipitacao"> | number
-    createdAt?: DateTimeFilter<"Precipitacao"> | Date | string
-    updatedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
-    deletedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
-    propriedadeId?: IntFilter<"Precipitacao"> | number
+    tipoUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PropriedadeCulturaUpsertWithWhereUniqueWithoutPropriedadeInput = {
@@ -18494,9 +18558,9 @@ export namespace Prisma {
     AND?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
     OR?: PropriedadeCulturaScalarWhereInput[]
     NOT?: PropriedadeCulturaScalarWhereInput | PropriedadeCulturaScalarWhereInput[]
-    id?: IntFilter<"PropriedadeCultura"> | number
-    propriedadeId?: IntFilter<"PropriedadeCultura"> | number
-    culturaId?: IntFilter<"PropriedadeCultura"> | number
+    id?: StringFilter<"PropriedadeCultura"> | string
+    propriedadeId?: StringFilter<"PropriedadeCultura"> | string
+    culturaId?: StringFilter<"PropriedadeCultura"> | string
   }
 
   export type PropriedadeSoloUpsertWithWhereUniqueWithoutPropriedadeInput = {
@@ -18519,9 +18583,106 @@ export namespace Prisma {
     AND?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
     OR?: PropriedadeSoloScalarWhereInput[]
     NOT?: PropriedadeSoloScalarWhereInput | PropriedadeSoloScalarWhereInput[]
-    id?: IntFilter<"PropriedadeSolo"> | number
-    propriedadeId?: IntFilter<"PropriedadeSolo"> | number
-    soloId?: IntFilter<"PropriedadeSolo"> | number
+    id?: StringFilter<"PropriedadeSolo"> | string
+    propriedadeId?: StringFilter<"PropriedadeSolo"> | string
+    soloId?: StringFilter<"PropriedadeSolo"> | string
+  }
+
+  export type SimulacaoUpsertWithWhereUniqueWithoutPropriedadeInput = {
+    where: SimulacaoWhereUniqueInput
+    update: XOR<SimulacaoUpdateWithoutPropriedadeInput, SimulacaoUncheckedUpdateWithoutPropriedadeInput>
+    create: XOR<SimulacaoCreateWithoutPropriedadeInput, SimulacaoUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type SimulacaoUpdateWithWhereUniqueWithoutPropriedadeInput = {
+    where: SimulacaoWhereUniqueInput
+    data: XOR<SimulacaoUpdateWithoutPropriedadeInput, SimulacaoUncheckedUpdateWithoutPropriedadeInput>
+  }
+
+  export type SimulacaoUpdateManyWithWhereWithoutPropriedadeInput = {
+    where: SimulacaoScalarWhereInput
+    data: XOR<SimulacaoUpdateManyMutationInput, SimulacaoUncheckedUpdateManyWithoutPropriedadeInput>
+  }
+
+  export type SimulacaoScalarWhereInput = {
+    AND?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
+    OR?: SimulacaoScalarWhereInput[]
+    NOT?: SimulacaoScalarWhereInput | SimulacaoScalarWhereInput[]
+    id?: StringFilter<"Simulacao"> | string
+    nomeSimulacao?: StringFilter<"Simulacao"> | string
+    ano?: IntFilter<"Simulacao"> | number
+    culturaId?: StringFilter<"Simulacao"> | string
+    soloId?: StringFilter<"Simulacao"> | string
+    propriedadeId?: StringFilter<"Simulacao"> | string
+    chuvaAnual?: FloatFilter<"Simulacao"> | number
+    temperaturaMed?: FloatFilter<"Simulacao"> | number
+    umidade?: FloatFilter<"Simulacao"> | number
+    resultado?: FloatNullableFilter<"Simulacao"> | number | null
+    dataSimulacao?: DateTimeFilter<"Simulacao"> | Date | string
+    createdAt?: DateTimeFilter<"Simulacao"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Simulacao"> | Date | string | null
+  }
+
+  export type HistoricoUpsertWithWhereUniqueWithoutPropriedadeInput = {
+    where: HistoricoWhereUniqueInput
+    update: XOR<HistoricoUpdateWithoutPropriedadeInput, HistoricoUncheckedUpdateWithoutPropriedadeInput>
+    create: XOR<HistoricoCreateWithoutPropriedadeInput, HistoricoUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type HistoricoUpdateWithWhereUniqueWithoutPropriedadeInput = {
+    where: HistoricoWhereUniqueInput
+    data: XOR<HistoricoUpdateWithoutPropriedadeInput, HistoricoUncheckedUpdateWithoutPropriedadeInput>
+  }
+
+  export type HistoricoUpdateManyWithWhereWithoutPropriedadeInput = {
+    where: HistoricoScalarWhereInput
+    data: XOR<HistoricoUpdateManyMutationInput, HistoricoUncheckedUpdateManyWithoutPropriedadeInput>
+  }
+
+  export type HistoricoScalarWhereInput = {
+    AND?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
+    OR?: HistoricoScalarWhereInput[]
+    NOT?: HistoricoScalarWhereInput | HistoricoScalarWhereInput[]
+    id?: StringFilter<"Historico"> | string
+    simulacaoId?: StringFilter<"Historico"> | string
+    observacao?: StringNullableFilter<"Historico"> | string | null
+    propriedadeId?: StringNullableFilter<"Historico"> | string | null
+    precipitacaoId?: StringNullableFilter<"Historico"> | string | null
+    soloId?: StringNullableFilter<"Historico"> | string | null
+    createdAt?: DateTimeFilter<"Historico"> | Date | string
+  }
+
+  export type PrecipitacaoUpsertWithWhereUniqueWithoutPropriedadeInput = {
+    where: PrecipitacaoWhereUniqueInput
+    update: XOR<PrecipitacaoUpdateWithoutPropriedadeInput, PrecipitacaoUncheckedUpdateWithoutPropriedadeInput>
+    create: XOR<PrecipitacaoCreateWithoutPropriedadeInput, PrecipitacaoUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type PrecipitacaoUpdateWithWhereUniqueWithoutPropriedadeInput = {
+    where: PrecipitacaoWhereUniqueInput
+    data: XOR<PrecipitacaoUpdateWithoutPropriedadeInput, PrecipitacaoUncheckedUpdateWithoutPropriedadeInput>
+  }
+
+  export type PrecipitacaoUpdateManyWithWhereWithoutPropriedadeInput = {
+    where: PrecipitacaoScalarWhereInput
+    data: XOR<PrecipitacaoUpdateManyMutationInput, PrecipitacaoUncheckedUpdateManyWithoutPropriedadeInput>
+  }
+
+  export type PrecipitacaoScalarWhereInput = {
+    AND?: PrecipitacaoScalarWhereInput | PrecipitacaoScalarWhereInput[]
+    OR?: PrecipitacaoScalarWhereInput[]
+    NOT?: PrecipitacaoScalarWhereInput | PrecipitacaoScalarWhereInput[]
+    id?: StringFilter<"Precipitacao"> | string
+    mmAno?: FloatFilter<"Precipitacao"> | number
+    chuvas?: FloatFilter<"Precipitacao"> | number
+    mmDia?: FloatFilter<"Precipitacao"> | number
+    cvDia?: FloatFilter<"Precipitacao"> | number
+    mmMes?: FloatFilter<"Precipitacao"> | number
+    cvMes?: FloatFilter<"Precipitacao"> | number
+    createdAt?: DateTimeFilter<"Precipitacao"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Precipitacao"> | Date | string | null
+    propriedadeId?: StringFilter<"Precipitacao"> | string
   }
 
   export type SoloUpsertWithWhereUniqueWithoutPropriedadeInput = {
@@ -18544,7 +18705,7 @@ export namespace Prisma {
     AND?: SoloScalarWhereInput | SoloScalarWhereInput[]
     OR?: SoloScalarWhereInput[]
     NOT?: SoloScalarWhereInput | SoloScalarWhereInput[]
-    id?: IntFilter<"Solo"> | number
+    id?: StringFilter<"Solo"> | string
     nomeClasse?: StringFilter<"Solo"> | string
     profundidade?: FloatFilter<"Solo"> | number
     fatorRocha?: FloatFilter<"Solo"> | number
@@ -18556,68 +18717,96 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Solo"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"Solo"> | Date | string | null
-    propriedadeId?: IntNullableFilter<"Solo"> | number | null
+    propriedadeId?: StringNullableFilter<"Solo"> | string | null
   }
 
-  export type PropriedadeCreateWithoutPropriedadeCulturaInput = {
-    nomeProprietario: string
+  export type EstimativasUpsertWithWhereUniqueWithoutPropriedadeInput = {
+    where: EstimativasWhereUniqueInput
+    update: XOR<EstimativasUpdateWithoutPropriedadeInput, EstimativasUncheckedUpdateWithoutPropriedadeInput>
+    create: XOR<EstimativasCreateWithoutPropriedadeInput, EstimativasUncheckedCreateWithoutPropriedadeInput>
+  }
+
+  export type EstimativasUpdateWithWhereUniqueWithoutPropriedadeInput = {
+    where: EstimativasWhereUniqueInput
+    data: XOR<EstimativasUpdateWithoutPropriedadeInput, EstimativasUncheckedUpdateWithoutPropriedadeInput>
+  }
+
+  export type EstimativasUpdateManyWithWhereWithoutPropriedadeInput = {
+    where: EstimativasScalarWhereInput
+    data: XOR<EstimativasUpdateManyMutationInput, EstimativasUncheckedUpdateManyWithoutPropriedadeInput>
+  }
+
+  export type EstimativasScalarWhereInput = {
+    AND?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
+    OR?: EstimativasScalarWhereInput[]
+    NOT?: EstimativasScalarWhereInput | EstimativasScalarWhereInput[]
+    id?: StringFilter<"Estimativas"> | string
+    valorTotal?: FloatFilter<"Estimativas"> | number
+    descricao?: StringNullableFilter<"Estimativas"> | string | null
+    createdAt?: DateTimeFilter<"Estimativas"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Estimativas"> | Date | string | null
+    propriedadeId?: StringFilter<"Estimativas"> | string
+    simulacaoId?: StringFilter<"Estimativas"> | string
+  }
+
+  export type PropriedadeCreateWithoutCulturasInput = {
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
-    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
   }
 
-  export type PropriedadeUncheckedCreateWithoutPropriedadeCulturaInput = {
-    id?: number
-    nomeProprietario: string
+  export type PropriedadeUncheckedCreateWithoutCulturasInput = {
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
+    adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    adminId?: number | null
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
-  export type PropriedadeCreateOrConnectWithoutPropriedadeCulturaInput = {
+  export type PropriedadeCreateOrConnectWithoutCulturasInput = {
     where: PropriedadeWhereUniqueInput
-    create: XOR<PropriedadeCreateWithoutPropriedadeCulturaInput, PropriedadeUncheckedCreateWithoutPropriedadeCulturaInput>
+    create: XOR<PropriedadeCreateWithoutCulturasInput, PropriedadeUncheckedCreateWithoutCulturasInput>
   }
 
   export type CulturaCreateWithoutPropriedadeCulturaInput = {
+    id?: string
     name: string
     eua: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
+    Simulacao?: SimulacaoCreateNestedManyWithoutCulturaInput
   }
 
   export type CulturaUncheckedCreateWithoutPropriedadeCulturaInput = {
-    id?: number
+    id?: string
     name: string
     eua: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
+    Simulacao?: SimulacaoUncheckedCreateNestedManyWithoutCulturaInput
   }
 
   export type CulturaCreateOrConnectWithoutPropriedadeCulturaInput = {
@@ -18625,54 +18814,47 @@ export namespace Prisma {
     create: XOR<CulturaCreateWithoutPropriedadeCulturaInput, CulturaUncheckedCreateWithoutPropriedadeCulturaInput>
   }
 
-  export type PropriedadeUpsertWithoutPropriedadeCulturaInput = {
-    update: XOR<PropriedadeUpdateWithoutPropriedadeCulturaInput, PropriedadeUncheckedUpdateWithoutPropriedadeCulturaInput>
-    create: XOR<PropriedadeCreateWithoutPropriedadeCulturaInput, PropriedadeUncheckedCreateWithoutPropriedadeCulturaInput>
+  export type PropriedadeUpsertWithoutCulturasInput = {
+    update: XOR<PropriedadeUpdateWithoutCulturasInput, PropriedadeUncheckedUpdateWithoutCulturasInput>
+    create: XOR<PropriedadeCreateWithoutCulturasInput, PropriedadeUncheckedCreateWithoutCulturasInput>
     where?: PropriedadeWhereInput
   }
 
-  export type PropriedadeUpdateToOneWithWhereWithoutPropriedadeCulturaInput = {
+  export type PropriedadeUpdateToOneWithWhereWithoutCulturasInput = {
     where?: PropriedadeWhereInput
-    data: XOR<PropriedadeUpdateWithoutPropriedadeCulturaInput, PropriedadeUncheckedUpdateWithoutPropriedadeCulturaInput>
+    data: XOR<PropriedadeUpdateWithoutCulturasInput, PropriedadeUncheckedUpdateWithoutCulturasInput>
   }
 
-  export type PropriedadeUpdateWithoutPropriedadeCulturaInput = {
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
+  export type PropriedadeUpdateWithoutCulturasInput = {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
-    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
   }
 
-  export type PropriedadeUncheckedUpdateWithoutPropriedadeCulturaInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
+  export type PropriedadeUncheckedUpdateWithoutCulturasInput = {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    adminId?: NullableIntFieldUpdateOperationsInput | number | null
-    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type CulturaUpsertWithoutPropriedadeCulturaInput = {
@@ -18692,62 +18874,59 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Simulacao?: SimulacaoUpdateManyWithoutCulturaNestedInput
   }
 
   export type CulturaUncheckedUpdateWithoutPropriedadeCulturaInput = {
-    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     eua?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Simulacao?: SimulacaoUncheckedUpdateManyWithoutCulturaNestedInput
   }
 
-  export type PropriedadeCreateWithoutPropriedadeSoloInput = {
-    nomeProprietario: string
+  export type PropriedadeCreateWithoutSolosInput = {
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
-    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
   }
 
-  export type PropriedadeUncheckedCreateWithoutPropriedadeSoloInput = {
-    id?: number
-    nomeProprietario: string
+  export type PropriedadeUncheckedCreateWithoutSolosInput = {
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
+    adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    adminId?: number | null
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
-  export type PropriedadeCreateOrConnectWithoutPropriedadeSoloInput = {
+  export type PropriedadeCreateOrConnectWithoutSolosInput = {
     where: PropriedadeWhereUniqueInput
-    create: XOR<PropriedadeCreateWithoutPropriedadeSoloInput, PropriedadeUncheckedCreateWithoutPropriedadeSoloInput>
+    create: XOR<PropriedadeCreateWithoutSolosInput, PropriedadeUncheckedCreateWithoutSolosInput>
   }
 
   export type SoloCreateWithoutPropriedadeSoloInput = {
+    id?: string
     nomeClasse: string
     profundidade: number
     fatorRocha: number
@@ -18761,10 +18940,11 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     historico?: HistoricoCreateNestedManyWithoutSoloInput
     Propriedade?: PropriedadeCreateNestedOneWithoutSoloInput
+    Simulacao?: SimulacaoCreateNestedManyWithoutSoloInput
   }
 
   export type SoloUncheckedCreateWithoutPropriedadeSoloInput = {
-    id?: number
+    id?: string
     nomeClasse: string
     profundidade: number
     fatorRocha: number
@@ -18776,8 +18956,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedadeId?: number | null
+    propriedadeId?: string | null
     historico?: HistoricoUncheckedCreateNestedManyWithoutSoloInput
+    Simulacao?: SimulacaoUncheckedCreateNestedManyWithoutSoloInput
   }
 
   export type SoloCreateOrConnectWithoutPropriedadeSoloInput = {
@@ -18785,54 +18966,47 @@ export namespace Prisma {
     create: XOR<SoloCreateWithoutPropriedadeSoloInput, SoloUncheckedCreateWithoutPropriedadeSoloInput>
   }
 
-  export type PropriedadeUpsertWithoutPropriedadeSoloInput = {
-    update: XOR<PropriedadeUpdateWithoutPropriedadeSoloInput, PropriedadeUncheckedUpdateWithoutPropriedadeSoloInput>
-    create: XOR<PropriedadeCreateWithoutPropriedadeSoloInput, PropriedadeUncheckedCreateWithoutPropriedadeSoloInput>
+  export type PropriedadeUpsertWithoutSolosInput = {
+    update: XOR<PropriedadeUpdateWithoutSolosInput, PropriedadeUncheckedUpdateWithoutSolosInput>
+    create: XOR<PropriedadeCreateWithoutSolosInput, PropriedadeUncheckedCreateWithoutSolosInput>
     where?: PropriedadeWhereInput
   }
 
-  export type PropriedadeUpdateToOneWithWhereWithoutPropriedadeSoloInput = {
+  export type PropriedadeUpdateToOneWithWhereWithoutSolosInput = {
     where?: PropriedadeWhereInput
-    data: XOR<PropriedadeUpdateWithoutPropriedadeSoloInput, PropriedadeUncheckedUpdateWithoutPropriedadeSoloInput>
+    data: XOR<PropriedadeUpdateWithoutSolosInput, PropriedadeUncheckedUpdateWithoutSolosInput>
   }
 
-  export type PropriedadeUpdateWithoutPropriedadeSoloInput = {
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
+  export type PropriedadeUpdateWithoutSolosInput = {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
-    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
   }
 
-  export type PropriedadeUncheckedUpdateWithoutPropriedadeSoloInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
+  export type PropriedadeUncheckedUpdateWithoutSolosInput = {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    adminId?: NullableIntFieldUpdateOperationsInput | number | null
-    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type SoloUpsertWithoutPropriedadeSoloInput = {
@@ -18860,10 +19034,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     historico?: HistoricoUpdateManyWithoutSoloNestedInput
     Propriedade?: PropriedadeUpdateOneWithoutSoloNestedInput
+    Simulacao?: SimulacaoUpdateManyWithoutSoloNestedInput
   }
 
   export type SoloUncheckedUpdateWithoutPropriedadeSoloInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
@@ -18875,89 +19049,124 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: NullableIntFieldUpdateOperationsInput | number | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
     historico?: HistoricoUncheckedUpdateManyWithoutSoloNestedInput
+    Simulacao?: SimulacaoUncheckedUpdateManyWithoutSoloNestedInput
   }
 
-  export type PropriedadeCreateWithoutHistoricosInput = {
-    nomeProprietario: string
-    nomePropriedade: string
-    latitude: number
-    longitude: number
-    soloId: number
-    culturaId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    admin?: AdminCreateNestedOneWithoutPropriedadeInput
-    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
-    simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
-    Solo?: SoloCreateNestedManyWithoutPropriedadeInput
-  }
-
-  export type PropriedadeUncheckedCreateWithoutHistoricosInput = {
-    id?: number
-    nomeProprietario: string
-    nomePropriedade: string
-    latitude: number
-    longitude: number
-    soloId: number
-    culturaId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    adminId?: number | null
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
-    simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
-    Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
-  }
-
-  export type PropriedadeCreateOrConnectWithoutHistoricosInput = {
-    where: PropriedadeWhereUniqueInput
-    create: XOR<PropriedadeCreateWithoutHistoricosInput, PropriedadeUncheckedCreateWithoutHistoricosInput>
-  }
-
-  export type SimulacaoCreateWithoutHistoricoInput = {
+  export type SimulacaoCreateWithoutHistoricosInput = {
+    id?: string
     nomeSimulacao: string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId: number
-    soloId: number
-    resultado: number
-    dataSimulacao: Date | string
+    ano: number
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
+    cultura: CulturaCreateNestedOneWithoutSimulacaoInput
+    solo: SoloCreateNestedOneWithoutSimulacaoInput
     propriedade: PropriedadeCreateNestedOneWithoutSimulacoesInput
-    estimativas?: EstimativasCreateNestedManyWithoutSimulacaoInput
+    Estimativas?: EstimativasCreateNestedManyWithoutSimulacaoInput
   }
 
-  export type SimulacaoUncheckedCreateWithoutHistoricoInput = {
-    id?: number
+  export type SimulacaoUncheckedCreateWithoutHistoricosInput = {
+    id?: string
     nomeSimulacao: string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId: number
-    soloId: number
-    resultado: number
-    dataSimulacao: Date | string
+    ano: number
+    culturaId: string
+    soloId: string
+    propriedadeId: string
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput
+  }
+
+  export type SimulacaoCreateOrConnectWithoutHistoricosInput = {
+    where: SimulacaoWhereUniqueInput
+    create: XOR<SimulacaoCreateWithoutHistoricosInput, SimulacaoUncheckedCreateWithoutHistoricosInput>
+  }
+
+  export type PropriedadeCreateWithoutHistoricoInput = {
+    id?: string
+    nomePropriedade: string
+    nomeResponsavel: string
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    admin?: AdminCreateNestedOneWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeUncheckedCreateWithoutHistoricoInput = {
+    id?: string
+    nomePropriedade: string
+    nomeResponsavel: string
+    latitude: number
+    longitude: number
+    adminId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    culturas?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+  }
+
+  export type PropriedadeCreateOrConnectWithoutHistoricoInput = {
+    where: PropriedadeWhereUniqueInput
+    create: XOR<PropriedadeCreateWithoutHistoricoInput, PropriedadeUncheckedCreateWithoutHistoricoInput>
+  }
+
+  export type PrecipitacaoCreateWithoutHistoricoInput = {
+    id?: string
+    mmAno: number
+    chuvas: number
+    mmDia: number
+    cvDia: number
+    mmMes: number
+    cvMes: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedadeId: number
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput
+    propriedade: PropriedadeCreateNestedOneWithoutPrecipitacaoInput
   }
 
-  export type SimulacaoCreateOrConnectWithoutHistoricoInput = {
-    where: SimulacaoWhereUniqueInput
-    create: XOR<SimulacaoCreateWithoutHistoricoInput, SimulacaoUncheckedCreateWithoutHistoricoInput>
+  export type PrecipitacaoUncheckedCreateWithoutHistoricoInput = {
+    id?: string
+    mmAno: number
+    chuvas: number
+    mmDia: number
+    cvDia: number
+    mmMes: number
+    cvMes: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    propriedadeId: string
+  }
+
+  export type PrecipitacaoCreateOrConnectWithoutHistoricoInput = {
+    where: PrecipitacaoWhereUniqueInput
+    create: XOR<PrecipitacaoCreateWithoutHistoricoInput, PrecipitacaoUncheckedCreateWithoutHistoricoInput>
   }
 
   export type SoloCreateWithoutHistoricoInput = {
+    id?: string
     nomeClasse: string
     profundidade: number
     fatorRocha: number
@@ -18971,10 +19180,11 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutSoloInput
     Propriedade?: PropriedadeCreateNestedOneWithoutSoloInput
+    Simulacao?: SimulacaoCreateNestedManyWithoutSoloInput
   }
 
   export type SoloUncheckedCreateWithoutHistoricoInput = {
-    id?: number
+    id?: string
     nomeClasse: string
     profundidade: number
     fatorRocha: number
@@ -18986,8 +19196,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedadeId?: number | null
+    propriedadeId?: string | null
     propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutSoloInput
+    Simulacao?: SimulacaoUncheckedCreateNestedManyWithoutSoloInput
   }
 
   export type SoloCreateOrConnectWithoutHistoricoInput = {
@@ -18995,126 +19206,127 @@ export namespace Prisma {
     create: XOR<SoloCreateWithoutHistoricoInput, SoloUncheckedCreateWithoutHistoricoInput>
   }
 
-  export type PrecipitacaoCreateWithoutHistoricoInput = {
-    mmAno: number
-    chuvas: number
-    mmDia: number
-    cvDia: number
-    mmMes: number
-    cvMes: number
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    propriedade: PropriedadeCreateNestedOneWithoutPrecipitacoesInput
-  }
-
-  export type PrecipitacaoUncheckedCreateWithoutHistoricoInput = {
-    id?: number
-    mmAno: number
-    chuvas: number
-    mmDia: number
-    cvDia: number
-    mmMes: number
-    cvMes: number
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    propriedadeId: number
-  }
-
-  export type PrecipitacaoCreateOrConnectWithoutHistoricoInput = {
-    where: PrecipitacaoWhereUniqueInput
-    create: XOR<PrecipitacaoCreateWithoutHistoricoInput, PrecipitacaoUncheckedCreateWithoutHistoricoInput>
-  }
-
-  export type PropriedadeUpsertWithoutHistoricosInput = {
-    update: XOR<PropriedadeUpdateWithoutHistoricosInput, PropriedadeUncheckedUpdateWithoutHistoricosInput>
-    create: XOR<PropriedadeCreateWithoutHistoricosInput, PropriedadeUncheckedCreateWithoutHistoricosInput>
-    where?: PropriedadeWhereInput
-  }
-
-  export type PropriedadeUpdateToOneWithWhereWithoutHistoricosInput = {
-    where?: PropriedadeWhereInput
-    data: XOR<PropriedadeUpdateWithoutHistoricosInput, PropriedadeUncheckedUpdateWithoutHistoricosInput>
-  }
-
-  export type PropriedadeUpdateWithoutHistoricosInput = {
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
-    nomePropriedade?: StringFieldUpdateOperationsInput | string
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    admin?: AdminUpdateOneWithoutPropriedadeNestedInput
-    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
-    simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
-    Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
-  }
-
-  export type PropriedadeUncheckedUpdateWithoutHistoricosInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
-    nomePropriedade?: StringFieldUpdateOperationsInput | string
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    adminId?: NullableIntFieldUpdateOperationsInput | number | null
-    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
-    simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
-    Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
-  }
-
-  export type SimulacaoUpsertWithoutHistoricoInput = {
-    update: XOR<SimulacaoUpdateWithoutHistoricoInput, SimulacaoUncheckedUpdateWithoutHistoricoInput>
-    create: XOR<SimulacaoCreateWithoutHistoricoInput, SimulacaoUncheckedCreateWithoutHistoricoInput>
+  export type SimulacaoUpsertWithoutHistoricosInput = {
+    update: XOR<SimulacaoUpdateWithoutHistoricosInput, SimulacaoUncheckedUpdateWithoutHistoricosInput>
+    create: XOR<SimulacaoCreateWithoutHistoricosInput, SimulacaoUncheckedCreateWithoutHistoricosInput>
     where?: SimulacaoWhereInput
   }
 
-  export type SimulacaoUpdateToOneWithWhereWithoutHistoricoInput = {
+  export type SimulacaoUpdateToOneWithWhereWithoutHistoricosInput = {
     where?: SimulacaoWhereInput
-    data: XOR<SimulacaoUpdateWithoutHistoricoInput, SimulacaoUncheckedUpdateWithoutHistoricoInput>
+    data: XOR<SimulacaoUpdateWithoutHistoricosInput, SimulacaoUncheckedUpdateWithoutHistoricosInput>
   }
 
-  export type SimulacaoUpdateWithoutHistoricoInput = {
+  export type SimulacaoUpdateWithoutHistoricosInput = {
     nomeSimulacao?: StringFieldUpdateOperationsInput | string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    resultado?: FloatFieldUpdateOperationsInput | number
+    ano?: IntFieldUpdateOperationsInput | number
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cultura?: CulturaUpdateOneRequiredWithoutSimulacaoNestedInput
+    solo?: SoloUpdateOneRequiredWithoutSimulacaoNestedInput
     propriedade?: PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput
-    estimativas?: EstimativasUpdateManyWithoutSimulacaoNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutSimulacaoNestedInput
   }
 
-  export type SimulacaoUncheckedUpdateWithoutHistoricoInput = {
-    id?: IntFieldUpdateOperationsInput | number
+  export type SimulacaoUncheckedUpdateWithoutHistoricosInput = {
     nomeSimulacao?: StringFieldUpdateOperationsInput | string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    resultado?: FloatFieldUpdateOperationsInput | number
+    ano?: IntFieldUpdateOperationsInput | number
+    culturaId?: StringFieldUpdateOperationsInput | string
+    soloId?: StringFieldUpdateOperationsInput | string
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput
+  }
+
+  export type PropriedadeUpsertWithoutHistoricoInput = {
+    update: XOR<PropriedadeUpdateWithoutHistoricoInput, PropriedadeUncheckedUpdateWithoutHistoricoInput>
+    create: XOR<PropriedadeCreateWithoutHistoricoInput, PropriedadeUncheckedCreateWithoutHistoricoInput>
+    where?: PropriedadeWhereInput
+  }
+
+  export type PropriedadeUpdateToOneWithWhereWithoutHistoricoInput = {
+    where?: PropriedadeWhereInput
+    data: XOR<PropriedadeUpdateWithoutHistoricoInput, PropriedadeUncheckedUpdateWithoutHistoricoInput>
+  }
+
+  export type PropriedadeUpdateWithoutHistoricoInput = {
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    admin?: AdminUpdateOneWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+  }
+
+  export type PropriedadeUncheckedUpdateWithoutHistoricoInput = {
+    nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    culturas?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+  }
+
+  export type PrecipitacaoUpsertWithoutHistoricoInput = {
+    update: XOR<PrecipitacaoUpdateWithoutHistoricoInput, PrecipitacaoUncheckedUpdateWithoutHistoricoInput>
+    create: XOR<PrecipitacaoCreateWithoutHistoricoInput, PrecipitacaoUncheckedCreateWithoutHistoricoInput>
+    where?: PrecipitacaoWhereInput
+  }
+
+  export type PrecipitacaoUpdateToOneWithWhereWithoutHistoricoInput = {
+    where?: PrecipitacaoWhereInput
+    data: XOR<PrecipitacaoUpdateWithoutHistoricoInput, PrecipitacaoUncheckedUpdateWithoutHistoricoInput>
+  }
+
+  export type PrecipitacaoUpdateWithoutHistoricoInput = {
+    mmAno?: FloatFieldUpdateOperationsInput | number
+    chuvas?: FloatFieldUpdateOperationsInput | number
+    mmDia?: FloatFieldUpdateOperationsInput | number
+    cvDia?: FloatFieldUpdateOperationsInput | number
+    mmMes?: FloatFieldUpdateOperationsInput | number
+    cvMes?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    estimativas?: EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput
+    propriedade?: PropriedadeUpdateOneRequiredWithoutPrecipitacaoNestedInput
+  }
+
+  export type PrecipitacaoUncheckedUpdateWithoutHistoricoInput = {
+    mmAno?: FloatFieldUpdateOperationsInput | number
+    chuvas?: FloatFieldUpdateOperationsInput | number
+    mmDia?: FloatFieldUpdateOperationsInput | number
+    cvDia?: FloatFieldUpdateOperationsInput | number
+    mmMes?: FloatFieldUpdateOperationsInput | number
+    cvMes?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SoloUpsertWithoutHistoricoInput = {
@@ -19142,10 +19354,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     propriedadeSolo?: PropriedadeSoloUpdateManyWithoutSoloNestedInput
     Propriedade?: PropriedadeUpdateOneWithoutSoloNestedInput
+    Simulacao?: SimulacaoUpdateManyWithoutSoloNestedInput
   }
 
   export type SoloUncheckedUpdateWithoutHistoricoInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
@@ -19157,113 +19369,66 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: NullableIntFieldUpdateOperationsInput | number | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
     propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutSoloNestedInput
+    Simulacao?: SimulacaoUncheckedUpdateManyWithoutSoloNestedInput
   }
 
-  export type PrecipitacaoUpsertWithoutHistoricoInput = {
-    update: XOR<PrecipitacaoUpdateWithoutHistoricoInput, PrecipitacaoUncheckedUpdateWithoutHistoricoInput>
-    create: XOR<PrecipitacaoCreateWithoutHistoricoInput, PrecipitacaoUncheckedCreateWithoutHistoricoInput>
-    where?: PrecipitacaoWhereInput
-  }
-
-  export type PrecipitacaoUpdateToOneWithWhereWithoutHistoricoInput = {
-    where?: PrecipitacaoWhereInput
-    data: XOR<PrecipitacaoUpdateWithoutHistoricoInput, PrecipitacaoUncheckedUpdateWithoutHistoricoInput>
-  }
-
-  export type PrecipitacaoUpdateWithoutHistoricoInput = {
-    mmAno?: FloatFieldUpdateOperationsInput | number
-    chuvas?: FloatFieldUpdateOperationsInput | number
-    mmDia?: FloatFieldUpdateOperationsInput | number
-    cvDia?: FloatFieldUpdateOperationsInput | number
-    mmMes?: FloatFieldUpdateOperationsInput | number
-    cvMes?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedade?: PropriedadeUpdateOneRequiredWithoutPrecipitacoesNestedInput
-  }
-
-  export type PrecipitacaoUncheckedUpdateWithoutHistoricoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    mmAno?: FloatFieldUpdateOperationsInput | number
-    chuvas?: FloatFieldUpdateOperationsInput | number
-    mmDia?: FloatFieldUpdateOperationsInput | number
-    cvDia?: FloatFieldUpdateOperationsInput | number
-    mmMes?: FloatFieldUpdateOperationsInput | number
-    cvMes?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type PropriedadeCreateWithoutPrecipitacoesInput = {
-    nomeProprietario: string
+  export type PropriedadeCreateWithoutPrecipitacaoInput = {
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
-    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
   }
 
-  export type PropriedadeUncheckedCreateWithoutPrecipitacoesInput = {
-    id?: number
-    nomeProprietario: string
+  export type PropriedadeUncheckedCreateWithoutPrecipitacaoInput = {
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
+    adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    adminId?: number | null
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
-  export type PropriedadeCreateOrConnectWithoutPrecipitacoesInput = {
+  export type PropriedadeCreateOrConnectWithoutPrecipitacaoInput = {
     where: PropriedadeWhereUniqueInput
-    create: XOR<PropriedadeCreateWithoutPrecipitacoesInput, PropriedadeUncheckedCreateWithoutPrecipitacoesInput>
+    create: XOR<PropriedadeCreateWithoutPrecipitacaoInput, PropriedadeUncheckedCreateWithoutPrecipitacaoInput>
   }
 
   export type HistoricoCreateWithoutPrecipitacaoInput = {
-    descricao?: string | null
-    valorSimulacao: number
+    id?: string
+    observacao?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    propriedade: PropriedadeCreateNestedOneWithoutHistoricosInput
-    simulacao: SimulacaoCreateNestedOneWithoutHistoricoInput
-    solo: SoloCreateNestedOneWithoutHistoricoInput
+    simulacao: SimulacaoCreateNestedOneWithoutHistoricosInput
+    Propriedade?: PropriedadeCreateNestedOneWithoutHistoricoInput
+    Solo?: SoloCreateNestedOneWithoutHistoricoInput
   }
 
   export type HistoricoUncheckedCreateWithoutPrecipitacaoInput = {
-    id?: number
-    descricao?: string | null
-    valorSimulacao: number
-    propriedadeId: number
-    simulacaoId: number
-    soloId: number
+    id?: string
+    simulacaoId: string
+    observacao?: string | null
+    propriedadeId?: string | null
+    soloId?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type HistoricoCreateOrConnectWithoutPrecipitacaoInput = {
@@ -19273,57 +19438,49 @@ export namespace Prisma {
 
   export type HistoricoCreateManyPrecipitacaoInputEnvelope = {
     data: HistoricoCreateManyPrecipitacaoInput | HistoricoCreateManyPrecipitacaoInput[]
-    skipDuplicates?: boolean
   }
 
-  export type PropriedadeUpsertWithoutPrecipitacoesInput = {
-    update: XOR<PropriedadeUpdateWithoutPrecipitacoesInput, PropriedadeUncheckedUpdateWithoutPrecipitacoesInput>
-    create: XOR<PropriedadeCreateWithoutPrecipitacoesInput, PropriedadeUncheckedCreateWithoutPrecipitacoesInput>
+  export type PropriedadeUpsertWithoutPrecipitacaoInput = {
+    update: XOR<PropriedadeUpdateWithoutPrecipitacaoInput, PropriedadeUncheckedUpdateWithoutPrecipitacaoInput>
+    create: XOR<PropriedadeCreateWithoutPrecipitacaoInput, PropriedadeUncheckedCreateWithoutPrecipitacaoInput>
     where?: PropriedadeWhereInput
   }
 
-  export type PropriedadeUpdateToOneWithWhereWithoutPrecipitacoesInput = {
+  export type PropriedadeUpdateToOneWithWhereWithoutPrecipitacaoInput = {
     where?: PropriedadeWhereInput
-    data: XOR<PropriedadeUpdateWithoutPrecipitacoesInput, PropriedadeUncheckedUpdateWithoutPrecipitacoesInput>
+    data: XOR<PropriedadeUpdateWithoutPrecipitacaoInput, PropriedadeUncheckedUpdateWithoutPrecipitacaoInput>
   }
 
-  export type PropriedadeUpdateWithoutPrecipitacoesInput = {
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
+  export type PropriedadeUpdateWithoutPrecipitacaoInput = {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
-    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
   }
 
-  export type PropriedadeUncheckedUpdateWithoutPrecipitacoesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
+  export type PropriedadeUncheckedUpdateWithoutPrecipitacaoInput = {
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    adminId?: NullableIntFieldUpdateOperationsInput | number | null
-    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type HistoricoUpsertWithWhereUniqueWithoutPrecipitacaoInput = {
@@ -19343,26 +19500,21 @@ export namespace Prisma {
   }
 
   export type HistoricoCreateWithoutSoloInput = {
-    descricao?: string | null
-    valorSimulacao: number
+    id?: string
+    observacao?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    propriedade: PropriedadeCreateNestedOneWithoutHistoricosInput
-    simulacao: SimulacaoCreateNestedOneWithoutHistoricoInput
-    precipitacao: PrecipitacaoCreateNestedOneWithoutHistoricoInput
+    simulacao: SimulacaoCreateNestedOneWithoutHistoricosInput
+    Propriedade?: PropriedadeCreateNestedOneWithoutHistoricoInput
+    Precipitacao?: PrecipitacaoCreateNestedOneWithoutHistoricoInput
   }
 
   export type HistoricoUncheckedCreateWithoutSoloInput = {
-    id?: number
-    descricao?: string | null
-    valorSimulacao: number
-    propriedadeId: number
-    simulacaoId: number
-    precipitacaoId: number
+    id?: string
+    simulacaoId: string
+    observacao?: string | null
+    propriedadeId?: string | null
+    precipitacaoId?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type HistoricoCreateOrConnectWithoutSoloInput = {
@@ -19372,16 +19524,16 @@ export namespace Prisma {
 
   export type HistoricoCreateManySoloInputEnvelope = {
     data: HistoricoCreateManySoloInput | HistoricoCreateManySoloInput[]
-    skipDuplicates?: boolean
   }
 
   export type PropriedadeSoloCreateWithoutSoloInput = {
-    propriedade: PropriedadeCreateNestedOneWithoutPropriedadeSoloInput
+    id?: string
+    propriedade: PropriedadeCreateNestedOneWithoutSolosInput
   }
 
   export type PropriedadeSoloUncheckedCreateWithoutSoloInput = {
-    id?: number
-    propriedadeId: number
+    id?: string
+    propriedadeId: string
   }
 
   export type PropriedadeSoloCreateOrConnectWithoutSoloInput = {
@@ -19391,51 +19543,88 @@ export namespace Prisma {
 
   export type PropriedadeSoloCreateManySoloInputEnvelope = {
     data: PropriedadeSoloCreateManySoloInput | PropriedadeSoloCreateManySoloInput[]
-    skipDuplicates?: boolean
   }
 
   export type PropriedadeCreateWithoutSoloInput = {
-    nomeProprietario: string
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
-    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutSoloInput = {
-    id?: number
-    nomeProprietario: string
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
+    adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    adminId?: number | null
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutSoloInput = {
     where: PropriedadeWhereUniqueInput
     create: XOR<PropriedadeCreateWithoutSoloInput, PropriedadeUncheckedCreateWithoutSoloInput>
+  }
+
+  export type SimulacaoCreateWithoutSoloInput = {
+    id?: string
+    nomeSimulacao: string
+    ano: number
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    cultura: CulturaCreateNestedOneWithoutSimulacaoInput
+    propriedade: PropriedadeCreateNestedOneWithoutSimulacoesInput
+    historicos?: HistoricoCreateNestedManyWithoutSimulacaoInput
+    Estimativas?: EstimativasCreateNestedManyWithoutSimulacaoInput
+  }
+
+  export type SimulacaoUncheckedCreateWithoutSoloInput = {
+    id?: string
+    nomeSimulacao: string
+    ano: number
+    culturaId: string
+    propriedadeId: string
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput
+  }
+
+  export type SimulacaoCreateOrConnectWithoutSoloInput = {
+    where: SimulacaoWhereUniqueInput
+    create: XOR<SimulacaoCreateWithoutSoloInput, SimulacaoUncheckedCreateWithoutSoloInput>
+  }
+
+  export type SimulacaoCreateManySoloInputEnvelope = {
+    data: SimulacaoCreateManySoloInput | SimulacaoCreateManySoloInput[]
   }
 
   export type HistoricoUpsertWithWhereUniqueWithoutSoloInput = {
@@ -19482,71 +19671,85 @@ export namespace Prisma {
   }
 
   export type PropriedadeUpdateWithoutSoloInput = {
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
-    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutSoloInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    adminId?: NullableIntFieldUpdateOperationsInput | number | null
-    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
+  }
+
+  export type SimulacaoUpsertWithWhereUniqueWithoutSoloInput = {
+    where: SimulacaoWhereUniqueInput
+    update: XOR<SimulacaoUpdateWithoutSoloInput, SimulacaoUncheckedUpdateWithoutSoloInput>
+    create: XOR<SimulacaoCreateWithoutSoloInput, SimulacaoUncheckedCreateWithoutSoloInput>
+  }
+
+  export type SimulacaoUpdateWithWhereUniqueWithoutSoloInput = {
+    where: SimulacaoWhereUniqueInput
+    data: XOR<SimulacaoUpdateWithoutSoloInput, SimulacaoUncheckedUpdateWithoutSoloInput>
+  }
+
+  export type SimulacaoUpdateManyWithWhereWithoutSoloInput = {
+    where: SimulacaoScalarWhereInput
+    data: XOR<SimulacaoUpdateManyMutationInput, SimulacaoUncheckedUpdateManyWithoutSoloInput>
   }
 
   export type SimulacaoCreateWithoutEstimativasInput = {
+    id?: string
     nomeSimulacao: string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId: number
-    soloId: number
-    resultado: number
-    dataSimulacao: Date | string
+    ano: number
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
+    cultura: CulturaCreateNestedOneWithoutSimulacaoInput
+    solo: SoloCreateNestedOneWithoutSimulacaoInput
     propriedade: PropriedadeCreateNestedOneWithoutSimulacoesInput
-    historico?: HistoricoCreateNestedManyWithoutSimulacaoInput
+    historicos?: HistoricoCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoUncheckedCreateWithoutEstimativasInput = {
-    id?: number
+    id?: string
     nomeSimulacao: string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId: number
-    soloId: number
-    resultado: number
-    dataSimulacao: Date | string
+    ano: number
+    culturaId: string
+    soloId: string
+    propriedadeId: string
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    propriedadeId: number
-    historico?: HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput
   }
 
   export type SimulacaoCreateOrConnectWithoutEstimativasInput = {
@@ -19555,41 +19758,36 @@ export namespace Prisma {
   }
 
   export type PropriedadeCreateWithoutEstimativasInput = {
-    nomeProprietario: string
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutEstimativasInput = {
-    id?: number
-    nomeProprietario: string
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
+    adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    adminId?: number | null
+    culturas?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
     simulacoes?: SimulacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
@@ -19611,31 +19809,34 @@ export namespace Prisma {
 
   export type SimulacaoUpdateWithoutEstimativasInput = {
     nomeSimulacao?: StringFieldUpdateOperationsInput | string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    resultado?: FloatFieldUpdateOperationsInput | number
+    ano?: IntFieldUpdateOperationsInput | number
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cultura?: CulturaUpdateOneRequiredWithoutSimulacaoNestedInput
+    solo?: SoloUpdateOneRequiredWithoutSimulacaoNestedInput
     propriedade?: PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput
-    historico?: HistoricoUpdateManyWithoutSimulacaoNestedInput
+    historicos?: HistoricoUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type SimulacaoUncheckedUpdateWithoutEstimativasInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nomeSimulacao?: StringFieldUpdateOperationsInput | string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    resultado?: FloatFieldUpdateOperationsInput | number
+    ano?: IntFieldUpdateOperationsInput | number
+    culturaId?: StringFieldUpdateOperationsInput | string
+    soloId?: StringFieldUpdateOperationsInput | string
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    historico?: HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput
+    historicos?: HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type PropriedadeUpsertWithoutEstimativasInput = {
@@ -19650,81 +19851,135 @@ export namespace Prisma {
   }
 
   export type PropriedadeUpdateWithoutEstimativasInput = {
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutEstimativasInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    adminId?: NullableIntFieldUpdateOperationsInput | number | null
+    culturas?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
     simulacoes?: SimulacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
-  export type PropriedadeCreateWithoutSimulacoesInput = {
-    nomeProprietario: string
-    nomePropriedade: string
-    latitude: number
-    longitude: number
-    soloId: number
-    culturaId: number
+  export type CulturaCreateWithoutSimulacaoInput = {
+    id?: string
+    name: string
+    eua: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
+    PropriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutCulturaInput
+  }
+
+  export type CulturaUncheckedCreateWithoutSimulacaoInput = {
+    id?: string
+    name: string
+    eua: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    PropriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutCulturaInput
+  }
+
+  export type CulturaCreateOrConnectWithoutSimulacaoInput = {
+    where: CulturaWhereUniqueInput
+    create: XOR<CulturaCreateWithoutSimulacaoInput, CulturaUncheckedCreateWithoutSimulacaoInput>
+  }
+
+  export type SoloCreateWithoutSimulacaoInput = {
+    id?: string
+    nomeClasse: string
+    profundidade: number
+    fatorRocha: number
+    condutHidraulicaSaturada: number
+    densidadeAparente: number
+    agua0Bar: number
+    agua13Bar: number
+    agua15Bar: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    historico?: HistoricoCreateNestedManyWithoutSoloInput
+    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutSoloInput
+    Propriedade?: PropriedadeCreateNestedOneWithoutSoloInput
+  }
+
+  export type SoloUncheckedCreateWithoutSimulacaoInput = {
+    id?: string
+    nomeClasse: string
+    profundidade: number
+    fatorRocha: number
+    condutHidraulicaSaturada: number
+    densidadeAparente: number
+    agua0Bar: number
+    agua13Bar: number
+    agua15Bar: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    propriedadeId?: string | null
+    historico?: HistoricoUncheckedCreateNestedManyWithoutSoloInput
+    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutSoloInput
+  }
+
+  export type SoloCreateOrConnectWithoutSimulacaoInput = {
+    where: SoloWhereUniqueInput
+    create: XOR<SoloCreateWithoutSimulacaoInput, SoloUncheckedCreateWithoutSimulacaoInput>
+  }
+
+  export type PropriedadeCreateWithoutSimulacoesInput = {
+    id?: string
+    nomePropriedade: string
+    nomeResponsavel: string
+    latitude: number
+    longitude: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
     admin?: AdminCreateNestedOneWithoutPropriedadeInput
-    estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeUncheckedCreateWithoutSimulacoesInput = {
-    id?: number
-    nomeProprietario: string
+    id?: string
     nomePropriedade: string
+    nomeResponsavel: string
     latitude: number
     longitude: number
-    soloId: number
-    culturaId: number
+    adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    adminId?: number | null
-    estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
-    historicos?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
-    precipitacoes?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
-    propriedadeSolo?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    culturas?: PropriedadeCulturaUncheckedCreateNestedManyWithoutPropriedadeInput
+    solos?: PropriedadeSoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Historico?: HistoricoUncheckedCreateNestedManyWithoutPropriedadeInput
+    Precipitacao?: PrecipitacaoUncheckedCreateNestedManyWithoutPropriedadeInput
     Solo?: SoloUncheckedCreateNestedManyWithoutPropriedadeInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutPropriedadeInput
   }
 
   export type PropriedadeCreateOrConnectWithoutSimulacoesInput = {
@@ -19733,26 +19988,21 @@ export namespace Prisma {
   }
 
   export type HistoricoCreateWithoutSimulacaoInput = {
-    descricao?: string | null
-    valorSimulacao: number
+    id?: string
+    observacao?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    propriedade: PropriedadeCreateNestedOneWithoutHistoricosInput
-    solo: SoloCreateNestedOneWithoutHistoricoInput
-    precipitacao: PrecipitacaoCreateNestedOneWithoutHistoricoInput
+    Propriedade?: PropriedadeCreateNestedOneWithoutHistoricoInput
+    Precipitacao?: PrecipitacaoCreateNestedOneWithoutHistoricoInput
+    Solo?: SoloCreateNestedOneWithoutHistoricoInput
   }
 
   export type HistoricoUncheckedCreateWithoutSimulacaoInput = {
-    id?: number
-    descricao?: string | null
-    valorSimulacao: number
-    propriedadeId: number
-    soloId: number
-    precipitacaoId: number
+    id?: string
+    observacao?: string | null
+    propriedadeId?: string | null
+    precipitacaoId?: string | null
+    soloId?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type HistoricoCreateOrConnectWithoutSimulacaoInput = {
@@ -19762,10 +20012,10 @@ export namespace Prisma {
 
   export type HistoricoCreateManySimulacaoInputEnvelope = {
     data: HistoricoCreateManySimulacaoInput | HistoricoCreateManySimulacaoInput[]
-    skipDuplicates?: boolean
   }
 
   export type EstimativasCreateWithoutSimulacaoInput = {
+    id?: string
     valorTotal: number
     descricao?: string | null
     createdAt?: Date | string
@@ -19775,13 +20025,13 @@ export namespace Prisma {
   }
 
   export type EstimativasUncheckedCreateWithoutSimulacaoInput = {
-    id?: number
+    id?: string
     valorTotal: number
     descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedadeId: number
+    propriedadeId: string
   }
 
   export type EstimativasCreateOrConnectWithoutSimulacaoInput = {
@@ -19791,7 +20041,80 @@ export namespace Prisma {
 
   export type EstimativasCreateManySimulacaoInputEnvelope = {
     data: EstimativasCreateManySimulacaoInput | EstimativasCreateManySimulacaoInput[]
-    skipDuplicates?: boolean
+  }
+
+  export type CulturaUpsertWithoutSimulacaoInput = {
+    update: XOR<CulturaUpdateWithoutSimulacaoInput, CulturaUncheckedUpdateWithoutSimulacaoInput>
+    create: XOR<CulturaCreateWithoutSimulacaoInput, CulturaUncheckedCreateWithoutSimulacaoInput>
+    where?: CulturaWhereInput
+  }
+
+  export type CulturaUpdateToOneWithWhereWithoutSimulacaoInput = {
+    where?: CulturaWhereInput
+    data: XOR<CulturaUpdateWithoutSimulacaoInput, CulturaUncheckedUpdateWithoutSimulacaoInput>
+  }
+
+  export type CulturaUpdateWithoutSimulacaoInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    eua?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    PropriedadeCultura?: PropriedadeCulturaUpdateManyWithoutCulturaNestedInput
+  }
+
+  export type CulturaUncheckedUpdateWithoutSimulacaoInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    eua?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    PropriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutCulturaNestedInput
+  }
+
+  export type SoloUpsertWithoutSimulacaoInput = {
+    update: XOR<SoloUpdateWithoutSimulacaoInput, SoloUncheckedUpdateWithoutSimulacaoInput>
+    create: XOR<SoloCreateWithoutSimulacaoInput, SoloUncheckedCreateWithoutSimulacaoInput>
+    where?: SoloWhereInput
+  }
+
+  export type SoloUpdateToOneWithWhereWithoutSimulacaoInput = {
+    where?: SoloWhereInput
+    data: XOR<SoloUpdateWithoutSimulacaoInput, SoloUncheckedUpdateWithoutSimulacaoInput>
+  }
+
+  export type SoloUpdateWithoutSimulacaoInput = {
+    nomeClasse?: StringFieldUpdateOperationsInput | string
+    profundidade?: FloatFieldUpdateOperationsInput | number
+    fatorRocha?: FloatFieldUpdateOperationsInput | number
+    condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
+    densidadeAparente?: FloatFieldUpdateOperationsInput | number
+    agua0Bar?: FloatFieldUpdateOperationsInput | number
+    agua13Bar?: FloatFieldUpdateOperationsInput | number
+    agua15Bar?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    historico?: HistoricoUpdateManyWithoutSoloNestedInput
+    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutSoloNestedInput
+    Propriedade?: PropriedadeUpdateOneWithoutSoloNestedInput
+  }
+
+  export type SoloUncheckedUpdateWithoutSimulacaoInput = {
+    nomeClasse?: StringFieldUpdateOperationsInput | string
+    profundidade?: FloatFieldUpdateOperationsInput | number
+    fatorRocha?: FloatFieldUpdateOperationsInput | number
+    condutHidraulicaSaturada?: FloatFieldUpdateOperationsInput | number
+    densidadeAparente?: FloatFieldUpdateOperationsInput | number
+    agua0Bar?: FloatFieldUpdateOperationsInput | number
+    agua13Bar?: FloatFieldUpdateOperationsInput | number
+    agua15Bar?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
+    historico?: HistoricoUncheckedUpdateManyWithoutSoloNestedInput
+    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutSoloNestedInput
   }
 
   export type PropriedadeUpsertWithoutSimulacoesInput = {
@@ -19806,42 +20129,35 @@ export namespace Prisma {
   }
 
   export type PropriedadeUpdateWithoutSimulacoesInput = {
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     admin?: AdminUpdateOneWithoutPropriedadeNestedInput
-    estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type PropriedadeUncheckedUpdateWithoutSimulacoesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nomeProprietario?: StringFieldUpdateOperationsInput | string
     nomePropriedade?: StringFieldUpdateOperationsInput | string
+    nomeResponsavel?: StringFieldUpdateOperationsInput | string
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    adminId?: NullableIntFieldUpdateOperationsInput | number | null
-    estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
-    historicos?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    precipitacoes?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeCultura?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
-    propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    culturas?: PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeNestedInput
+    solos?: PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Historico?: HistoricoUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Precipitacao?: PrecipitacaoUncheckedUpdateManyWithoutPropriedadeNestedInput
     Solo?: SoloUncheckedUpdateManyWithoutPropriedadeNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutPropriedadeNestedInput
   }
 
   export type HistoricoUpsertWithWhereUniqueWithoutSimulacaoInput = {
@@ -19877,12 +20193,13 @@ export namespace Prisma {
   }
 
   export type PropriedadeCulturaCreateWithoutCulturaInput = {
-    propriedade: PropriedadeCreateNestedOneWithoutPropriedadeCulturaInput
+    id?: string
+    propriedade: PropriedadeCreateNestedOneWithoutCulturasInput
   }
 
   export type PropriedadeCulturaUncheckedCreateWithoutCulturaInput = {
-    id?: number
-    propriedadeId: number
+    id?: string
+    propriedadeId: string
   }
 
   export type PropriedadeCulturaCreateOrConnectWithoutCulturaInput = {
@@ -19892,7 +20209,49 @@ export namespace Prisma {
 
   export type PropriedadeCulturaCreateManyCulturaInputEnvelope = {
     data: PropriedadeCulturaCreateManyCulturaInput | PropriedadeCulturaCreateManyCulturaInput[]
-    skipDuplicates?: boolean
+  }
+
+  export type SimulacaoCreateWithoutCulturaInput = {
+    id?: string
+    nomeSimulacao: string
+    ano: number
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    solo: SoloCreateNestedOneWithoutSimulacaoInput
+    propriedade: PropriedadeCreateNestedOneWithoutSimulacoesInput
+    historicos?: HistoricoCreateNestedManyWithoutSimulacaoInput
+    Estimativas?: EstimativasCreateNestedManyWithoutSimulacaoInput
+  }
+
+  export type SimulacaoUncheckedCreateWithoutCulturaInput = {
+    id?: string
+    nomeSimulacao: string
+    ano: number
+    soloId: string
+    propriedadeId: string
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    historicos?: HistoricoUncheckedCreateNestedManyWithoutSimulacaoInput
+    Estimativas?: EstimativasUncheckedCreateNestedManyWithoutSimulacaoInput
+  }
+
+  export type SimulacaoCreateOrConnectWithoutCulturaInput = {
+    where: SimulacaoWhereUniqueInput
+    create: XOR<SimulacaoCreateWithoutCulturaInput, SimulacaoUncheckedCreateWithoutCulturaInput>
+  }
+
+  export type SimulacaoCreateManyCulturaInputEnvelope = {
+    data: SimulacaoCreateManyCulturaInput | SimulacaoCreateManyCulturaInput[]
   }
 
   export type PropriedadeCulturaUpsertWithWhereUniqueWithoutCulturaInput = {
@@ -19911,8 +20270,24 @@ export namespace Prisma {
     data: XOR<PropriedadeCulturaUpdateManyMutationInput, PropriedadeCulturaUncheckedUpdateManyWithoutCulturaInput>
   }
 
+  export type SimulacaoUpsertWithWhereUniqueWithoutCulturaInput = {
+    where: SimulacaoWhereUniqueInput
+    update: XOR<SimulacaoUpdateWithoutCulturaInput, SimulacaoUncheckedUpdateWithoutCulturaInput>
+    create: XOR<SimulacaoCreateWithoutCulturaInput, SimulacaoUncheckedCreateWithoutCulturaInput>
+  }
+
+  export type SimulacaoUpdateWithWhereUniqueWithoutCulturaInput = {
+    where: SimulacaoWhereUniqueInput
+    data: XOR<SimulacaoUpdateWithoutCulturaInput, SimulacaoUncheckedUpdateWithoutCulturaInput>
+  }
+
+  export type SimulacaoUpdateManyWithWhereWithoutCulturaInput = {
+    where: SimulacaoScalarWhereInput
+    data: XOR<SimulacaoUpdateManyMutationInput, SimulacaoUncheckedUpdateManyWithoutCulturaInput>
+  }
+
   export type AdminCreateManyTipoUserInput = {
-    id?: number
+    id?: string
     nome: string
     email: string
     cpf: string
@@ -19936,7 +20311,6 @@ export namespace Prisma {
   }
 
   export type AdminUncheckedUpdateWithoutTipoUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     cpf?: StringFieldUpdateOperationsInput | string
@@ -19949,7 +20323,6 @@ export namespace Prisma {
   }
 
   export type AdminUncheckedUpdateManyWithoutTipoUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     cpf?: StringFieldUpdateOperationsInput | string
@@ -19960,43 +20333,42 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type EstimativasCreateManyPropriedadeInput = {
-    id?: number
-    valorTotal: number
-    descricao?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    simulacaoId: number
+  export type PropriedadeCulturaCreateManyPropriedadeInput = {
+    id?: string
+    culturaId: string
+  }
+
+  export type PropriedadeSoloCreateManyPropriedadeInput = {
+    id?: string
+    soloId: string
   }
 
   export type SimulacaoCreateManyPropriedadeInput = {
-    id?: number
+    id?: string
     nomeSimulacao: string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId: number
-    soloId: number
-    resultado: number
-    dataSimulacao: Date | string
+    ano: number
+    culturaId: string
+    soloId: string
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
   }
 
   export type HistoricoCreateManyPropriedadeInput = {
-    id?: number
-    descricao?: string | null
-    valorSimulacao: number
-    simulacaoId: number
-    soloId: number
-    precipitacaoId: number
+    id?: string
+    simulacaoId: string
+    observacao?: string | null
+    precipitacaoId?: string | null
+    soloId?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type PrecipitacaoCreateManyPropriedadeInput = {
-    id?: number
+    id?: string
     mmAno: number
     chuvas: number
     mmDia: number
@@ -20008,18 +20380,8 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type PropriedadeCulturaCreateManyPropriedadeInput = {
-    id?: number
-    culturaId: number
-  }
-
-  export type PropriedadeSoloCreateManyPropriedadeInput = {
-    id?: number
-    soloId: number
-  }
-
   export type SoloCreateManyPropriedadeInput = {
-    id?: number
+    id?: string
     nomeClasse: string
     profundidade: number
     fatorRocha: number
@@ -20033,110 +20395,108 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type EstimativasUpdateWithoutPropriedadeInput = {
-    valorTotal?: FloatFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    simulacao?: SimulacaoUpdateOneRequiredWithoutEstimativasNestedInput
+  export type EstimativasCreateManyPropriedadeInput = {
+    id?: string
+    valorTotal: number
+    descricao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    simulacaoId: string
   }
 
-  export type EstimativasUncheckedUpdateWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    valorTotal?: FloatFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    simulacaoId?: IntFieldUpdateOperationsInput | number
+  export type PropriedadeCulturaUpdateWithoutPropriedadeInput = {
+    cultura?: CulturaUpdateOneRequiredWithoutPropriedadeCulturaNestedInput
   }
 
-  export type EstimativasUncheckedUpdateManyWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    valorTotal?: FloatFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    simulacaoId?: IntFieldUpdateOperationsInput | number
+  export type PropriedadeCulturaUncheckedUpdateWithoutPropriedadeInput = {
+    culturaId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeInput = {
+    culturaId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PropriedadeSoloUpdateWithoutPropriedadeInput = {
+    solo?: SoloUpdateOneRequiredWithoutPropriedadeSoloNestedInput
+  }
+
+  export type PropriedadeSoloUncheckedUpdateWithoutPropriedadeInput = {
+    soloId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeInput = {
+    soloId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SimulacaoUpdateWithoutPropriedadeInput = {
     nomeSimulacao?: StringFieldUpdateOperationsInput | string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    resultado?: FloatFieldUpdateOperationsInput | number
+    ano?: IntFieldUpdateOperationsInput | number
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    historico?: HistoricoUpdateManyWithoutSimulacaoNestedInput
-    estimativas?: EstimativasUpdateManyWithoutSimulacaoNestedInput
+    cultura?: CulturaUpdateOneRequiredWithoutSimulacaoNestedInput
+    solo?: SoloUpdateOneRequiredWithoutSimulacaoNestedInput
+    historicos?: HistoricoUpdateManyWithoutSimulacaoNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type SimulacaoUncheckedUpdateWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nomeSimulacao?: StringFieldUpdateOperationsInput | string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    resultado?: FloatFieldUpdateOperationsInput | number
+    ano?: IntFieldUpdateOperationsInput | number
+    culturaId?: StringFieldUpdateOperationsInput | string
+    soloId?: StringFieldUpdateOperationsInput | string
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    historico?: HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput
-    estimativas?: EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput
+    historicos?: HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput
   }
 
   export type SimulacaoUncheckedUpdateManyWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nomeSimulacao?: StringFieldUpdateOperationsInput | string
-    dadosJson?: NullableJsonNullValueInput | InputJsonValue
-    culturaId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    resultado?: FloatFieldUpdateOperationsInput | number
+    ano?: IntFieldUpdateOperationsInput | number
+    culturaId?: StringFieldUpdateOperationsInput | string
+    soloId?: StringFieldUpdateOperationsInput | string
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
     dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type HistoricoUpdateWithoutPropriedadeInput = {
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    simulacao?: SimulacaoUpdateOneRequiredWithoutHistoricoNestedInput
-    solo?: SoloUpdateOneRequiredWithoutHistoricoNestedInput
-    precipitacao?: PrecipitacaoUpdateOneRequiredWithoutHistoricoNestedInput
+    simulacao?: SimulacaoUpdateOneRequiredWithoutHistoricosNestedInput
+    Precipitacao?: PrecipitacaoUpdateOneWithoutHistoricoNestedInput
+    Solo?: SoloUpdateOneWithoutHistoricoNestedInput
   }
 
   export type HistoricoUncheckedUpdateWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
-    simulacaoId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    precipitacaoId?: IntFieldUpdateOperationsInput | number
+    simulacaoId?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    precipitacaoId?: NullableStringFieldUpdateOperationsInput | string | null
+    soloId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type HistoricoUncheckedUpdateManyWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
-    simulacaoId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    precipitacaoId?: IntFieldUpdateOperationsInput | number
+    simulacaoId?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    precipitacaoId?: NullableStringFieldUpdateOperationsInput | string | null
+    soloId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PrecipitacaoUpdateWithoutPropriedadeInput = {
@@ -20153,7 +20513,6 @@ export namespace Prisma {
   }
 
   export type PrecipitacaoUncheckedUpdateWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
     mmAno?: FloatFieldUpdateOperationsInput | number
     chuvas?: FloatFieldUpdateOperationsInput | number
     mmDia?: FloatFieldUpdateOperationsInput | number
@@ -20167,7 +20526,6 @@ export namespace Prisma {
   }
 
   export type PrecipitacaoUncheckedUpdateManyWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
     mmAno?: FloatFieldUpdateOperationsInput | number
     chuvas?: FloatFieldUpdateOperationsInput | number
     mmDia?: FloatFieldUpdateOperationsInput | number
@@ -20177,34 +20535,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type PropriedadeCulturaUpdateWithoutPropriedadeInput = {
-    cultura?: CulturaUpdateOneRequiredWithoutPropriedadeCulturaNestedInput
-  }
-
-  export type PropriedadeCulturaUncheckedUpdateWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type PropriedadeCulturaUncheckedUpdateManyWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    culturaId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type PropriedadeSoloUpdateWithoutPropriedadeInput = {
-    solo?: SoloUpdateOneRequiredWithoutPropriedadeSoloNestedInput
-  }
-
-  export type PropriedadeSoloUncheckedUpdateWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type PropriedadeSoloUncheckedUpdateManyWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
   }
 
   export type SoloUpdateWithoutPropriedadeInput = {
@@ -20221,10 +20551,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     historico?: HistoricoUpdateManyWithoutSoloNestedInput
     propriedadeSolo?: PropriedadeSoloUpdateManyWithoutSoloNestedInput
+    Simulacao?: SimulacaoUpdateManyWithoutSoloNestedInput
   }
 
   export type SoloUncheckedUpdateWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
@@ -20238,10 +20568,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     historico?: HistoricoUncheckedUpdateManyWithoutSoloNestedInput
     propriedadeSolo?: PropriedadeSoloUncheckedUpdateManyWithoutSoloNestedInput
+    Simulacao?: SimulacaoUncheckedUpdateManyWithoutSoloNestedInput
   }
 
   export type SoloUncheckedUpdateManyWithoutPropriedadeInput = {
-    id?: IntFieldUpdateOperationsInput | number
     nomeClasse?: StringFieldUpdateOperationsInput | string
     profundidade?: FloatFieldUpdateOperationsInput | number
     fatorRocha?: FloatFieldUpdateOperationsInput | number
@@ -20255,174 +20585,218 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type EstimativasUpdateWithoutPropriedadeInput = {
+    valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    simulacao?: SimulacaoUpdateOneRequiredWithoutEstimativasNestedInput
+  }
+
+  export type EstimativasUncheckedUpdateWithoutPropriedadeInput = {
+    valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    simulacaoId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EstimativasUncheckedUpdateManyWithoutPropriedadeInput = {
+    valorTotal?: FloatFieldUpdateOperationsInput | number
+    descricao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    simulacaoId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type HistoricoCreateManyPrecipitacaoInput = {
-    id?: number
-    descricao?: string | null
-    valorSimulacao: number
-    propriedadeId: number
-    simulacaoId: number
-    soloId: number
+    id?: string
+    simulacaoId: string
+    observacao?: string | null
+    propriedadeId?: string | null
+    soloId?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type HistoricoUpdateWithoutPrecipitacaoInput = {
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedade?: PropriedadeUpdateOneRequiredWithoutHistoricosNestedInput
-    simulacao?: SimulacaoUpdateOneRequiredWithoutHistoricoNestedInput
-    solo?: SoloUpdateOneRequiredWithoutHistoricoNestedInput
+    simulacao?: SimulacaoUpdateOneRequiredWithoutHistoricosNestedInput
+    Propriedade?: PropriedadeUpdateOneWithoutHistoricoNestedInput
+    Solo?: SoloUpdateOneWithoutHistoricoNestedInput
   }
 
   export type HistoricoUncheckedUpdateWithoutPrecipitacaoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    simulacaoId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
+    simulacaoId?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
+    soloId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type HistoricoUncheckedUpdateManyWithoutPrecipitacaoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    simulacaoId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
+    simulacaoId?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
+    soloId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type HistoricoCreateManySoloInput = {
-    id?: number
-    descricao?: string | null
-    valorSimulacao: number
-    propriedadeId: number
-    simulacaoId: number
-    precipitacaoId: number
+    id?: string
+    simulacaoId: string
+    observacao?: string | null
+    propriedadeId?: string | null
+    precipitacaoId?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type PropriedadeSoloCreateManySoloInput = {
-    id?: number
-    propriedadeId: number
+    id?: string
+    propriedadeId: string
+  }
+
+  export type SimulacaoCreateManySoloInput = {
+    id?: string
+    nomeSimulacao: string
+    ano: number
+    culturaId: string
+    propriedadeId: string
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
   }
 
   export type HistoricoUpdateWithoutSoloInput = {
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedade?: PropriedadeUpdateOneRequiredWithoutHistoricosNestedInput
-    simulacao?: SimulacaoUpdateOneRequiredWithoutHistoricoNestedInput
-    precipitacao?: PrecipitacaoUpdateOneRequiredWithoutHistoricoNestedInput
+    simulacao?: SimulacaoUpdateOneRequiredWithoutHistoricosNestedInput
+    Propriedade?: PropriedadeUpdateOneWithoutHistoricoNestedInput
+    Precipitacao?: PrecipitacaoUpdateOneWithoutHistoricoNestedInput
   }
 
   export type HistoricoUncheckedUpdateWithoutSoloInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    simulacaoId?: IntFieldUpdateOperationsInput | number
-    precipitacaoId?: IntFieldUpdateOperationsInput | number
+    simulacaoId?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
+    precipitacaoId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type HistoricoUncheckedUpdateManyWithoutSoloInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    simulacaoId?: IntFieldUpdateOperationsInput | number
-    precipitacaoId?: IntFieldUpdateOperationsInput | number
+    simulacaoId?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
+    precipitacaoId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PropriedadeSoloUpdateWithoutSoloInput = {
-    propriedade?: PropriedadeUpdateOneRequiredWithoutPropriedadeSoloNestedInput
+    propriedade?: PropriedadeUpdateOneRequiredWithoutSolosNestedInput
   }
 
   export type PropriedadeSoloUncheckedUpdateWithoutSoloInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PropriedadeSoloUncheckedUpdateManyWithoutSoloInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SimulacaoUpdateWithoutSoloInput = {
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    ano?: IntFieldUpdateOperationsInput | number
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cultura?: CulturaUpdateOneRequiredWithoutSimulacaoNestedInput
+    propriedade?: PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput
+    historicos?: HistoricoUpdateManyWithoutSimulacaoNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutSimulacaoNestedInput
+  }
+
+  export type SimulacaoUncheckedUpdateWithoutSoloInput = {
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    ano?: IntFieldUpdateOperationsInput | number
+    culturaId?: StringFieldUpdateOperationsInput | string
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    historicos?: HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput
+  }
+
+  export type SimulacaoUncheckedUpdateManyWithoutSoloInput = {
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    ano?: IntFieldUpdateOperationsInput | number
+    culturaId?: StringFieldUpdateOperationsInput | string
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type HistoricoCreateManySimulacaoInput = {
-    id?: number
-    descricao?: string | null
-    valorSimulacao: number
-    propriedadeId: number
-    soloId: number
-    precipitacaoId: number
+    id?: string
+    observacao?: string | null
+    propriedadeId?: string | null
+    precipitacaoId?: string | null
+    soloId?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type EstimativasCreateManySimulacaoInput = {
-    id?: number
+    id?: string
     valorTotal: number
     descricao?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    propriedadeId: number
+    propriedadeId: string
   }
 
   export type HistoricoUpdateWithoutSimulacaoInput = {
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedade?: PropriedadeUpdateOneRequiredWithoutHistoricosNestedInput
-    solo?: SoloUpdateOneRequiredWithoutHistoricoNestedInput
-    precipitacao?: PrecipitacaoUpdateOneRequiredWithoutHistoricoNestedInput
+    Propriedade?: PropriedadeUpdateOneWithoutHistoricoNestedInput
+    Precipitacao?: PrecipitacaoUpdateOneWithoutHistoricoNestedInput
+    Solo?: SoloUpdateOneWithoutHistoricoNestedInput
   }
 
   export type HistoricoUncheckedUpdateWithoutSimulacaoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    precipitacaoId?: IntFieldUpdateOperationsInput | number
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
+    precipitacaoId?: NullableStringFieldUpdateOperationsInput | string | null
+    soloId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type HistoricoUncheckedUpdateManyWithoutSimulacaoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    valorSimulacao?: FloatFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
-    soloId?: IntFieldUpdateOperationsInput | number
-    precipitacaoId?: IntFieldUpdateOperationsInput | number
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    propriedadeId?: NullableStringFieldUpdateOperationsInput | string | null
+    precipitacaoId?: NullableStringFieldUpdateOperationsInput | string | null
+    soloId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EstimativasUpdateWithoutSimulacaoInput = {
@@ -20435,42 +20809,99 @@ export namespace Prisma {
   }
 
   export type EstimativasUncheckedUpdateWithoutSimulacaoInput = {
-    id?: IntFieldUpdateOperationsInput | number
     valorTotal?: FloatFieldUpdateOperationsInput | number
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
   }
 
   export type EstimativasUncheckedUpdateManyWithoutSimulacaoInput = {
-    id?: IntFieldUpdateOperationsInput | number
     valorTotal?: FloatFieldUpdateOperationsInput | number
     descricao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    propriedadeId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PropriedadeCulturaCreateManyCulturaInput = {
-    id?: number
-    propriedadeId: number
+    id?: string
+    propriedadeId: string
+  }
+
+  export type SimulacaoCreateManyCulturaInput = {
+    id?: string
+    nomeSimulacao: string
+    ano: number
+    soloId: string
+    propriedadeId: string
+    chuvaAnual: number
+    temperaturaMed: number
+    umidade: number
+    resultado?: number | null
+    dataSimulacao?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
   }
 
   export type PropriedadeCulturaUpdateWithoutCulturaInput = {
-    propriedade?: PropriedadeUpdateOneRequiredWithoutPropriedadeCulturaNestedInput
+    propriedade?: PropriedadeUpdateOneRequiredWithoutCulturasNestedInput
   }
 
   export type PropriedadeCulturaUncheckedUpdateWithoutCulturaInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PropriedadeCulturaUncheckedUpdateManyWithoutCulturaInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    propriedadeId?: IntFieldUpdateOperationsInput | number
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SimulacaoUpdateWithoutCulturaInput = {
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    ano?: IntFieldUpdateOperationsInput | number
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    solo?: SoloUpdateOneRequiredWithoutSimulacaoNestedInput
+    propriedade?: PropriedadeUpdateOneRequiredWithoutSimulacoesNestedInput
+    historicos?: HistoricoUpdateManyWithoutSimulacaoNestedInput
+    Estimativas?: EstimativasUpdateManyWithoutSimulacaoNestedInput
+  }
+
+  export type SimulacaoUncheckedUpdateWithoutCulturaInput = {
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    ano?: IntFieldUpdateOperationsInput | number
+    soloId?: StringFieldUpdateOperationsInput | string
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    historicos?: HistoricoUncheckedUpdateManyWithoutSimulacaoNestedInput
+    Estimativas?: EstimativasUncheckedUpdateManyWithoutSimulacaoNestedInput
+  }
+
+  export type SimulacaoUncheckedUpdateManyWithoutCulturaInput = {
+    nomeSimulacao?: StringFieldUpdateOperationsInput | string
+    ano?: IntFieldUpdateOperationsInput | number
+    soloId?: StringFieldUpdateOperationsInput | string
+    propriedadeId?: StringFieldUpdateOperationsInput | string
+    chuvaAnual?: FloatFieldUpdateOperationsInput | number
+    temperaturaMed?: FloatFieldUpdateOperationsInput | number
+    umidade?: FloatFieldUpdateOperationsInput | number
+    resultado?: NullableFloatFieldUpdateOperationsInput | number | null
+    dataSimulacao?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 
