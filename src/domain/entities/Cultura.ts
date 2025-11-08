@@ -1,7 +1,7 @@
 import { PropriedadeCultura } from "./PropriedadeCultura";
 
 type CulturaProps = {
-    id?: number;
+    id?: string;
     name: string;
     eua: number;
     propriedadeCultura: PropriedadeCultura[];
@@ -19,7 +19,7 @@ export class Cultura {
     public static create(props: Omit<CulturaProps, "id">): Cultura {
         return new Cultura({
             ...props,
-            id: 0,
+
             createdAt: new Date(),
             updatedAt: new Date(),
             deletedAt: null,
@@ -30,7 +30,7 @@ export class Cultura {
             return new Cultura(props);
         }
 
-        get id(): number | undefined {
+        get id(): string | undefined {
             return this.props.id;
         }
 

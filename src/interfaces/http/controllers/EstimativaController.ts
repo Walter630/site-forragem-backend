@@ -1,5 +1,7 @@
 import { EstimativaServices } from "../../../aplication/services/EstimativasServices";
 import { Request, Response } from "express";
+import { montarDadosGrafico } from "../../../aplication/services/MontarDadosGraficos";
+
 export class EstimativaController {
     constructor(private readonly service: EstimativaServices) {}
 
@@ -29,10 +31,23 @@ export class EstimativaController {
             res.status(500).json({ erro: err.message });
         }
     }
+    async getGrafico(req: any, res: any) {
+        try {
+            // Pega dados do banco via service
+            const dados = await this.service.buscarDadosParaGrafico();
+
+            // Monta labels e values
+            const { labels, values } = montarDadosGrafico(dados);
+
+            return res.status(200).json({ labels, values });
+        } catch (error: any) {
+            return res.status(400).json({ message: error.message });
+        }
+    }
 
     async delete(req: Request, res: Response) {
         try{
-            const id = Number(req.params.id);
+            const id = String(req.params.id);
             await this.service.delete(id);
             res.status(204).send();
         } catch (err: any) {
@@ -42,7 +57,7 @@ export class EstimativaController {
 
     async update(req: Request, res: Response) {
         try{
-            const id = Number(req.params.id);
+            const id = String(req.params.id);
             const estimativa = req.body;
             const updatedEstimativa = await this.service.update(id, estimativa);
             res.json(updatedEstimativa);
@@ -54,7 +69,7 @@ export class EstimativaController {
     async findById(req: Request, res: Response) {
         try{
             const id = req.params.id;
-            const estimativa = await this.service.findById(Number(id));
+            const estimativa = await this.service.findById(String(id));
             res.json(estimativa);
         } catch (err: any) {
             res.status(404).json({ erro: err.message });
@@ -64,7 +79,7 @@ export class EstimativaController {
     async findByPropriedade(req: Request, res: Response) {
         try{
             const propriedadeId = req.params.propriedadeId;
-            const estimativa = await this.service.findByPropriedade(Number(propriedadeId));
+            const estimativa = await this.service.findByPropriedade(String(propriedadeId));
             res.json(estimativa);
         } catch (err: any) {
             res.status(404).json({ erro: err.message });

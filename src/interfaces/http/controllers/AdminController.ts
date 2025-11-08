@@ -1,79 +1,83 @@
 import { Request, Response } from "express";
 import { AdminServices } from "../../../aplication/services/AdminServices";
-import { Admin } from "../../../domain/entities/Admin";
-import { validarCPF } from "../../../configs/utils/CpfValidators"; // ajuste o caminho conforme seu projeto
+import { validarCPF } from "../../../configs/utils/CpfValidators";
 
 export class AdminController {
     constructor(private readonly adminService: AdminServices) {}
 
     async login(req: Request, res: Response) {
-        try{
+        try {
             const { login, senha } = req.body;
             const admin = await this.adminService.login(login, senha);
-            res.status(200).json({ message: "Login realizado com sucesso", admin: admin });
+             res.status(200).json(admin);
         } catch (error) {
-            res.status(500).json({ message: "Erro ao fazer login", error: error });
+            res.status(400).json({ message: "Falha no login", error });
         }
     }
 
     async create(req: Request, res: Response) {
-        try{
-            const adminData = req.body as Admin;
-             // Validação do CPF na criação
-            if (!validarCPF(adminData.cpf)) {
+        try {
+            const data = req.body;
+            console.log("dados chegando", data)
+            if (!validarCPF(data.cpf)) {
+                console.log("CPF inválido detectado:", data.cpf);
                 res.status(400).json({ message: "CPF inválido" });
-                return
+                return;
             }
-            const admin = await this.adminService.create(req.body as Admin);
+
+            const admin = await this.adminService.create(data);
+            console.log("admin criado", admin)
             res.status(201).json(admin);
         } catch (error) {
-            console.log(error, "error");
-            res.status(402).json({ message: "Erro ao criar admin", error: error });
+            res.status(400).json({ message: "Erro ao criar Admin", error });
         }
     }
-    
+
     async update(req: Request, res: Response) {
-        try{
-            const admin = await this.adminService.update(req.body as Admin);
-            res.status(200).json({ message: "Admin atualizado com sucesso", admin: admin });
+        try {
+            const admin = await this.adminService.update(req.body);
+             res.status(200).json(admin);
         } catch (error) {
-            res.status(500).json({ message: "Erro ao atualizar admin", error: error });
+            res.status(400).json({ message: "Erro ao atualizar Admin", error });
         }
     }
 
     async delete(req: Request, res: Response) {
-        try{
-            const admin = await this.adminService.delete(req.body.id);
-            res.status(200).json({ message: "Admin deletado com sucesso" });
+        try {
+            const { id } = req.params;
+            await this.adminService.delete(id);
+            res.status(200).json({ message: "Admin removido com sucesso" });
         } catch (error) {
-            res.status(500).json({ message: "Erro ao deletar admin", error: error });
+            res.status(400).json({ message: "Erro ao deletar Admin", error });
         }
     }
 
     async findAll(req: Request, res: Response) {
-        try{
-            const admin = await this.adminService.findAll();
-            res.status(200).json(admin);
+        try {
+            const admins = await this.adminService.findAll();
+            res.status(200).json(admins);
         } catch (error) {
-            res.status(500).json({ message: "Erro ao buscar admins", error: error });
+            res.status(400).json({ message: "Erro ao listar Admins", error });
         }
     }
 
     async findById(req: Request, res: Response) {
-        try{
-            const admin = await this.adminService.findById(Number(req.params.id));
-            res.status(200).json(admin);
+        try {
+            const { id } = req.params;
+            const admin = await this.adminService.findById(id);
+             res.status(200).json(admin);
         } catch (error) {
-            res.status(500).json({ message: "Erro ao buscar admin", error: error });
+            res.status(400).json({ message: "Erro ao buscar Admin", error });
         }
     }
 
     async findByEmail(req: Request, res: Response) {
-        try{
-            const admin = await this.adminService.findByEmail(req.params.email);
+        try {
+            const { email } = req.params;
+            const admin = await this.adminService.findByEmail(email);
             res.status(200).json(admin);
         } catch (error) {
-            res.status(500).json({ message: "Erro ao buscar admin", error: error });
+            res.status(400).json({ message: "Erro ao buscar Admin", error });
         }
     }
 }

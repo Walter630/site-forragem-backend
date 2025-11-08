@@ -1,27 +1,22 @@
-// Ajustado: Propriedade
-import { Admin, Estimativas, PropriedadeCultura } from "../../generated/prisma";
+// src/domain/entities/Propriedade.ts
 
 type PropriedadeProps = {
-    id?: number;
+    id?: string; // Agora string (MongoDB)
     nomePropriedade: string;
     nomeProprietario: string;
     latitude: number;
     longitude: number;
     simulacao: string;
-    adminId?: number;
-    admin?: Admin;
-    estimativas?: Estimativas[];
-    propriedadeCultura?: PropriedadeCultura[];
-
+    adminId?: string | null;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
-}
+};
 
 export class Propriedade {
     private props: PropriedadeProps;
 
-    constructor(props: PropriedadeProps) {
+    private constructor(props: PropriedadeProps) {
         this.props = props;
     }
 
@@ -30,14 +25,15 @@ export class Propriedade {
             ...props,
             createdAt: props.createdAt || new Date(),
             updatedAt: props.updatedAt || new Date(),
+            deletedAt: props.deletedAt || null,
         });
     }
 
-    static with(props: PropriedadeProps): Propriedade {
+    public static with(props: PropriedadeProps): Propriedade {
         return new Propriedade(props);
     }
 
-    get id(): number | undefined {
+    get id(): string | undefined {
         return this.props.id;
     }
 
@@ -57,23 +53,12 @@ export class Propriedade {
         return this.props.longitude;
     }
 
-    get simulacao(): string | undefined {
+    get simulacao(): string {
         return this.props.simulacao;
     }
 
-    get adminId(): number | undefined {
+    get adminId(): string | null | undefined {
         return this.props.adminId;
-    }
-
-    get admin(): Admin | undefined {
-        return this.props.admin;
-    }
-    get propriedadeCultura(): PropriedadeCultura[] | undefined {
-        return this.props.propriedadeCultura;
-    }
-
-    get estimativas(): Estimativas[] | undefined {
-        return this.props.estimativas;
     }
 
     get createdAt(): Date | undefined {
@@ -88,20 +73,7 @@ export class Propriedade {
         return this.props.deletedAt;
     }
 
-
     toJSON() {
-        return {
-            id: this.id,
-            nomePropriedade: this.nomePropriedade,
-            nomeProprietario: this.nomeProprietario,
-            latitude: this.latitude,
-            longitude: this.longitude,
-            simulacao: this.simulacao,
-            adminId: this.adminId,
-            estimativas: this.estimativas,
-            createdAt: this.props.createdAt,
-            updatedAt: this.props.updatedAt,
-            deletedAt: this.props.deletedAt,
-        };
+        return { ...this.props };
     }
 }

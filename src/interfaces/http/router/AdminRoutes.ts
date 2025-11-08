@@ -1,7 +1,7 @@
 import { Api } from "./Api";
 import { AdminController } from "../controllers/AdminController";
 import { AdminServices } from "../../../aplication/services/AdminServices";
-import { AdminRepositories } from "../../../infra/repositories/AdminRepositories";
+import { AdminRepository } from "../../../infra/repositories/AdminRepositories";
 import { createAdminSchema, deleteAdminSchema, loginSchema, updateAdminSchema } from "../validators/validarAdmin";
 import { validar } from "../validators/validar";
 import { prisma } from "../../../infra/prisma/PrismaClient";
@@ -11,7 +11,7 @@ export class AdminRoutes {
 
     constructor(private readonly api: Api) {
         this.adminController = new AdminController(
-            new AdminServices(AdminRepositories.create(prisma))
+            new AdminServices(new AdminRepository(prisma))
         );
     }
 
@@ -22,7 +22,7 @@ export class AdminRoutes {
 
     private addRotas() {
         // Criação de admin
-        this.api.addRotas("/admin", "POST", validar(createAdminSchema), this.adminController.create.bind(this.adminController));
+        this.api.addRotas("/admin", "POST",  this.adminController.create.bind(this.adminController));
         // Atualização, deleção com autenticação
         this.api.addRotas("/admin", "PUT", requireAdmin, validar(updateAdminSchema), this.adminController.update.bind(this.adminController));
         this.api.addRotas("/admin", "DELETE", requireAdmin, validar(deleteAdminSchema), this.adminController.delete.bind(this.adminController));

@@ -24,8 +24,8 @@ export const createAdminSchema = z.object({
   nome: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
   email: z.email({ message: "E-mail inválido" }),
   role: z.enum(["admin", "user", "propriedade", "funcionario"]).optional(),
-  propriedadeId: z.number().optional(),
-  tipoUserId: z.number().optional(),
+  propriedadeId: z.string().optional(),
+  tipoUserId: z.string().optional(),
   cpf: z.string().min(11, "O CPF deve ter pelo menos 11 caracteres"),
 });
 

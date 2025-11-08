@@ -46,4 +46,5 @@ export class AuthService {
 
     return { admin: adminWithoutSenha, token, senha: senhaHash };
   }
+
 }

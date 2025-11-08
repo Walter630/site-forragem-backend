@@ -33,6 +33,14 @@ export class EstimativasRepositories implements IEstimativasRepositories {
     return estimativas.map(this.mapToDomain.bind(this));
   }
 
+  async buscarDadosParaGrafico(): Promise<any> {
+    const estimativas = await this.prisma.estimativas.findMany({
+      include: { propriedade: { include: { admin: true } } },
+    });
+
+    return estimativas.map(this.mapToDomain.bind(this));
+  }
+
   async create(estimativa: Estimativas): Promise<Estimativas> {
   const dataToCreate: any = {
     valorTotal: estimativa.valorTotal,
@@ -64,7 +72,7 @@ export class EstimativasRepositories implements IEstimativasRepositories {
 }
 
 
-  async findByPropriedade(propriedadeId: number): Promise<Estimativas[]> {
+  async findByPropriedade(propriedadeId: string): Promise<Estimativas[]> {
     const estimativas = await this.prisma.estimativas.findMany({
       where: { propriedadeId },
       include: { propriedade: { include: { admin: true } } },
@@ -77,7 +85,7 @@ export class EstimativasRepositories implements IEstimativasRepositories {
     return estimativas.map(this.mapToDomain.bind(this));
   }
 
-  async findById(id: number): Promise<Estimativas | null> {
+  async findById(id: string): Promise<Estimativas | null> {
     const estimativa = await this.prisma.estimativas.findUnique({
       where: { id },
       include: { propriedade: { include: { admin: true } } },
@@ -92,7 +100,7 @@ export class EstimativasRepositories implements IEstimativasRepositories {
       data: {
         valorTotal: estimativa.valorTotal,
         descricao: estimativa.descricao || undefined,
-        propriedadeId: estimativa.propriedadeId,
+        propriedade: { connect: { id: estimativa.propriedade?.id } },
         updatedAt: new Date(),
       },
       include: { propriedade: { include: { admin: true } } },
@@ -101,7 +109,7 @@ export class EstimativasRepositories implements IEstimativasRepositories {
     return this.mapToDomain(updated);
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     await this.prisma.estimativas.delete({ where: { id } });
   }
 }

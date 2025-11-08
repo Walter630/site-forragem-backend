@@ -7,7 +7,7 @@ export class SimulacaoRepositories implements ISimulacaoGateway {
   constructor(private readonly prisma: PrismaClient) {}
 
   async create(data: {
-    propriedadeId: number;
+    propriedadeId: string;
     dadosJson: Record<string, any>; // ou `any` se você preferir
     resultado: number;
     dataSimulacao: Date;
@@ -15,7 +15,7 @@ export class SimulacaoRepositories implements ISimulacaoGateway {
     const simulacao = await this.prisma.simulacao.create({
       data: {
         propriedadeId: data.propriedadeId,
-        dadosJson: data.dadosJson, // <- campo reconhecido no Prisma
+        dadosJson: data.dadosJson as unknown as SimularForragemInputDTO, // <- campo reconhecido no Prisma
         resultado: data.resultado,
         dataSimulacao: data.dataSimulacao,
       },
@@ -29,7 +29,7 @@ export class SimulacaoRepositories implements ISimulacaoGateway {
       id: simulacao.id,
       propriedadeId: simulacao.propriedadeId,
       dadosJson: simulacao.dadosJson as unknown as SimularForragemInputDTO,
-      resultado: simulacao.resultado,
+      resultado: simulacao.resultado ,
       dataSimulacao: simulacao.dataSimulacao,
     });
   }
@@ -50,7 +50,7 @@ export class SimulacaoRepositories implements ISimulacaoGateway {
       })
     );
   }
-  async buscarPorId(id: number) {
+  async buscarPorId(id: string) {
       return this.prisma.simulacao.findUnique({
         where: { id },
         include: {

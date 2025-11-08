@@ -1,44 +1,65 @@
-// src/aplication/dto/EstimativasDTO.ts
+// src/application/dto/EstimativasDTO.ts
 
-export interface createEstimativa {
-    id?: number;
+// DTO para criação
+export interface CreateEstimativaDTO {
     valorTotal: number;
-    propriedade: {  
-        id: number;
+
+    propriedade: {
+        id: string;
         nomePropriedade: string;
         nomeProprietario: string;
         latitude: number;
         longitude: number;
         altitude: number;
         admin?: { id: number; nome: string } | undefined;
-        adminId?: number;
+        adminId?: string;
         simulacao?: string;
     };
-    descricao: string | null; // já está ok
-    simulacaoId: number; // <- importante!
+
+    descricao: string | null;
+    simulacaoId: string;
+
     createdAt?: Date;
-    updatedAt?: Date | null; // <-- Adicione isso
-    deletedAt?: Date | null; // <-- Se estiver usando também
+    updatedAt?: Date | null;
+    deletedAt?: Date | null;
 }
 
-
+// DTO para atualização
 export interface UpdateEstimativaDTO {
     valorTotal?: number;
+
     propriedade?: {
-        id?: number;
+        id?: string;
         nomePropriedade?: string;
-        adminId?: number;
+        adminId?: string;
         simulacao?: string;
     };
-    descricao?: string;
+
+    descricao?: string | null;
+    simulacaoId?: string;
 }
 
-export interface Estimativas {
-  id: number;
-  mes: string;
-  valor: number;
-  propriedadeId: number;
-  createdAt: Date;
-  updatedAt: Date;
+// DTO para retorno / listagem
+export interface EstimativaDTO {
+    id: string;
+    valorTotal: number;
+
+    propriedadeId: string;
+
+    descricao: string | null;
+    simulacaoId: string;
+
+    createdAt: Date;
+    updatedAt: Date | null;
+    deletedAt?: Date | null;
 }
 
+// Caso você tenha estimativas mensais agregadas
+export interface EstimativasPorMesDTO {
+    id: string;
+    mes: string;
+    valor: number;
+    propriedadeId: string;
+    createdAt: Date;
+    updatedAt: Date;
+}

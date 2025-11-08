@@ -11,16 +11,34 @@ type TipoUserProps = {
 export class TipoUser {
     private props: TipoUserProps;
 
-    constructor(props: TipoUserProps) {
+    private constructor(props: TipoUserProps) {
         this.props = props;
     }
 
     public static create(props: Omit<TipoUserProps, "id">): TipoUser {
-        return new TipoUser({ ...props, id: 0 });
+        return new TipoUser({
+            ...props,
+            id: 0,
+            ativo: props.ativo ?? true,
+            createdAt: props.createdAt ?? undefined,
+            updatedAt: props.updatedAt ?? undefined,
+        });
     }
 
-    static with(props: TipoUserProps): TipoUser {
-        return new TipoUser(props);
+    static with(props: Partial<TipoUserProps>): TipoUser {
+        return new TipoUser(props as TipoUserProps);
+    }
+
+    // Conversão do Prisma → Entidade
+    static fromPrisma(prismaObj: any): TipoUser {
+        return new TipoUser({
+            id: prismaObj.id,
+            tipo: prismaObj.tipo,
+            descricao: prismaObj.descricao,
+            ativo: prismaObj.ativo,
+            createdAt: prismaObj.createdAt,
+            updatedAt: prismaObj.updatedAt,
+        });
     }
 
     get id(): number | undefined {
@@ -35,8 +53,8 @@ export class TipoUser {
         return this.props.descricao;
     }
 
-    get ativo(): boolean | undefined {
-        return this.props.ativo;
+    get ativo(): boolean {
+        return this.props.ativo ?? true;
     }
 
     get createdAt(): Date | undefined {
@@ -49,9 +67,9 @@ export class TipoUser {
 
     toJSON() {
         return {
-            id: this.id,
-            tipo: this.tipo,
-            descricao: this.descricao,
+            id: this.props.id,
+            tipo: this.props.tipo,
+            descricao: this.props.descricao,
             ativo: this.ativo,
             createdAt: this.props.createdAt,
             updatedAt: this.props.updatedAt,

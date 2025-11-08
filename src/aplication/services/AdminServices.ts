@@ -1,132 +1,92 @@
+import { AdminRepository } from "../../infra/repositories/AdminRepositories";
 import { Admin } from "../../domain/entities/Admin";
-import { AdminRepositories } from "../../infra/repositories/AdminRepositories";
 import bcrypt from "bcrypt";
-import { Token } from "../../configs/utils/jwt/Token";
+import { PrismaClient } from "../../generated/prisma";
+import {prisma} from "../../infra/prisma/PrismaClient";
 
-const SALT_ROUNDS = 10;
 export class AdminServices {
-    private adminRepository: AdminRepositories;
-    private token: Token;
-    constructor(adminRepository: AdminRepositories) {
-        this.adminRepository = adminRepository;
-        this.token = new Token();
-    }
 
-    async create(admin: Admin): Promise<Admin | null> {
-        try{
-            console.log("Creating admin:", admin);
-            const cpfLimpo = admin.cpf.replace(/\D/g, "");
-            
-            const senhaCpf = cpfLimpo.slice(0, 8);
-            const senhaCriptografada = await bcrypt.hash(senhaCpf, SALT_ROUNDS);
-            if (admin.tipoUserId === 1) {
-                const adminExistente = await this.adminRepository.findByEmail(admin.email);
-                if (adminExistente) {
-                    throw new Error("E-mail já cadastrado");
-                }
-            } else if (admin.tipoUserId === 2) {
-                const adminExistente = await this.adminRepository.findByCPF(cpfLimpo);
-                if (adminExistente) {
-                    throw new Error("CPF já cadastrado");
-                }
-            }
-            const tipoUserId = admin.tipoUserId ?? 1; // Se não for passado, assume 1 (Admin)
-            const adminCreated = Admin.create({
-                tipoUserId: tipoUserId,
-                nome: admin.nome,
-                email: admin.email,
-                cpf: admin.cpf,
-                senha: senhaCriptografada,
-                ativado: admin.ativado,
-                propriedade: admin.propriedade,
-            });
+    constructor(private repo = new AdminRepository(prisma)) {}
 
-            if (!adminCreated) {
-                throw new Error("Erro ao criar admin");
-            }
+    async login(login: string, senha: string) {
+        const admin = await this.repo.findByEmail(login);
 
-            const adminCreatedRepository = await this.adminRepository.create(adminCreated);
-            return adminCreatedRepository;
-        } catch (error) {
-            console.log(error);
-            throw new Error("Erro ao criar admin");
+        if (!admin) {
+            throw new Error("Admin não encontrado");
         }
+
+        const senhaValida = await bcrypt.compare(senha, admin.senha);
+        if (!senhaValida) {
+            throw new Error("Senha inválida");
+        }
+
+        return Admin.with(admin);
     }
 
-    async login(login: string, senha: string): Promise<{ admin: Admin, token: string, refreshToken: string }> {
+    async create(data: any) {
         try {
-            let admin: Admin | null = null;
-           
-            // Verifica se é e-mail ou CPF
-            if (login.includes("@") && login.includes(".")) {
-                admin = await this.adminRepository.findByEmail(login);
-            } else if (login.length === 11 || login.length === 14) {
-                admin = await this.adminRepository.findByCPF(login);
-            } else {
-                throw new Error("Formato de login inválido. Use um e-mail ou CPF válido.");
-            }
-    
-            if (!admin) {
-                throw new Error("Admin não encontrado");
-            }
-    
-            const senhaValida = await bcrypt.compare(senha, admin.senha);
-            if (!senhaValida) {
-                throw new Error("Senha inválida");
-            }
-    
-            const token = this.token.generateAccessToken({ id: admin.id!, email: admin.email, cpf: admin.cpf || undefined });
-            const refreshToken = this.token.generateRefreshToken({ id: admin.id!, email: admin.email, cpf: admin.cpf || undefined });
-    
-            return { admin, token, refreshToken };
-        } catch (error) {
-            console.log(error);
-            throw new Error(error instanceof Error ? error.message : "Erro ao fazer login");
-        }
-    }
-    
-    async findAll(): Promise<Admin[]> {
-        try{
-            return this.adminRepository.findAll();
-        } catch (error) {
-            console.log(error);
-            throw new Error("Erro ao buscar admins");
+            const senhaHash = await bcrypt.hash(data.senha, 10);
+            console.log(data);
+            const admin = Admin.create({
+                nome: data.nome,
+                email: data.email,
+                cpf: data.cpf,
+                senha: senhaHash,
+                tipoUserId: data.tipoUserId ?? null,
+            });
+            console.log("admin antes de criar", admin);
+            const created = await this.repo.create(admin);
+            console.log("Admin criado:", created);
+            return created;
+        } catch (err) {
+            console.error("Erro no AdminServices.create:", err);
+            throw err;
         }
     }
 
-    async findByEmail(email: string): Promise<Admin | null> {
-        try{
-            return this.adminRepository.findByEmail(email);
-        } catch (error) {
-            console.log(error);
-            throw new Error("Erro ao buscar admin por email");
+
+    async update(data: any) {
+        const existing = await this.repo.findById(data.id);
+        if (!existing) {
+            throw new Error("Admin não encontrado");
         }
+
+        let senhaFinal = existing.senha;
+        if (data.senha) {
+            senhaFinal = await bcrypt.hash(data.senha, 10);
+        }
+
+        const updated = await this.repo.update(data.id, {
+            ...existing,
+            ...data,
+            senha: senhaFinal,
+        });
+
+        return Admin.with(updated);
     }
 
-    async findById(id: number): Promise<Admin | null> {
-        try{
-            return this.adminRepository.findById(id);
-        } catch (error) {
-            console.log(error);
-            throw new Error("Erro ao buscar admin por id");
-        }
+    async delete(id: string | number) {
+        await this.repo.delete(String(id));
     }
 
-    async update(admin: Admin): Promise<Admin | null> {
-        try{
-            return this.adminRepository.update(admin);
-        } catch (error) {
-            console.log(error);
-            throw new Error("Erro ao atualizar admin");
-        }
+    async findAll() {
+        const admins = await this.repo.findAll();
+        return admins.map((a) => Admin.with(a));
     }
 
-    async delete(id: number): Promise<void> {
-        try{
-            return this.adminRepository.delete(id);
-        } catch (error) {
-            console.log(error);
-            throw new Error("Erro ao deletar admin");
+    async findById(id: string | number) {
+        const admin = await this.repo.findById(String(id));
+        if (!admin) {
+            throw new Error("Admin não encontrado");
         }
+        return Admin.with(admin);
+    }
+
+    async findByEmail(email: string) {
+        const admin = await this.repo.findByEmail(email);
+        if (!admin) {
+            throw new Error("Admin não encontrado");
+        }
+        return Admin.with(admin);
     }
 }
