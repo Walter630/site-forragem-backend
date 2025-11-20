@@ -42,17 +42,34 @@ export class SimulacaoRoutes {
   }
 
   private addRoutes() {
-    this.api.addRotas(
-      "/simulacao",
-      "POST",
-      this.simulacaoController.simular.bind(this.simulacaoController)
-    );
+      /**
+       * @swagger
+       * /simulacao:
+       *   post:
+       *     summary: Executa uma simulação
+       *     tags: [Simulacao]
+       *     responses:
+       *       200:
+       *         description: Simulação realizada com sucesso
+       */
+      this.api.addRotas(
+          "/simulacao",
+          "POST",
+          this.simulacaoController.simular.bind(this.simulacaoController)
+      );
 
-    this.api.addRotas(
-      "/simulacao/historico",
-      "GET",
-      this.simulacaoController.historico.bind(this.simulacaoController)
-    );
+      /**
+       * @swagger
+       * /simulacao/historico:
+       *   get:
+       *     summary: Lista o histórico de simulações realizadas
+       *     tags: [Simulacao]
+       */
+      this.api.addRotas(
+          "/simulacao/historico",
+          "GET",
+          this.simulacaoController.historico.bind(this.simulacaoController)
+      );
   }
 }
 

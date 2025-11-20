@@ -2,12 +2,28 @@
 import { SimularForragemInputDTO } from "../../aplication/dto/SimulacaoForragemDTO";
 
 type SimulacaoProps = {
-    id?: string;                 // <-- era number
-    propriedadeId: string;       // <-- era number
-    dadosJson: Record<string, any>;
-    resultado: number;
+    id?: string;
+    nomeSimulacao: string;
+    ano: number;
+    propriedadeId: string;
+    culturaId: string;
+    soloId: string;
+    // Dados de clima
+    eto?: number;
+    indiceAridez?: number;
+    precipitacaoMmAno?: number;
+    numeroChuvas?: number;
+    precipitacaoMmDia?: number;
+    cvDia?: number;
+    precipitacaoMmMes?: number;
+    cvMes?: number;
+    altitude?: number;
+    temperaturaMed?: number;
+    umidade?: number;
+    resultado?: number;
     dataSimulacao: Date;
-    culturaId?: string | null;   // <-- também vira string
+    createdAt?: Date;
+    updatedAt?: Date;
 };
 
 export class Simulacao {
@@ -17,10 +33,11 @@ export class Simulacao {
         this.props = props;
     }
 
-    public static create(props: Omit<SimulacaoProps, "id">): Simulacao {
+    public static create(props: Omit<SimulacaoProps, "id" | "dataSimulacao" | "createdAt">): Simulacao {
         return new Simulacao({
             ...props,
-            dataSimulacao: props.dataSimulacao || new Date(),
+            dataSimulacao: props.updatedAt || new Date(),
+            createdAt: new Date(),
         });
     }
 
@@ -32,15 +49,71 @@ export class Simulacao {
         return this.props.id;
     }
 
+    get nomeSimulacao(): string {
+        return this.props.nomeSimulacao;
+    }
+
+    get ano(): number {
+        return this.props.ano;
+    }
+
     get propriedadeId(): string {
         return this.props.propriedadeId;
     }
 
-    get dadosJson(): Record<string, any> {
-        return this.props.dadosJson;
+    get culturaId(): string {
+        return this.props.culturaId;
     }
 
-    get resultado(): number {
+    get soloId(): string {
+        return this.props.soloId;
+    }
+
+    get eto(): number | undefined {
+        return this.props.eto;
+    }
+
+    get indiceAridez(): number | undefined {
+        return this.props.indiceAridez;
+    }
+
+    get precipitacaoMmAno(): number | undefined {
+        return this.props.precipitacaoMmAno;
+    }
+
+    get numeroChuvas(): number | undefined {
+        return this.props.numeroChuvas;
+    }
+
+    get precipitacaoMmDia(): number | undefined {
+        return this.props.precipitacaoMmDia;
+    }
+
+    get cvDia(): number | undefined {
+        return this.props.cvDia;
+    }
+
+    get precipitacaoMmMes(): number | undefined {
+        return this.props.precipitacaoMmMes;
+    }
+
+    get cvMes(): number | undefined {
+        return this.props.cvMes;
+    }
+
+    get altitude(): number | undefined {
+        return this.props.altitude;
+    }
+
+    get temperaturaMed(): number | undefined {
+        return this.props.temperaturaMed;
+    }
+
+    get umidade(): number | undefined {
+        return this.props.umidade;
+    }
+
+    get resultado(): number | undefined {
         return this.props.resultado;
     }
 
@@ -48,8 +121,12 @@ export class Simulacao {
         return this.props.dataSimulacao;
     }
 
-    get culturaId(): string | null | undefined {
-        return this.props.culturaId;
+    get createdAt(): Date | undefined {
+        return this.props.createdAt;
+    }
+
+    get updatedAt(): Date | undefined {
+        return this.props.updatedAt;
     }
 
     toJSON() {

@@ -13,8 +13,8 @@ export class AdminRepository {
                 email: admin.email,
                 cpf: admin.cpf,
                 senha: admin.senha,
-                tipoUser: admin.tipoUserId ? { connect: { id: admin.tipoUserId } } : undefined,
-                propriedade: admin.propriedade ? { connect: { id: admin.propriedade.id } } : undefined,
+                tipoUsuario: admin.tipoUsuario,
+                propriedades: admin.propriedade ? { connect: { id: admin.propriedade.id } } : undefined,
                 // Remover createdAt ou qualquer campo manual que Prisma preenche
             },
         })
@@ -27,11 +27,11 @@ export class AdminRepository {
             where: { id: String(id) },
             data: {
                 ...data,
-                propriedade: data.propriedade
+                propriedades: data.propriedade
                     ? { connect: { id: data.propriedade.id } }
                     : undefined,
             },
-            include: { propriedade: true },
+            include: { propriedades: true },
         });
 
         return Admin.with({
@@ -41,11 +41,11 @@ export class AdminRepository {
             cpf: updated.cpf,
             senha: updated.senha,
             ativado: updated.ativado,
-            tipoUserId: updated.tipoUserId,
+            tipoUsuario: updated.tipoUsuario,
         });
     }
 
-    async delete(id: number | string) {
+    async delete(id: string | string) {
         await this.prisma.admin.delete({
             where: { id: String(id) },
         });

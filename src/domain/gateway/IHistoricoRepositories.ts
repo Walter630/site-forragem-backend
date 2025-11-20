@@ -5,9 +5,9 @@ import { Propriedade } from "../entities/Propriedade";
 export interface IHistoricoRepositories {
     create(historico: Historico): Promise<Historico>;
     findAll(): Promise<Historico[]>;
-    findByPropriedadeId(propriedade: number): Promise<Historico[]>;
-    findById(id: number): Promise<Historico | null>;
+    findByPropriedadeId(propriedade: string): Promise<Historico[]>;
+    findById(id: string): Promise<Historico | null>;
     update(historico: Historico): Promise<Historico>;
-    delete(id: number): Promise<void>;
+    delete(id: string): Promise<void>;
     listarHistorico(): Promise<Historico[]>;
 }

@@ -1,13 +1,13 @@
 type SoloProps = {
-    id?: string;                         // <-- era number
-    propriedadeId: string;               // <-- era number
-    profundidade: number;
-    fator_rocha: number;
-    condut_hidraulica_saturada: number;
-    densidade_aparente: number;
-    agua_0_bar: number;
-    agua_13_bar: number;
-    agua_15_bar: number;
+    id?: string;
+    nomeClasse: string;
+    profundidade?: number;
+    fatorRocha?: number;
+    condutHidraulicaSaturada?: number;
+    densidadeAparente?: number;
+    agua0Bar?: number;
+    agua13Bar?: number;
+    agua15Bar?: number;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
@@ -32,18 +32,18 @@ export class Solo {
         return new Solo(props);
     }
 
-    // Conversão do documento vindo do MongoDB
-    static fromMongo(doc: any): Solo {
+    // Conversão do documento vindo do MongoDB/Prisma
+    static fromPrisma(doc: any): Solo {
         return new Solo({
-            id: doc._id?.toString(),                         // garante string
-            propriedadeId: doc.propriedadeId?.toString(),
+            id: doc.id?.toString(),
+            nomeClasse: doc.nomeClasse,
             profundidade: doc.profundidade,
-            fator_rocha: doc.fator_rocha,
-            condut_hidraulica_saturada: doc.condut_hidraulica_saturada,
-            densidade_aparente: doc.densidade_aparente,
-            agua_0_bar: doc.agua_0_bar,
-            agua_13_bar: doc.agua_13_bar,
-            agua_15_bar: doc.agua_15_bar,
+            fatorRocha: doc.fatorRocha,
+            condutHidraulicaSaturada: doc.condutHidraulicaSaturada,
+            densidadeAparente: doc.densidadeAparente,
+            agua0Bar: doc.agua0Bar,
+            agua13Bar: doc.agua13Bar,
+            agua15Bar: doc.agua15Bar,
             createdAt: doc.createdAt,
             updatedAt: doc.updatedAt,
             deletedAt: doc.deletedAt,
@@ -51,14 +51,14 @@ export class Solo {
     }
 
     get id(): string | undefined { return this.props.id; }
-    get propriedadeId(): string { return this.props.propriedadeId; }
-    get profundidade(): number { return this.props.profundidade; }
-    get fator_rocha(): number { return this.props.fator_rocha; }
-    get condut_hidraulica_saturada(): number { return this.props.condut_hidraulica_saturada; }
-    get densidade_aparente(): number { return this.props.densidade_aparente; }
-    get agua_0_bar(): number { return this.props.agua_0_bar; }
-    get agua_13_bar(): number { return this.props.agua_13_bar; }
-    get agua_15_bar(): number { return this.props.agua_15_bar; }
+    get nomeClasse(): string { return this.props.nomeClasse; }
+    get profundidade(): number | undefined { return this.props.profundidade; }
+    get fatorRocha(): number | undefined { return this.props.fatorRocha; }
+    get condutHidraulicaSaturada(): number | undefined { return this.props.condutHidraulicaSaturada; }
+    get densidadeAparente(): number | undefined { return this.props.densidadeAparente; }
+    get agua0Bar(): number | undefined { return this.props.agua0Bar; }
+    get agua13Bar(): number | undefined { return this.props.agua13Bar; }
+    get agua15Bar(): number | undefined { return this.props.agua15Bar; }
     get createdAt(): Date | undefined { return this.props.createdAt; }
     get updatedAt(): Date | undefined { return this.props.updatedAt; }
     get deletedAt(): Date | null | undefined { return this.props.deletedAt; }

@@ -19,9 +19,6 @@ export class AuthService {
           { cpf: login },
         ],
       },
-      include: {
-        tipoUser: true,
-      },
     });
 
     if (!admin) throw new Error("Usuário não encontrado");
@@ -32,7 +29,7 @@ export class AuthService {
     const payload = {
       id: admin.id,
       email: admin.email,
-      tipo: admin.tipoUser?.tipo,
+      tipo: admin.tipoUsuario,
     };
 
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1m" });
@@ -46,5 +43,6 @@ export class AuthService {
 
     return { admin: adminWithoutSenha, token, senha: senhaHash };
   }
+
 
 }

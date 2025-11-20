@@ -1,8 +1,8 @@
 import { AdminRepository } from "../../infra/repositories/AdminRepositories";
 import { Admin } from "../../domain/entities/Admin";
 import bcrypt from "bcrypt";
-import { PrismaClient } from "../../generated/prisma";
 import {prisma} from "../../infra/prisma/PrismaClient";
+import { CreateAdminDTO } from "../dto/CreateAdminDTO";
 
 export class AdminServices {
 
@@ -23,26 +23,46 @@ export class AdminServices {
         return Admin.with(admin);
     }
 
-    async create(data: any) {
+    async create(data: CreateAdminDTO) {
         try {
-            const senhaHash = await bcrypt.hash(data.senha, 10);
-            console.log(data);
-            const admin = Admin.create({
-                nome: data.nome,
-                email: data.email,
-                cpf: data.cpf,
-                senha: senhaHash,
-                tipoUserId: data.tipoUserId ?? null,
+            // 1️⃣ Verifica duplicidade de e-mail
+            const adminExistente = await prisma.admin.findUnique({
+                where: { email: data.email },
             });
-            console.log("admin antes de criar", admin);
-            const created = await this.repo.create(admin);
-            console.log("Admin criado:", created);
-            return created;
-        } catch (err) {
-            console.error("Erro no AdminServices.create:", err);
-            throw err;
+
+            if (adminExistente) {
+                throw new Error("Já existe um administrador cadastrado com esse e-mail.");
+            }
+            const cpfLimpo = data.cpf.replace(/\D/g, "");
+
+            // 2️⃣ Gera senha automática pelos 8 primeiros dígitos do CPF
+            const senhaGerada = cpfLimpo.substring(0, 8);
+            console.log("Senha gerada automaticamente:", senhaGerada);
+
+            // 3️⃣ Criptografa
+            const senhaHash = await bcrypt.hash(senhaGerada, 10);
+
+            // 4️⃣ Cria no banco
+            const adminCriado = await prisma.admin.create({
+                data: {
+                    nome: data.nome,
+                    email: data.email,
+                    cpf: data.cpf,
+                    tipoUsuario: data.tipoUsuario ?? "USER",
+                    senha: senhaHash,
+                },
+            });
+
+            // 5️⃣ Remove senha do retorno
+            const { senha, ...adminSemSenha } = adminCriado;
+
+            return adminSemSenha;
+        } catch (error) {
+            console.error("Erro no AdminServices.create:", error);
+            throw error;
         }
     }
+
 
 
     async update(data: any) {

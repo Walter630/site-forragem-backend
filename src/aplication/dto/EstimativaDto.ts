@@ -2,23 +2,11 @@
 
 // DTO para criação
 export interface CreateEstimativaDTO {
+    id?: string;
     valorTotal: number;
-
-    propriedade: {
-        id: string;
-        nomePropriedade: string;
-        nomeProprietario: string;
-        latitude: number;
-        longitude: number;
-        altitude: number;
-        admin?: { id: number; nome: string } | undefined;
-        adminId?: string;
-        simulacao?: string;
-    };
-
-    descricao: string | null;
+    propriedadeId: string;
     simulacaoId: string;
-
+    descricao?: string | null;
     createdAt?: Date;
     updatedAt?: Date | null;
     deletedAt?: Date | null;
@@ -27,28 +15,17 @@ export interface CreateEstimativaDTO {
 // DTO para atualização
 export interface UpdateEstimativaDTO {
     valorTotal?: number;
-
-    propriedade?: {
-        id?: string;
-        nomePropriedade?: string;
-        adminId?: string;
-        simulacao?: string;
-    };
-
     descricao?: string | null;
-    simulacaoId?: string;
+    updatedAt?: Date;
 }
 
 // DTO para retorno / listagem
 export interface EstimativaDTO {
     id: string;
     valorTotal: number;
-
     propriedadeId: string;
-
-    descricao: string | null;
     simulacaoId: string;
-
+    descricao: string | null;
     createdAt: Date;
     updatedAt: Date | null;
     deletedAt?: Date | null;

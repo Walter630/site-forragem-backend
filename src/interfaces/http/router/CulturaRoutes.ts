@@ -16,11 +16,51 @@ export class CulturaRoutes {
     }
 
     private addRotas() {
-        this.api.addRotas("/cultura", "POST",  this.culturaController.create.bind(this.culturaController));
-        this.api.addRotas("/cultura", "GET",  this.culturaController.findAll.bind(this.culturaController));
-        this.api.addRotas("/cultura/:id", "GET",  this.culturaController.findById.bind(this.culturaController));
-        this.api.addRotas("/cultura", "PUT",  this.culturaController.update.bind(this.culturaController));
-        this.api.addRotas("/cultura/:id", "DELETE",  this.culturaController.delete.bind(this.culturaController));
+        /**
+         * @swagger
+         * /api/cultura:
+         *   post:
+         *     summary: Cria uma cultura
+         *     tags: [Cultura]
+         */
+        this.api.addRotas("/cultura", "POST", this.culturaController.create.bind(this.culturaController));
+
+        /**
+         * @swagger
+         * /api/cultura:
+         *   get:
+         *     summary: Lista todas as culturas
+         *     tags: [Cultura]
+         */
+        this.api.addRotas("/cultura", "GET", this.culturaController.findAll.bind(this.culturaController));
+
+        /**
+         * @swagger
+         * /api/cultura/{id}:
+         *   get:
+         *     summary: Busca cultura por ID
+         *     tags: [Cultura]
+         */
+        this.api.addRotas("/cultura/:id", "GET", this.culturaController.findById.bind(this.culturaController));
+
+        /**
+         * @swagger
+         * /api/cultura:
+         *   put:
+         *     summary: Atualiza uma cultura
+         *     tags: [Cultura]
+         */
+        this.api.addRotas("/cultura", "PUT", this.culturaController.update.bind(this.culturaController));
+
+        /**
+         * @swagger
+         * /api/cultura/{id}:
+         *   delete:
+         *     summary: Deleta uma cultura
+         *     tags: [Cultura]
+         */
+        this.api.addRotas("/cultura/:id", "DELETE", this.culturaController.delete.bind(this.culturaController));
+
     }
 }
 

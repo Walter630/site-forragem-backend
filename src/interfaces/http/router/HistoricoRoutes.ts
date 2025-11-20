@@ -25,16 +25,50 @@ export class HistoricoRoutes {
     }
 
     private addRotas() {
+        /**
+         * @swagger
+         * /api/historico:
+         *   get:
+         *     summary: Retorna todo o histórico
+         *     tags: [Histórico]
+         */
         this.api.addRotas("/historico", "GET", this.historicoController.historico.bind(this.historicoController));
 
+        /**
+         * @swagger
+         * /api/historico/{id}:
+         *   get:
+         *     summary: Busca histórico por ID
+         *     tags: [Histórico]
+         */
         this.api.addRotas("/historico/:id", "GET", this.historicoController.findById.bind(this.historicoController));
 
-   
-
+        /**
+         * @swagger
+         * /api/historico/{id}/relatorio:
+         *   get:
+         *     summary: Gera PDF do histórico
+         *     tags: [Histórico]
+         */
         this.api.addRotas("/historico/:id/relatorio", "GET", this.historicoController.gerarRelatorio.bind(this.historicoController));
 
+        /**
+         * @swagger
+         * /api/historico/{id}:
+         *   put:
+         *     summary: Atualiza histórico
+         *     tags: [Histórico]
+         */
         this.api.addRotas("/historico/:id", "PUT", this.historicoController.update.bind(this.historicoController));
 
+        /**
+         * @swagger
+         * /api/historico/{id}:
+         *   delete:
+         *     summary: Deleta histórico (Admin only)
+         *     tags: [Histórico]
+         */
         this.api.addRotas("/historico/:id", "DELETE", requireAdmin, this.historicoController.delete.bind(this.historicoController));
+
     }
 }

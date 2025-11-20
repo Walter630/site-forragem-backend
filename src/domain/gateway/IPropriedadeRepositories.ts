@@ -5,12 +5,13 @@ export interface IPropriedadeRepositories {
     findAll(): Promise<Propriedade[]>;
     findBySimulacao(simulacao: string): Promise<Propriedade[]>;
     findByNomePropriedade(nomePropriedade: string): Promise<Propriedade[]>;
-    findByNomeProprietario(nomeProprietario: string): Promise<Propriedade[]>;
-    findById(id: number): Promise<Propriedade | null>;
+    findByNomeResponsavel(nomeResponsavel: string): Promise<Propriedade[]>;
+    findById(id: string): Promise<Propriedade | null>;
     update(propriedade: Propriedade): Promise<Propriedade>;
-    delete(id: number): Promise<void>;
-    getSoloEPrecipitacao(propriedadeId: number): Promise<{
-    soloId: number;
-    precipitacaoId: number;
+    delete(id: string): Promise<void>;
+    getSoloEPrecipitacao(propriedadeId: string): Promise<{
+    soloId: string;
+    precipitacaoId: string;
   }>;
+    findByAdminId(adminId: string): Promise<Propriedade[]>;
 }

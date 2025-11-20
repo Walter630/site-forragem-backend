@@ -24,14 +24,10 @@ export default class TipoUsuarioRepositoryPrisma implements ITipoUserRepositorie
         }
     }
 
-    public async findById(id: number): Promise<TipoUser | null> {
+    public async findById(id: string): Promise<TipoUser | null> {
         try {
-            const tipoUsuario = await this.prismaClient.tipoUser.findFirst({
-                where: {
-                    id,
-                    ativado: true,
-                    deletedAt: null,
-                }
+            const tipoUsuario = await this.prismaClient.tipoUser.findUnique({
+                where: { id },
             });
             if (!tipoUsuario) {
                 return null;
@@ -77,7 +73,7 @@ export default class TipoUsuarioRepositoryPrisma implements ITipoUserRepositorie
     public async update(tipoUsuario: TipoUser): Promise<TipoUser> {
         try {
             const updatedTipoUsuario = await this.prismaClient.tipoUser.update({
-                where: { id: tipoUsuario.id },
+                where: { id: tipoUsuario.id as string },
                 data: {
                     tipo: tipoUsuario.tipo,
                     descricao: tipoUsuario.descricao,
@@ -98,7 +94,7 @@ export default class TipoUsuarioRepositoryPrisma implements ITipoUserRepositorie
         }
     }
 
-    public async delete(id: number): Promise<void> {
+    public async delete(id: string): Promise<void> {
         try {
             const deletedTipoUsuario = await this.prismaClient.tipoUser.update({
                 where: { id },

@@ -16,7 +16,7 @@ export class PropriedadeController {
   async findById(req: Request, res: Response) {
     try {
       const  id  = req.params.id;
-      const propriedade = await this.service.findById(Number(id));
+      const propriedade = await this.service.findById(id);
        res.json(propriedade);
     } catch (err: any) {
        res.status(404).json({ erro: err.message });
@@ -31,10 +31,10 @@ export class PropriedadeController {
          res.status(404).json({ erro: err.message });
         }
     }
-    async findByNomeProprietario(req: Request, res: Response) {
+    async findByNomeResponsavel(req: Request, res: Response) {
         try {
         const nome = req.params.nome;
-        const propriedades = await this.service.findByNomeProprietario(nome);
+        const propriedades = await this.service.findByNomeResponsavel(nome);
          res.json(propriedades);
         } catch (err: any) {
          res.status(404).json({ erro: err.message });
@@ -52,7 +52,7 @@ export class PropriedadeController {
     }
     async update(req: Request, res: Response) {
         try {
-            const id = Number(req.params.id);
+            const id = req.params.id;
             const propriedade = req.body;
             const updatedPropriedade = await this.service.update(id, propriedade);
              res.json(updatedPropriedade);
@@ -62,7 +62,7 @@ export class PropriedadeController {
     }
     async delete(req: Request, res: Response) {
         try {
-            const id = Number(req.params.id);
+            const id = req.params.id;
             await this.service.delete(id);
              res.status(204).send();
         } catch (err: any) {

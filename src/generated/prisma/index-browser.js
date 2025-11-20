@@ -120,20 +120,10 @@ exports.Prisma.AdminScalarFieldEnum = {
   cpf: 'cpf',
   senha: 'senha',
   ativado: 'ativado',
+  tipoUsuario: 'tipoUsuario',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
-  tipoUserId: 'tipoUserId'
-};
-
-exports.Prisma.TipoUserScalarFieldEnum = {
-  id: 'id',
-  tipo: 'tipo',
-  descricao: 'descricao',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
-  ativado: 'ativado'
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.PropriedadeScalarFieldEnum = {
@@ -195,8 +185,7 @@ exports.Prisma.SoloScalarFieldEnum = {
   agua15Bar: 'agua15Bar',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
-  propriedadeId: 'propriedadeId'
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.EstimativasScalarFieldEnum = {
@@ -217,7 +206,15 @@ exports.Prisma.SimulacaoScalarFieldEnum = {
   culturaId: 'culturaId',
   soloId: 'soloId',
   propriedadeId: 'propriedadeId',
-  chuvaAnual: 'chuvaAnual',
+  eto: 'eto',
+  indiceAridez: 'indiceAridez',
+  precipitacaoMmAno: 'precipitacaoMmAno',
+  numeroChuvas: 'numeroChuvas',
+  precipitacaoMmDia: 'precipitacaoMmDia',
+  cvDia: 'cvDia',
+  precipitacaoMmMes: 'precipitacaoMmMes',
+  cvMes: 'cvMes',
+  altitude: 'altitude',
   temperaturaMed: 'temperaturaMed',
   umidade: 'umidade',
   resultado: 'resultado',
@@ -230,6 +227,7 @@ exports.Prisma.CulturaScalarFieldEnum = {
   id: 'id',
   name: 'name',
   eua: 'eua',
+  codigo: 'codigo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
@@ -244,11 +242,14 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
-
+exports.TipoUsuarioEnum = exports.$Enums.TipoUsuarioEnum = {
+  ADMIN: 'ADMIN',
+  FUNCIONARIO: 'FUNCIONARIO',
+  USER: 'USER'
+};
 
 exports.Prisma.ModelName = {
   Admin: 'Admin',
-  TipoUser: 'TipoUser',
   Propriedade: 'Propriedade',
   PropriedadeCultura: 'PropriedadeCultura',
   PropriedadeSolo: 'PropriedadeSolo',

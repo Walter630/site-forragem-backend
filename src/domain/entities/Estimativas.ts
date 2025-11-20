@@ -1,12 +1,9 @@
-import { Propriedade } from "./Propriedade";
-
 type EstimativasProps = {
     id?: string;
-    valorTotal: number;
+    valorTotal?: number;
     descricao?: string | null;
-    propriedadeId: string | number;
-    propriedade?: Propriedade;
-    simulacaoId: string | number;
+    propriedadeId: string;
+    simulacaoId: string;
     createdAt?: Date;
     updatedAt?: Date | null;
     deletedAt?: Date | null;
@@ -19,7 +16,7 @@ export class Estimativas {
         this.props = props;
     }
 
-    public static create(props: Omit<EstimativasProps, "id" >): Estimativas {
+    public static create(props: Omit<EstimativasProps, "id">): Estimativas {
         return new Estimativas({
             ...props,
             createdAt: new Date(),
@@ -31,11 +28,11 @@ export class Estimativas {
         return new Estimativas(props);
     }
 
-    get id(): string {
-        return this.props.id!;
+    get id(): string | undefined {
+        return this.props.id;
     }
 
-    get valorTotal(): number {
+    get valorTotal(): number | undefined {
         return this.props.valorTotal;
     }
 
@@ -43,15 +40,11 @@ export class Estimativas {
         return this.props.descricao;
     }
 
-    get propriedadeId(): string | number {
+    get propriedadeId(): string {
         return this.props.propriedadeId;
     }
 
-    get propriedade(): Propriedade | undefined {
-        return this.props.propriedade;
-    }
-
-    get simulacaoId(): string | number {
+    get simulacaoId(): string {
         return this.props.simulacaoId;
     }
 
@@ -72,8 +65,8 @@ export class Estimativas {
             id: this.props.id,
             valorTotal: this.props.valorTotal,
             descricao: this.props.descricao ?? null,
-            propriedadeId: this.props.propriedadeId ?? null,
-            simulacaoId: this.props.simulacaoId ?? null,
+            propriedadeId: this.props.propriedadeId,
+            simulacaoId: this.props.simulacaoId,
             createdAt: this.props.createdAt,
             updatedAt: this.props.updatedAt,
             deletedAt: this.props.deletedAt,

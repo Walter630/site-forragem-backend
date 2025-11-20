@@ -1,20 +1,22 @@
 export interface CreateSoloDTO {
-  propriedadeId: number;
-  profundidade: number;
-  condut_hidraulica_saturada: number;
-  densidade_aparente: number;
-  agua_0_bar: number;
-  agua_13_bar: number;
-  agua_15_bar: number;
-  fator_rocha: number;
+  id?: string;
+  nomeClasse: string;
+  profundidade?: number;
+  fatorRocha?: number;
+  condutHidraulicaSaturada?: number;
+  densidadeAparente?: number;
+  agua0Bar?: number;
+  agua13Bar?: number;
+  agua15Bar?: number;
 }
 
 export interface UpdateSoloDTO {
+  nomeClasse?: string;
   profundidade?: number;
-  condut_hidraulica_saturada?: number;
-  densidade_aparente?: number;
-  agua_0_bar?: number;
-  agua_13_bar?: number;
-  agua_15_bar?: number;
-  fator_rocha?: number;
+  fatorRocha?: number;
+  condutHidraulicaSaturada?: number;
+  densidadeAparente?: number;
+  agua0Bar?: number;
+  agua13Bar?: number;
+  agua15Bar?: number;
 }

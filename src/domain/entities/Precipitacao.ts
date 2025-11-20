@@ -1,12 +1,12 @@
 type PrecipitacaoProps = {
-    id?: string;                // <-- era number
-    propriedadeId: string;      // <-- era number
-    mmAno: number;
-    chuvas: number;
-    mmDia: number;
-    cvDia: number;
-    mmMes: number;
-    cvMes: number;
+    id?: string;
+    propriedadeId: string;
+    mmAno?: number;
+    chuvas?: number;
+    mmDia?: number;
+    cvDia?: number;
+    mmMes?: number;
+    cvMes?: number;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
@@ -33,8 +33,8 @@ export class Precipitacao {
 
     static fromPrisma(prismaObj: any): Precipitacao {
         return new Precipitacao({
-            id: prismaObj.id?.toString(),               // <-- apenas garante string
-            propriedadeId: prismaObj.propriedadeId?.toString(),
+            id: prismaObj.id,
+            propriedadeId: prismaObj.propriedadeId,
             mmAno: prismaObj.mmAno,
             chuvas: prismaObj.chuvas,
             mmDia: prismaObj.mmDia,
@@ -42,17 +42,19 @@ export class Precipitacao {
             mmMes: prismaObj.mmMes,
             cvMes: prismaObj.cvMes,
             createdAt: prismaObj.createdAt,
+            updatedAt: prismaObj.updatedAt,
+            deletedAt: prismaObj.deletedAt,
         });
     }
 
     get id(): string | undefined { return this.props.id; }
     get propriedadeId(): string { return this.props.propriedadeId; }
-    get mmAno(): number { return this.props.mmAno; }
-    get chuvas(): number { return this.props.chuvas; }
-    get mmDia(): number { return this.props.mmDia; }
-    get cvDia(): number { return this.props.cvDia; }
-    get mmMes(): number { return this.props.mmMes; }
-    get cvMes(): number { return this.props.cvMes; }
+    get mmAno(): number | undefined { return this.props.mmAno; }
+    get chuvas(): number | undefined { return this.props.chuvas; }
+    get mmDia(): number | undefined { return this.props.mmDia; }
+    get cvDia(): number | undefined { return this.props.cvDia; }
+    get mmMes(): number | undefined { return this.props.mmMes; }
+    get cvMes(): number | undefined { return this.props.cvMes; }
     get createdAt(): Date | undefined { return this.props.createdAt; }
     get updatedAt(): Date | undefined { return this.props.updatedAt; }
     get deletedAt(): Date | null | undefined { return this.props.deletedAt; }

@@ -8,6 +8,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/**
+ * Ajustes feitos:
+ * - Propriedade.adminId NÃO é mais `@unique` (um Admin pode ter várias propriedades).
+ * - Removi relação duplicada Solo <-> Propriedade (mantive PropriedadeSolo como join table).
+ * - Adicionei mais campos de clima na Simulacao conforme sua UI (ETO, indiceAridez, mmAno, nº chuvas, mmDia, cvDia, mmMes, cvMes, altitude, temperaturaMed, umidade).
+ * - Normalizei nomes e padronizei createdAt/updatedAt maps em alguns modelos.
+ * - Mantive collections mapeadas via @@map para Mongo.
+ */
+
+enum TipoUsuarioEnum {
+  ADMIN
+  FUNCIONARIO
+  USER
+}
+
 model Admin {
   id      String  @id @default(auto()) @map("_id") @db.ObjectId
   nome    String
@@ -16,30 +31,15 @@ model Admin {
   senha   String
   ativado Boolean @default(true)
 
+  tipoUsuario TipoUsuarioEnum @default(USER)
+
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  tipoUserId String?   @db.ObjectId
-  tipoUser   TipoUser? @relation(fields: [tipoUserId], references: [id])
-
-  propriedade Propriedade?
+  propriedades Propriedade[]
 
   @@map("admins")
-}
-
-model TipoUser {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  tipo      String
-  descricao String?
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
-  ativado   Boolean   @default(true)
-
-  admins Admin[]
-
-  @@map("tipo_users")
 }
 
 model Propriedade {
@@ -49,20 +49,22 @@ model Propriedade {
   latitude        Float
   longitude       Float
 
-  adminId String? @unique @db.ObjectId
+  adminId String? @db.ObjectId
   admin   Admin?  @relation(fields: [adminId], references: [id])
 
+  // relações join
   culturas   PropriedadeCultura[]
   solos      PropriedadeSolo[]
   simulacoes Simulacao[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
 
   Historico    Historico[]
   Precipitacao Precipitacao[]
-  Solo         Solo[]
   Estimativas  Estimativas[]
+
+  @@map("propriedades")
 }
 
 model PropriedadeCultura {
@@ -105,16 +107,18 @@ model Historico {
   Solo   Solo?   @relation(fields: [soloId], references: [id])
 
   createdAt DateTime @default(now())
+
+  @@map("historicos")
 }
 
 model Precipitacao {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
-  mmAno  Float
-  chuvas Float
-  mmDia  Float
-  cvDia  Float
-  mmMes  Float
-  cvMes  Float
+  mmAno  Float? // precipitação anual
+  chuvas Float? // número de chuvas (ou contagem)
+  mmDia  Float? // precipitação média diária
+  cvDia  Float?
+  mmMes  Float?
+  cvMes  Float?
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
@@ -125,19 +129,19 @@ model Precipitacao {
 
   historico Historico[]
 
-  @@map("precipitacao")
+  @@map("precipitacoes")
 }
 
 model Solo {
   id                       String @id @default(auto()) @map("_id") @db.ObjectId
-  nomeClasse               String
-  profundidade             Float
-  fatorRocha               Float
-  condutHidraulicaSaturada Float
-  densidadeAparente        Float
-  agua0Bar                 Float
-  agua13Bar                Float
-  agua15Bar                Float
+  nomeClasse               String // ex.: "cambissolo" ou pode armazenar código/string
+  profundidade             Float?
+  fatorRocha               Float?
+  condutHidraulicaSaturada Float?
+  densidadeAparente        Float?
+  agua0Bar                 Float?
+  agua13Bar                Float?
+  agua15Bar                Float?
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
@@ -145,26 +149,23 @@ model Solo {
 
   historico       Historico[]
   propriedadeSolo PropriedadeSolo[]
-  Propriedade     Propriedade?      @relation(fields: [propriedadeId], references: [id])
-  propriedadeId   String?           @db.ObjectId
-
-  Simulacao Simulacao[]
+  Simulacao       Simulacao[]
 
   @@map("solos")
 }
 
 model Estimativas {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  valorTotal Float
+  valorTotal Float?
   descricao  String?
   createdAt  DateTime  @default(now()) @map("created_at")
   updatedAt  DateTime? @updatedAt @map("updated_at")
   deletedAt  DateTime? @map("deleted_at")
 
-  propriedadeId String @db.ObjectId
-  simulacaoId   String @db.ObjectId
+  propriedadeId String? @db.ObjectId
+  simulacaoId   String  @db.ObjectId
 
-  simulacao   Simulacao    @relation(fields: [simulacaoId], references: [id])
+  simulacao   Simulacao?   @relation(fields: [simulacaoId], references: [id])
   propriedade Propriedade? @relation(fields: [propriedadeId], references: [id])
 
   @@map("estimativas")
@@ -184,9 +185,20 @@ model Simulacao {
   propriedadeId String      @db.ObjectId
   propriedade   Propriedade @relation(fields: [propriedadeId], references: [id])
 
-  chuvaAnual     Float
-  temperaturaMed Float
-  umidade        Float
+  // Dados de clima — adicionei os campos que aparecem nas telas
+  eto               Float? // ETo (mm/ano)
+  indiceAridez      Float?
+  precipitacaoMmAno Float?
+  numeroChuvas      Float?
+  precipitacaoMmDia Float?
+  cvDia             Float?
+  precipitacaoMmMes Float?
+  cvMes             Float?
+  altitude          Float?
+
+  // outros dados climáticos/gerais
+  temperaturaMed Float?
+  umidade        Float?
 
   resultado     Float?
   dataSimulacao DateTime @default(now())
@@ -197,12 +209,15 @@ model Simulacao {
   updatedAt DateTime? @updatedAt
 
   Estimativas Estimativas[]
+
+  @@map("simulacoes")
 }
 
 model Cultura {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  eua       Float
+  eua       Float? // eficiência uso de água (g H2O por g MS)
+  codigo    Int? // opcional: 1 = PN, 2 = CP, 3 = PM (se quiser usar códigos)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")

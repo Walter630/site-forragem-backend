@@ -5,7 +5,7 @@ import { StringValue } from "ms";
 dotenv.config();
 
 interface TokenPayload {
-  id: number;
+  id: string; // alterado para string para compatibilidade com MongoDB ObjectId
   email?: string;
   cpf?: string;
   role?: string | null;

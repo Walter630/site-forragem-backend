@@ -1,9 +1,25 @@
 // src/aplication/dto/SimulacaoForragemDTO.ts
 
 export interface SimularForragemInputDTO {
-  propriedadeId: number;
-  
-  dados: Record<string, any>; // <- Aqui está o ajuste
+  id?: string;
+  propriedadeId: string;
+  nomeSimulacao: string;
+  ano: number;
+  culturaId: string;
+  soloId: string;
+  // Dados de clima
+  eto?: number;
+  indiceAridez?: number;
+  precipitacaoMmAno?: number;
+  numeroChuvas?: number;
+  precipitacaoMmDia?: number;
+  cvDia?: number;
+  precipitacaoMmMes?: number;
+  cvMes?: number;
+  altitude?: number;
+  temperaturaMed?: number;
+  umidade?: number;
+  dados?: Record<string, any>;
 }
 
 export interface SimularForragemOutputDTO {

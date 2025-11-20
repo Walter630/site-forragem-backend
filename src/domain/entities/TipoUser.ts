@@ -1,6 +1,6 @@
 // Ajustado: TipoUser
 type TipoUserProps = {
-    id?: number;
+    id?: string;
     tipo: string;
     descricao?: string;
     ativo?: boolean;
@@ -18,9 +18,8 @@ export class TipoUser {
     public static create(props: Omit<TipoUserProps, "id">): TipoUser {
         return new TipoUser({
             ...props,
-            id: 0,
             ativo: props.ativo ?? true,
-            createdAt: props.createdAt ?? undefined,
+            createdAt: props.createdAt ?? new Date(),
             updatedAt: props.updatedAt ?? undefined,
         });
     }
@@ -35,13 +34,13 @@ export class TipoUser {
             id: prismaObj.id,
             tipo: prismaObj.tipo,
             descricao: prismaObj.descricao,
-            ativo: prismaObj.ativo,
+            ativo: prismaObj.ativado ?? prismaObj.ativo ?? undefined,
             createdAt: prismaObj.createdAt,
             updatedAt: prismaObj.updatedAt,
         });
     }
 
-    get id(): number | undefined {
+    get id(): string | undefined {
         return this.props.id;
     }
 

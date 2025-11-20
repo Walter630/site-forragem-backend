@@ -1,15 +1,14 @@
 // src/domain/entities/Propriedade.ts
 
 type PropriedadeProps = {
-    id?: string; // Agora string (MongoDB)
+    id?: string;
     nomePropriedade: string;
-    nomeProprietario: string;
+    nomeResponsavel: string;
     latitude: number;
     longitude: number;
-    simulacao: string;
     adminId?: string | null;
     createdAt?: Date;
-    updatedAt?: Date;
+    updatedAt?: Date | null;
     deletedAt?: Date | null;
 };
 
@@ -41,8 +40,8 @@ export class Propriedade {
         return this.props.nomePropriedade;
     }
 
-    get nomeProprietario(): string {
-        return this.props.nomeProprietario;
+    get nomeResponsavel(): string {
+        return this.props.nomeResponsavel;
     }
 
     get latitude(): number {
@@ -53,9 +52,6 @@ export class Propriedade {
         return this.props.longitude;
     }
 
-    get simulacao(): string {
-        return this.props.simulacao;
-    }
 
     get adminId(): string | null | undefined {
         return this.props.adminId;

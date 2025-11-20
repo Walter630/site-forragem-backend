@@ -37,11 +37,11 @@ export const updateAdminSchema = z.object({
 });
 
 export const deleteAdminSchema = z.object({
-  id: z.number().optional(),
+  id: z.string().optional(),
 });
 
 export const findAdminSchema = z.object({
-  id: z.number().optional(),
+  id: z.string().optional(),
   email: z.email({ message: "E-mail inválido" }).optional(),
 });
 

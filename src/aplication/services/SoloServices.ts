@@ -6,7 +6,7 @@ export class SoloServices {
   constructor(private readonly soloRepository: SoloRepositories) {}
 
   async create(data: CreateSoloDTO): Promise<Solo> {
-    const solo = Solo.create(data);
+    const solo = Solo.create(data as any);
     const novoSolo = await this.soloRepository.create(solo);
     return novoSolo;
   }
@@ -15,15 +15,20 @@ export class SoloServices {
     return this.soloRepository.findAll();
   }
 
-  async findById(id: number): Promise<Solo | null> {
+  async findById(id: string): Promise<Solo | null> {
     return this.soloRepository.findById(id);
   }
 
-  async update(id: number, data: UpdateSoloDTO): Promise<Solo | null> {
-    return this.soloRepository.update({ id, ...data } as Solo);
+  async update(id: string, data: UpdateSoloDTO): Promise<Solo | null> {
+    // merge id into Solo and call repository
+    const existing = await this.soloRepository.findById(id);
+    if (!existing) return null;
+
+    const updated = await this.soloRepository.update(Solo.with({ ...existing.toJSON(), id, ...data } as any));
+    return updated;
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     return this.soloRepository.delete(id);
   }
 }
