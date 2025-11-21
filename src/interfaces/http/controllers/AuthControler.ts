@@ -45,8 +45,9 @@ export class AuthController {
 
     const tokens = tokenService.generateTokens(payload as any);
 
+    console.log(tokens);
     const { senha: _, ...adminSemSenha } = (admin as any) || {};
-
+    console.log(adminSemSenha);
     res.json({ admin: adminSemSenha, ...tokens });
     return;
   }
