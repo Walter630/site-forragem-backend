@@ -133,7 +133,7 @@ model Precipitacao {
 
 model Solo {
   id                       String @id @default(auto()) @map("_id") @db.ObjectId
-  nomeClasse               String // ex.: "cambissolo" ou pode armazenar código/string
+  nomeClasse               String @unique // ex.: "cambissolo" ou pode armazenar código/string
   profundidade             Float?
   fatorRocha               Float?
   condutHidraulicaSaturada Float?
@@ -214,7 +214,7 @@ model Simulacao {
 
 model Cultura {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
+  name      String    @unique
   eua       Float? // eficiência uso de água (g H2O por g MS)
   codigo    Int? // opcional: 1 = PN, 2 = CP, 3 = PM (se quiser usar códigos)
   createdAt DateTime  @default(now()) @map("created_at")

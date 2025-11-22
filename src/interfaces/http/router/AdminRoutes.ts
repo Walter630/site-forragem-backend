@@ -10,7 +10,7 @@ import {
 } from "../validators/validarAdmin";
 import { validar } from "../validators/validar";
 import { prisma } from "../../../infra/prisma/PrismaClient";
-import { requireAdmin } from "../validators/authenticateAdmin";
+import { requireFuncionarioOrAdmin } from "../validators/authenticateAdmin";
 
 export class AdminRoutes {
     private readonly adminController: AdminController;
@@ -184,7 +184,7 @@ export class AdminRoutes {
         this.api.addRotas(
             "/admin",
             "PUT",
-            requireAdmin,
+            requireFuncionarioOrAdmin,
             validar(updateAdminSchema),
             this.adminController.update.bind(this.adminController)
         );
@@ -193,7 +193,7 @@ export class AdminRoutes {
         this.api.addRotas(
             "/admin",
             "DELETE",
-            requireAdmin,
+            requireFuncionarioOrAdmin,
             validar(deleteAdminSchema),
             this.adminController.delete.bind(this.adminController)
         );

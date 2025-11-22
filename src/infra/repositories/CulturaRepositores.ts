@@ -1,6 +1,6 @@
 import { Cultura } from "../../domain/entities/Cultura";
 import { ICulturaRepositories } from "../../domain/gateway/ICulturaRepositories";
-import { PrismaClient } from "../../generated/prisma";
+import { PrismaClient } from "@prisma/client";
 import { PropriedadeCultura } from "../../domain/entities/PropriedadeCultura";
 import {Admin} from "../../domain/entities/Admin";
 import {TipoUser} from "../../domain/entities/TipoUser";

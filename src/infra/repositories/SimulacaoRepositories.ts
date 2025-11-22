@@ -1,4 +1,4 @@
-import { PrismaClient } from "../../generated/prisma";
+import { PrismaClient } from "@prisma/client";
 import { ISimulacaoGateway } from "../../domain/gateway/ISimulacaoGateway";
 import { Simulacao } from "../../domain/entities/Simulacao";
 import { SimularForragemInputDTO, SimularForragemOutputDTO } from "../../aplication/dto/SimulacaoForragemDTO";

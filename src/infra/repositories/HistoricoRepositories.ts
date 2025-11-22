@@ -1,5 +1,5 @@
 import { Historico } from "../../domain/entities/Historico";
-import { PrismaClient } from "../../generated/prisma";
+import { PrismaClient } from "@prisma/client";
 import { IHistoricoRepositories } from "../../domain/gateway/IHistoricoRepositories";
 import { Propriedade } from "../../domain/entities/Propriedade";
 import { Simulacao } from "../../domain/entities/Simulacao";

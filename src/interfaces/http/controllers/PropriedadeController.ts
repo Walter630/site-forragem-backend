@@ -1,72 +1,48 @@
 import { PropriedadeServices } from "../../../aplication/services/PropriedadeServices";
 import { Request, Response } from "express";
-
 export class PropriedadeController {
     constructor(private readonly service: PropriedadeServices) {}
 
-  async listar(req: Request, res: Response) {
-    try {
-        const listar = await this.service.findAll();
-        res.status(200).json(listar)
-    } catch (err: any) {
-       res.status(500).json({ erro: err.message });
+    async listar(req: Request, res: Response) {
+        try {
+            res.json(await this.service.findAll());
+        } catch (err: any) {
+            res.status(500).json({ erro: err.message });
+        }
     }
-  }
 
-  async findById(req: Request, res: Response) {
-    try {
-      const  id  = req.params.id;
-      const propriedade = await this.service.findById(id);
-       res.json(propriedade);
-    } catch (err: any) {
-       res.status(404).json({ erro: err.message });
-    }
-  }
-    async findByNomePropriedade(req: Request, res: Response) {
+    async findById(req: Request, res: Response) {
         try {
-        const nome = req.params.nome;
-        const propriedades = await this.service.findByNomePropriedade(nome);
-         res.json(propriedades);
+            res.json(await this.service.findById(req.params.id));
         } catch (err: any) {
-         res.status(404).json({ erro: err.message });
+            res.status(404).json({ erro: err.message });
         }
     }
-    async findByNomeResponsavel(req: Request, res: Response) {
-        try {
-        const nome = req.params.nome;
-        const propriedades = await this.service.findByNomeResponsavel(nome);
-         res.json(propriedades);
-        } catch (err: any) {
-         res.status(404).json({ erro: err.message });
-        }
-    }
+
     async create(req: Request, res: Response) {
         try {
-           
-            const propriedade = req.body;
-            const createdPropriedade = await this.service.create(propriedade);
-             res.status(201).json(createdPropriedade);
+            const created = await this.service.create(req.body);
+            res.status(201).json(created);
         } catch (err: any) {
-             res.status(500).json({ erro: err.message });
+            res.status(500).json({ erro: err.message });
         }
     }
+
     async update(req: Request, res: Response) {
         try {
-            const id = req.params.id;
-            const propriedade = req.body;
-            const updatedPropriedade = await this.service.update(id, propriedade);
-             res.json(updatedPropriedade);
+            const updated = await this.service.update(req.params.id, req.body);
+            res.json(updated);
         } catch (err: any) {
-             res.status(500).json({ erro: err.message });
+            res.status(500).json({ erro: err.message });
         }
     }
+
     async delete(req: Request, res: Response) {
         try {
-            const id = req.params.id;
-            await this.service.delete(id);
-             res.status(204).send();
+            await this.service.delete(req.params.id);
+            res.status(204).send();
         } catch (err: any) {
-             res.status(500).json({ erro: err.message });
+            res.status(500).json({ erro: err.message });
         }
     }
 }

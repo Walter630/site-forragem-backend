@@ -3,7 +3,7 @@ import { Api } from "./Api";
 import { PrecipitacaoController } from "../controllers/PrecipitacaoController";
 import { PrecipitacaoServices } from "../../../aplication/services/PrecipitacaoServices";
 import { PrecipitacaoRepositories } from "../../../infra/repositories/PrecipitacaoRepositories";
-import { requireAdmin } from "../validators/authenticateAdmin";
+import { requireFuncionarioOrAdmin } from "../validators/authenticateAdmin";
 
 
 export class PrecipitacaoRoutes {
@@ -59,7 +59,7 @@ export class PrecipitacaoRoutes {
          *       201:
          *         description: Criado com sucesso
          */
-        this.api.addRotas("/precipitacao", "POST", requireAdmin, this.precipitacaoController.create.bind(this.precipitacaoController));
+        this.api.addRotas("/precipitacao", "POST", requireFuncionarioOrAdmin, this.precipitacaoController.create.bind(this.precipitacaoController));
 
         /**
          * @swagger
@@ -68,7 +68,7 @@ export class PrecipitacaoRoutes {
          *     summary: Atualiza precipitação (Admin)
          *     tags: [Precipitacao]
          */
-        this.api.addRotas("/precipitacao/:id", "PUT", requireAdmin, this.precipitacaoController.update.bind(this.precipitacaoController));
+        this.api.addRotas("/precipitacao/:id", "PUT", requireFuncionarioOrAdmin, this.precipitacaoController.update.bind(this.precipitacaoController));
 
         /**
          * @swagger
@@ -77,6 +77,6 @@ export class PrecipitacaoRoutes {
          *     summary: Deleta precipitação (Admin)
          *     tags: [Precipitacao]
          */
-        this.api.addRotas("/precipitacao/:id", "DELETE", requireAdmin, this.precipitacaoController.delete.bind(this.precipitacaoController));
+        this.api.addRotas("/precipitacao/:id", "DELETE", requireFuncionarioOrAdmin, this.precipitacaoController.delete.bind(this.precipitacaoController));
     }
 }

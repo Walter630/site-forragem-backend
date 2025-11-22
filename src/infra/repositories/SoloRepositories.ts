@@ -1,5 +1,5 @@
 import { ISoloRepositories } from "../../domain/gateway/ISoloRepositories";
-import { PrismaClient } from "../../generated/prisma";
+import { PrismaClient } from "@prisma/client";
 import { Solo } from "../../domain/entities/Solo";
 
 export class SoloRepositories implements ISoloRepositories {

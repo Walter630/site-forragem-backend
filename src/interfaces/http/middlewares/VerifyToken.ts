@@ -19,6 +19,17 @@ export async function verifyAccessToken(req: Request, res: Response, next: NextF
   }
 }
 
+/* <<<<<<<<<<<<<<  ✨ Windsurf Command ⭐ >>>>>>>>>>>>>>>> */
+/**
+ * Verifica se o token de refresh fornecido é válido.
+ *
+ * @param {Request} req - Requisição HTTP
+ * @param {Response} res - Resposta HTTP
+ * @param {NextFunction} next - Função a ser chamada após a verificação
+ *
+ * @throws {Error} Se o token for inválido ou ausente
+ */
+/* <<<<<<<<<<  abce26b4-c93b-4fba-8031-f5ad545c0db3  >>>>>>>>>>> */
 export async function verifyRefreshToken(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
   if (!authHeader) {

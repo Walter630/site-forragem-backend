@@ -3,7 +3,7 @@ import { Api } from "./Api";
 import { HistoricoController } from "../controllers/HistoricoController";
 import { HistoricoServices } from "../../../aplication/services/HistoricoServices";
 import { HistoricoRepositories } from "../../../infra/repositories/HistoricoRepositories";
-import { requireAdmin } from "../validators/authenticateAdmin";
+import { requireFuncionarioOrAdmin } from "../validators/authenticateAdmin";
 import { SimulacaoRepositories } from "../../../infra/repositories/SimulacaoRepositories";
 import { PDFServices } from "../../../aplication/services/PdfServices";
 
@@ -68,7 +68,7 @@ export class HistoricoRoutes {
          *     summary: Deleta histórico (Admin only)
          *     tags: [Histórico]
          */
-        this.api.addRotas("/historico/:id", "DELETE", requireAdmin, this.historicoController.delete.bind(this.historicoController));
+        this.api.addRotas("/historico/:id", "DELETE", requireFuncionarioOrAdmin, this.historicoController.delete.bind(this.historicoController));
 
     }
 }

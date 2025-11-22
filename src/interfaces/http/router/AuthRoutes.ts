@@ -1,54 +1,16 @@
+// routes/AuthRoutes.ts
 import { Api } from "./Api";
-import { AuthController } from "../controllers/AuthControler"; // nome estava com erro
+import { AuthController } from "../controllers/AuthControler";
+import { requireFuncionarioOrAdmin } from "../validators/authenticateAdmin";
 
 export class AuthRoutes {
-  private static AuthController = new AuthController();
+    private static controller = new AuthController();
 
-  static build(api: Api) {
-        /**
-         * @swagger
-         * /auth/login:
-         *   post:
-         *     summary: Login
-         *     tags: [Auth]
-         *     requestBody:
-         *       required: true
-         *       content:
-         *         application/json:
-         *           schema:
-         *             type: object
-         *             properties:
-         *               login:
-         *                 type: string
-         *               senha:
-         *                 type: string
-         *             example:
-         *               login: "admin@forragem.com"
-         *               senha: "123456"
-         *     responses:
-         *       200:
-         *         description: Login bem-sucedido
-         *       401:
-         *         description: Credenciais inválidas
-         */
-        api.addRotas("/auth/login", "POST", this.AuthController.login.bind(this.AuthController));
+    static build(api: Api) {
+        api.addRotas("/auth/login", "POST", this.controller.login.bind(this.controller));
 
-        /**
-         * @swagger
-         * /api/auth/refresh:
-         *   post:
-         *     summary: Gera um novo token de acesso
-         *     tags: [Auth]
-         */
-        api.addRotas("/auth/refresh", "POST", this.AuthController.refresh.bind(this.AuthController));
+        api.addRotas("/auth/refresh", "POST", requireFuncionarioOrAdmin, this.controller.refresh.bind(this.controller));
 
-        /**
-         * @swagger
-         * /api/auth/me:
-         *   get:
-         *     summary: Retorna dados do usuário autenticado
-         *     tags: [Auth]
-         */
-        api.addRotas("/auth/me", "GET", this.AuthController.me.bind(this.AuthController));
+        api.addRotas("/auth/me", "GET", requireFuncionarioOrAdmin, this.controller.me.bind(this.controller));
     }
 }

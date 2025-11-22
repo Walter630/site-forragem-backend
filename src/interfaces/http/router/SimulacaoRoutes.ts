@@ -10,7 +10,7 @@ import { prisma } from "../../../infra/prisma/PrismaClient";
 import { HistoricoRepositories } from "../../../infra/repositories/HistoricoRepositories";
 import { EstimativaServices } from "../../../aplication/services/EstimativasServices";
 import { EstimativasRepositories } from "../../../infra/repositories/EstimativasRepositories";
-import { PropriedadeRepositories } from "../../../infra/repositories/PropriedadeRepositories";
+import { PropriedadeRepository } from "../../../infra/repositories/PropriedadeRepositories";
 
 // src/interfaces/http/router/SimulacaoRoutes.ts
 export class SimulacaoRoutes {
@@ -22,7 +22,7 @@ export class SimulacaoRoutes {
     const historicoRepository = new HistoricoRepositories(prisma);
     const precipitacaoRepository = new PrecipitacaoRepositories(prisma);
     const estimativasRepositories = new EstimativasRepositories(prisma);
-    const propriedadeRepositories = new PropriedadeRepositories(prisma);
+    const propriedadeRepositories = new PropriedadeRepository(prisma);
 
     const simulacaoService = new SimulacaoServices(
       simulacaoRepository,

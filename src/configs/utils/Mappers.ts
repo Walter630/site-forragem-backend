@@ -1,4 +1,4 @@
-import { Historico as PrismaHistorico, Solo as PrismaSolo, Precipitacao as PrismaPrecipitacao } from "../../generated/prisma";
+import { Historico as PrismaHistorico, Solo as PrismaSolo, Precipitacao as PrismaPrecipitacao } from "@prisma/client";
 import { Solo } from "../../domain/entities/Solo";
 import { Precipitacao } from "../../domain/entities/Precipitacao";
 import { Propriedade } from "../../domain/entities/Propriedade";
@@ -8,10 +8,9 @@ export function mapSolo(solo?: PrismaSolo | null): Solo | undefined {
 
   return Solo.with({
     id: solo.id,
-    propriedadeId: solo.propriedadeId,
-    profundidade: solo.profundidade,
-    fator_rocha: solo.fatorRocha,
-    condut_hidraulica_saturada: solo.condutHidraulicaSaturada,
+    profundidade: solo.profundidade ?? undefined,
+    fatorRocha: solo.fatorRocha ?? undefined,
+    condutHidraulicaSaturada: solo.condutHidraulicaSaturada,
     densidade_aparente: solo.densidadeAparente,
     agua_0_bar: solo.agua0Bar,
     agua_13_bar: solo.agua13Bar,

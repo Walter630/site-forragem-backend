@@ -4,11 +4,12 @@ import cors from "cors";
 import { Api } from "./interfaces/http/router/Api";
 import { loadAllRoutes } from "./interfaces/http/router";
 import { setupSwagger } from "./configs/swagger";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(express.json());
-
+app.use(cookieParser())
 // CORS
 app.use(cors({
     origin: "http://localhost:3000",

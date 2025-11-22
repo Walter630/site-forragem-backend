@@ -1,7 +1,7 @@
 import { Estimativas } from "../../domain/entities/Estimativas";
 import { Propriedade } from "../../domain/entities/Propriedade";
 import { IEstimativasRepositories } from "../../domain/gateway/IEstimativasRepositories";
-import { PrismaClient } from "../../generated/prisma";
+import { PrismaClient } from "@prisma/client";
 
 export class EstimativasRepositories implements IEstimativasRepositories {
   constructor(private readonly prisma: PrismaClient = new PrismaClient()) {}

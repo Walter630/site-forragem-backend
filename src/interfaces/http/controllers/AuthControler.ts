@@ -7,70 +7,82 @@ import { validarCPF } from "../../../configs/utils/CpfValidators"; // ajuste con
 const tokenService = new Token();
 
 export class AuthController {
-  async login(req: Request, res: Response): Promise<void> {
-    const { login, senha } = req.body;
+    async login(req: Request, res: Response) {
+        const { login, senha } = req.body;
 
-    if (!login || !senha) {
-      res.status(400).json({ error: "login e senha são obrigatórios" });
-      return;
+        const usuario = await prisma.admin.findFirst({
+            where: { OR: [{ email: login }, { cpf: login }] }
+        });
+
+        if (!usuario) {
+             res.status(401).json({ error: "Usuário não encontrado" });
+             return;
+        }
+
+        const senhaValida = await bcrypt.compare(senha, usuario.senha);
+        if (!senhaValida) {
+             res.status(401).json({ error: "Senha inválida" });
+             return;
+        }
+
+        const payload = {
+            id: usuario.id,
+            email: usuario.email,
+            cpf: usuario.cpf,
+            role: usuario.tipoUsuario ?? "ADMIN"
+        };
+
+        const { accessToken, refreshToken } = tokenService.generateTokens(payload);
+
+        // 🔥 ENVIA O REFRESH TOKEN EM COOKIE HTTPONLY
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            path: "/",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        const { ...usuarioSemSenha } = usuario;
+
+        res.json({
+            admin: usuarioSemSenha,
+            accessToken,
+        });
     }
 
-    const somenteDigitos = login.replace(/[^^\d]/g, "");
-    const isCPF = somenteDigitos.length === 11;
-    if (isCPF && !validarCPF(somenteDigitos)) {
-      res.status(400).json({ error: "CPF inválido" });
-      return;
+
+
+    async refresh(req: Request, res: Response) {
+        const refreshToken = req.cookies.refreshToken;
+
+        if (!refreshToken) {
+             res.status(401).json({ error: "Refresh token ausente" });
+             return;
+        }
+
+        try {
+            const tokens = await tokenService.renewTokens(refreshToken);
+
+            // 🔥 ATUALIZA O COOKIE COM O NOVO REFRESH TOKEN
+            res.cookie("refreshToken", tokens.refreshToken, {
+                httpOnly: true,
+                secure: false,
+                sameSite: "lax",
+                path: "/",
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            });
+
+            res.json({ accessToken: tokens.accessToken });
+        } catch {
+             res.status(401).json({ error: "Refresh token inválido" });
+             return;
+        }
     }
 
-    const admin = await prisma.admin.findFirst({
-      where: { OR: [{ email: login }, { cpf: login }] },
-    });
 
-    if (!admin) {
-      res.status(401).json({ error: "Usuário não encontrado" });
-      return;
-    }
 
-    const senhaValida = await bcrypt.compare(senha, admin.senha);
-    if (!senhaValida) {
-      res.status(401).json({ error: "Senha inválida" });
-      return;
-    }
-
-    const payload = {
-      id: String(admin.id ?? ""),
-      email: admin.email,
-      role: admin.tipoUsuario ?? "ADMIN",
-    };
-
-    const tokens = tokenService.generateTokens(payload as any);
-
-    console.log(tokens);
-    const { senha: _, ...adminSemSenha } = (admin as any) || {};
-    console.log(adminSemSenha);
-    res.json({ admin: adminSemSenha, ...tokens });
-    return;
-  }
-
-  async refresh(req: Request, res: Response): Promise<void> {
-    const { refreshToken } = req.body;
-
-    if (!refreshToken) {
-      res.status(401).json({ error: "Refresh token ausente" });
-      return;
-    }
-
-    try {
-      const tokens = await tokenService.renewTokens(refreshToken);
-      res.json(tokens);
-      return;
-    } catch (err: any) {
-      res.status(401).json({ error: err.message });
-      return;
-    }
-  }
-
-  async me(req: Request, res: Response): Promise<void> {
+    async me(req: Request, res: Response): Promise<void> {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
       res.status(401).json({ error: "Token ausente" });

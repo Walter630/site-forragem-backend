@@ -7,6 +7,10 @@ type PropriedadeProps = {
     latitude: number;
     longitude: number;
     adminId?: string | null;
+
+    culturas?: string[];
+    solos?: string[];
+
     createdAt?: Date;
     updatedAt?: Date | null;
     deletedAt?: Date | null;
@@ -22,9 +26,9 @@ export class Propriedade {
     public static create(props: Omit<PropriedadeProps, "id">): Propriedade {
         return new Propriedade({
             ...props,
-            createdAt: props.createdAt || new Date(),
-            updatedAt: props.updatedAt || new Date(),
-            deletedAt: props.deletedAt || null,
+            createdAt: props.createdAt ?? new Date(),
+            updatedAt: props.updatedAt ?? new Date(),
+            deletedAt: props.deletedAt ?? null,
         });
     }
 
@@ -32,42 +36,18 @@ export class Propriedade {
         return new Propriedade(props);
     }
 
-    get id(): string | undefined {
-        return this.props.id;
-    }
+    get id() { return this.props.id; }
+    get nomePropriedade() { return this.props.nomePropriedade; }
+    get nomeResponsavel() { return this.props.nomeResponsavel; }
+    get latitude() { return this.props.latitude; }
+    get longitude() { return this.props.longitude; }
+    get adminId() { return this.props.adminId; }
+    get culturas() { return this.props.culturas; }
+    get solos() { return this.props.solos; }
 
-    get nomePropriedade(): string {
-        return this.props.nomePropriedade;
-    }
-
-    get nomeResponsavel(): string {
-        return this.props.nomeResponsavel;
-    }
-
-    get latitude(): number {
-        return this.props.latitude;
-    }
-
-    get longitude(): number {
-        return this.props.longitude;
-    }
-
-
-    get adminId(): string | null | undefined {
-        return this.props.adminId;
-    }
-
-    get createdAt(): Date | undefined {
-        return this.props.createdAt;
-    }
-
-    get updatedAt(): Date | undefined {
-        return this.props.updatedAt;
-    }
-
-    get deletedAt(): Date | null | undefined {
-        return this.props.deletedAt;
-    }
+    get createdAt() { return this.props.createdAt; }
+    get updatedAt() { return this.props.updatedAt; }
+    get deletedAt() { return this.props.deletedAt; }
 
     toJSON() {
         return { ...this.props };

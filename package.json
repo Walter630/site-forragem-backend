@@ -32,8 +32,10 @@
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",
+    "@types/cookie-parser": "^1.4.10",
     "bcrypt": "^6.0.0",
     "chartjs-node-canvas": "^5.0.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",

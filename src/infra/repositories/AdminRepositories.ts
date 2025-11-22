@@ -1,5 +1,5 @@
 // src/infra/repositories/AdminRepository.ts
-import { PrismaClient } from "../../generated/prisma";
+import { PrismaClient } from "@prisma/client";
 import { Admin } from "../../domain/entities/Admin";
 
 export class AdminRepository {
