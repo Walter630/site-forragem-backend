@@ -1,9 +1,7 @@
-version: "3.9"
-
 services:
   mongo:
     image: mongo:7
-    container_name: mongo_db
+    container_name: mongo_db_forragem
     restart: always
     ports:
       - "27017:27017"
@@ -50,18 +48,18 @@ services:
       "try { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}) } catch(e) { if(!/already initialized/i.test(e)) throw e }"
 
   backend:
-    build: ./site-forragem-backend
+    build: .
     container_name: forragem_backend
     restart: always
     ports:
       - "3000:3000"
     env_file:
-      - ./site-forragem-backend/.env
+      - ./.env
     depends_on:
       mongo:
         condition: service_healthy
     volumes:
-      - ./site-forragem-backend:/app
+      - .:/app
       - /app/node_modules
     command: npm run dev
     networks:
