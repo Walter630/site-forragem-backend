@@ -15,16 +15,16 @@ export class PrecipitacaoServices {
     return this.precipitacaoRepository.findAll();
   }
 
-  async findById(id: number): Promise<Precipitacao | null> {
+  async findById(id: string): Promise<Precipitacao | null> {
     return this.precipitacaoRepository.findById(id);
   }
 
-  async update(id: number, data: CreatePrecipitacaoDTO): Promise<Precipitacao> {
+  async update(id: string, data: CreatePrecipitacaoDTO): Promise<Precipitacao> {
     const precipitacao = Precipitacao.with({ id, ...data });
     return this.precipitacaoRepository.updatePrecipitacao(precipitacao);
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     await this.precipitacaoRepository.deletePrecipitacao(id);
   }
 }

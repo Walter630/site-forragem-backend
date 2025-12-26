@@ -40,10 +40,11 @@ export class CulturaRepositories implements ICulturaRepositories {
 
         return Cultura.with({
             ...createCultura,
+            eua: createCultura.eua ?? 0,
             propriedadeCultura: cultura.propriedadeCultura
         });
     }
-    async update(id: number, cultura: Cultura): Promise<Cultura | null> {
+    async update(id: string, cultura: Cultura): Promise<Cultura | null> {
         const updateCultura = await this.prisma.cultura.update({
             where: { id },
             data: {
@@ -53,15 +54,16 @@ export class CulturaRepositories implements ICulturaRepositories {
         });
         return Cultura.with({
             ...updateCultura,
+            eua: updateCultura.eua ?? 0,
             propriedadeCultura : cultura.propriedadeCultura
         });
 
     }
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         await this.prisma.cultura.delete({ where: { id } });
         return;
     }
-    async findById(id: number): Promise<Cultura | null> {
+    async findById(id: string): Promise<Cultura | null> {
         const cultura = await this.prisma.cultura.findUnique({
             where: {id},
         });

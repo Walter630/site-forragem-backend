@@ -24,7 +24,7 @@ export class CulturaController {
 
     async findById(req: Request, res:Response) {
         try {
-            const cultura = await this.culturaController.findById(Number(req.params.id));
+            const cultura = await this.culturaController.findById(req.params.id);
             res.status(200).json(cultura);
         }catch (error) {
             res.status(500).json({message: "Erro ao buscar cultura", error: error});
@@ -33,7 +33,7 @@ export class CulturaController {
 
     async update(req: Request, res:Response) {
         try {
-            const cultura = await this.culturaController.update(Number(req.params.id), req.body);
+            const cultura = await this.culturaController.update(req.params.id, req.body);
             res.status(200).json(cultura);
         }catch (error) {
             res.status(500).json({message: "Erro ao atualizar cultura", error: error});
@@ -42,7 +42,7 @@ export class CulturaController {
 
     async delete(req: Request, res:Response) {
         try {
-            await this.culturaController.delete(Number(req.params.id));
+            await this.culturaController.delete(req.params.id);
             res.status(200).json({message: "Cultura deletada com sucesso"});
         }catch (error) {
             res.status(500).json({message: "Erro ao deletar cultura", error: error});

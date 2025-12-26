@@ -160,4 +160,23 @@ export class PropriedadeRepository {
     async delete(id: string): Promise<void> {
         await this.prisma.propriedade.delete({ where: { id } });
     }
+
+    async getSoloEPrecipitacao(propriedadeId: string): Promise<{ soloId: string; precipitacaoId: string }> {
+        const propriedade = await this.prisma.propriedade.findUnique({
+            where: { id: propriedadeId },
+            include: {
+                solos: { take: 1 },
+                Precipitacao: { take: 1 }
+            }
+        });
+
+        if (!propriedade) {
+            throw new Error("Propriedade não encontrada");
+        }
+
+        return {
+            soloId: propriedade.solos[0]?.soloId ?? "",
+            precipitacaoId: propriedade.Precipitacao[0]?.id ?? ""
+        };
+    }
 }

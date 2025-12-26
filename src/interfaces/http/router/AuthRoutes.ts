@@ -7,10 +7,61 @@ export class AuthRoutes {
     private static controller = new AuthController();
 
     static build(api: Api) {
+        /**
+         * @swagger
+         * /auth/login:
+         *   post:
+         *     summary: Login de usuário
+         *     tags: [Autenticação]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               email:
+         *                 type: string
+         *               senha:
+         *                 type: string
+         *     responses:
+         *       200:
+         *         description: Login bem-sucedido
+         *       401:
+         *         description: Credenciais inválidas
+         */
         api.addRotas("/auth/login", "POST", this.controller.login.bind(this.controller));
 
-        api.addRotas("/auth/refresh", "POST", requireFuncionarioOrAdmin, this.controller.refresh.bind(this.controller));
+        /**
+         * @swagger
+         * /auth/refresh-token:
+         *   post:
+         *     summary: Renovar token de acesso
+         *     tags: [Autenticação]
+         *     security:
+         *       - bearerAuth: []
+         *     responses:
+         *       200:
+         *         description: Token renovado
+         *       401:
+         *         description: Token inválido
+         */
+        api.addRotas("/auth/refresh-token", "POST", requireFuncionarioOrAdmin, this.controller.refresh.bind(this.controller));
 
+        /**
+         * @swagger
+         * /auth/me:
+         *   get:
+         *     summary: Retorna dados do usuário logado
+         *     tags: [Autenticação]
+         *     security:
+         *       - bearerAuth: []
+         *     responses:
+         *       200:
+         *         description: Dados do usuário
+         *       401:
+         *         description: Não autenticado
+         */
         api.addRotas("/auth/me", "GET", requireFuncionarioOrAdmin, this.controller.me.bind(this.controller));
     }
 }

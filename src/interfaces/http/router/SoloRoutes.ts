@@ -24,6 +24,9 @@ export class SoloRoutes {
          *   get:
          *     summary: Lista todos os solos cadastrados
          *     tags: [Solo]
+         *     responses:
+         *       200:
+         *         description: Lista de solos
          */
         this.api.addRotas("/solo", "GET", this.soloController.findAll.bind(this.soloController));
 
@@ -33,6 +36,17 @@ export class SoloRoutes {
          *   get:
          *     summary: Busca solo pelo ID
          *     tags: [Solo]
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Solo encontrado
+         *       404:
+         *         description: Não encontrado
          */
         this.api.addRotas("/solo/:id", "GET", this.soloController.findById.bind(this.soloController));
 
@@ -42,6 +56,20 @@ export class SoloRoutes {
          *   post:
          *     summary: Cria um tipo de solo
          *     tags: [Solo]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               nome:
+         *                 type: string
+         *               descricao:
+         *                 type: string
+         *     responses:
+         *       201:
+         *         description: Solo criado
          */
         this.api.addRotas("/solo", "POST", this.soloController.create.bind(this.soloController));
 
@@ -51,6 +79,21 @@ export class SoloRoutes {
          *   put:
          *     summary: Atualiza um tipo de solo
          *     tags: [Solo]
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *     responses:
+         *       200:
+         *         description: Solo atualizado
          */
         this.api.addRotas("/solo/:id", "PUT", this.soloController.update.bind(this.soloController));
 
@@ -60,6 +103,15 @@ export class SoloRoutes {
          *   delete:
          *     summary: Remove um tipo de solo
          *     tags: [Solo]
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Solo removido
          */
         this.api.addRotas("/solo/:id", "DELETE", this.soloController.delete.bind(this.soloController));
     }

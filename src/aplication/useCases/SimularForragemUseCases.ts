@@ -25,7 +25,7 @@ export class SimularForragemUseCase {
   async execute(input: SimularForragemInputDTO): Promise<SimularForragemOutputDTO> {
     const { propriedadeId, dados } = input;
 
-    const resultadoSimulado = this.calcularForragem(dados);
+    const resultadoSimulado = this.calcularForragem(dados ?? {});
 
     const { soloId, precipitacaoId } =
       await this.propriedadeDataRepo.getSoloEPrecipitacao(propriedadeId);
@@ -42,10 +42,9 @@ export class SimularForragemUseCase {
 
     const simulacaoCriada = await this.simulacaoRepo.create({
       propriedadeId,
-      dadosJson: dadosCompletos,
       resultado: resultadoSimulado,
       dataSimulacao: new Date(),
-    });
+    } as any);
 
     await this.historicoRepo.create(
       Historico.create({
@@ -61,7 +60,7 @@ export class SimularForragemUseCase {
     );
 
     if (estimativas) {
-      const valorEstimativa = estimativas.valorTotal;
+      const valorEstimativa = estimativas.valorTotal ?? 0;
       const diferenca = valorEstimativa - resultadoSimulado;
 
       const status = diferenca > 0 ? "Necessita mais produção" : "Produção suficiente";

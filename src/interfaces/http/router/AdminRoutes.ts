@@ -21,158 +21,39 @@ export class AdminRoutes {
         );
     }
 
-    /**
-     * @swagger
-     * tags:
-     *   name: Admin
-     *   description: Gestão de administradores
-     */
-
-    /**
-     * @swagger
-     * components:
-     *   schemas:
-     *     Admin:
-     *       type: object
-     *       properties:
-     *         id:
-     *           type: string
-     *         nome:
-     *           type: string
-     *         email:
-     *           type: string
-     *         cpf:
-     *           type: string
-     *         tipoUsuario:
-     *           type: string
-     *       example:
-     *         id: "65f1be21c9d2193ac4bf11d1"
-     *         nome: "Admin Master"
-     *         email: "admin@forragem.com"
-     *         cpf: "12345678901"
-     *         tipoUsuario: "ADMIN"
-     */
-
-    /**
-     * @swagger
-     * /admin:
-     *   post:
-     *     summary: Criar administrador
-     *     tags: [Admin]
-     *     requestBody:
-     *       required: true
-     *       content:
-     *         application/json:
-     *           schema:
-     *             $ref: '#/components/schemas/Admin'
-     *     responses:
-     *       201:
-     *         description: Admin criado
-     *       400:
-     *         description: Dados inválidos
-     *
-     *   get:
-     *     summary: Listar administradores
-     *     tags: [Admin]
-     *     responses:
-     *       200:
-     *         description: Lista de administradores
-     *
-     *   put:
-     *     summary: Atualizar administrador
-     *     tags: [Admin]
-     *     security:
-     *       - bearerAuth: []
-     *     responses:
-     *       200:
-     *         description: Atualizado com sucesso
-     *       401:
-     *         description: Não autenticado
-     *
-     *   delete:
-     *     summary: Deletar administrador
-     *     tags: [Admin]
-     *     security:
-     *       - bearerAuth: []
-     *     responses:
-     *       200:
-     *         description: Deletado com sucesso
-     *       401:
-     *         description: Não autenticado
-     */
-
-    /**
-     * @swagger
-     * /admin/{id}:
-     *   get:
-     *     summary: Buscar admin por ID
-     *     tags: [Admin]
-     *     parameters:
-     *       - name: id
-     *         in: path
-     *         required: true
-     *         schema:
-     *           type: string
-     *     responses:
-     *       200:
-     *         description: Admin encontrado
-     *       404:
-     *         description: Não encontrado
-     */
-
-    /**
-     * @swagger
-     * /admin/email/{email}:
-     *   get:
-     *     summary: Buscar admin por email
-     *     tags: [Admin]
-     *     parameters:
-     *       - name: email
-     *         in: path
-     *         required: true
-     *         schema:
-     *           type: string
-     *     responses:
-     *       200:
-     *         description: Admin encontrado
-     *       404:
-     *         description: Não encontrado
-     */
-
-    /**
-     * @swagger
-     * /admin/login:
-     *   post:
-     *     summary: Login de administrador
-     *     tags: [Admin]
-     *     requestBody:
-     *       required: true
-     *       content:
-     *         application/json:
-     *           schema:
-     *             type: object
-     *             properties:
-     *               email:
-     *                 type: string
-     *               senha:
-     *                 type: string
-     *             example:
-     *               email: "admin@forragem.com"
-     *               senha: "123456"
-     *     responses:
-     *       200:
-     *         description: Login bem-sucedido
-     *       401:
-     *         description: Credenciais inválidas
-     */
-
     public static build(api: Api) {
         const adminRoutes = new AdminRoutes(api);
         adminRoutes.addRotas();
     }
 
     private addRotas() {
-        // Criar
+        /**
+         * @swagger
+         * /admin:
+         *   post:
+         *     summary: Criar administrador
+         *     tags: [Admin]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               nome:
+         *                 type: string
+         *               email:
+         *                 type: string
+         *               cpf:
+         *                 type: string
+         *               senha:
+         *                 type: string
+         *     responses:
+         *       201:
+         *         description: Admin criado com sucesso
+         *       400:
+         *         description: Dados inválidos
+         */
         this.api.addRotas(
             "/admin",
             "POST",
@@ -180,7 +61,33 @@ export class AdminRoutes {
             this.adminController.create.bind(this.adminController)
         );
 
-        // Atualizar
+        /**
+         * @swagger
+         * /admin:
+         *   put:
+         *     summary: Atualizar administrador
+         *     tags: [Admin]
+         *     security:
+         *       - bearerAuth: []
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               id:
+         *                 type: string
+         *               nome:
+         *                 type: string
+         *               email:
+         *                 type: string
+         *     responses:
+         *       200:
+         *         description: Atualizado com sucesso
+         *       401:
+         *         description: Não autenticado
+         */
         this.api.addRotas(
             "/admin",
             "PUT",
@@ -189,7 +96,29 @@ export class AdminRoutes {
             this.adminController.update.bind(this.adminController)
         );
 
-        // Deletar
+        /**
+         * @swagger
+         * /admin:
+         *   delete:
+         *     summary: Deletar administrador
+         *     tags: [Admin]
+         *     security:
+         *       - bearerAuth: []
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               id:
+         *                 type: string
+         *     responses:
+         *       200:
+         *         description: Deletado com sucesso
+         *       401:
+         *         description: Não autenticado
+         */
         this.api.addRotas(
             "/admin",
             "DELETE",
@@ -198,26 +127,93 @@ export class AdminRoutes {
             this.adminController.delete.bind(this.adminController)
         );
 
-        // Listar e buscar
+        /**
+         * @swagger
+         * /admin:
+         *   get:
+         *     summary: Listar administradores
+         *     tags: [Admin]
+         *     responses:
+         *       200:
+         *         description: Lista de administradores
+         */
         this.api.addRotas(
             "/admin",
             "GET",
             this.adminController.findAll.bind(this.adminController)
         );
 
+        /**
+         * @swagger
+         * /admin/{id}:
+         *   get:
+         *     summary: Buscar admin por ID
+         *     tags: [Admin]
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Admin encontrado
+         *       404:
+         *         description: Não encontrado
+         */
         this.api.addRotas(
             "/admin/:id",
             "GET",
             this.adminController.findById.bind(this.adminController)
         );
 
+        /**
+         * @swagger
+         * /admin/email/{email}:
+         *   get:
+         *     summary: Buscar admin por email
+         *     tags: [Admin]
+         *     parameters:
+         *       - name: email
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Admin encontrado
+         *       404:
+         *         description: Não encontrado
+         */
         this.api.addRotas(
             "/admin/email/:email",
             "GET",
             this.adminController.findByEmail.bind(this.adminController)
         );
 
-        // Login
+        /**
+         * @swagger
+         * /admin/login:
+         *   post:
+         *     summary: Login de administrador
+         *     tags: [Admin]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               email:
+         *                 type: string
+         *               senha:
+         *                 type: string
+         *     responses:
+         *       200:
+         *         description: Login bem-sucedido
+         *       401:
+         *         description: Credenciais inválidas
+         */
         this.api.addRotas(
             "/admin/login",
             "POST",

@@ -12,16 +12,16 @@ export class CulturaServices {
         return culturaCreated
     }
 
-    async update(id: number, cultura: Cultura): Promise<Cultura | null> {
+    async update(id: string, cultura: Cultura): Promise<Cultura | null> {
         const culturaUpdated: any = await this.culturaRepositories.update(id, cultura);
         return culturaUpdated
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         await this.culturaRepositories.delete(id);
     }
 
-    async findById(id: number): Promise<Cultura | null> {
+    async findById(id: string): Promise<Cultura | null> {
         const cultura: any = await this.culturaRepositories.findById(id);
         return cultura
     }

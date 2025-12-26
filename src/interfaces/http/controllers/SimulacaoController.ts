@@ -78,4 +78,16 @@ export class SimulacaoController {
        return;
     }
   }
+
+  async listar(req: Request, res: Response): Promise<void> {
+    try {
+      const simulacoes = await this.simulacaoServices.listarSimulacoes();
+       res.json(simulacoes);
+       return;
+    } catch (error: any) {
+      console.error("Erro ao listar simulações:", error);
+       res.status(500).json({ error: error.message || "Erro ao listar simulações." });
+       return;
+    }
+  }
 }

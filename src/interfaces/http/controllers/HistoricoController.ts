@@ -20,7 +20,7 @@ export class HistoricoController {
   async findById(req: Request, res: Response): Promise<void> {
     try {
       const id = String(req.params.id);
-      const historico = await this.historicoService.buscarComDetalhes(Number(id));
+      const historico = await this.historicoService.buscarComDetalhes(id);
       res.status(200).json(historico);
       return;
     } catch (err: any) {
@@ -33,7 +33,7 @@ export class HistoricoController {
   async findByPropriedadeId(req: Request, res: Response): Promise<void> {
     try {
       const propriedadeId = String(req.params.propriedadeId);
-      const historico = await this.historicoService.gerarPDFHistorico(Number(propriedadeId));
+      const historico = await this.historicoService.gerarPDFHistorico(propriedadeId);
       res.status(200).json(historico);
       return;
     } catch (err: any) {
@@ -45,7 +45,7 @@ export class HistoricoController {
   // Listar todos os históricos (pode ser um histórico geral ou simplificado)
   async historico(req: Request, res: Response): Promise<void> {
     try {
-      const historico = await this.historicoService.buscarComDetalhes(0 as any);
+      const historico = await this.historicoService.buscarComDetalhes("" as any);
       res.status(200).json(historico);
       return;
     } catch (err: any) {
@@ -60,7 +60,7 @@ export class HistoricoController {
       const id = String(req.params.id);
       const historicoData = req.body;
       // HistoricoServices não tem atualizar implementado; precisaria implementar se necessário
-      const atualizado = await this.historicoService.buscarComDetalhes(Number(id));
+      const atualizado = await this.historicoService.buscarComDetalhes(id);
       res.status(200).json(atualizado);
       return;
     } catch (err: any) {
@@ -86,7 +86,7 @@ export class HistoricoController {
   async gerarRelatorio(req: Request, res: Response): Promise<void> {
   try {
     const id = String(req.params.id);
-    const pdfBuffer = await this.historicoService.gerarPDFHistorico(Number(id));
+    const pdfBuffer = await this.historicoService.gerarPDFHistorico(id);
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", `attachment; filename=relatorio-historico-${id}.pdf`);

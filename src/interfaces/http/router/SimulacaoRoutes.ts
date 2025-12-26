@@ -47,7 +47,13 @@ export class SimulacaoRoutes {
        * /simulacao:
        *   post:
        *     summary: Executa uma simulação
-       *     tags: [Simulacao]
+       *     tags: [Simulação]
+       *     requestBody:
+       *       required: true
+       *       content:
+       *         application/json:
+       *           schema:
+       *             type: object
        *     responses:
        *       200:
        *         description: Simulação realizada com sucesso
@@ -60,10 +66,29 @@ export class SimulacaoRoutes {
 
       /**
        * @swagger
+       * /simulacao:
+       *   get:
+       *     summary: Lista todas as simulações
+       *     tags: [Simulação]
+       *     responses:
+       *       200:
+       *         description: Lista de simulações
+       */
+      this.api.addRotas(
+          "/simulacao",
+          "GET",
+          this.simulacaoController.listar.bind(this.simulacaoController)
+      );
+
+      /**
+       * @swagger
        * /simulacao/historico:
        *   get:
        *     summary: Lista o histórico de simulações realizadas
-       *     tags: [Simulacao]
+       *     tags: [Simulação]
+       *     responses:
+       *       200:
+       *         description: Lista de simulações
        */
       this.api.addRotas(
           "/simulacao/historico",

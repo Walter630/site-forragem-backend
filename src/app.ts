@@ -10,13 +10,17 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser())
-// CORS
+
+// CORS - permite múltiplas origens
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:5173", "http://localhost:3000"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
 }));
+
+// 🔥 Swagger DEVE vir ANTES das rotas para funcionar corretamente
+setupSwagger(app);
 
 // Log global
 app.use((req, _, next) => {
@@ -29,10 +33,8 @@ const api = new Api();
 loadAllRoutes(api);
 app.use("/api", api.expressRouter);
 
-// 🔥 Swagger DEVE vir depois das rotas
-setupSwagger(app);
 
 // Servidor
-app.listen(process.env.PORT || 3001, () => {
-    console.log(`Server is running on port ${process.env.PORT || 3001}`);
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });

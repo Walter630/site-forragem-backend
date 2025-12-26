@@ -66,8 +66,6 @@ export class HistoricoRepositories implements IHistoricoRepositories {
       where: { id: historico.id! },
       data: {
         observacao: historico.descricao,
-        valorSimulacao: historico.valorSimulacao || undefined,
-        updatedAt: new Date(),
       },
     });
     return this.mapToDomain(updated);

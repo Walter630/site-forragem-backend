@@ -32,7 +32,7 @@ export class AuthService {
       tipo: admin.tipoUsuario,
     };
 
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1m" });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "5m" });
     
 
     // Remove the 'senha' property from the admin object before returning
@@ -44,5 +44,7 @@ export class AuthService {
     return { admin: adminWithoutSenha, token, senha: senhaHash };
   }
 
-
+  async register() {
+     
+  }
 }

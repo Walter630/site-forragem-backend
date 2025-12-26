@@ -14,21 +14,21 @@ export class HistoricoServices {
     private historicoRepository: HistoricoRepositories
   ) {}
 
-  async buscarComDetalhes(id: number): Promise<HistoricoCompleto | null> {
+  async buscarComDetalhes(id: string): Promise<HistoricoCompleto | null> {
     return this.historicoRepository.findByIdWithDetails(id);
   }
 
   /**
    * Gera PDF do histórico somando produções por mês de todas simulações da propriedade.
    */
-  async gerarPDFHistorico(id: number): Promise<Buffer> {
+  async gerarPDFHistorico(id: string): Promise<Buffer> {
     // Busca histórico detalhado para o relatório
     const historicoCompleto = await this.buscarComDetalhes(id);
     if (!historicoCompleto) throw new Error('Histórico não encontrado.');
 
     // Busca todos históricos completos da propriedade (para agregar produção mensal)
     const todosHistoricos = await this.historicoRepository.findAllWithDetailsByPropriedadeId(
-      historicoCompleto.propriedade.id ?? 0
+      historicoCompleto.propriedade.id ?? ""
     );
 
     if(!todosHistoricos) throw new Error('Vazio')

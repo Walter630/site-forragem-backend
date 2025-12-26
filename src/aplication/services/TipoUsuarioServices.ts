@@ -11,7 +11,7 @@ export class TipoUsuarioServices {
         }
         return tiposUsuarios;
     }
-    async findById(id: number): Promise<TipoUser> {
+    async findById(id: string): Promise<TipoUser> {
         const tipoUsuario = await this.tipoUsuarioRepository.findById(id);
         if (!tipoUsuario) {
             throw new Error("Tipo de usuário não encontrado");
@@ -30,7 +30,7 @@ export class TipoUsuarioServices {
         }
         return this.tipoUsuarioRepository.update(tipoUsuario);
     }   
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         return this.tipoUsuarioRepository.delete(id);
     }   
 }

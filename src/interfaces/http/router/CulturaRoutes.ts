@@ -18,46 +18,99 @@ export class CulturaRoutes {
     private addRotas() {
         /**
          * @swagger
-         * /api/cultura:
+         * /cultura:
          *   post:
          *     summary: Cria uma cultura
          *     tags: [Cultura]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               nome:
+         *                 type: string
+         *               descricao:
+         *                 type: string
+         *     responses:
+         *       201:
+         *         description: Cultura criada
          */
         this.api.addRotas("/cultura", "POST", this.culturaController.create.bind(this.culturaController));
 
         /**
          * @swagger
-         * /api/cultura:
+         * /cultura:
          *   get:
          *     summary: Lista todas as culturas
          *     tags: [Cultura]
+         *     responses:
+         *       200:
+         *         description: Lista de culturas
          */
         this.api.addRotas("/cultura", "GET", this.culturaController.findAll.bind(this.culturaController));
 
         /**
          * @swagger
-         * /api/cultura/{id}:
+         * /cultura/{id}:
          *   get:
          *     summary: Busca cultura por ID
          *     tags: [Cultura]
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Cultura encontrada
+         *       404:
+         *         description: Não encontrada
          */
         this.api.addRotas("/cultura/:id", "GET", this.culturaController.findById.bind(this.culturaController));
 
         /**
          * @swagger
-         * /api/cultura:
+         * /cultura:
          *   put:
          *     summary: Atualiza uma cultura
          *     tags: [Cultura]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               id:
+         *                 type: string
+         *               nome:
+         *                 type: string
+         *               descricao:
+         *                 type: string
+         *     responses:
+         *       200:
+         *         description: Cultura atualizada
          */
         this.api.addRotas("/cultura", "PUT", this.culturaController.update.bind(this.culturaController));
 
         /**
          * @swagger
-         * /api/cultura/{id}:
+         * /cultura/{id}:
          *   delete:
          *     summary: Deleta uma cultura
          *     tags: [Cultura]
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Cultura deletada
          */
         this.api.addRotas("/cultura/:id", "DELETE", this.culturaController.delete.bind(this.culturaController));
 

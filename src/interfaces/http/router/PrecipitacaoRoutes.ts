@@ -24,10 +24,10 @@ export class PrecipitacaoRoutes {
          * /precipitacao:
          *   get:
          *     summary: Lista todas as precipitações
-         *     tags: [Precipitacao]
+         *     tags: [Precipitação]
          *     responses:
          *       200:
-         *         description: Lista retornada com sucesso
+         *         description: Lista de precipitações
          */
         this.api.addRotas("/precipitacao", "GET", this.precipitacaoController.findAll.bind(this.precipitacaoController));
 
@@ -36,16 +36,18 @@ export class PrecipitacaoRoutes {
          * /precipitacao/{id}:
          *   get:
          *     summary: Busca precipitação por ID
-         *     tags: [Precipitacao]
+         *     tags: [Precipitação]
          *     parameters:
-         *       - in: path
-         *         name: id
+         *       - name: id
+         *         in: path
          *         required: true
          *         schema:
          *           type: string
          *     responses:
          *       200:
-         *         description: Retornado com sucesso
+         *         description: Precipitação encontrada
+         *       404:
+         *         description: Não encontrada
          */
         this.api.addRotas("/precipitacao/:id", "GET", this.precipitacaoController.findById.bind(this.precipitacaoController));
 
@@ -54,10 +56,20 @@ export class PrecipitacaoRoutes {
          * /precipitacao:
          *   post:
          *     summary: Cria precipitação (Admin)
-         *     tags: [Precipitacao]
+         *     tags: [Precipitação]
+         *     security:
+         *       - bearerAuth: []
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
          *     responses:
          *       201:
-         *         description: Criado com sucesso
+         *         description: Precipitação criada
+         *       401:
+         *         description: Não autenticado
          */
         this.api.addRotas("/precipitacao", "POST", requireFuncionarioOrAdmin, this.precipitacaoController.create.bind(this.precipitacaoController));
 
@@ -66,7 +78,26 @@ export class PrecipitacaoRoutes {
          * /precipitacao/{id}:
          *   put:
          *     summary: Atualiza precipitação (Admin)
-         *     tags: [Precipitacao]
+         *     tags: [Precipitação]
+         *     security:
+         *       - bearerAuth: []
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *     responses:
+         *       200:
+         *         description: Precipitação atualizada
+         *       401:
+         *         description: Não autenticado
          */
         this.api.addRotas("/precipitacao/:id", "PUT", requireFuncionarioOrAdmin, this.precipitacaoController.update.bind(this.precipitacaoController));
 
@@ -75,7 +106,20 @@ export class PrecipitacaoRoutes {
          * /precipitacao/{id}:
          *   delete:
          *     summary: Deleta precipitação (Admin)
-         *     tags: [Precipitacao]
+         *     tags: [Precipitação]
+         *     security:
+         *       - bearerAuth: []
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Precipitação deletada
+         *       401:
+         *         description: Não autenticado
          */
         this.api.addRotas("/precipitacao/:id", "DELETE", requireFuncionarioOrAdmin, this.precipitacaoController.delete.bind(this.precipitacaoController));
     }

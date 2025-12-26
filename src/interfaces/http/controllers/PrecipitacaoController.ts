@@ -16,7 +16,7 @@ export class PrecipitacaoController {
 
   async findById(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
+      const id = String(req.params.id);
       const precipitation = await this.service.findById(id);
 
       if (!precipitation) {
@@ -54,7 +54,7 @@ export class PrecipitacaoController {
 
   async update(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
+      const id = String(req.params.id);
       const {propriedadeId, mmAno, chuvas, mmDia, cvDia, mmMes, cvMes } = req.body;
 
       const existing = await this.service.findById(id);
@@ -80,7 +80,7 @@ export class PrecipitacaoController {
 
   async delete(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
+      const id = String(req.params.id);
       await this.service.delete(id);
        res.status(204).send();
     } catch (err: any) {

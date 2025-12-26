@@ -7,14 +7,14 @@ export class EstimativaServices {
     }
 
     async create(data: CreateEstimativaDTO): Promise<Estimativas> {
-        if (!data.valorTotal || !data.propriedade?.id || !data.simulacaoId) {
-            throw new Error('valorTotal, propriedade.id e simulacaoId são obrigatórios.');
+        if (!data.valorTotal || !data.propriedadeId || !data.simulacaoId) {
+            throw new Error('valorTotal, propriedadeId e simulacaoId são obrigatórios.');
         }
 
         const estimativa = Estimativas.create({
             valorTotal: data.valorTotal,
             descricao: data.descricao ?? null,
-            propriedadeId: data.propriedade.id,
+            propriedadeId: data.propriedadeId,
             simulacaoId: data.simulacaoId,
         });
 

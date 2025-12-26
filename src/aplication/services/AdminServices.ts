@@ -3,6 +3,7 @@ import { Admin } from "../../domain/entities/Admin";
 import bcrypt from "bcrypt";
 import {prisma} from "../../infra/prisma/PrismaClient";
 import { CreateAdminDTO } from "../dto/CreateAdminDTO";
+import { TipoUsuarioEnum } from "@prisma/client";
 
 export class AdminServices {
 
@@ -48,7 +49,7 @@ export class AdminServices {
                     nome: data.nome,
                     email: data.email,
                     cpf: data.cpf,
-                    tipoUsuario: data.tipoUsuario ?? "USER",
+                    tipoUsuario: (data.tipoUsuario as TipoUsuarioEnum) ?? TipoUsuarioEnum.USER,
                     senha: senhaHash,
                 },
             });

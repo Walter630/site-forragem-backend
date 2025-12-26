@@ -100,7 +100,7 @@ export class EstimativasRepositories implements IEstimativasRepositories {
       data: {
         valorTotal: estimativa.valorTotal,
         descricao: estimativa.descricao || undefined,
-        propriedade: { connect: { id: estimativa.propriedade?.id } },
+        propriedade: estimativa.propriedadeId ? { connect: { id: estimativa.propriedadeId } } : undefined,
         updatedAt: new Date(),
       },
       include: { propriedade: { include: { admin: true } } },

@@ -110,4 +110,7 @@ export class AuthController {
       return;
     }
   }
+  async register(req: Request, res: Response): Promise<void> {
+
+  }
 }

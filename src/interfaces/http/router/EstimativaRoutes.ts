@@ -18,55 +18,105 @@ export class EstimativaRoutes {
     addRotas() {
         /**
          * @swagger
-         * /api/estimativas/grafico:
+         * /estimativas/grafico:
          *   get:
          *     summary: Retorna gráfico das estimativas
          *     tags: [Estimativas]
+         *     responses:
+         *       200:
+         *         description: Dados do gráfico
          */
         this.api.addRotas("/estimativas/grafico", "GET", this.estimativaController.getGrafico.bind(this.estimativaController));
 
         /**
          * @swagger
-         * /api/estimativas:
+         * /estimativas:
          *   get:
          *     summary: Lista todas as estimativas
          *     tags: [Estimativas]
+         *     responses:
+         *       200:
+         *         description: Lista de estimativas
          */
         this.api.addRotas("/estimativas", "GET", this.estimativaController.findAll.bind(this.estimativaController));
 
         /**
          * @swagger
-         * /api/estimativas/{id}:
+         * /estimativas/{id}:
          *   get:
          *     summary: Busca estimativa por ID
          *     tags: [Estimativas]
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Estimativa encontrada
+         *       404:
+         *         description: Não encontrada
          */
         this.api.addRotas("/estimativas/:id", "GET", this.estimativaController.findById.bind(this.estimativaController));
 
         /**
          * @swagger
-         * /api/estimativas:
+         * /estimativas:
          *   post:
          *     summary: Cria uma estimativa
          *     tags: [Estimativas]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *     responses:
+         *       201:
+         *         description: Estimativa criada
          */
         this.api.addRotas("/estimativas", "POST", this.estimativaController.criar.bind(this.estimativaController));
 
         /**
          * @swagger
-         * /api/estimativas/{id}:
+         * /estimativas/{id}:
          *   put:
          *     summary: Atualiza uma estimativa
          *     tags: [Estimativas]
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *     responses:
+         *       200:
+         *         description: Estimativa atualizada
          */
         this.api.addRotas("/estimativas/:id", "PUT", this.estimativaController.update.bind(this.estimativaController));
 
         /**
          * @swagger
-         * /api/estimativas/{id}:
+         * /estimativas/{id}:
          *   delete:
          *     summary: Deleta uma estimativa
          *     tags: [Estimativas]
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Estimativa deletada
          */
         this.api.addRotas("/estimativas/:id", "DELETE", this.estimativaController.delete.bind(this.estimativaController));
 
