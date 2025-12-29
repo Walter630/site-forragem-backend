@@ -33,4 +33,8 @@ export class SimulacaoServices {
   async listarSimulacoes() {
     return await this.simularForragemUseCase["simulacaoRepo"].listarHistorico();
   }
+
+  async findById(id: string) {
+    return await this.simularForragemUseCase["simulacaoRepo"].buscarPorId(id);
+  }
 }

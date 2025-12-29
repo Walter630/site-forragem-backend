@@ -355,6 +355,24 @@ export function setupSwagger(app: Express) {
                     },
                 },
             },
+            "/simulacao/{id}": {
+                get: {
+                    summary: "Gerar simulação",
+                    tags: ["Simulação"],
+                    security: [{ bearerAuth: [] }],
+                    parameters: [
+                        {
+                            name: "id",
+                            in: "path",
+                            required: true,
+                            schema: { type: "string" },
+                        },
+                    ],
+                    responses: {
+                        "200": { description: "PDF gerado com sucesso" },
+                    },
+                },
+            },
             "/estimativas": {
                 post: {
                     summary: "Criar estimativa",

@@ -11,6 +11,8 @@ import { HistoricoRepositories } from "../../../infra/repositories/HistoricoRepo
 import { EstimativaServices } from "../../../aplication/services/EstimativasServices";
 import { EstimativasRepositories } from "../../../infra/repositories/EstimativasRepositories";
 import { PropriedadeRepository } from "../../../infra/repositories/PropriedadeRepositories";
+import path from "path";
+import {th} from "zod/locales";
 
 // src/interfaces/http/router/SimulacaoRoutes.ts
 export class SimulacaoRoutes {
@@ -95,6 +97,23 @@ export class SimulacaoRoutes {
           "GET",
           this.simulacaoController.historico.bind(this.simulacaoController)
       );
+
+      /**
+       * @swagger
+       * /simulacao/${id}:
+       *   get:
+       *     summary: Lista o histórico de simulações realizadas
+       *     tags: [Simulação]
+       *     responses:
+       *       200:
+       *         description: Lista de simulações
+       */
+
+      this.api.addRotas(
+          `/simulacao/:id`,
+          "GET",
+          this.simulacaoController.findById.bind(this.simulacaoController)
+      )
   }
 }
 

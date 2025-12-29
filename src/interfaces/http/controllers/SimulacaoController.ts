@@ -2,6 +2,7 @@ import { PDFServices } from './../../../aplication/services/PdfServices';
 import { Request, Response } from "express";
 import { SimulacaoServices } from "../../../aplication/services/SimulacaoServices";
 import { SimularForragemInputDTO } from "../../../aplication/dto/SimulacaoForragemDTO";
+import {Simulacao} from "../../../domain/entities/Simulacao";
 
 export class SimulacaoController {
   constructor(
@@ -88,6 +89,30 @@ export class SimulacaoController {
       console.error("Erro ao listar simulações:", error);
        res.status(500).json({ error: error.message || "Erro ao listar simulações." });
        return;
+    }
+  }
+
+  async findById(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        res.status(400).json({ error: "ID é obrigatório" });
+        return;
+      }
+
+      const simulacao = await this.simulacaoServices.findById(id);
+
+      if (!simulacao) {
+        res.status(404).json({ error: "Simulação não encontrada" });
+        return;
+      }
+
+      res.json(simulacao);
+      return;
+    } catch (error: any) {
+      console.error("Erro ao buscar simulação por ID:", error);
+      res.status(500).json({ error: error.message || "Erro ao buscar simulação." });
     }
   }
 }
