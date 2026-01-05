@@ -40,7 +40,7 @@ export async function requireFuncionarioOrAdmin(
         }
 
         // Adiciona o payload completo no request
-        req.body.user = decoded;
+        (req as any).user = decoded;
         next();
 
     } catch (err) {
