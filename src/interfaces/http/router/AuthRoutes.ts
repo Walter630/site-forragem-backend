@@ -36,17 +36,16 @@ export class AuthRoutes {
          * @swagger
          * /auth/refresh-token:
          *   post:
-         *     summary: Renovar token de acesso
+         *     summary: Renovar token de acesso usando refresh token
          *     tags: [Autenticação]
-         *     security:
-         *       - bearerAuth: []
+         *     description: Use esta rota quando o access token expirar. O refresh token é enviado automaticamente via cookie.
          *     responses:
          *       200:
-         *         description: Token renovado
+         *         description: Token renovado com sucesso
          *       401:
-         *         description: Token inválido
+         *         description: Refresh token inválido ou ausente
          */
-        api.addRotas("/auth/refresh-token", "POST", requireFuncionarioOrAdmin, this.controller.refresh.bind(this.controller));
+        api.addRotas("/auth/refresh-token", "POST", this.controller.refresh.bind(this.controller));
 
         /**
          * @swagger

@@ -80,4 +80,44 @@ export class AdminController {
             res.status(400).json({ message: "Erro ao buscar Admin", error });
         }
     }
+
+    // Gerente cria funcionário vinculado a ele
+    async createFuncionario(req: Request, res: Response) {
+        try {
+            const data = req.body;
+            const user = (req as any).user;
+
+            if (!user?.id) {
+                res.status(401).json({ message: "Usuário não autenticado" });
+                return;
+            }
+
+            if (!validarCPF(data.cpf)) {
+                res.status(400).json({ message: "CPF inválido" });
+                return;
+            }
+
+            const funcionario = await this.adminService.createFuncionario(data, user.id);
+            res.status(201).json(funcionario);
+        } catch (error: any) {
+            res.status(400).json({ message: "Erro ao criar funcionário", error: error.message });
+        }
+    }
+
+    // Listar funcionários do gerente logado
+    async findFuncionariosByGerente(req: Request, res: Response) {
+        try {
+            const user = (req as any).user;
+
+            if (!user?.id) {
+                res.status(401).json({ message: "Usuário não autenticado" });
+                return;
+            }
+
+            const funcionarios = await this.adminService.findFuncionariosByGerente(user.id);
+            res.status(200).json(funcionarios);
+        } catch (error: any) {
+            res.status(400).json({ message: "Erro ao listar funcionários", error: error.message });
+        }
+    }
 }

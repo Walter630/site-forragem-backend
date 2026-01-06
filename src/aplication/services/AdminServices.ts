@@ -43,14 +43,21 @@ export class AdminServices {
             // 3️⃣ Criptografa
             const senhaHash = await bcrypt.hash(senhaGerada, 10);
 
-            // 4️⃣ Cria no banco
+            // 4️⃣ Define o tipo de usuário (FUNCIONARIO se passado, senão GERENTE como padrão)
+            const tiposValidos = ['ADMIN', 'GERENTE', 'FUNCIONARIO', 'USER'];
+            const tipoFinal = data.tipoUsuario && tiposValidos.includes(data.tipoUsuario)
+                ? (data.tipoUsuario as TipoUsuarioEnum)
+                : TipoUsuarioEnum.GERENTE;
+
+            // 5️⃣ Cria no banco
             const adminCriado = await prisma.admin.create({
                 data: {
                     nome: data.nome,
                     email: data.email,
                     cpf: data.cpf,
-                    tipoUsuario: (data.tipoUsuario as TipoUsuarioEnum) ?? TipoUsuarioEnum.USER,
+                    tipoUsuario: tipoFinal,
                     senha: senhaHash,
+                    gerenteId: data.gerenteId ?? null, // Vincula ao gerente se informado
                 },
             });
 
@@ -62,6 +69,44 @@ export class AdminServices {
             console.error("Erro no AdminServices.create:", error);
             throw error;
         }
+    }
+
+    // Gerente cria funcionário vinculado a ele
+    async createFuncionario(data: CreateAdminDTO, gerenteId: string) {
+        try {
+            // Verifica se o gerente existe e é realmente um gerente
+            const gerente = await prisma.admin.findUnique({
+                where: { id: gerenteId },
+            });
+
+            if (!gerente || gerente.tipoUsuario !== TipoUsuarioEnum.GERENTE) {
+                throw new Error("Apenas gerentes podem criar funcionários.");
+            }
+
+            // Força o tipo de usuário como FUNCIONARIO
+            return this.create({
+                ...data,
+                tipoUsuario: TipoUsuarioEnum.FUNCIONARIO,
+                gerenteId: gerenteId,
+            });
+        } catch (error) {
+            console.error("Erro ao criar funcionário:", error);
+            throw error;
+        }
+    }
+
+    // Buscar funcionários de um gerente específico
+    async findFuncionariosByGerente(gerenteId: string) {
+        const funcionarios = await prisma.admin.findMany({
+            where: {
+                gerenteId: gerenteId,
+                tipoUsuario: TipoUsuarioEnum.FUNCIONARIO
+            },
+        });
+        return funcionarios.map((f) => {
+            const { senha, ...funcionarioSemSenha } = f;
+            return funcionarioSemSenha;
+        });
     }
 
 

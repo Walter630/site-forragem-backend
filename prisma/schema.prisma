@@ -18,6 +18,7 @@ datasource db {
 
 enum TipoUsuarioEnum {
   ADMIN
+  GERENTE
   FUNCIONARIO
   USER
 }
@@ -30,7 +31,12 @@ model Admin {
   senha   String
   ativado Boolean @default(true)
 
-  tipoUsuario TipoUsuarioEnum @default(USER)
+  tipoUsuario TipoUsuarioEnum @default(GERENTE)
+
+  // Relacionamento: Gerente pode ter funcionários
+  gerenteId    String? @db.ObjectId
+  gerente      Admin?  @relation("GerenteFuncionarios", fields: [gerenteId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  funcionarios Admin[] @relation("GerenteFuncionarios")
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")

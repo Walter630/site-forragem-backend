@@ -10,7 +10,7 @@ import {
 } from "../validators/validarAdmin";
 import { validar } from "../validators/validar";
 import { prisma } from "../../../infra/prisma/PrismaClient";
-import { requireFuncionarioOrAdmin } from "../validators/authenticateAdmin";
+import { requireFuncionarioOrAdmin, requireGerente } from "../validators/authenticateAdmin";
 
 export class AdminRoutes {
     private readonly adminController: AdminController;
@@ -219,6 +219,62 @@ export class AdminRoutes {
             "POST",
             validar(loginSchema),
             this.adminController.login.bind(this.adminController)
+        );
+
+        /**
+         * @swagger
+         * /admin/funcionario:
+         *   post:
+         *     summary: Gerente cria funcionário vinculado a ele
+         *     tags: [Admin]
+         *     security:
+         *       - bearerAuth: []
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               nome:
+         *                 type: string
+         *               email:
+         *                 type: string
+         *               cpf:
+         *                 type: string
+         *     responses:
+         *       201:
+         *         description: Funcionário criado com sucesso
+         *       403:
+         *         description: Apenas gerentes podem criar funcionários
+         */
+        this.api.addRotas(
+            "/admin/funcionario",
+            "POST",
+            requireGerente,
+            validar(createAdminSchema),
+            this.adminController.createFuncionario.bind(this.adminController)
+        );
+
+        /**
+         * @swagger
+         * /admin/funcionarios:
+         *   get:
+         *     summary: Listar funcionários do gerente logado
+         *     tags: [Admin]
+         *     security:
+         *       - bearerAuth: []
+         *     responses:
+         *       200:
+         *         description: Lista de funcionários do gerente
+         *       403:
+         *         description: Acesso negado
+         */
+        this.api.addRotas(
+            "/admin/funcionarios",
+            "GET",
+            requireGerente,
+            this.adminController.findFuncionariosByGerente.bind(this.adminController)
         );
     }
 }

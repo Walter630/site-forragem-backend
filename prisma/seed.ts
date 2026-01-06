@@ -13,11 +13,16 @@ async function main() {
     await prisma.propriedade.deleteMany()
     await prisma.cultura.deleteMany()
     await prisma.solo.deleteMany()
+
+    // Deletar funcionários primeiro (que têm gerenteId), depois o resto
+    await prisma.admin.deleteMany({ where: { tipoUsuario: TipoUsuarioEnum.FUNCIONARIO } })
+    await prisma.admin.deleteMany({ where: { tipoUsuario: TipoUsuarioEnum.GERENTE } })
     await prisma.admin.deleteMany()
 
     const password = '00011122233'.replace(/\D/g, '')
     const hashPassword = await bcrypt.hash(password, 10)
 
+    // 1. ADMIN - Manda em tudo
     const admin = await prisma.admin.create({
         data: {
             nome: 'Admin Principal',
@@ -28,16 +33,37 @@ async function main() {
         }
     })
 
-    const propriedade = await prisma.propriedade.create({
+    // 2. GERENTE - Pode fazer simulações e cadastros
+    const gerentePassword = await bcrypt.hash('gerente123', 10)
+    const gerente = await prisma.admin.create({
         data: {
-            nomePropriedade: 'Fazenda Modelo',
-            nomeResponsavel: 'José Walter',
-            latitude: -3.7319,
-            longitude: -38.5267,
-            adminId: admin.id
+            nome: 'Gerente Padrão',
+            email: 'gerente@teste.com',
+            cpf: '11122233344',
+            senha: gerentePassword,
+            tipoUsuario: TipoUsuarioEnum.GERENTE
         }
     })
 
+    // 3. FUNCIONARIO - Cadastrado pelo gerente
+    const funcionarioPassword = await bcrypt.hash('funcionario123', 10)
+    const funcionario = await prisma.admin.create({
+        data: {
+            nome: 'Funcionário Padrão',
+            email: 'funcionario@teste.com',
+            cpf: '22233344455',
+            senha: funcionarioPassword,
+            tipoUsuario: TipoUsuarioEnum.FUNCIONARIO,
+            gerenteId: gerente.id // Vinculado ao gerente
+        }
+    })
+
+    console.log('Usuários criados:')
+    console.log('- ADMIN:', admin.email, '| Senha: 00011122233')
+    console.log('- GERENTE:', gerente.email, '| Senha: gerente123')
+    console.log('- FUNCIONARIO:', funcionario.email, '| Senha: funcionario123 (vinculado ao gerente)')
+
+    // Criar cultura ANTES da propriedade
     const cultura = await prisma.cultura.create({
         data: {
             name: 'Milho',
@@ -46,6 +72,7 @@ async function main() {
         }
     })
 
+    // Criar solo ANTES da propriedade
     const solo = await prisma.solo.create({
         data: {
             nomeClasse: 'Cambissolo',
@@ -54,6 +81,16 @@ async function main() {
             agua0Bar: 0.32,
             agua13Bar: 0.18,
             agua15Bar: 0.12
+        }
+    })
+
+    const propriedade = await prisma.propriedade.create({
+        data: {
+            nomePropriedade: 'Fazenda Modelo',
+            nomeResponsavel: 'José Walter',
+            latitude: -3.7319,
+            longitude: -38.5267,
+            adminId: admin.id
         }
     })
 

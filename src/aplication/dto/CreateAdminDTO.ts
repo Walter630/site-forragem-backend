@@ -3,4 +3,5 @@ export interface CreateAdminDTO {
     email: string;
     cpf: string;
     tipoUsuario: string;
+    gerenteId?: string; // ID do gerente (quando funcionário é criado por um gerente)
 }

@@ -70,7 +70,16 @@ export class Token {
   }
 
   async renewTokens(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }> {
-    const payload = await this.verifyRefreshToken(refreshToken);
+    const decoded = await this.verifyRefreshToken(refreshToken);
+
+    // Extrai apenas os dados necessários (sem iat, exp, etc)
+    const payload: TokenPayload = {
+      id: decoded.id,
+      email: decoded.email,
+      cpf: decoded.cpf,
+      role: decoded.role
+    };
+
     return this.generateTokens(payload);
   }
   

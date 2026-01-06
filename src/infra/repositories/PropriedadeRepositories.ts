@@ -19,8 +19,8 @@ export class PropriedadeRepository {
                 ...p,
                 id: p.id.toString(),
                 adminId: p.adminId?.toString() ?? null,
-                culturas: p.culturas.map((c: any) => c.cultura.nome),
-                solos: p.solos.map((s: any) => s.solo.nome),
+                culturas: p.culturas.map((c: any) => c.cultura?.name ?? null),
+                solos: p.solos.map((s: any) => s.solo?.nomeClasse ?? null),
             })
         );
     }
@@ -40,8 +40,8 @@ export class PropriedadeRepository {
             ...p,
             id: p.id.toString(),
             adminId: p.adminId?.toString() ?? null,
-            culturas: p.culturas.map((c: any) => c.cultura.nome),
-            solos: p.solos.map((s: any) => s.solo.nome)
+            culturas: p.culturas.map((c: any) => c.cultura?.name ?? null),
+            solos: p.solos.map((s: any) => s.solo?.nomeClasse ?? null)
         });
     }
 
@@ -88,8 +88,8 @@ export class PropriedadeRepository {
             ...created,
             id: created.id.toString(),
             adminId: created.adminId?.toString() ?? null,
-            culturas: created.culturas?.map((c: any) => c.cultura.nome) ?? [],
-            solos: created.solos?.map((s: any) => s.solo.nome) ?? [],
+            culturas: created.culturas?.map((c: any) => c.cultura?.name ?? null) ?? [],
+            solos: created.solos?.map((s: any) => s.solo?.nomeClasse ?? null) ?? [],
         });
     }
 
@@ -150,8 +150,8 @@ export class PropriedadeRepository {
             ...updated,
             id: updated.id.toString(),
             adminId: updated.adminId?.toString() ?? null,
-            culturas: updated.culturas?.map((c: any) => c.cultura.nome) ?? [],
-            solos: updated.solos?.map((s: any) => s.solo.nome) ?? [],
+            culturas: updated.culturas?.map((c: any) => c.cultura?.name ?? null) ?? [],
+            solos: updated.solos?.map((s: any) => s.solo?.nomeClasse ?? null) ?? [],
             createdAt: updated.createdAt,
             updatedAt: updated.updatedAt,
         });

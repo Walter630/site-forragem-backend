@@ -65,12 +65,24 @@ export function setupSwagger(app: Express) {
             },
             "/auth/refresh-token": {
                 post: {
-                    summary: "Renovar token de acesso",
+                    summary: "Renovar token de acesso usando refresh token",
+                    description: "Use esta rota quando o access token expirar. O refresh token é enviado automaticamente via cookie HttpOnly.",
                     tags: ["Autenticação"],
-                    security: [{ bearerAuth: [] }],
                     responses: {
-                        "200": { description: "Token renovado" },
-                        "401": { description: "Token inválido" },
+                        "200": {
+                            description: "Token renovado com sucesso",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        type: "object",
+                                        properties: {
+                                            accessToken: { type: "string" }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "401": { description: "Refresh token inválido ou ausente" },
                     },
                 },
             },
@@ -242,6 +254,45 @@ export function setupSwagger(app: Express) {
                     security: [{ bearerAuth: [] }],
                     responses: {
                         "200": { description: "Lista de culturas" },
+                    },
+                },
+            },
+            "/cultura/{id}": {
+                get: {
+                    summary: "Buscar cultura por ID",
+                    tags: ["Cultura"],
+                    security: [{ bearerAuth: [] }],
+                    parameters: [
+                        {
+                            name: "id",
+                            in: "path",
+                            required: true,
+                            schema: { type: "string" },
+                            description: "ID da cultura",
+                        },
+                    ],
+                    responses: {
+                        "200": { description: "Cultura encontrada" },
+                        "404": { description: "Cultura não encontrada" },
+                    },
+                },
+                delete: {
+                    summary: "Deletar cultura",
+                    tags: ["Cultura"],
+                    security: [{ bearerAuth: [] }],
+                    parameters: [
+                        {
+                            name: "id",
+                            in: "path",
+                            required: true,
+                            schema: { type: "string" },
+                            description: "ID da cultura a ser deletada",
+                        },
+                    ],
+                    responses: {
+                        "200": { description: "Cultura deletada com sucesso" },
+                        "404": { description: "Cultura não encontrada" },
+                        "500": { description: "Erro ao deletar cultura" },
                     },
                 },
             },

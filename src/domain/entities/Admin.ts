@@ -1,6 +1,6 @@
 import { Propriedade } from "./Propriedade";
 
-export type TipoUsuarioEnum = "ADMIN" | "FUNCIONARIO" | "USER";
+export type TipoUsuarioEnum = "ADMIN" | "GERENTE" | "FUNCIONARIO" | "USER";
 
 type AdminProps = {
     id?: string;
@@ -9,7 +9,8 @@ type AdminProps = {
     cpf: string;
     senha: string;
     ativado: boolean;
-    tipoUsuario: TipoUsuarioEnum;   // <<--- AGORA ASSIM
+    tipoUsuario: TipoUsuarioEnum;
+    gerenteId?: string | null;  // ID do gerente (para funcionários)
     propriedade?: Propriedade;
     createdAt?: Date | null;
     updatedAt?: Date | null;
@@ -62,6 +63,10 @@ export class Admin {
         return this.props.tipoUsuario;
     }
 
+    get gerenteId(): string | null | undefined {
+        return this.props.gerenteId;
+    }
+
     get propriedade(): Propriedade | undefined {
         return this.props.propriedade;
     }
@@ -74,6 +79,7 @@ export class Admin {
             cpf: this.props.cpf,
             ativado: this.props.ativado,
             tipoUsuario: this.props.tipoUsuario,
+            gerenteId: this.props.gerenteId,
             createdAt: this.props.createdAt,
             updatedAt: this.props.updatedAt,
             deletedAt: this.props.deletedAt,
