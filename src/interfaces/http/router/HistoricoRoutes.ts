@@ -3,9 +3,10 @@ import { Api } from "./Api";
 import { HistoricoController } from "../controllers/HistoricoController";
 import { HistoricoServices } from "../../../aplication/services/HistoricoServices";
 import { HistoricoRepositories } from "../../../infra/repositories/HistoricoRepositories";
-import { requireFuncionarioOrAdmin } from "../validators/authenticateAdmin";
+import { requireFuncionarioOrAdmin, requireAdmin } from "../validators/authenticateAdmin";
 import { SimulacaoRepositories } from "../../../infra/repositories/SimulacaoRepositories";
 import { PDFServices } from "../../../aplication/services/PdfServices";
+import { PropriedadeRepository } from "../../../infra/repositories/PropriedadeRepositories";
 
 export class HistoricoRoutes {
     private readonly historicoController: HistoricoController;
@@ -13,7 +14,8 @@ export class HistoricoRoutes {
     constructor(private readonly api: Api) {
         const historicoRepo = new HistoricoRepositories(prisma);
         const pdfServices = new PDFServices();
-        const historicoService = new HistoricoServices(pdfServices, historicoRepo);
+        const propriedadeRepo = new PropriedadeRepository(prisma);
+        const historicoService = new HistoricoServices(pdfServices, historicoRepo, propriedadeRepo);
         this.historicoController = new HistoricoController(historicoService);
     }
 
@@ -27,15 +29,33 @@ export class HistoricoRoutes {
     private addRotas() {
         /**
          * @swagger
+         * /historico/minhas:
+         *   get:
+         *     summary: Lista históricos do usuário logado (Gerente vê seus históricos, Funcionário vê do gerente)
+         *     tags: [Histórico]
+         *     security:
+         *       - bearerAuth: []
+         *     responses:
+         *       200:
+         *         description: Lista de históricos do usuário
+         *       401:
+         *         description: Não autenticado
+         */
+        this.api.addRotas("/historico/minhas", "GET", requireFuncionarioOrAdmin, this.historicoController.listarPorUsuario.bind(this.historicoController));
+
+        /**
+         * @swagger
          * /historico:
          *   get:
-         *     summary: Retorna todo o histórico
+         *     summary: Retorna todo o histórico (apenas Admin)
          *     tags: [Histórico]
+         *     security:
+         *       - bearerAuth: []
          *     responses:
          *       200:
          *         description: Lista de históricos
          */
-        this.api.addRotas("/historico", "GET", this.historicoController.historico.bind(this.historicoController));
+        this.api.addRotas("/historico", "GET", requireAdmin, this.historicoController.historico.bind(this.historicoController));
 
         /**
          * @swagger

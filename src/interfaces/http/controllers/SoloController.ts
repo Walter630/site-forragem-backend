@@ -42,6 +42,32 @@ export class SoloController {
      return;
   }
 
+  // Listar solos usados nas propriedades do usuário logado
+  async listarPorUsuario(req: Request, res: Response): Promise<void> {
+    try {
+      const user = (req as any).user;
+
+      if (!user?.id) {
+        res.status(401).json({ error: "Usuário não autenticado" });
+        return;
+      }
+
+      const userContext = {
+        id: user.id,
+        role: user.role,
+        gerenteId: user.gerenteId
+      };
+
+      const solos = await this.soloServices.findByUser(userContext);
+      res.status(200).json(solos);
+      return;
+    } catch (error) {
+      console.error('Erro ao buscar solos do usuário:', error);
+      res.status(500).json({ error: 'Erro ao buscar solos do usuário' });
+      return;
+    }
+  }
+
   async findById(req: Request, res: Response): Promise<void> {
     const id = String(req.params.id);
     const solo = await this.soloServices.findById(id);

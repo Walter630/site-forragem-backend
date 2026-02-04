@@ -3,11 +3,15 @@ import { CulturaServices } from "../../../aplication/services/CulturaServices";
 import { Api } from "./Api";
 import {CulturaRepositories} from "../../../infra/repositories/CulturaRepositores";
 import { prisma } from "../../../infra/prisma/PrismaClient";
+import { requireFuncionarioOrAdmin, requireAdmin } from "../validators/authenticateAdmin";
+import { PropriedadeRepository } from "../../../infra/repositories/PropriedadeRepositories";
 
 export class CulturaRoutes {
     private readonly culturaController: CulturaController;
     constructor(private readonly api: Api) {
-        this.culturaController = new CulturaController(new CulturaServices(CulturaRepositories.create(prisma)));
+        const culturaRepo = CulturaRepositories.create(prisma);
+        const propriedadeRepo = new PropriedadeRepository(prisma);
+        this.culturaController = new CulturaController(new CulturaServices(culturaRepo, propriedadeRepo));
     }
 
     public static build(api: Api) {
@@ -16,6 +20,22 @@ export class CulturaRoutes {
     }
 
     private addRotas() {
+        /**
+         * @swagger
+         * /cultura/minhas:
+         *   get:
+         *     summary: Lista culturas usadas nas propriedades do usuário logado
+         *     tags: [Cultura]
+         *     security:
+         *       - bearerAuth: []
+         *     responses:
+         *       200:
+         *         description: Lista de culturas do usuário
+         *       401:
+         *         description: Não autenticado
+         */
+        this.api.addRotas("/cultura/minhas", "GET", requireFuncionarioOrAdmin, this.culturaController.listarPorUsuario.bind(this.culturaController));
+
         /**
          * @swagger
          * /cultura:

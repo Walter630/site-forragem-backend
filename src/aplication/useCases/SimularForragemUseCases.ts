@@ -23,36 +23,52 @@ export class SimularForragemUseCase {
   ) {}
 
   async execute(input: SimularForragemInputDTO): Promise<SimularForragemOutputDTO> {
-    const { propriedadeId, dados } = input;
+    const { propriedadeId, nomeSimulacao, ano, culturaId, soloId, dados } = input;
 
     const resultadoSimulado = this.calcularForragem(dados ?? {});
 
-    const { soloId, precipitacaoId } =
-      await this.propriedadeDataRepo.getSoloEPrecipitacao(propriedadeId);
-
-    const estimativa = await this.estimativaRepo.findByPropriedade(input.propriedadeId);
-    const estimativas = estimativa[0]
-
-    const dadosCompletos = {
-      ...dados,
-      soloId,
-      precipitacao: precipitacaoId,
-      estimativa: estimativas?.valorTotal,
-    };
+    const estimativa = await this.estimativaRepo.findByPropriedade(propriedadeId);
+    const estimativas = estimativa[0];
 
     const simulacaoCriada = await this.simulacaoRepo.create({
       propriedadeId,
+      nomeSimulacao,
+      ano,
+      culturaId,
+      soloId,
+      eto: input.eto,
+      indiceAridez: input.indiceAridez,
+      precipitacaoMmAno: input.precipitacaoMmAno,
+      numeroChuvas: input.numeroChuvas,
+      precipitacaoMmDia: input.precipitacaoMmDia,
+      cvDia: input.cvDia,
+      precipitacaoMmMes: input.precipitacaoMmMes,
+      cvMes: input.cvMes,
+      altitude: input.altitude,
+      temperaturaMed: input.temperaturaMed,
+      umidade: input.umidade,
       resultado: resultadoSimulado,
       dataSimulacao: new Date(),
-    } as any);
+    });
+
+    // Busca soloId e precipitacaoId da propriedade (para histórico)
+    let soloIdHist: string | null = null;
+    let precipitacaoIdHist: string | null = null;
+    try {
+      const propData = await this.propriedadeDataRepo.getSoloEPrecipitacao(propriedadeId);
+      soloIdHist = propData.soloId;
+      precipitacaoIdHist = propData.precipitacaoId;
+    } catch (e) {
+      // Ignora se não encontrar
+    }
 
     await this.historicoRepo.create(
       Historico.create({
         valorSimulacao: resultadoSimulado,
         simulacaoId: simulacaoCriada.id!,
         propriedadeId,
-        soloId,
-        precipitacaoId,
+        soloId: soloIdHist ?? soloId,
+        precipitacaoId: precipitacaoIdHist ?? undefined,
         descricao: `Simulação realizada em ${new Date().toLocaleDateString()} para propriedade ${propriedadeId}`,
         createdAt: new Date(),
         updatedAt: new Date(),

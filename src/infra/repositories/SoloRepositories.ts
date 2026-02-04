@@ -94,4 +94,23 @@ export class SoloRepositories implements ISoloRepositories {
       throw new Error("Error finding solo by ID");
     }
   }
+
+  // Buscar solos usados em propriedades específicas
+  async findByPropriedadeIds(propriedadeIds: string[]): Promise<Solo[]> {
+    try {
+      const solos = await this.prisma.solo.findMany({
+        where: {
+          propriedadeSolo: {
+            some: {
+              propriedadeId: { in: propriedadeIds }
+            }
+          }
+        },
+      });
+
+      return solos.map(Solo.fromPrisma);
+    } catch (error) {
+      throw new Error("Error finding solos by propriedade IDs");
+    }
+  }
 }

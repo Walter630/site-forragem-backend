@@ -143,12 +143,73 @@ export class AdminRoutes {
             this.adminController.findAll.bind(this.adminController)
         );
 
+        // ✅ PRIMEIRO: Rotas específicas com /funcionarios
         /**
          * @swagger
-         * /admin/{id}:
-         *   get:
-         *     summary: Buscar admin por ID
+         * /admin/funcionarios:
+         *   post:
+         *     summary: Gerente cria funcionário vinculado a ele
          *     tags: [Admin]
+         *     security:
+         *       - bearerAuth: []
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               nome:
+         *                 type: string
+         *               email:
+         *                 type: string
+         *               cpf:
+         *                 type: string
+         *               senha:
+         *                 type: string
+         *     responses:
+         *       201:
+         *         description: Funcionário criado com sucesso
+         *       403:
+         *         description: Apenas gerentes podem criar funcionários
+         */
+        this.api.addRotas(
+            "/admin/funcionarios",
+            "POST",
+            requireGerente,
+            validar(createAdminSchema),
+            this.adminController.createFuncionario.bind(this.adminController)
+        );
+
+        /**
+         * @swagger
+         * /admin/funcionarios:
+         *   get:
+         *     summary: Listar funcionários do gerente logado
+         *     tags: [Admin]
+         *     security:
+         *       - bearerAuth: []
+         *     responses:
+         *       200:
+         *         description: Lista de funcionários do gerente
+         *       403:
+         *         description: Acesso negado
+         */
+        this.api.addRotas(
+            "/admin/funcionarios",
+            "GET",
+            requireGerente,
+            this.adminController.findFuncionariosByGerente.bind(this.adminController)
+        );
+
+        /**
+         * @swagger
+         * /admin/funcionarios/{id}:
+         *   get:
+         *     summary: Buscar funcionário por ID (apenas funcionários do gerente logado)
+         *     tags: [Admin]
+         *     security:
+         *       - bearerAuth: []
          *     parameters:
          *       - name: id
          *         in: path
@@ -157,16 +218,89 @@ export class AdminRoutes {
          *           type: string
          *     responses:
          *       200:
-         *         description: Admin encontrado
+         *         description: Funcionário encontrado
          *       404:
-         *         description: Não encontrado
+         *         description: Funcionário não encontrado ou não pertence ao gerente
          */
         this.api.addRotas(
-            "/admin/:id",
+            "/admin/funcionarios/:id",
             "GET",
-            this.adminController.findById.bind(this.adminController)
+            requireGerente,
+            this.adminController.findFuncionarioById.bind(this.adminController)
         );
 
+        /**
+         * @swagger
+         * /admin/funcionarios/{id}:
+         *   put:
+         *     summary: Atualizar funcionário (apenas funcionários do gerente logado)
+         *     tags: [Admin]
+         *     security:
+         *       - bearerAuth: []
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               nome:
+         *                 type: string
+         *               email:
+         *                 type: string
+         *               ativado:
+         *                 type: boolean
+         *     responses:
+         *       200:
+         *         description: Funcionário atualizado com sucesso
+         *       400:
+         *         description: Erro na atualização
+         *       404:
+         *         description: Funcionário não encontrado ou não pertence ao gerente
+         */
+        this.api.addRotas(
+            "/admin/funcionarios/:id",
+            "PUT",
+            requireGerente,
+            this.adminController.updateFuncionario.bind(this.adminController)
+        );
+
+        /**
+         * @swagger
+         * /admin/funcionarios/{id}:
+         *   delete:
+         *     summary: Deletar funcionário (apenas funcionários do gerente logado)
+         *     tags: [Admin]
+         *     security:
+         *       - bearerAuth: []
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Funcionário removido com sucesso
+         *       400:
+         *         description: Erro na remoção
+         *       404:
+         *         description: Funcionário não encontrado ou não pertence ao gerente
+         */
+        this.api.addRotas(
+            "/admin/funcionarios/:id",
+            "DELETE",
+            requireGerente,
+            this.adminController.deleteFuncionario.bind(this.adminController)
+        );
+
+        // ✅ DEPOIS: Rota /admin/email/:email (também específica)
         /**
          * @swagger
          * /admin/email/{email}:
@@ -191,6 +325,7 @@ export class AdminRoutes {
             this.adminController.findByEmail.bind(this.adminController)
         );
 
+        // ✅ DEPOIS: Rota /admin/login (também específica)
         /**
          * @swagger
          * /admin/login:
@@ -221,60 +356,29 @@ export class AdminRoutes {
             this.adminController.login.bind(this.adminController)
         );
 
+        // ✅ POR ÚLTIMO: Rota com parâmetro dinâmico /admin/:id
         /**
          * @swagger
-         * /admin/funcionario:
-         *   post:
-         *     summary: Gerente cria funcionário vinculado a ele
-         *     tags: [Admin]
-         *     security:
-         *       - bearerAuth: []
-         *     requestBody:
-         *       required: true
-         *       content:
-         *         application/json:
-         *           schema:
-         *             type: object
-         *             properties:
-         *               nome:
-         *                 type: string
-         *               email:
-         *                 type: string
-         *               cpf:
-         *                 type: string
-         *     responses:
-         *       201:
-         *         description: Funcionário criado com sucesso
-         *       403:
-         *         description: Apenas gerentes podem criar funcionários
-         */
-        this.api.addRotas(
-            "/admin/funcionario",
-            "POST",
-            requireGerente,
-            validar(createAdminSchema),
-            this.adminController.createFuncionario.bind(this.adminController)
-        );
-
-        /**
-         * @swagger
-         * /admin/funcionarios:
+         * /admin/{id}:
          *   get:
-         *     summary: Listar funcionários do gerente logado
+         *     summary: Buscar admin por ID
          *     tags: [Admin]
-         *     security:
-         *       - bearerAuth: []
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         required: true
+         *         schema:
+         *           type: string
          *     responses:
          *       200:
-         *         description: Lista de funcionários do gerente
-         *       403:
-         *         description: Acesso negado
+         *         description: Admin encontrado
+         *       404:
+         *         description: Não encontrado
          */
         this.api.addRotas(
-            "/admin/funcionarios",
+            "/admin/:id",
             "GET",
-            requireGerente,
-            this.adminController.findFuncionariosByGerente.bind(this.adminController)
+            this.adminController.findById.bind(this.adminController)
         );
     }
 }

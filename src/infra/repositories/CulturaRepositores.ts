@@ -76,4 +76,19 @@ export class CulturaRepositories implements ICulturaRepositories {
 
         return culturasFindall.map(this.mapToDomain.bind(this));
     }
+
+    // Buscar culturas usadas em propriedades específicas
+    async findByPropriedadeIds(propriedadeIds: string[]): Promise<Cultura[]> {
+        const culturas = await this.prisma.cultura.findMany({
+            where: {
+                propriedades: {
+                    some: {
+                        propriedadeId: { in: propriedadeIds }
+                    }
+                }
+            }
+        });
+
+        return culturas.map(this.mapToDomain.bind(this));
+    }
 }

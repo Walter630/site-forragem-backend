@@ -22,6 +22,29 @@ export class CulturaController {
         }
     }
 
+    // Listar culturas usadas nas propriedades do usuário logado
+    async listarPorUsuario(req: Request, res: Response) {
+        try {
+            const user = (req as any).user;
+
+            if (!user?.id) {
+                res.status(401).json({ message: "Usuário não autenticado" });
+                return;
+            }
+
+            const userContext = {
+                id: user.id,
+                role: user.role,
+                gerenteId: user.gerenteId
+            };
+
+            const culturas = await this.culturaController.findByUser(userContext);
+            res.status(200).json(culturas);
+        } catch (error) {
+            res.status(500).json({ message: "Erro ao buscar culturas do usuário", error: error });
+        }
+    }
+
     async findById(req: Request, res:Response) {
         try {
             const cultura = await this.culturaController.findById(req.params.id);

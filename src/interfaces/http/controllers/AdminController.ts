@@ -120,4 +120,59 @@ export class AdminController {
             res.status(400).json({ message: "Erro ao listar funcionários", error: error.message });
         }
     }
+
+    // Buscar funcionário por ID (verifica se pertence ao gerente)
+    async findFuncionarioById(req: Request, res: Response) {
+        try {
+            const user = (req as any).user;
+            const { id } = req.params;
+
+            if (!user?.id) {
+                res.status(401).json({ message: "Usuário não autenticado" });
+                return;
+            }
+
+            const funcionario = await this.adminService.findFuncionarioById(id, user.id);
+            res.status(200).json(funcionario);
+        } catch (error: any) {
+            res.status(404).json({ message: error.message });
+        }
+    }
+
+    // Atualizar funcionário (verifica se pertence ao gerente)
+    async updateFuncionario(req: Request, res: Response) {
+        try {
+            const user = (req as any).user;
+            const { id } = req.params;
+            const data = req.body;
+
+            if (!user?.id) {
+                res.status(401).json({ message: "Usuário não autenticado" });
+                return;
+            }
+
+            const funcionario = await this.adminService.updateFuncionario(id, user.id, data);
+            res.status(200).json(funcionario);
+        } catch (error: any) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    // Deletar funcionário (verifica se pertence ao gerente)
+    async deleteFuncionario(req: Request, res: Response) {
+        try {
+            const user = (req as any).user;
+            const { id } = req.params;
+
+            if (!user?.id) {
+                res.status(401).json({ message: "Usuário não autenticado" });
+                return;
+            }
+
+            const result = await this.adminService.deleteFuncionario(id, user.id);
+            res.status(200).json(result);
+        } catch (error: any) {
+            res.status(400).json({ message: error.message });
+        }
+    }
 }

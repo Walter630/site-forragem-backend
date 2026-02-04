@@ -37,13 +37,15 @@ export class AuthController {
         // 🔥 ENVIA O REFRESH TOKEN EM COOKIE HTTPONLY
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: false,
+            secure: process.env.NODE_ENV === "production", // true em produção
             sameSite: "lax",
             path: "/",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
-        const { ...usuarioSemSenha } = usuario;
+        console.log("✅ Login bem sucedido, cookie de refresh token definido");
+
+        const { senha: _, ...usuarioSemSenha } = usuario;
 
         res.json({
             admin: usuarioSemSenha,
@@ -54,29 +56,36 @@ export class AuthController {
 
 
     async refresh(req: Request, res: Response) {
+        console.log("🔄 Tentativa de refresh token");
+        console.log("Cookies recebidos:", req.cookies);
+
         const refreshToken = req.cookies.refreshToken;
 
         if (!refreshToken) {
-             res.status(401).json({ error: "Refresh token ausente" });
-             return;
+            console.log("❌ Refresh token ausente nos cookies");
+            res.status(401).json({ error: "Refresh token ausente" });
+            return;
         }
 
         try {
+            console.log("🔑 Validando refresh token...");
             const tokens = await tokenService.renewTokens(refreshToken);
+            console.log("✅ Tokens renovados com sucesso");
 
             // 🔥 ATUALIZA O COOKIE COM O NOVO REFRESH TOKEN
             res.cookie("refreshToken", tokens.refreshToken, {
                 httpOnly: true,
-                secure: false,
+                secure: process.env.NODE_ENV === "production", // true em produção
                 sameSite: "lax",
                 path: "/",
                 maxAge: 7 * 24 * 60 * 60 * 1000
             });
 
             res.json({ accessToken: tokens.accessToken });
-        } catch {
-             res.status(401).json({ error: "Refresh token inválido" });
-             return;
+        } catch (error: any) {
+            console.log("❌ Erro ao renovar token:", error.message);
+            res.status(401).json({ error: "Refresh token inválido ou expirado" });
+            return;
         }
     }
 

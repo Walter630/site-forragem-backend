@@ -49,14 +49,24 @@ export class HistoricoRepositories implements IHistoricoRepositories {
   async create(
     data: Omit<Historico, "id" | "createdAt" | "updatedAt" | "deletedAt">
   ): Promise<Historico> {
+    const createData: any = {
+      propriedadeId: data.propriedadeId,
+      simulacaoId: data.simulacaoId,
+      observacao: data.descricao,
+    };
+
+    // Só inclui soloId se tiver valor válido
+    if (data.soloId && data.soloId.trim() !== "") {
+      createData.soloId = data.soloId;
+    }
+
+    // Só inclui precipitacaoId se tiver valor válido
+    if (data.precipitacaoId && data.precipitacaoId.trim() !== "") {
+      createData.precipitacaoId = data.precipitacaoId;
+    }
+
     const created = await this.prisma.historico.create({
-      data: {
-        propriedadeId: data.propriedadeId,
-        simulacaoId: data.simulacaoId,
-        soloId: data.soloId,
-        precipitacaoId: data.precipitacaoId,
-        observacao: data.descricao,
-      },
+      data: createData,
     });
     return this.mapToDomain(created);
   }
@@ -184,5 +194,16 @@ export class HistoricoRepositories implements IHistoricoRepositories {
       }),
       producaoPorMes: [],
     }));
+  }
+
+  // Buscar históricos por lista de propriedade IDs (para filtro por usuário)
+  async findByPropriedadeIds(propriedadeIds: string[]): Promise<Historico[]> {
+    const historicos = await this.prisma.historico.findMany({
+      where: {
+        propriedadeId: { in: propriedadeIds }
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    return historicos.map(this.mapToDomain);
   }
 }

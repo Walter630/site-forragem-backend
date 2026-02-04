@@ -179,4 +179,48 @@ export class PropriedadeRepository {
             precipitacaoId: propriedade.Precipitacao[0]?.id ?? ""
         };
     }
+
+    // Busca propriedades por adminId (para filtrar por gerente/funcionário)
+    async findByAdminId(adminId: string): Promise<Propriedade[]> {
+        const propriedades = await this.prisma.propriedade.findMany({
+            where: { adminId },
+            include: {
+                culturas: { include: { cultura: true } },
+                solos: { include: { solo: true } }
+            }
+        });
+
+        return propriedades.map((p: any) =>
+            Propriedade.with({
+                ...p,
+                id: p.id.toString(),
+                adminId: p.adminId?.toString() ?? null,
+                culturas: p.culturas.map((c: any) => c.cultura?.name ?? null),
+                solos: p.solos.map((s: any) => s.solo?.nomeClasse ?? null),
+            })
+        );
+    }
+
+    // Busca propriedades por múltiplos adminIds (para funcionários verem propriedades do gerente também)
+    async findByAdminIds(adminIds: string[]): Promise<Propriedade[]> {
+        const propriedades = await this.prisma.propriedade.findMany({
+            where: {
+                adminId: { in: adminIds }
+            },
+            include: {
+                culturas: { include: { cultura: true } },
+                solos: { include: { solo: true } }
+            }
+        });
+
+        return propriedades.map((p: any) =>
+            Propriedade.with({
+                ...p,
+                id: p.id.toString(),
+                adminId: p.adminId?.toString() ?? null,
+                culturas: p.culturas.map((c: any) => c.cultura?.name ?? null),
+                solos: p.solos.map((s: any) => s.solo?.nomeClasse ?? null),
+            })
+        );
+    }
 }

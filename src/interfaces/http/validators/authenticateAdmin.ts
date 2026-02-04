@@ -22,7 +22,7 @@ async function verifyAuth(
         const decoded = await tokenService.verifyAccessToken(token);
 
         if (!decoded?.id || !decoded.role) {
-            res.status(403).json({ error: "Token inválido" });
+            res.status(401).json({ error: "Token inválido" });
             return;
         }
 
@@ -44,8 +44,15 @@ async function verifyAuth(
         (req as any).user = { ...decoded, gerenteId: usuario.gerenteId };
         next();
 
-    } catch (err) {
+    } catch (err: any) {
         console.error("Erro ao verificar permissão:", err);
+
+        // Se o erro for de token expirado/inválido, retorna 401 para o frontend fazer refresh
+        if (err.message?.includes("Token") || err.message?.includes("token") || err.message?.includes("expirado") || err.message?.includes("inválido")) {
+            res.status(401).json({ error: "Token expirado ou inválido. Faça refresh do token." });
+            return;
+        }
+
         res.status(500).json({ error: "Falha na verificação de permissões" });
         return;
     }

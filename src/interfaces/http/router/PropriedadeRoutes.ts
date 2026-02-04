@@ -3,7 +3,7 @@ import { Api } from "./Api";
 import { PropriedadeController } from "../controllers/PropriedadeController";
 import { PropriedadeServices } from "../../../aplication/services/PropriedadeServices";
 import { PropriedadeRepository } from "../../../infra/repositories/PropriedadeRepositories";
-import { requireFuncionarioOrAdmin } from "../validators/authenticateAdmin";
+import { requireFuncionarioOrAdmin, requireAdmin } from "../validators/authenticateAdmin";
 
 export class PropriedadeRoutes {
     private readonly controller: PropriedadeController;
@@ -25,15 +25,33 @@ export class PropriedadeRoutes {
     addRotas() {
         /**
          * @swagger
+         * /propriedade/minhas:
+         *   get:
+         *     summary: Lista propriedades do usuário logado (Gerente vê suas propriedades, Funcionário vê do gerente)
+         *     tags: [Propriedade]
+         *     security:
+         *       - bearerAuth: []
+         *     responses:
+         *       200:
+         *         description: Lista de propriedades do usuário
+         *       401:
+         *         description: Não autenticado
+         */
+        this.api.addRotas("/propriedade/minhas", "GET", requireFuncionarioOrAdmin, this.controller.listarPorUsuario.bind(this.controller));
+
+        /**
+         * @swagger
          * /propriedade:
          *   get:
-         *     summary: Lista todas as propriedades
+         *     summary: Lista todas as propriedades (apenas Admin)
          *     tags: [Propriedade]
+         *     security:
+         *       - bearerAuth: []
          *     responses:
          *       200:
          *         description: Lista de propriedades
          */
-        this.api.addRotas("/propriedade", "GET", this.controller.listar.bind(this.controller));
+        this.api.addRotas("/propriedade", "GET", requireAdmin, this.controller.listar.bind(this.controller));
 
         /**
          * @swagger

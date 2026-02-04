@@ -109,6 +109,73 @@ export class AdminServices {
         });
     }
 
+    // Buscar funcionário por ID (verifica se pertence ao gerente)
+    async findFuncionarioById(funcionarioId: string, gerenteId: string) {
+        const funcionario = await prisma.admin.findFirst({
+            where: {
+                id: funcionarioId,
+                gerenteId: gerenteId,
+                tipoUsuario: TipoUsuarioEnum.FUNCIONARIO
+            },
+        });
+
+        if (!funcionario) {
+            throw new Error("Funcionário não encontrado ou não pertence a este gerente");
+        }
+
+        const { senha, ...funcionarioSemSenha } = funcionario;
+        return funcionarioSemSenha;
+    }
+
+    // Deletar funcionário (verifica se pertence ao gerente)
+    async deleteFuncionario(funcionarioId: string, gerenteId: string) {
+        const funcionario = await prisma.admin.findFirst({
+            where: {
+                id: funcionarioId,
+                gerenteId: gerenteId,
+                tipoUsuario: TipoUsuarioEnum.FUNCIONARIO
+            },
+        });
+
+        if (!funcionario) {
+            throw new Error("Funcionário não encontrado ou não pertence a este gerente");
+        }
+
+        await prisma.admin.delete({
+            where: { id: funcionarioId }
+        });
+
+        return { message: "Funcionário removido com sucesso" };
+    }
+
+    // Atualizar funcionário (verifica se pertence ao gerente)
+    async updateFuncionario(funcionarioId: string, gerenteId: string, data: any) {
+        const funcionario = await prisma.admin.findFirst({
+            where: {
+                id: funcionarioId,
+                gerenteId: gerenteId,
+                tipoUsuario: TipoUsuarioEnum.FUNCIONARIO
+            },
+        });
+
+        if (!funcionario) {
+            throw new Error("Funcionário não encontrado ou não pertence a este gerente");
+        }
+
+        const updated = await prisma.admin.update({
+            where: { id: funcionarioId },
+            data: {
+                nome: data.nome ?? funcionario.nome,
+                email: data.email ?? funcionario.email,
+                cpf: data.cpf ?? funcionario.cpf,
+                ativado: data.ativado ?? funcionario.ativado,
+            }
+        });
+
+        const { senha, ...funcionarioSemSenha } = updated;
+        return funcionarioSemSenha;
+    }
+
 
 
     async update(data: any) {

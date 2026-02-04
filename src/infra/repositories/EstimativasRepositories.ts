@@ -78,8 +78,9 @@ export class EstimativasRepositories implements IEstimativasRepositories {
       include: { propriedade: { include: { admin: true } } },
     });
 
+    // Retorna array vazio se não encontrar - a simulação continua sem comparação
     if (!estimativas.length) {
-      throw new Error("Nenhuma estimativa encontrada para esta propriedade.");
+      return [];
     }
 
     return estimativas.map(this.mapToDomain.bind(this));

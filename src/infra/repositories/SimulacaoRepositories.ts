@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { ISimulacaoGateway } from "../../domain/gateway/ISimulacaoGateway";
 import { Simulacao } from "../../domain/entities/Simulacao";
-import { SimularForragemInputDTO, SimularForragemOutputDTO } from "../../aplication/dto/SimulacaoForragemDTO";
 
 export class SimulacaoRepositories implements ISimulacaoGateway {
   constructor(private readonly prisma: PrismaClient) {}
@@ -73,8 +72,9 @@ export class SimulacaoRepositories implements ISimulacaoGateway {
         createdAt: simulacao.createdAt,
         updatedAt: simulacao.updatedAt ?? undefined,
       });
-    } catch (error) {
-      throw new Error("Error creating simulacao");
+    } catch (error: any) {
+      console.error("Erro detalhado ao criar simulação:", error);
+      throw new Error(`Error creating simulacao: ${error.message || error}`);
     }
   }
 
@@ -147,6 +147,83 @@ export class SimulacaoRepositories implements ISimulacaoGateway {
       });
     } catch (error) {
       throw new Error("Error fetching simulacao by id");
+    }
+  }
+
+  // Listar simulações por IDs de propriedade (filtro por usuário)
+  async listarPorPropriedadeIds(propriedadeIds: string[]): Promise<Simulacao[]> {
+    try {
+      const sims = await this.prisma.simulacao.findMany({
+        where: {
+          propriedadeId: { in: propriedadeIds }
+        },
+        orderBy: { dataSimulacao: "desc" },
+      });
+
+      return sims.map(s =>
+        Simulacao.with({
+          id: s.id,
+          nomeSimulacao: s.nomeSimulacao,
+          ano: s.ano,
+          propriedadeId: s.propriedadeId,
+          culturaId: s.culturaId,
+          soloId: s.soloId,
+          eto: s.eto ?? undefined,
+          indiceAridez: s.indiceAridez ?? undefined,
+          precipitacaoMmAno: s.precipitacaoMmAno ?? undefined,
+          numeroChuvas: s.numeroChuvas ?? undefined,
+          precipitacaoMmDia: s.precipitacaoMmDia ?? undefined,
+          cvDia: s.cvDia ?? undefined,
+          precipitacaoMmMes: s.precipitacaoMmMes ?? undefined,
+          cvMes: s.cvMes ?? undefined,
+          altitude: s.altitude ?? undefined,
+          temperaturaMed: s.temperaturaMed ?? undefined,
+          umidade: s.umidade ?? undefined,
+          resultado: s.resultado ?? undefined,
+          dataSimulacao: s.dataSimulacao,
+          createdAt: s.createdAt,
+          updatedAt: s.updatedAt ?? undefined,
+        })
+      );
+    } catch (error) {
+      throw new Error("Error listing simulacoes by propriedade ids");
+    }
+  }
+
+  // Buscar o adminId da propriedade de uma simulação (para verificar permissão)
+  async getAdminIdBySimulacao(simulacaoId: string): Promise<string | null> {
+    const simulacao = await this.prisma.simulacao.findUnique({
+      where: { id: simulacaoId },
+      include: {
+        propriedade: {
+          select: { adminId: true }
+        }
+      }
+    });
+
+    return simulacao?.propriedade?.adminId ?? null;
+  }
+
+  // Deletar simulação por ID
+  async delete(id: string): Promise<void> {
+    try {
+      // Primeiro deleta os históricos relacionados
+      await this.prisma.historico.deleteMany({
+        where: { simulacaoId: id }
+      });
+
+      // Depois deleta as estimativas relacionadas
+      await this.prisma.estimativas.deleteMany({
+        where: { simulacaoId: id }
+      });
+
+      // Por fim deleta a simulação
+      await this.prisma.simulacao.delete({
+        where: { id }
+      });
+    } catch (error: any) {
+      console.error("Erro ao deletar simulação:", error);
+      throw new Error(`Erro ao deletar simulação: ${error.message || error}`);
     }
   }
 }

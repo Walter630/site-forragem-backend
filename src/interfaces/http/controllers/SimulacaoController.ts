@@ -13,7 +13,6 @@ export class SimulacaoController {
     try {
       const {
         propriedadeId,
-        dados,
         nomeSimulacao,
         ano,
         culturaId,
@@ -30,16 +29,16 @@ export class SimulacaoController {
         temperaturaMed,
         umidade,
       } = req.body;
-
+      console.log(req.body)
       // Validação dos campos obrigatórios
-      if (!propriedadeId || !dados || !nomeSimulacao || !ano || !culturaId || !soloId) {
+      if (!propriedadeId  || !nomeSimulacao || !ano || !culturaId || !soloId) {
          res.status(400).json({ error: "Campos obrigatórios ausentes: propriedadeId, dados, nomeSimulacao, ano, culturaId, soloId" });
          return;
       }
 
       const input: SimularForragemInputDTO = {
         propriedadeId: String(propriedadeId),
-        dados,
+
         nomeSimulacao: String(nomeSimulacao),
         ano: Number(ano),
         culturaId: String(culturaId),
@@ -56,9 +55,9 @@ export class SimulacaoController {
         temperaturaMed: temperaturaMed !== undefined ? Number(temperaturaMed) : undefined,
         umidade: umidade !== undefined ? Number(umidade) : undefined,
       } as SimularForragemInputDTO;
-
+      console.log(input)
       const resultado = await this.simulacaoServices.simularForragem(input);
-
+      console.log(resultado)
        res.status(201).json({ resultado });
        return;
     } catch (error: any) {
@@ -80,6 +79,7 @@ export class SimulacaoController {
     }
   }
 
+  // Listar todas as simulações (apenas ADMIN)
   async listar(req: Request, res: Response): Promise<void> {
     try {
       const simulacoes = await this.simulacaoServices.listarSimulacoes();
@@ -92,9 +92,36 @@ export class SimulacaoController {
     }
   }
 
+  // Listar simulações filtradas pelo usuário logado
+  async listarPorUsuario(req: Request, res: Response): Promise<void> {
+    try {
+      const user = (req as any).user;
+
+      if (!user?.id) {
+        res.status(401).json({ error: "Usuário não autenticado" });
+        return;
+      }
+
+      const userContext = {
+        id: user.id,
+        role: user.role,
+        gerenteId: user.gerenteId
+      };
+
+      const simulacoes = await this.simulacaoServices.listarSimulacoesPorUsuario(userContext);
+      res.json(simulacoes);
+      return;
+    } catch (error: any) {
+      console.error("Erro ao listar simulações do usuário:", error);
+      res.status(500).json({ error: error.message || "Erro ao listar simulações." });
+      return;
+    }
+  }
+
   async findById(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
+      const user = (req as any).user;
 
       if (!id) {
         res.status(400).json({ error: "ID é obrigatório" });
@@ -108,11 +135,70 @@ export class SimulacaoController {
         return;
       }
 
+      // Verifica permissão se usuário autenticado
+      if (user?.id) {
+        const userContext = {
+          id: user.id,
+          role: user.role,
+          gerenteId: user.gerenteId
+        };
+
+        const canAccess = await this.simulacaoServices.userCanAccessSimulacao(id, userContext);
+        if (!canAccess) {
+          res.status(403).json({ error: "Você não tem acesso a esta simulação" });
+          return;
+        }
+      }
+
       res.json(simulacao);
       return;
     } catch (error: any) {
       console.error("Erro ao buscar simulação por ID:", error);
       res.status(500).json({ error: error.message || "Erro ao buscar simulação." });
+    }
+  }
+
+  // Deletar simulação por ID
+  async delete(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const user = (req as any).user;
+
+      if (!id) {
+        res.status(400).json({ error: "ID é obrigatório" });
+        return;
+      }
+
+      if (!user?.id) {
+        res.status(401).json({ error: "Usuário não autenticado" });
+        return;
+      }
+
+      const userContext = {
+        id: user.id,
+        role: user.role,
+        gerenteId: user.gerenteId
+      };
+
+      await this.simulacaoServices.delete(id, userContext);
+
+      res.status(200).json({ message: "Simulação deletada com sucesso" });
+      return;
+    } catch (error: any) {
+      console.error("Erro ao deletar simulação:", error);
+
+      if (error.message === "Simulação não encontrada") {
+        res.status(404).json({ error: error.message });
+        return;
+      }
+
+      if (error.message === "Você não tem permissão para deletar esta simulação") {
+        res.status(403).json({ error: error.message });
+        return;
+      }
+
+      res.status(500).json({ error: error.message || "Erro ao deletar simulação." });
+      return;
     }
   }
 }

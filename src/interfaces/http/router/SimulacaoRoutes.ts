@@ -11,8 +11,8 @@ import { HistoricoRepositories } from "../../../infra/repositories/HistoricoRepo
 import { EstimativaServices } from "../../../aplication/services/EstimativasServices";
 import { EstimativasRepositories } from "../../../infra/repositories/EstimativasRepositories";
 import { PropriedadeRepository } from "../../../infra/repositories/PropriedadeRepositories";
+import {requireFuncionarioOrAdmin, requireAdmin, requireGerente} from "../validators/authenticateAdmin";
 import path from "path";
-import {th} from "zod/locales";
 
 // src/interfaces/http/router/SimulacaoRoutes.ts
 export class SimulacaoRoutes {
@@ -50,6 +50,8 @@ export class SimulacaoRoutes {
        *   post:
        *     summary: Executa uma simulação
        *     tags: [Simulação]
+       *     security:
+       *       - bearerAuth: []
        *     requestBody:
        *       required: true
        *       content:
@@ -63,15 +65,39 @@ export class SimulacaoRoutes {
       this.api.addRotas(
           "/simulacao",
           "POST",
+          requireFuncionarioOrAdmin,
           this.simulacaoController.simular.bind(this.simulacaoController)
+      );
+
+      /**
+       * @swagger
+       * /simulacao/minhas:
+       *   get:
+       *     summary: Lista simulações do usuário logado (Gerente vê suas simulações, Funcionário vê do gerente)
+       *     tags: [Simulação]
+       *     security:
+       *       - bearerAuth: []
+       *     responses:
+       *       200:
+       *         description: Lista de simulações do usuário
+       *       401:
+       *         description: Não autenticado
+       */
+      this.api.addRotas(
+          "/simulacao/minhas",
+          "GET",
+          requireFuncionarioOrAdmin,
+          this.simulacaoController.listarPorUsuario.bind(this.simulacaoController)
       );
 
       /**
        * @swagger
        * /simulacao:
        *   get:
-       *     summary: Lista todas as simulações
+       *     summary: Lista todas as simulações (apenas Admin)
        *     tags: [Simulação]
+       *     security:
+       *       - bearerAuth: []
        *     responses:
        *       200:
        *         description: Lista de simulações
@@ -79,6 +105,7 @@ export class SimulacaoRoutes {
       this.api.addRotas(
           "/simulacao",
           "GET",
+          requireAdmin,
           this.simulacaoController.listar.bind(this.simulacaoController)
       );
 
@@ -88,6 +115,8 @@ export class SimulacaoRoutes {
        *   get:
        *     summary: Lista o histórico de simulações realizadas
        *     tags: [Simulação]
+       *     security:
+       *       - bearerAuth: []
        *     responses:
        *       200:
        *         description: Lista de simulações
@@ -95,24 +124,67 @@ export class SimulacaoRoutes {
       this.api.addRotas(
           "/simulacao/historico",
           "GET",
+          requireFuncionarioOrAdmin,
           this.simulacaoController.historico.bind(this.simulacaoController)
       );
 
       /**
        * @swagger
-       * /simulacao/${id}:
+       * /simulacao/{id}:
        *   get:
-       *     summary: Lista o histórico de simulações realizadas
+       *     summary: Busca uma simulação por ID
        *     tags: [Simulação]
+       *     security:
+       *       - bearerAuth: []
+       *     parameters:
+       *       - name: id
+       *         in: path
+       *         required: true
+       *         schema:
+       *           type: string
        *     responses:
        *       200:
-       *         description: Lista de simulações
+       *         description: Simulação encontrada
+       *       404:
+       *         description: Simulação não encontrada
        */
-
       this.api.addRotas(
           `/simulacao/:id`,
           "GET",
+          requireFuncionarioOrAdmin,
           this.simulacaoController.findById.bind(this.simulacaoController)
+      )
+
+      /**
+       * @swagger
+       * /simulacao/{id}:
+       *   delete:
+       *     summary: Deleta uma simulação por ID
+       *     tags: [Simulação]
+       *     security:
+       *       - bearerAuth: []
+       *     parameters:
+       *       - name: id
+       *         in: path
+       *         required: true
+       *         schema:
+       *           type: string
+       *         description: ID da simulação a ser deletada
+       *     responses:
+       *       200:
+       *         description: Simulação deletada com sucesso
+       *       401:
+       *         description: Não autenticado
+       *       403:
+       *         description: Sem permissão para deletar
+       *       404:
+       *         description: Simulação não encontrada
+       */
+      this.api.addRotas(
+          `/simulacao/:id`,
+          "DELETE",
+          requireFuncionarioOrAdmin,
+          this.simulacaoController.delete.bind(this.simulacaoController)
       )
   }
 }

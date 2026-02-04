@@ -5,14 +5,82 @@ import { PDFServices } from './PdfServices';
 import { HistoricoCompleto } from '../../aplication/dto/HistoricoDTO';
 import { HistoricoRepositories } from '../../infra/repositories/HistoricoRepositories';
 import { Historico } from '../../domain/entities/Historico';
+import { PropriedadeRepository } from '../../infra/repositories/PropriedadeRepositories';
+
+export interface UserContext {
+  id: string;
+  role: string;
+  gerenteId?: string | null;
+}
 
 export class HistoricoServices {
   private chartService = new ChartService();
+  private propriedadeRepository?: PropriedadeRepository;
 
   constructor(
     private pdfServices: PDFServices,
-    private historicoRepository: HistoricoRepositories
-  ) {}
+    private historicoRepository: HistoricoRepositories,
+    propriedadeRepository?: PropriedadeRepository
+  ) {
+    this.propriedadeRepository = propriedadeRepository;
+  }
+
+  async listarHistorico(): Promise<Historico[]> {
+    return this.historicoRepository.listarHistorico();
+  }
+
+  // Listar histórico filtrado pelo usuário logado
+  async listarHistoricoPorUsuario(user: UserContext): Promise<Historico[]> {
+    // ADMIN vê tudo
+    if (user.role === 'ADMIN') {
+      return this.historicoRepository.listarHistorico();
+    }
+
+    if (!this.propriedadeRepository) {
+      return [];
+    }
+
+    // Busca propriedades do usuário/gerente
+    let propriedades;
+    if (user.role === 'GERENTE') {
+      propriedades = await this.propriedadeRepository.findByAdminId(user.id);
+    } else if (user.role === 'FUNCIONARIO' && user.gerenteId) {
+      propriedades = await this.propriedadeRepository.findByAdminId(user.gerenteId);
+    } else {
+      return [];
+    }
+
+    const propriedadeIds = propriedades.map(p => p.id!).filter(id => id);
+
+    if (propriedadeIds.length === 0) {
+      return [];
+    }
+
+    return this.historicoRepository.findByPropriedadeIds(propriedadeIds);
+  }
+
+  // Verificar se usuário tem acesso ao histórico
+  async userCanAccessHistorico(historicoId: string, user: UserContext): Promise<boolean> {
+    if (user.role === 'ADMIN') return true;
+
+    const historico = await this.historicoRepository.findById(historicoId);
+    if (!historico || !historico.propriedadeId) return false;
+
+    if (!this.propriedadeRepository) return false;
+
+    const propriedade = await this.propriedadeRepository.findById(historico.propriedadeId);
+    if (!propriedade) return false;
+
+    if (user.role === 'GERENTE') {
+      return propriedade.adminId === user.id;
+    }
+
+    if (user.role === 'FUNCIONARIO' && user.gerenteId) {
+      return propriedade.adminId === user.gerenteId;
+    }
+
+    return false;
+  }
 
   async buscarComDetalhes(id: string): Promise<HistoricoCompleto | null> {
     return this.historicoRepository.findByIdWithDetails(id);

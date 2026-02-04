@@ -4,11 +4,15 @@ import { Api } from "./Api";
 import { SoloController } from "../controllers/SoloController";
 import { SoloServices } from "../../../aplication/services/SoloServices";
 import { SoloRepositories } from "../../../infra/repositories/SoloRepositories";
+import { requireFuncionarioOrAdmin } from "../validators/authenticateAdmin";
+import { PropriedadeRepository } from "../../../infra/repositories/PropriedadeRepositories";
 
 export class SoloRoutes {
     private readonly soloController: SoloController;
     constructor(private readonly api: Api) {
-        this.soloController = new SoloController(new SoloServices(new SoloRepositories(prisma)));
+        const soloRepo = new SoloRepositories(prisma);
+        const propriedadeRepo = new PropriedadeRepository(prisma);
+        this.soloController = new SoloController(new SoloServices(soloRepo, propriedadeRepo));
     }
 
     static build(api: Api) {
@@ -18,6 +22,22 @@ export class SoloRoutes {
     }
 
     addRotas() {
+        /**
+         * @swagger
+         * /solo/minhas:
+         *   get:
+         *     summary: Lista solos usados nas propriedades do usuário logado
+         *     tags: [Solo]
+         *     security:
+         *       - bearerAuth: []
+         *     responses:
+         *       200:
+         *         description: Lista de solos do usuário
+         *       401:
+         *         description: Não autenticado
+         */
+        this.api.addRotas("/solo/minhas", "GET", requireFuncionarioOrAdmin, this.soloController.listarPorUsuario.bind(this.soloController));
+
         /**
          * @swagger
          * /solo:
